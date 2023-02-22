@@ -1,0 +1,39 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+$base-color: #EDF2F9;
+$base-text: #5E6E82;
+$base-logo-1: #FF161F;
+$base-logo-2: #1F191A;
+$base-active: #2C7BE5;
+
+
+// Custom
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: $base-color;
+}
+
+.nav-thompson{
+    a {
+        color: $base-text;
+        font-weight: 600;
+    }
+    .active-menu{
+        color: $base-active;
+    }
+    .divider{
+        color: $base-text;
+        font-weight: 600;
+        padding-top: 20px;
+    }
+}
