@@ -21,11 +21,15 @@ return new class extends Migration
             $table->integer('categoria_id')->unsigned();
             $table->foreign('categoria_id')->references('id')->on('categoria');
             $table->string('sku', 10)->unique();
-            $table->string('descripcion', 300);
+            $table->string('descripcion', 5000);
             //relacionar con la tabla marca
             $table->integer('marca_id')->unsigned();
             $table->foreign('marca_id')->references('id')->on('marca');
             $table->string ('OEM', 12)->nullable();
+            $table->decimal('precio_1', 8, 2);
+            $table->decimal('precio_2', 8, 2)->nullable();
+            $table->decimal('precio_3', 8, 2)->nullable();
+            $table->decimal('precio_4', 8, 2)->nullable();
             $table->string('ref_1', 20)->nullable();
             $table->string('ref_2', 20)->nullable();
             $table->string('ref_3', 20)->nullable();

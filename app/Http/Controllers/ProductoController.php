@@ -9,8 +9,6 @@ use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Marca;
 use App\Models\EstadoProducto;
-use App\Models\PrecioDetalle;
-use App\Models\Precio;
 
 class ProductoController extends Controller
 {
@@ -47,12 +45,7 @@ class ProductoController extends Controller
         $marcas = Marca::pluck('nombre', 'id');
         //relacionar con el modelo de estado producto
         $estadoProductos = EstadoProducto::pluck('estado', 'id');
-
-        //crear un nuevo modelo de precio detalle
-        $preciosDetalle = New PrecioDetalle();
-        //relacionar con el modelo de precio
-        $precios = Precio::pluck('precio_Monto', 'id');
-        return view('productos.create', compact('producto', 'categorias', 'marcas', 'estadoProductos', 'precios', 'preciosDetalle'));
+        return view('productos.create', compact('producto', 'categorias', 'marcas', 'estadoProductos'));
     }
 
     /**
@@ -77,6 +70,7 @@ class ProductoController extends Controller
             'existencia_limite' => 'required',
             'estado_producto_id' => 'required',
             'etiqueta_destacado' => 'required',
+            'precio_1' => 'required|numeric',
         ]);
 
         //almacenar datos
@@ -87,6 +81,10 @@ class ProductoController extends Controller
         $reg->descripcion = $request->get('descripcion');
         $reg->marca_id = $request->get('marca_id');
         $reg->OEM = $request->get('OEM');
+        $reg->precio_1 = $request->get('precio_1');
+        $reg->precio_2 = $request->get('precio_2');
+        $reg->precio_3 = $request->get('precio_3');
+        $reg->precio_4 = $request->get('precio_4');
         $reg->ref_1 = $request->get('ref_1');
         $reg->ref_2 = $request->get('ref_2');
         $reg->ref_3 = $request->get('ref_3');
@@ -126,17 +124,7 @@ class ProductoController extends Controller
         $reg->garantia = $request->get('garantia');
 
         $reg->save();
-
-        //guardar precio
-        // $precioDetalle = new PrecioDetalle();
-        // $precioDetalle->producto_id = $reg->id;
-        // $precioDetalle->precio_id = $request->get('precio_id_1');
-        // $precioDetalle->precio_id = $request->get('precio_id_2');
-        // $precioDetalle->precio_id = $request->get('precio_id_3');
-        // $precioDetalle->precio_id = $request->get('precio_id_4');
-        // $precioDetalle->save();
-
-        return redirect()->route('productos.index');
+        return redirect()->route('productos.index')->with('success', 'Producto creado exitosamente');
     }
 
     /**
@@ -163,15 +151,7 @@ class ProductoController extends Controller
         $categorias = Categoria::pluck('nombre', 'id');
         $marcas = Marca::pluck('nombre', 'id');
         $estadoProductos = EstadoProducto::pluck('estado', 'id');
-
-
-        $preciosDetalle = PrecioDetalle::find($id);
-        //relacionar con el modelo de precio
-        $precios = Precio::pluck('precio_Monto', 'id');
-
-        
-
-        return view('productos.edit', compact('producto', 'categorias', 'marcas', 'estadoProductos', 'precios', 'preciosDetalle'));
+        return view('productos.edit', compact('producto', 'categorias', 'marcas', 'estadoProductos'));
 
     }
 
@@ -182,7 +162,7 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Producto $producto, PrecioDetalle $precioDetalle)
+    public function update(Request $request, Producto $producto)
     {
         request()->validate([
             'nombre' => 'required',
@@ -196,6 +176,7 @@ class ProductoController extends Controller
             'existencia_limite' => 'required',
             'estado_producto_id' => 'required',
             'etiqueta_destacado' => 'required',
+            'precio_1' => 'required|numeric',
         ]);
 
         //almacenar datos
@@ -205,6 +186,10 @@ class ProductoController extends Controller
         $producto->descripcion = $request->get('descripcion');
         $producto->marca_id = $request->get('marca_id');
         $producto->OEM = $request->get('OEM');
+        $producto->precio_1 = $request->get('precio_1');
+        $producto->precio_2 = $request->get('precio_2');
+        $producto->precio_3 = $request->get('precio_3');
+        $producto->precio_4 = $request->get('precio_4');
         $producto->ref_1 = $request->get('ref_1');
         $producto->ref_2 = $request->get('ref_2');
         $producto->ref_3 = $request->get('ref_3');
@@ -244,14 +229,7 @@ class ProductoController extends Controller
         $producto->garantia = $request->get('garantia');
 
         $producto->update();
-
-        // $precioDetalle->producto_id = $request->id;
-        // $precioDetalle->precio_id = $request->get('precio_id_1');
-        // $precioDetalle->update();
-
-        // $producto->update($request->all());
-
-        return redirect()->route('productos.index');
+        return redirect()->route('productos.index')->with('success', 'Producto actualizado exitosamente');
     }
 
     /**
@@ -264,18 +242,18 @@ class ProductoController extends Controller
     {
         $producto = Producto::find($id)->delete();
         //buscar imagenes del producto por su id para eliminarlas
-        // $filename = public_path() . '/assets/img/products/' . $producto->imagen_1_src;
+        // $filename = public_path() . $producto->imagen_1_src;
         // File::delete($filename);
-        // $filename = public_path() . '/assets/img/products/' . $producto->imagen_2_src;
+        // $filename = public_path() . $producto->imagen_2_src;
         // File::delete($filename);
-        // $filename = public_path() . '/assets/img/products/' . $producto->imagen_3_src;
+        // $filename = public_path() . $producto->imagen_3_src;
         // File::delete($filename);
-        // $filename = public_path() . '/assets/img/products/' . $producto->imagen_4_src;
+        // $filename = public_path() . $producto->imagen_4_src;
         // File::delete($filename);
-        // $filename = public_path() . '/assets/pdf/productos/' . $producto->ficha_tecnica_herf;
+        // $filename = public_path() . $producto->ficha_tecnica_herf;
         // File::delete($filename);
          
 
-        return redirect()->route('productos.index');
+        return redirect()->route('productos.index')->with('success', 'Producto eliminado exitosamente');
     }
 }

@@ -35,28 +35,48 @@
     </div>
     <div class="col-lg-6">
         <div class="mb-3">
-            {{ Form::label('categoria', 'Seleciona la categoria*', ['class' => 'form-label']) }}
+            {{ Form::label('categoria', 'Seleciona la categoria *', ['class' => 'form-label']) }}
             {{ Form::select('categoria_id', $categorias, $producto->categoria_id, ['class' => 'form-select', 'aria-label' => 'Default select example', 'required', 'placeholder'=>'Selecione la categoria']) }}
         </div>
         <div class="mb-3">
-            {{ Form::label('lote', 'Lote*', ['class' => 'form-label']) }}
+            {{ Form::label('lote', 'Lote *', ['class' => 'form-label']) }}
             {{ Form::text('lote', $producto->lote, ['class' => 'form-control', 'placeholder' => '', 'required']) }}
         </div>
         <div class="mb-3">
-            {{ Form::label('fecha_ingreso', 'Fecha de ingreso*', ['class' => 'form-label']) }}
+            {{ Form::label('fecha_ingreso', 'Fecha de ingreso *', ['class' => 'form-label']) }}
             {{ Form::date('fecha_ingreso', $producto->fecha_ingreso, ['class' => 'form-control', 'placeholder' => '', 'required']) }}
         </div>
         <div class="mb-3">
-            {{ Form::label('existencia', 'Exsistencia*', ['class' => 'form-label']) }}
+            {{ Form::label('existencia', 'Exsistencia *', ['class' => 'form-label']) }}
             {{ Form::number('existencia', $producto->existencia, ['class' => 'form-control', 'placeholder' => '', 'required']) }}
         </div>
         <div class="mb-3">
-            {{ Form::label('existencia_limite', 'Existencia limite*', ['class' => 'form-label']) }}
+            {{ Form::label('existencia_limite', 'Existencia limite *', ['class' => 'form-label']) }}
             {{ Form::number('existencia_limite', $producto->existencia_limite, ['class' => 'form-control', 'placeholder' => '', 'required']) }}
         </div>
         <div class="mb-3">
-            {{ Form::label('etiqueta_destacado', 'Etiqueta para destacar*', ['class' => 'form-label']) }}
-            {{ Form::number('etiqueta_destacado', $producto->etiqueta_destacado, ['class' => 'form-control', 'placeholder' => '', 'required']) }}
+            {{ Form::label('etiqueta_destacado', 'Etiqueta para destacar destacar el producto*', ['class' => 'form-label']) }}
+            {{ Form::select('etiqueta_destacado', ['1' => 'Activar Etiqueta', '0' => 'Desactivar Etiqueta'], $producto->etiqueta_destacado, ['class' => 'form-control', 'placeholder' => 'Selecione el estado de la etiqueta', 'required']) }}
+        </div>
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-3">
+                    {{ Form::label('precio_1', 'Precio principal *', ['class' => 'form-label']) }}
+                    {{ Form::number('precio_1', $producto->precio_1, ['class' => 'form-control', 'placeholder' => '', 'required', 'step'=>'any']) }}
+                </div>
+                <div class="col-3">
+                    {{ Form::label('precio_2', 'Segundo Precio', ['class' => 'form-label']) }}
+                    {{ Form::number('precio_2', $producto->precio_2, ['class' => 'form-control', 'placeholder' => '', 'step'=>'any']) }}
+                </div>
+                <div class="col-3">
+                    {{ Form::label('precio_3', 'Tercer Precio', ['class' => 'form-label']) }}
+                    {{ Form::number('precio_3', $producto->precio_3, ['class' => 'form-control', 'placeholder' => '', 'step'=>'any']) }}
+                </div>
+                <div class="col-3">
+                    {{ Form::label('precio_4', 'Cuarto Precio', ['class' => 'form-label']) }}
+                    {{ Form::number('precio_4', $producto->precio_4, ['class' => 'form-control', 'placeholder' => '', 'step'=>'any']) }}
+                </div>
+            </div>
         </div>
         <div class="mb-3">
             {{ Form::label('oem', 'OEM del producto', ['class' => 'form-label']) }}
@@ -106,31 +126,8 @@
             <img src="{{ $producto->imagen_4_src }}" alt="" width="100px">
         @endif
     </div>
-    {{-- <div class="mt-4">
-        <h4>Tabla de precios</h4>
-    </div>
-    <div class="col-lg-6">
-        <div class="mb-3">
-            {{ Form::label('precio_id_1', 'Precio 1', ['class' => 'form-label']) }}
-            {{ Form::select('precio_id_1', $precios, $preciosDetalle->precio_id, ['class' => 'form-control', 'placeholder' => 'Selecione un precio', 'required']) }}
-        </div>
-        <div class="mb-3">
-            {{ Form::label('precio_id_3', 'Precio 3', ['class' => 'form-label']) }}
-            {{ Form::select('precio_id_3', $precios, $preciosDetalle->precio_id, ['class' => 'form-control', 'placeholder' => 'Selecione un precio']) }}
-        </div>
-    </div> --}}
-    {{-- <div class="col-lg-6">
-        <div class="mb-3">
-            {{ Form::label('precio_id_2', 'Precio 2', ['class' => 'form-label']) }}
-            {{ Form::select('precio_id_2', $precios, $preciosDetalle->precio_id, ['class' => 'form-control', 'placeholder' => 'Selecione un precio']) }}
-        </div>
-        <div class="mb-3">
-            {{ Form::label('precio_id_4', 'Precio 4', ['class' => 'form-label']) }}
-            {{ Form::select('precio_id_4', $precios, $preciosDetalle->precio_id, ['class' => 'form-control', 'placeholder' => 'Selecione un precio']) }}
-        </div>
-    </div> --}}
 </div>
 <div class="col-lg-3 mt-4">
-    <button class="btn btn-primary me-1 mb-1" type="submit">Confirmar producto</button>
+    <button class="btn btn-primary me-1 mb-1" type="submit">Confirmar producto <i class="fa-solid fa-floppy-disk"></i></button>
 </div>
 {{ Form::close() }}

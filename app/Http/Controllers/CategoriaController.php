@@ -51,7 +51,7 @@ class CategoriaController extends Controller
         $categoria->estado = $request->estado;
         $categoria->save();
         //redireccionar
-        return redirect()->route('categorias.index');
+        return redirect()->route('categorias.index')->with('success', 'Categoria creada con exito');
     }
 
     /**
@@ -96,7 +96,7 @@ class CategoriaController extends Controller
         $categoria->estado = $request->get('estado');
         $categoria->update();
         //redireccionar
-        return redirect()->route('categorias.index');
+        return redirect()->route('categorias.index')->with('success', 'Categoria actualizada con exito');
     }
 
     /**
@@ -108,6 +108,6 @@ class CategoriaController extends Controller
     public function destroy($id)
     {
         $categoria = Categoria::find($id)->delete();
-        return redirect()->route('categorias.index');
+        return redirect()->route('categorias.index')->with('success', 'Categoria eliminada con exito');
     }
 }

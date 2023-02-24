@@ -21,7 +21,7 @@
                 <div class="col-lg-6">
                     <h5>{{ $producto->nombre }}</h5><a class="fs--1 mb-2 d-block">{{ $producto->categoria->nombre }}</a>
                     <p class="fs--1">{{ $producto->descripcion }}</p>
-                    <h4 class="d-flex align-items-center"><span class="text-warning me-2">87.99$</span><span
+                    <h4 class="d-flex align-items-center"><span class="text-warning me-2">$ {{ $producto->precio_1 }}</span><span
                             class="me-1 fs--1 text-500">
                         </span></h4>
                     <p class="fs--1">Stock: <strong class="text-success">{{ $producto->estadoProducto->estado }}</strong>

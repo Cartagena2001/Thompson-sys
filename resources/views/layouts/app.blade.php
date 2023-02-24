@@ -64,11 +64,6 @@
                                         class="ms-1 d-none d-sm-inline">Productos</span></a>
                             </li>
                             <li>
-                                <a href="{{ url('/dashboard/precios') }}" class="nav-link px-0 align-middle {{ 'dashboard/precios' == request()->path() ? 'active-menu' : '' }}">
-                                    <i class="fas fa-dollar-sign"></i> <span class="ms-1 d-none d-sm-inline">Tipos de
-                                        precio</span></a>
-                            </li>
-                            <li>
                                 <a href="{{ url('/dashboard/categorias') }}" class="nav-link px-0 align-middle {{ 'dashboard/categorias' == request()->path() ? 'active-menu' : '' }}">
                                     <i class="fas fa-list-ul"></i> <span
                                         class="ms-1 d-none d-sm-inline">Categorias</span></a>
@@ -92,11 +87,11 @@
                         </ul>
                         <hr>
                         <div class="dropdown pb-4">
-                            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle"
+                            <a href="" class="d-flex align-items-center text-decoration-none dropdown-toggle"
                                 id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
                                     class="rounded-circle">
-                                <span class="d-none d-sm-inline mx-1">{{ Auth::user()->name }}</span>
+                                <span class="d-none d-sm-inline mx-1" style="font-size: 12px">{{ Auth::user()->name }}</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                                 <li><a class="dropdown-item" href="#">Configuracion</a></li>
@@ -116,9 +111,6 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="col py-3">
-                    Content area...
-                </div> --}}
                 <div class="col py-5 px-5">
                     @yield('content')
                 </div>
