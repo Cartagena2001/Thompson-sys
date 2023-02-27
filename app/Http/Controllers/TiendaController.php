@@ -19,15 +19,18 @@ class TiendaController extends Controller
     public function index()
     {
         //paginate
-        $productos = Producto::paginate();
+        $productos = Producto::simplePaginate(10);
 
         $categorias = Categoria::all();
         $marcas = Marca::all();
         $estadoProductos = EstadoProducto::all();
 
-        return view('productos.productos-grid', compact('productos', 'categorias', 'marcas', 'estadoProductos'))
-        ->with('i', (request()->input('page', 1) - 1) * $productos->perPage());
+        return view('productos.productos-grid', compact('productos', 'categorias', 'marcas', 'estadoProductos'));
     }
+
+    // public function categorias(Categoria $categoria){
+    //     return $categoria;
+    // }
 
     /**
      * Show the form for creating a new resource.

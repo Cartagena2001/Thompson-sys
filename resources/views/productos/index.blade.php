@@ -106,11 +106,10 @@
                             <th scope="col">Descripción</th>
                             <th scope="col">Marca</th>
                             <th scope="col">SKU</th>
-                            <th scope="col">OEM</th>
                             <th scope="col">Categoria</th>
-                            <th scope="col">Ref1</th>
-                            <th scope="col">Ref2</th>
-                            <th scope="col">Ref3</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Existencia</th>
+                            <th scope="col">Fecha Ingreso</th>
                             <th class="text-end" scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -121,11 +120,10 @@
                                 <td>{{ $producto->descripcion }}</td>
                                 <td>{{ $producto->marca->nombre }}</td>
                                 <td>{{ $producto->sku }}</td>
-                                <td>{{ $producto->OEM }}</td>
                                 <td>{{ $producto->categoria->nombre }}</td>
-                                <td>{{ $producto->ref_1 }}</td>
-                                <td>{{ $producto->ref_2 }}</td>
-                                <td>{{ $producto->ref_3 }}</td>
+                                <td>${{ $producto->precio_1 }}</td>
+                                <td>{{ $producto->existencia }}</td>
+                                <td>{{ $producto->fecha_ingreso }}</td>
                                 <td class="text-end">
                                     <form action="{{ route('productos.destroy', $producto->id) }}"
                                         method="POST">

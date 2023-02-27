@@ -8,21 +8,89 @@
     } else {
         $imagen = '../../../assets/img/products/default.webp';
     }
+    
+    if ($producto->imagen_2_src != null) {
+        $imagen2 = "{$producto->imagen_2_src}";
+    } else {
+        $imagen2 = '../../../assets/img/products/default.webp';
+    }
+    
+    if ($producto->imagen_3_src != null) {
+        $imagen3 = "{$producto->imagen_3_src}";
+    } else {
+        $imagen3 = '../../../assets/img/products/default.webp';
+    }
+    
+    if ($producto->imagen_4_src != null) {
+        $imagen4 = "{$producto->imagen_4_src}";
+    } else {
+        $imagen4 = '../../../assets/img/products/default.webp';
+    }
     ?>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
     <div class="card mb-3">
-        <div class="card-body">
+        <div class="card-body mb-8">
             <div class="row">
                 <div class="col-lg-6 mb-lg-0">
                     <div class="product-slider" id="galleryTop">
-                        <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
-                                src="{{ $imagen }}" alt="" /></div>
+                        <div class="swiper-slide h-100">
+                            <div>
+                                <div class="swiper mySwiper">
+                                    <div class="swiper-wrapper">
+                                        <img class="swiper-slide img-fluid" src="{{ $imagen }}">
+                                        <img class="swiper-slide img-fluid" src="{{ $imagen2 }}">
+                                        <img class="swiper-slide img-fluid" src="{{ $imagen3 }}">
+                                        <img class="swiper-slide img-fluid" src="{{ $imagen4 }}">
+                                    </div>
+                                    <div class="swiper-button-next"></div>
+                                    <div class="swiper-button-prev"></div>
+                                    <div class="swiper-pagination"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
+                                    src="{{ $imagen2 }}" alt="" /></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
+                                    src="{{ $imagen3 }}" alt="" /></div>
+                        </div>
+                        <div class="col-4">
+                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
+                                    src="{{ $imagen4 }}" alt="" /></div>
+                        </div>
+                    </div>
+
+                    <script>
+                        var swiper = new Swiper(".mySwiper", {
+                            loop: true,
+                            pagination: {
+                                el: ".swiper-pagination",
+                                clickable: true,
+                            },
+                            grabCursor: true,
+                            autoplay: {
+                                delay: 2500,
+                                disableOnInteraction: false
+                            },
+                            navigation: {
+                                nextEl: ".swiper-button-next",
+                                prevEl: ".swiper-button-prev",
+                            },
+                        });
+                    </script>
+
                 </div>
                 <div class="col-lg-6">
                     <h5>{{ $producto->nombre }}</h5><a class="fs--1 mb-2 d-block">{{ $producto->categoria->nombre }}</a>
-                    <p class="fs--1">{{ $producto->descripcion }}</p>
-                    <h4 class="d-flex align-items-center"><span class="text-warning me-2">87.99$</span><span
-                            class="me-1 fs--1 text-500">
+                    <p>{{ $producto->descripcion }}</p>
+                    <h4 class="d-flex align-items-center"><span class="text-warning me-2">$
+                            {{ $producto->precio_1 }}</span><span class="me-1 fs--1 text-500">
                         </span></h4>
                     <p class="fs--1">Stock: <strong class="text-success">{{ $producto->estadoProducto->estado }}</strong>
                     </p>
@@ -44,7 +112,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-12">
                     <div class="overflow-hidden mt-4">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -132,7 +200,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection

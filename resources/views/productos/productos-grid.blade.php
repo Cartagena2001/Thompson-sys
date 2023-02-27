@@ -6,7 +6,14 @@
         <div class="card-body">
             <div class="row flex-between-center">
                 <div class="col-sm-auto mb-2 mb-sm-0">
-                    <h6 class="mb-0">Mostrando 1-24 of 205 productos</h6>
+                    {{-- crear en php una funcion haga un count de los productos en la base de datos --}}
+                    <?php
+                    $productosDisponibles = DB::table('producto')
+                        ->where('estado_producto_id', '1')
+                        ->get();
+                    ?>
+                    <h6 class="mb-0">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }}
+                        productos</h6>
                 </div>
                 <div class="col-sm-auto">
                     <div class="row gx-2 align-items-center">
@@ -15,12 +22,10 @@
                                 <div class="col-auto"><small>Ordenar por categoría:</small></div>
                                 <div class="col-auto">
                                     <select class="form-select form-select-sm" aria-label="Bulk actions">
-                                        <option selected="">Fajas</option>
-                                        <option value="Refund">Silicones</option>
-                                        <option value="Refund">Pegamento</option>
-                                        <option value="Refund">Lubricantes</option>
-                                        <option value="Refund">Limpiadores</option>
-                                        <option value="Delete">Soportes</option>
+                                        <option value="">Todas</option>
+                                        @foreach ( $categorias as $categoria )
+                                            <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </form>
@@ -36,63 +41,52 @@
         <div class="card-body">
             <div class="row">
                 @foreach ($productos as $producto)
-                <div class="mb-4 col-md-6 col-lg-4">
-                    <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
-                        <div class="overflow-hidden">
-                            <?php
-                            //hacer un if para ver si el producto tiene imagen o no
-                            if ($producto->imagen_1_src != null) {
-                                $imagen = "{$producto->imagen_1_src}";
-                            } else {
-                                $imagen = "../../../assets/img/products/default.webp";
-                            }
-                            ?>
-                            <div class="position-relative rounded-top overflow-hidden"><a class="d-block"
-                                href="{{ route('tienda.show', $producto->id) }}"><img
-                                        class="img-fluid rounded-top object-fit-cover" src="{{ $imagen }}"
-                                        alt="" /></a>
+                    <?php
+                    //hacer un if para ver si el producto tiene imagen o no
+                    if ($producto->imagen_1_src != null) {
+                        $imagen = "{$producto->imagen_1_src}";
+                    } else {
+                        $imagen = '../../../assets/img/products/default.webp';
+                    }
+                    //verificar si el producto tiene la etiqueta de destacado
+                    if ($producto->etiqueta_destacado == 1) {
+                        $destacado = 'Producto destacado';
+                    } else {
+                        $destacado = '';
+                    }
+                    ?>
+                    <div class="mb-4 col-md-6 col-lg-4">
+                        <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
+                            <div class="overflow-hidden">
+                                <div class="position-relative rounded-top overflow-hidden"><a class="d-block"
+                                        href="{{ route('tienda.show', $producto->id) }}"><img class="img-fluid rounded-top"
+                                            src="{{ $imagen }}" alt="" /></a><span
+                                        class="badge rounded-pill bg-info position-absolute mt-2 me-2 z-index-2 top-0 end-0">{{ $destacado }}</span>
+                                </div>
+                                <div class="p-3">
+                                    <h5 class="fs-0"><a class="text-dark"
+                                            href="{{ route('tienda.show', $producto->id) }}">{{ $producto->nombre }}</a></h5>
+                                    <p class="fs--1 mb-3"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
+                                    <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3"> ${{ $producto->precio_1 }}
+                                        <del class="ms-2 fs--1 text-500">$ {{ $producto->precio_1 + 10 }}</del>
+                                    </h5>
+                                    <p class="fs--1 mb-1">Estado: <strong class="text-success">{{ $producto->estadoProducto->estado }}</strong>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="p-3">
-                                <h5 class="fs-0"><a class="text-dark"
-                                    href="{{ route('tienda.show', $producto->id) }}">{{ $producto->nombre }}</a></h5>
-                                <p class="fs--1 mb-3"><a class="text-500" href="#!">{{ $producto->categoria->nombre }}</a></p>
-                                <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3"> 87.99$
-                                    <del class="ms-2 fs--1 text-500">97.99$ </del>
-                                </h5>
-                                <p class="fs--1 mb-1">Stock: <strong class="text-success">{{ $producto->estadoProducto->estado }}</strong>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-between-center px-3">
-                            <div>
-                                <a href="{{ route('tienda.show', $producto->id) }}">
-                                    <button class="btn btn-primary me-1 mb-1" type="button"><i class="far fa-eye"></i> Ver
-                                        producto
-                                    </button>
-                                </a>
-                                <a class="btn btn-sm btn-falcon-default" href="#!" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" title="Agregar al carrito"><span
-                                        class="fas fa-cart-plus"></span></a>
+                            <div class="d-flex flex-between-center px-2">
+                                <div><a class="btn btn-sm btn-falcon-default me-2" href="{{ route('tienda.show', $producto->id) }}" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Add to Wish List"><i class="fa-regular fa-eye"></i> Ver producto</a><a
+                                        class="btn btn-sm btn-falcon-default" href="#!" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Add to Cart"><span class="fas fa-cart-plus"></span></a></div>
                             </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
         <div class="card-footer bg-light d-flex justify-content-center">
-            <div>
-                <button class="btn btn-falcon-default btn-sm me-2" type="button" disabled="disabled"
-                    data-bs-toggle="tooltip" data-bs-placement="top" title="Prev"><span
-                        class="fas fa-chevron-left"></span></button><a
-                    class="btn btn-sm btn-falcon-default text-primary me-2" href="#!">1</a><a
-                    class="btn btn-sm btn-falcon-default me-2" href="#!">2</a><a
-                    class="btn btn-sm btn-falcon-default me-2" href="#!"> <span
-                        class="fas fa-ellipsis-h"></span></a><a class="btn btn-sm btn-falcon-default me-2"
-                    href="#!">5</a>
-                <button class="btn btn-falcon-default btn-sm" type="button" data-bs-toggle="tooltip"
-                    data-bs-placement="top" title="Next"><span class="fas fa-chevron-right"> </span></button>
-            </div>
+            {{ $productos->links() }}
         </div>
     </div>
 @endsection
