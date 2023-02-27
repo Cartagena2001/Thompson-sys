@@ -108,7 +108,7 @@ class ProductoController extends Controller
         if ($request->hasFile('imagen_2_src')) {
             $file = $request->file('imagen_2_src');
             $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $reg->imagen_2_src = '/assets/img/products/' . '/assets/img/products/' . $file->getClientOriginalName();
+            $reg->imagen_2_src = '/assets/img/products/' . $file->getClientOriginalName();
         }
         if ($request->hasFile('imagen_3_src')) {
             $file = $request->file('imagen_3_src');
@@ -208,22 +208,22 @@ class ProductoController extends Controller
         if ($request->hasFile('imagen_1_src')) {
             $file = $request->file('imagen_1_src');
             $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $producto->imagen_1_src = $file->getClientOriginalName();
+            $producto->imagen_1_src = '/assets/img/products/' . $file->getClientOriginalName();
         }
         if ($request->hasFile('imagen_2_src')) {
             $file = $request->file('imagen_2_src');
             $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $producto->imagen_2_src = $file->getClientOriginalName();
+            $producto->imagen_2_src = '/assets/img/products/' . $file->getClientOriginalName();
         }
         if ($request->hasFile('imagen_3_src')) {
             $file = $request->file('imagen_3_src');
             $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $producto->imagen_3_src = $file->getClientOriginalName();
+            $producto->imagen_3_src = '/assets/img/products/' . $file->getClientOriginalName();
         }
         if ($request->hasFile('imagen_4_src')) {
             $file = $request->file('imagen_4_src');
             $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $producto->imagen_4_src = $file->getClientOriginalName();
+            $producto->imagen_4_src = '/assets/img/products/' . $file->getClientOriginalName();
         }
         $producto->etiqueta_destacado = $request->get('etiqueta_destacado');
         $producto->garantia = $request->get('garantia');
