@@ -31,6 +31,8 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
     <div class="card mb-3">
+        <div class="col-auto px-2 px-md-3 mt-3"><a class="btn btn-sm btn-primary" href="{{ url('/dashboard/tienda') }}"><span
+            class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block">Volver atras</span></a></div>
         <div class="card-body mb-8">
             <div class="row">
                 <div class="col-lg-6 mb-lg-0">

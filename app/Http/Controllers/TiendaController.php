@@ -16,21 +16,38 @@ class TiendaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //paginate
         $productos = Producto::simplePaginate(10);
 
+        //if ver si esta selecionado el filtro de categoria
+        if($request->has('categoria')){
+            $categoria_id = $request->input('categoria');
+            
+            $productos = Producto::where('categoria_id', $categoria_id)->simplePaginate(10);
+        }
+
+        $categoriaActual = $request->input('categoria');
+        $categoriaActualname = null;
+        //obtener el nombre de la categoria actual para mostrarlo en el titulo de la pagina
+        if($categoriaActual != null){
+            $categoriaActualname = Categoria::find($categoriaActual);
+        }else{
+            $categoriaActualname = "Todos los productos";
+        }
         $categorias = Categoria::all();
         $marcas = Marca::all();
         $estadoProductos = EstadoProducto::all();
-
-        return view('productos.productos-grid', compact('productos', 'categorias', 'marcas', 'estadoProductos'));
+        return view('productos.productos-grid', compact('productos', 'categorias', 'marcas', 'estadoProductos', 'categoriaActual', 'categoriaActualname'));
     }
 
-    // public function categorias(Categoria $categoria){
-    //     return $categoria;
-    // }
+    public function showByCategoria(Request $request)
+    {
+        $categoria_id = $request->input('categoria');
+        $productos = Producto::where('categoria_id', $categoria_id)->get();
+        return view('productos.productos-grid')->with('productos', $productos);
+    }
+
 
     /**
      * Show the form for creating a new resource.
