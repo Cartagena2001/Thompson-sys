@@ -21,12 +21,21 @@
                             <form class="row gx-2">
                                 <div class="col-auto"><small>Ordenar por categoría:</small></div>
                                 <div class="col-auto">
-                                    <select class="form-select form-select-sm" aria-label="Bulk actions">
-                                        <option value="">Todas</option>
-                                        @foreach ( $categorias as $categoria )
-                                            <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
-                                        @endforeach
-                                    </select>
+                                    <form action="{{ route('productos.index') }}" method="get">
+                                        <select name="categoria" id="categoria" class="form-select form-select-sm"
+                                            aria-label="Bulk actions">
+                                            @foreach ($categorias as $categoria)
+                                                <option value="{{ $categoria->id }}"
+                                                    @if ($categoria->id == $categoriaActual) selected @endif>
+                                                    {{ $categoria->nombre }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="mt-2">
+                                            <button class="btn btn-sm btn-primary" type="submit"><i class="fas fa-filter"></i> Aplicar filtro</button>
+                                        <a href="{{ url('/dashboard/tienda') }}" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-trash-alt"></i> Limpiar
+                                            filtro</a>
+                                        </div>
+                                    </form>
                                 </div>
                             </form>
                         </div>
@@ -38,6 +47,8 @@
 
     {{-- Tienda --}}
     <div class="card mb-3">
+        <h6 class="card-body">Categoria:
+            {{ $categoriaActual == null ? 'Todas las categorias' : $categoriaActualname->nombre }}</h6>
         <div class="card-body">
             <div class="row">
                 @foreach ($productos as $producto)
@@ -55,6 +66,7 @@
                         $destacado = '';
                     }
                     ?>
+                    {{-- crear un if para filtrar por categorias que tome el valor del select de categorias --}}
                     <div class="mb-4 col-md-6 col-lg-4">
                         <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
                             <div class="overflow-hidden">
@@ -65,20 +77,25 @@
                                 </div>
                                 <div class="p-3">
                                     <h5 class="fs-0"><a class="text-dark"
-                                            href="{{ route('tienda.show', $producto->id) }}">{{ $producto->nombre }}</a></h5>
+                                            href="{{ route('tienda.show', $producto->id) }}">{{ $producto->nombre }}</a>
+                                    </h5>
                                     <p class="fs--1 mb-3"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
-                                    <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3"> ${{ $producto->precio_1 }}
+                                    <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3">
+                                        ${{ $producto->precio_1 }}
                                         <del class="ms-2 fs--1 text-500">$ {{ $producto->precio_1 + 10 }}</del>
                                     </h5>
-                                    <p class="fs--1 mb-1">Estado: <strong class="text-success">{{ $producto->estadoProducto->estado }}</strong>
+                                    <p class="fs--1 mb-1">Estado: <strong
+                                            class="text-success">{{ $producto->estadoProducto->estado }}</strong>
                                     </p>
                                 </div>
                             </div>
                             <div class="d-flex flex-between-center px-2">
-                                <div><a class="btn btn-sm btn-falcon-default me-2" href="{{ route('tienda.show', $producto->id) }}" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="Add to Wish List"><i class="fa-regular fa-eye"></i> Ver producto</a><a
-                                        class="btn btn-sm btn-falcon-default" href="#!" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="Add to Cart"><span class="fas fa-cart-plus"></span></a></div>
+                                <div><a class="btn btn-sm btn-falcon-default me-2"
+                                        href="{{ route('tienda.show', $producto->id) }}" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Add to Wish List"><i class="fa-regular fa-eye"></i>
+                                        Ver producto</a><a class="btn btn-sm btn-falcon-default" href="#!"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Cart"><span
+                                            class="fas fa-cart-plus"></span></a></div>
                             </div>
                         </div>
                     </div>
