@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+@section('title', $producto->nombre)
+    {{-- Titulo --}}
     <?php
     //hacer un if para ver si el producto tiene imagen o no
     if ($producto->imagen_1_src != null) {

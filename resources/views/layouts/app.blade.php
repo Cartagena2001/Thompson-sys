@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('Dashboard Thompson', 'Dashboard') }}</title>
+    <title>{{ config('Dashboard Thompson', 'Dashboard') }} - @yield('title')</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -53,23 +53,23 @@
                             </li>
                             <div class="divider">Productos</div>
                             <li>
-                                <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ 'dashboard/tienda' == request()->path() ? 'active-menu' : '' }}">
-                                    <i class="fas fa-shopping-basket"></i> <span
-                                        class="ms-1 d-none d-sm-inline">Tienda</span></a>
+                                <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
+                                    <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Tienda</span>
+                                </a>
                             </li>
                             <div class="divider">Ventas</div>
                             <li>
-                                <a href="{{ url('/dashboard/productos') }}" class="nav-link px-0 align-middle {{ 'dashboard/productos' == request()->path() ? 'active-menu' : '' }}">
-                                    <i class="fas fa-shopping-cart"></i> <span
-                                        class="ms-1 d-none d-sm-inline">Productos</span></a>
+                                <a href="{{ url('/dashboard/productos') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/productos') !== false ? 'active-menu' : '' }}">
+                                    <i class="fa-solid fa-newspaper"></i> <span class="ms-1 d-none d-sm-inline">Productos</span>
+                                </a>
                             </li>
                             <li>
-                                <a href="{{ url('/dashboard/categorias') }}" class="nav-link px-0 align-middle {{ 'dashboard/categorias' == request()->path() ? 'active-menu' : '' }}">
-                                    <i class="fas fa-list-ul"></i> <span
-                                        class="ms-1 d-none d-sm-inline">Categorias</span></a>
+                                <a href="{{ url('/dashboard/categorias') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/categorias') !== false ? 'active-menu' : '' }}">
+                                    <i class="fas fa-list-ul"></i> <span class="ms-1 d-none d-sm-inline">Categorías</span>
+                                </a>
                             </li>
                             <li>
-                                <a href="{{ url('/dashboard/marcas') }}" class="nav-link px-0 align-middle {{ 'dashboard/marcas' == request()->path() ? 'active-menu' : '' }}">
+                                <a href="{{ url('/dashboard/marcas') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/marcas') !== false ? 'active-menu' : '' }}">
                                     <i class="fas fa-copyright"></i> <span
                                         class="ms-1 d-none d-sm-inline">Marcas</span></a>
                             </li>

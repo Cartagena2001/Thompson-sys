@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-    {{-- menu superior --}}
+    @section('title', 'Tienda')
     <div class="card mb-3">
         <div class="card-body">
             <div class="row flex-between-center">
                 <div class="col-sm-auto mb-2 mb-sm-0">
+                    <h6 class="btn btn-sm btn-primary"><i class="fa-solid fa-cart-shopping"></i> Ver Carrito</h6>
                     {{-- crear en php una funcion haga un count de los productos en la base de datos --}}
                     <?php
                     $productosDisponibles = DB::table('producto')
@@ -14,6 +15,7 @@
                     ?>
                     <h6 class="mb-0">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }}
                         productos</h6>
+                        
                 </div>
                 <div class="col-sm-auto">
                     <div class="row gx-2 align-items-center">

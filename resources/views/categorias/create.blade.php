@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@section('title', 'Crear Categoria')
     {{-- Titulo --}}
     <div class="card mb-3">
         <div class="bg-holder d-none d-lg-block bg-card"
