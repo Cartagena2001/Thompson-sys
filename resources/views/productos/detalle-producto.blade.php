@@ -2,121 +2,120 @@
 
 @section('content')
 @section('title', $producto->nombre)
-    {{-- Titulo --}}
-    <?php
-    //hacer un if para ver si el producto tiene imagen o no
-    if ($producto->imagen_1_src != null) {
-        $imagen = "{$producto->imagen_1_src}";
-    } else {
-        $imagen = '../../../assets/img/products/default.webp';
-    }
-    
-    if ($producto->imagen_2_src != null) {
-        $imagen2 = "{$producto->imagen_2_src}";
-    } else {
-        $imagen2 = '../../../assets/img/products/default.webp';
-    }
-    
-    if ($producto->imagen_3_src != null) {
-        $imagen3 = "{$producto->imagen_3_src}";
-    } else {
-        $imagen3 = '../../../assets/img/products/default.webp';
-    }
-    
-    if ($producto->imagen_4_src != null) {
-        $imagen4 = "{$producto->imagen_4_src}";
-    } else {
-        $imagen4 = '../../../assets/img/products/default.webp';
-    }
-    ?>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+{{-- Titulo --}}
+<?php
+//hacer un if para ver si el producto tiene imagen o no
+if ($producto->imagen_1_src != null) {
+    $imagen = "{$producto->imagen_1_src}";
+} else {
+    $imagen = '../../../assets/img/products/default.webp';
+}
 
-    <div class="card mb-3">
-        <div class="col-auto px-2 px-md-3 mt-3"><a class="btn btn-sm btn-primary" href="{{ url('/dashboard/tienda') }}"><span
-            class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block">Volver atras</span></a></div>
-        <div class="card-body mb-8">
-            <div class="row">
-                <div class="col-lg-6 mb-lg-0">
-                    <div class="product-slider" id="galleryTop">
-                        <div class="swiper-slide h-100">
-                            <div>
-                                <div class="swiper mySwiper">
-                                    <div class="swiper-wrapper">
-                                        <img class="swiper-slide img-fluid" src="{{ $imagen }}">
-                                        <img class="swiper-slide img-fluid" src="{{ $imagen2 }}">
-                                        <img class="swiper-slide img-fluid" src="{{ $imagen3 }}">
-                                        <img class="swiper-slide img-fluid" src="{{ $imagen4 }}">
-                                    </div>
-                                    <div class="swiper-button-next"></div>
-                                    <div class="swiper-button-prev"></div>
-                                    <div class="swiper-pagination"></div>
+if ($producto->imagen_2_src != null) {
+    $imagen2 = "{$producto->imagen_2_src}";
+} else {
+    $imagen2 = '../../../assets/img/products/default.webp';
+}
+
+if ($producto->imagen_3_src != null) {
+    $imagen3 = "{$producto->imagen_3_src}";
+} else {
+    $imagen3 = '../../../assets/img/products/default.webp';
+}
+
+if ($producto->imagen_4_src != null) {
+    $imagen4 = "{$producto->imagen_4_src}";
+} else {
+    $imagen4 = '../../../assets/img/products/default.webp';
+}
+?>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+<div class="card mb-3">
+    <div class="col-auto px-2 px-md-3 mt-3"><a class="btn btn-sm btn-primary" href="{{ url('/dashboard/tienda') }}"><span
+                class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block">Volver
+                atras</span></a></div>
+    <div class="card-body mb-8">
+        <div class="row">
+            <div class="col-lg-6 mb-lg-0">
+                <div class="product-slider" id="galleryTop">
+                    <div class="swiper-slide h-100">
+                        <div>
+                            <div class="swiper mySwiper">
+                                <div class="swiper-wrapper">
+                                    <img class="swiper-slide img-fluid" src="{{ $imagen }}">
+                                    <img class="swiper-slide img-fluid" src="{{ $imagen2 }}">
+                                    <img class="swiper-slide img-fluid" src="{{ $imagen3 }}">
+                                    <img class="swiper-slide img-fluid" src="{{ $imagen4 }}">
                                 </div>
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-pagination"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
-                                    src="{{ $imagen2 }}" alt="" /></div>
-                        </div>
-                        <div class="col-4">
-                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
-                                    src="{{ $imagen3 }}" alt="" /></div>
-                        </div>
-                        <div class="col-4">
-                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
-                                    src="{{ $imagen4 }}" alt="" /></div>
-                        </div>
-                    </div>
-
-                    <script>
-                        var swiper = new Swiper(".mySwiper", {
-                            loop: true,
-                            pagination: {
-                                el: ".swiper-pagination",
-                                clickable: true,
-                            },
-                            grabCursor: true,
-                            autoplay: {
-                                delay: 2500,
-                                disableOnInteraction: false
-                            },
-                            navigation: {
-                                nextEl: ".swiper-button-next",
-                                prevEl: ".swiper-button-prev",
-                            },
-                        });
-                    </script>
-
                 </div>
-                <div class="col-lg-6">
-                    <h5>{{ $producto->nombre }}</h5><a class="fs--1 mb-2 d-block">{{ $producto->categoria->nombre }}</a>
-                    <p>{{ $producto->descripcion }}</p>
-                    <h4 class="d-flex align-items-center"><span class="text-warning me-2">$
-                            {{ $producto->precio_1 }}</span><span class="me-1 fs--1 text-500">
-                        </span></h4>
-                    <p class="fs--1">Stock: <strong class="text-success">{{ $producto->estadoProducto->estado }}</strong>
-                    </p>
-                    <div class="row">
-                        <div class="col-auto pe-0">
-                            <div class="input-group input-group-sm" data-quantity="data-quantity">
-                                <button class="btn btn-sm btn-outline-secondary border-300" data-field="input-quantity"
-                                    data-type="minus">-</button>
-                                <input class="form-control text-center input-quantity input-spin-none" type="number"
-                                    min="0" value="0" aria-label="Amount (to the nearest dollar)"
-                                    style="max-width: 50px" />
-                                <button class="btn btn-sm btn-outline-secondary border-300" data-field="input-quantity"
-                                    data-type="plus">+</button>
-                            </div>
-                        </div>
-                        <div class="col-auto px-2 px-md-3"><a class="btn btn-sm btn-primary" href="#!"><span
-                                    class="fas fa-cart-plus me-sm-2"></span><span class="d-none d-sm-inline-block">Agregar
-                                    al carrito</span></a></div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
+                                src="{{ $imagen2 }}" alt="" /></div>
                     </div>
+                    <div class="col-4">
+                        <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
+                                src="{{ $imagen3 }}" alt="" /></div>
+                    </div>
+                    <div class="col-4">
+                        <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
+                                src="{{ $imagen4 }}" alt="" /></div>
+                    </div>
+                </div>
+
+                <script>
+                    var swiper = new Swiper(".mySwiper", {
+                        loop: true,
+                        pagination: {
+                            el: ".swiper-pagination",
+                            clickable: true,
+                        },
+                        grabCursor: true,
+                        autoplay: {
+                            delay: 2500,
+                            disableOnInteraction: false
+                        },
+                        navigation: {
+                            nextEl: ".swiper-button-next",
+                            prevEl: ".swiper-button-prev",
+                        },
+                    });
+                </script>
+
+            </div>
+            <div class="col-lg-6">
+                <h5>{{ $producto->nombre }}</h5><a class="fs--1 mb-2 d-block">{{ $producto->categoria->nombre }}</a>
+                <p>{{ $producto->descripcion }}</p>
+                <h4 class="d-flex align-items-center"><span class="text-warning me-2">$
+                        {{ $producto->precio_1 }}</span><span class="me-1 fs--1 text-500">
+                    </span></h4>
+                <p class="fs--1">Stock: <strong class="text-success">{{ $producto->estadoProducto->estado }}</strong>
+                </p>
+                <div class="row">
+                    <form method="post" action="{{ route('carrito.add') }}">
+                        @csrf
+                        <div class="d-flex pe-0">
+                            <div class="input-group-sm" data-quantity="data-quantity">
+                                <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                                <input class="form-control" type="number" name="cantidad" value="1"
+                                    min="1">
+                            </div>
+                            <button class="btn btn-sm btn-primary" type="submit"> <span
+                                class="fas fa-cart-plus me-sm-2"></span>Agregar al carrito</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            {{-- <div class="row">
+        </div>
+        {{-- <div class="row">
                 <div class="col-12">
                     <div class="overflow-hidden mt-4">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -205,6 +204,6 @@
                     </div>
                 </div>
             </div> --}}
-        </div>
     </div>
+</div>
 @endsection

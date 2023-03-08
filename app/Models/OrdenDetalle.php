@@ -11,6 +11,10 @@ class OrdenDetalle extends Model
 {
     protected $table='orden_detalle';
 
+    protected $fillable = [
+        'orden_id', 'producto_id', 'cantidad', 'precio'
+    ];
+
     public function Orden(){  return $this->belongsTo('App\Models\Orden', 'orden_id'); }
     public function Producto(){  return $this->belongsTo('App\Models\Producto', 'producto_id'); }
 }

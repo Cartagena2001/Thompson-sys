@@ -17,8 +17,8 @@ class UsuarioSeeder extends Seeder
     {
         //Administradores
         User::create(['cliente_id_interno' => '-', 
-                      'nombre' => 'Pedro Pozo', 
-                      'correo' => 'desarrollo@markcoweb.com', 
+                      'name' => 'Pedro Pozo', 
+                      'email' => 'desarrollo@markcoweb.com', 
                       'direccion' => '-', 
                       'nombre_empresa' => '-', 
                       'municipio' => '-', 
@@ -40,8 +40,8 @@ class UsuarioSeeder extends Seeder
                     ]);
 
         User::create(['cliente_id_interno' => '-', 
-                      'nombre' => 'Oscar Carranza', 
-                      'correo' => 'soporte@markcoweb.com', 
+                      'name' => 'Oscar Carranza', 
+                      'email' => 'soporte@markcoweb.com', 
                       'direccion' => '-', 
                       'nombre_empresa' => '-', 
                       'municipio' => '-', 
@@ -63,8 +63,8 @@ class UsuarioSeeder extends Seeder
                     ]);
 
         User::create(['cliente_id_interno' => '-', 
-                      'nombre' => 'Guillermo Cartagena', 
-                      'correo' => 'programacion@markcoweb.com', 
+                      'name' => 'Guillermo Cartagena', 
+                      'email' => 'programacion@markcoweb.com', 
                       'direccion' => '-', 
                       'nombre_empresa' => '-', 
                       'municipio' => '-', 
@@ -86,8 +86,8 @@ class UsuarioSeeder extends Seeder
                     ]);
 
         User::create(['cliente_id_interno' => '-', 
-                      'nombre' => 'Edgar Sandoval', 
-                      'correo' => 'esandoval@markcoweb.com', 
+                      'name' => 'Edgar Sandoval', 
+                      'email' => 'esandoval@markcoweb.com', 
                       'direccion' => '-', 
                       'nombre_empresa' => '-', 
                       'municipio' => '-', 
@@ -109,8 +109,8 @@ class UsuarioSeeder extends Seeder
                     ]);
 
         User::create(['cliente_id_interno' => '-', 
-                      'nombre' => 'RT Test User', 
-                      'correo' => 'admin@rtelsalvador.com', 
+                      'name' => 'RT Test User', 
+                      'email' => 'admin@rtelsalvador.com', 
                       'direccion' => '-', 
                       'nombre_empresa' => '-', 
                       'municipio' => '-', 
@@ -134,8 +134,8 @@ class UsuarioSeeder extends Seeder
 
         //Clientes
         User::create(['cliente_id_interno' => '-', 
-                      'nombre' => 'Don Aprobado', 
-                      'correo' => 'ventas@kartoys.com.sv', 
+                      'name' => 'Don Aprobado', 
+                      'email' => 'ventas@kartoys.com.sv', 
                       'direccion' => '49 av. norte, local #1, col. Ursula', 
                       'nombre_empresa' => 'KarToys S.A. de C.V.', 
                       'municipio' => 'San Salvador', 
@@ -159,8 +159,8 @@ class UsuarioSeeder extends Seeder
 
         //Aspirantes
         User::create(['cliente_id_interno' => '-', 
-                      'nombre' => 'Juan Pruebas', 
-                      'correo' => 'juancho@carbunny.com', 
+                      'name' => 'Juan Pruebas', 
+                      'email' => 'juancho@carbunny.com', 
                       'direccion' => '9na ca. poniente, edificio sefas, nivel 2 local #14, Col. Escalón', 
                       'nombre_empresa' => 'Car Bunny S.A. de C.V.', 
                       'municipio' => 'San Salvador', 
@@ -182,8 +182,8 @@ class UsuarioSeeder extends Seeder
                     ]);
 
         User::create(['cliente_id_interno' => '-', 
-                      'nombre' => 'Lucho en Pruebas', 
-                      'correo' => 'lucho@autotool.com', 
+                      'name' => 'Lucho en Pruebas', 
+                      'email' => 'lucho@autotool.com', 
                       'direccion' => '4ta av. norte, local #32, col. Esquival', 
                       'nombre_empresa' => 'AutoTool S.A.', 
                       'municipio' => 'San Salvador', 

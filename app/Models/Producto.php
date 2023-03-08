@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Orden;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Producto extends Model
 {
@@ -39,6 +40,14 @@ class Producto extends Model
     public function Marca(){  return $this->hasOne('App\Models\Marca', 'id', 'marca_id'); }
     public function EstadoProducto(){  return $this->hasOne('App\Models\EstadoProducto', 'id', 'estado_producto_id'); }
     public function PrecioDetalle(){ return $this->hasOne('App\Models\PrecioDetalle', 'precio_id', 'id');}
+    public function getSlugAttribute()
+    {
+        return Str::slug($this->nombre);
+    }
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = Str::slug($value);
+    }
 
     // public function PrecioDetalle(){  return $this->hasOne(PrecioDetalle::class); }
 }
