@@ -10,5 +10,9 @@ class Orden extends Model
 {
   protected $table='orden';
 
-  public function Cliente(){  return $this->belongsTo('App\Models\Cliente', 'cliente_id'); }
+  protected $fillable = [
+      'fecha_registro', 'user_id', 'estado', 'fecha_envio', 'fecha_entrega', 'total'
+  ];
+
+  public function User(){  return $this->belongsTo('App\Models\User', 'user_id'); }
 }

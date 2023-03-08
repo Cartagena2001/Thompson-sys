@@ -76,9 +76,10 @@ class TiendaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $producto = Producto::find($id);
+        // $producto = Producto::find($id);
+        $producto = Producto::where('slug', $slug)->firstOrFail();
 
         return view('productos.detalle-producto', compact('producto'));
     }

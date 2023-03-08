@@ -76,6 +76,7 @@ class ProductoController extends Controller
         //almacenar datos
         $reg = new Producto();
         $reg->nombre = $request->get('nombre');
+        $reg->setSlugAttribute($request->get('nombre'));
         $reg->categoria_id = $request->get('categoria_id');
         $reg->sku = $request->get('sku');
         $reg->descripcion = $request->get('descripcion');

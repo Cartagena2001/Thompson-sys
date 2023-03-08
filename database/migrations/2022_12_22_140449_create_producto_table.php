@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('producto', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre', 30);
+            $table->string('slug', 30)->nullable();
             //relacionar con la tabla categoria
             //$table->foreignId('categoria_id')->constrained('categoria');
             $table->integer('categoria_id')->unsigned();
