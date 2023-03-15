@@ -38,10 +38,10 @@ class OrdenController extends Controller
             $ordenDetalle->descuento = 0;
             $ordenDetalle->save();
 
-            // //actualizar el stock del producto
-            // $producto = Producto::find($producto['producto_id']);
-            // $producto->stock = $producto->stock - $producto['cantidad'];
-            // $producto->save();
+            //actualiza el stock del producto restando la cantidad comprada
+            $producto = Producto::find($producto['producto_id']);
+            $producto->existencia = $producto->existencia - $ordenDetalle->cantidad;
+            $producto->save();
         }
 
         //actualizar el total de la orden

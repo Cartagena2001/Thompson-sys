@@ -17,22 +17,22 @@ class EstadoProductoSeeder extends Seeder
 
         EstadoProducto::create([
             'id' => '1',
-            'estado' => 'activo',
+            'estado' => 'Activo',
         ]);
 
         EstadoProducto::create([
             'id' => '2',
-            'estado' => 'inactivo',
+            'estado' => 'Inactivo',
         ]);
 
         EstadoProducto::create([
             'id' => '3',
-            'estado' => 'agotado',
+            'estado' => 'Agotado',
         ]);
 
         EstadoProducto::create([
             'id' => '4',
-            'estado' => 'en reserva',
+            'estado' => 'En reserva',
         ]);
 
 

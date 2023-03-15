@@ -39,3 +39,29 @@ body {
         padding-top: 20px;
     }
 }
+
+.div-tienda{
+    width:470px;
+    height:250px;
+    //centrar imagen en el div 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.div-tienda img{
+    object-fit: cover;
+    width:100%;
+    height:100%;
+}
+
+.img-detalle-producto{
+    width:100%;
+    height:550px;
+}
+
+.img-detalle-producto img{
+    object-fit: cover;
+    width:100%;
+    height:100%;
+}
