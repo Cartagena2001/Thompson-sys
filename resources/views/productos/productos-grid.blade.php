@@ -16,8 +16,6 @@
                         }
                         ?>
                         <span class=""> - ({{ $cantidad }})</span>
-                        {{-- crear un form para ver el carrito pero sin que envie productos --}}
-
                     </h6>
                 </a>
                 <?php
@@ -65,6 +63,13 @@
 <div class="card mb-3">
     <h6 class="card-body">Categoria:
         {{ $categoriaActual == null ? 'Todas las categorias' : $categoriaActualname->nombre }}</h6>
+    <div>
+        @if ($productos->count() == 0)
+            <div class="card-body text-center">
+                <h2 class="card-body">No hay productos en esta categoria <i class="far fa-folder-open"></i></h2>
+            </div>
+        @endif
+    </div>
     <div class="card-body">
         <div class="row">
             @foreach ($productos as $producto)
@@ -77,25 +82,25 @@
                 }
                 //verificar si el producto tiene la etiqueta de destacado
                 if ($producto->etiqueta_destacado == 1) {
-                    $destacado = 'Producto destacado';
+                    $destacado = '¡Producto destacado!';
                 } else {
                     $destacado = '';
                 }
                 ?>
-                {{-- crear un if para filtrar por categorias que tome el valor del select de categorias --}}
-                <div class="mb-4 col-md-6 col-lg-4">
+                <div class="mb-4 col-md-12 col-lg-4">
                     <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
                         <div class="overflow-hidden">
-                            <div class="position-relative rounded-top overflow-hidden"><a class="d-block"
-                                    href="{{ route('tienda.show', $producto->slug) }}"><img
-                                        class="img-fluid rounded-top" src="{{ $imagen }}"
-                                        alt="" /></a><span
-                                    class="badge rounded-pill bg-info position-absolute mt-2 me-2 z-index-2 top-0 end-0">{{ $destacado }}</span>
+                            <div class="position-relative rounded-top overflow-hidden div-tienda"><a class="d-block"
+                                    href="{{ route('tienda.show', $producto->slug) }}"><img class="rounded-top"
+                                        src="{{ $imagen }}" alt="" /></a>
                             </div>
                             <div class="p-3">
-                                <h5 class="fs-0"><a class="text-dark"
+                                <span
+                                    class="badge rounded-pill bg-info mt-2 mb-2 z-index-2 top-0 end-0">{{ $destacado }}</span>
+                                <h5 class="fs-1"><a class="text-dark"
                                         href="{{ route('tienda.show', $producto->slug) }}">{{ $producto->nombre }}</a>
                                 </h5>
+
                                 <p class="fs--1 mb-3"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
                                 <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3">
                                     ${{ $producto->precio_1 }}
@@ -108,9 +113,9 @@
                         </div>
                         <div class="d-flex flex-between-center px-2">
                             <div class="d-flex">
-                                <a class="btn btn-sm btn-falcon-default me-2"
+                                <a class="btn btn-x btn-primary me-2"
                                     href="{{ route('tienda.show', $producto->slug) }}" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" title="Add to Wish List"><i class="fa-regular fa-eye"></i>
+                                    data-bs-placement="top" title="Ver producto"><i class="fa-regular fa-eye"></i>
                                     Ver producto
                                 </a>
                                 <form method="post" action="{{ route('carrito.add') }}">
@@ -118,9 +123,9 @@
                                     <input type="hidden" name="producto_id" value="{{ $producto->id }}">
                                     <input type="hidden" class="form-control" type="text" name="cantidad"
                                         value="1">
-                                    <button type="submit" class="btn btn-sm btn-falcon-default" href="#!" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="Agregar al carrito"><span
-                                            class="fas fa-cart-plus"></span>
+                                    <button type="submit" class="btn btn-x btn-falcon-default" href="#!"
+                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                        title="Agregar al carrito"><span class="fas fa-cart-plus"></span>
                                     </button>
                                 </form>
                             </div>
@@ -130,8 +135,10 @@
             @endforeach
         </div>
     </div>
-    <div class="card-footer bg-light d-flex justify-content-center">
-        {{ $productos->links() }}
-    </div>
+    @if ($productos->count() > 0)
+        <div class="card-footer d-flex justify-content-center">
+            {{ $productos->links() }}
+        </div>
+    @endif
 </div>
 @endsection
