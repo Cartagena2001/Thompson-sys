@@ -71,6 +71,8 @@ class ProductoController extends Controller
             'estado_producto_id' => 'required',
             'etiqueta_destacado' => 'required',
             'precio_1' => 'required|numeric',
+            'volumen' => 'required|numeric',
+            'peso' => 'required|numeric',
         ]);
 
         //almacenar datos
@@ -86,6 +88,10 @@ class ProductoController extends Controller
         $reg->precio_2 = $request->get('precio_2');
         $reg->precio_3 = $request->get('precio_3');
         $reg->precio_4 = $request->get('precio_4');
+        $reg->volumen = $request->get('volumen');
+        $reg->unidad_volumen = $request->get('unidad_volumen');
+        $reg->peso = $request->get('peso');
+        $reg->unidad_peso = $request->get('unidad_peso');
         $reg->ref_1 = $request->get('ref_1');
         $reg->ref_2 = $request->get('ref_2');
         $reg->ref_3 = $request->get('ref_3');
@@ -168,7 +174,7 @@ class ProductoController extends Controller
         request()->validate([
             'nombre' => 'required',
             'categoria_id' => 'required',
-            'sku' => 'required',
+            'sku' => 'required|unique:producto',
             'descripcion' => 'required',
             'marca_id' => 'required',
             'lote' => 'required',
@@ -178,6 +184,8 @@ class ProductoController extends Controller
             'estado_producto_id' => 'required',
             'etiqueta_destacado' => 'required',
             'precio_1' => 'required|numeric',
+            'volumen' => 'required',
+            'peso' => 'required',
         ]);
 
         //almacenar datos
@@ -191,6 +199,12 @@ class ProductoController extends Controller
         $producto->precio_2 = $request->get('precio_2');
         $producto->precio_3 = $request->get('precio_3');
         $producto->precio_4 = $request->get('precio_4');
+
+        $producto->volumen = $request->get('volumen');
+        $producto->unidad_volumen = $request->get('unidad_volumen');
+        $producto->peso = $request->get('peso');
+        $producto->unidad_peso = $request->get('unidad_peso');
+
         $producto->ref_1 = $request->get('ref_1');
         $producto->ref_2 = $request->get('ref_2');
         $producto->ref_3 = $request->get('ref_3');
