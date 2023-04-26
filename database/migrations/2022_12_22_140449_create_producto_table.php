@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('producto', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre', 30);
-            $table->string('slug', 30)->nullable();
+            $table->string('nombre', 250);
+            $table->string('slug', 250)->nullable();
             //relacionar con la tabla categoria
             //$table->foreignId('categoria_id')->constrained('categoria');
             $table->integer('categoria_id')->unsigned();
@@ -31,6 +31,12 @@ return new class extends Migration
             $table->decimal('precio_2', 8, 2)->nullable();
             $table->decimal('precio_3', 8, 2)->nullable();
             $table->decimal('precio_4', 8, 2)->nullable();
+            //Campos para control el volumen y peso del producto
+            $table->decimal('volumen', 8,4)->nullable();
+            $table->string('unidad_volumen', 10)->nullable();
+            $table->decimal('peso', 8, 4)->nullable();
+            $table->string('unidad_peso', 10)->nullable();
+            //----------------------------------------------------
             $table->string('ref_1', 20)->nullable();
             $table->string('ref_2', 20)->nullable();
             $table->string('ref_3', 20)->nullable();
