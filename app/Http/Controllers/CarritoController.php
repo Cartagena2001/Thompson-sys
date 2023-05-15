@@ -11,7 +11,7 @@ class CarritoController extends Controller
     public function index()
     {
         $cart = session()->get('cart', []);
-
+        // dd($cart); 
         return view('carrito.index', compact('cart'));
     }
 
@@ -30,12 +30,13 @@ class CarritoController extends Controller
                 'nombre' => $product->nombre,
                 'precio_1' => $product->precio_1,
                 'cantidad' => $cantidad,
+                'existencia' => $product->existencia,
             ];
         }
 
         session()->put('cart', $cart);
 
-        return view('carrito.index');
+        return redirect()->route('carrito.index')->with('toast_success', 'Se agregó el producto ' . $product->nombre . '');
     }
 
     //funciona para actualizar la cantidad de productos en el carrito de compras sin cambiar de vista
@@ -54,12 +55,13 @@ class CarritoController extends Controller
                 'nombre' => $product->nombre,
                 'precio_1' => $product->precio_1,
                 'cantidad' => $cantidad,
+                'existencia' => $product->existencia,
             ];
         }
 
         session()->put('cart', $cart);
 
-        return view('carrito.index');
+        return redirect()->route('carrito.index')->with('toast_success', 'Se actualizó la cantidad del producto ' . $product->nombre . '');
     }
 
     //funcion para vaciar el carrito de compras
@@ -82,7 +84,7 @@ class CarritoController extends Controller
 
         session()->put('cart', $cart);
 
-        return view('carrito.index');
+        return redirect()->route('carrito.index')->with('toast_error', 'Se eliminó el producto ' . $product->nombre . '');
     }
 
     //funcion para validar el carrito de compras
