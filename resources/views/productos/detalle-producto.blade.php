@@ -106,12 +106,12 @@ if ($producto->etiqueta_destacado == 1) {
                 <h3 class="d-flex align-items-center"><span style="color: #F3151E">$
                         {{ $producto->precio_1 }} C/Caja</span><span class="me-1 fs--1 text-500">
                     </span></h3>
-                @if ($producto->existencia == 0)
+                @if ($producto->unidad_por_caja == 0)
                 <h3 class="fs--1"><span style="color: #F3151E">Producto
                         agotado</span></h3>
                 @else
                 <h3 class="fs--1"><span class="text-success">En Stock: 
-                        {{ $producto->existencia }} Cajas</span></h3>
+                        {{ $producto->unidad_por_caja }} Cajas</span></h3>
                 @endif
                 </h3>
                 <div class="row">
@@ -123,7 +123,7 @@ if ($producto->etiqueta_destacado == 1) {
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" type="button" id="btn-menos">-</button>
                                     <input class="btn btn-outline-secondary" type="number" name="cantidad" value="1"
-                                        id="cantidad" min="1" max="{{ $producto->existencia }}" readonly>
+                                        id="cantidad" min="1" max="{{ $producto->unidad_por_caja }}" readonly>
                                     <button class="btn btn-outline-secondary" type="button" id="btn-mas">+</button>
                                 </div>
                             </div>

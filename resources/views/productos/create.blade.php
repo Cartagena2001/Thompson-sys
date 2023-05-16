@@ -25,7 +25,7 @@
     <div class="card mb-3">
         <div class="mb-4 card-body">
             <h1>Agregar nuevo producto</h1>
-            <form method="POST" action="{{ route('productos.store') }}" role="form" 
+            <form method="POST" action="{{ route('productos.store') }}" role="form"             
                 enctype="multipart/form-data">
                 @csrf
                 @include('productos.form')

@@ -17,14 +17,20 @@ class MarcaSeeder extends Seeder
 
         Marca::create([
             'nombre' => 'TEMCO',
-            'estado' => 'activo',
-            'logo_src' => '\marcas\temco-logo.png',
+            'estado' => 'Activo',
+            'logo_src' => '',
         ]);
 
         Marca::create([
             'nombre' => 'CTI',
-            'estado' => 'activo',
-            'logo_src' => '\marcas\cti-logo.png',
+            'estado' => 'Activo',
+            'logo_src' => '',
+        ]);
+
+        Marca::create([
+            'nombre' => 'ECOM',
+            'estado' => 'Activo',
+            'logo_src' => '',
         ]);
 
     }

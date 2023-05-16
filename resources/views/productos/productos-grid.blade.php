@@ -104,7 +104,7 @@
                                 <p class="fs--1 mb-3"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
                                 <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3">
                                     ${{ $producto->precio_1 }}
-                                    <del class="ms-2 fs--1 text-500">$ {{ $producto->precio_1 + 10 }}</del>
+                                    <del class="ms-2 fs--1 text-500">$ {{ $producto->precio_1 + $producto->precio_1 }}</del>
                                 </h5>
                                 <p class="fs--1 mb-1">Estado: <strong
                                         class="text-success">{{ $producto->estadoProducto->estado }}</strong>

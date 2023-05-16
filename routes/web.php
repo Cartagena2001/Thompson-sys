@@ -25,6 +25,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('/dashboard/marcas', App\Http\Controllers\MarcaController::class)->middleware('auth');
 Route::resource('/dashboard/categorias', App\Http\Controllers\CategoriaController::class)->middleware('auth');
 Route::resource('/dashboard/productos', App\Http\Controllers\ProductoController::class)->middleware('auth');
+//hacer ruta para el import de productos
+Route::post('/dashboard/productos/import', [App\Http\Controllers\ProductoController::class, 'import'])->name('productos.import')->middleware('auth');
 Route::resource('/dashboard/ordenes', App\Http\Controllers\OrdenesController::class)->middleware('auth');
 
 // Route::resource('/dashboard/tienda', App\Http\Controllers\TiendaController::class)->middleware('auth');

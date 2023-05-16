@@ -9,6 +9,8 @@ use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Marca;
 use App\Models\EstadoProducto;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ProductoImport;
 
 class ProductoController extends Controller
 {
@@ -59,22 +61,21 @@ class ProductoController extends Controller
         //
         //validar campos
         $request->validate([
+            'OEM'   => 'required',
             'nombre' => 'required',
-            'categoria_id' => 'required',
-            'sku' => 'required',
             'descripcion' => 'required',
             'marca_id' => 'required',
-            'lote' => 'required',
-            'fecha_ingreso' => 'required',
-            'existencia' => 'required',
-            'existencia_limite' => 'required',
-            'estado_producto_id' => 'required',
-            'etiqueta_destacado' => 'required',
-            'precio_1' => 'required|numeric',
+            'origen' => 'required',
+            'categoria_id' => 'required',
+            'garantia' => 'required',
+            'unidad_por_caja' => 'required',
             'volumen' => 'required|numeric',
+            'unidad_volumen' => 'required',
             'peso' => 'required|numeric',
+            'unidad_peso' => 'required',
+            'precio_distribuidor' => 'required',
+            'precio_taller' => 'required',
         ]);
-
         //almacenar datos
         $reg = new Producto();
         $reg->nombre = $request->get('nombre');
@@ -87,7 +88,7 @@ class ProductoController extends Controller
         $reg->precio_1 = $request->get('precio_1');
         $reg->precio_2 = $request->get('precio_2');
         $reg->precio_3 = $request->get('precio_3');
-        $reg->precio_4 = $request->get('precio_4');
+        $reg->precio_oferta = $request->get('precio_oferta');
         $reg->volumen = $request->get('volumen');
         $reg->unidad_volumen = $request->get('unidad_volumen');
         $reg->peso = $request->get('peso');
@@ -97,10 +98,28 @@ class ProductoController extends Controller
         $reg->ref_3 = $request->get('ref_3');
         $reg->lote = $request->get('lote');
         $reg->fecha_ingreso = $request->get('fecha_ingreso');
+        //si no manda la fecha de ingreso se le asigna la fecha actual
+        if ($request->get('fecha_ingreso') == null) {
+            $reg->fecha_ingreso = date('Y-m-d');
+        }
         $reg->existencia = $request->get('existencia');
         $reg->existencia_limite = $request->get('existencia_limite');
         $reg->estado_producto_id = $request->get('estado_producto_id');
+        //si no manda el estado del producto se le asgina 1
+        if ($request->get('estado_producto_id') == null) {
+            $reg->estado_producto_id = 1;
+        }
+
+        $reg->origen = $request->get('origen');
+        $reg->unidad_por_caja = $request->get('unidad_por_caja');
+        $reg->precio_distribuidor = $request->get('precio_distribuidor');
+        $reg->precio_taller = $request->get('precio_taller');
         //subir archivos pdf
+        if ($request->hasFile('hoja_seguridad')) {
+            $file = $request->file('hoja_seguridad');
+            $file->move(public_path() . '/assets/pdf/productos/', $file->getClientOriginalName());
+            $reg->hoja_seguridad = '/assets/pdf/productos/' . $file->getClientOriginalName();
+        }
         if ($request->hasFile('ficha_tecnica_herf')) {
             $file = $request->file('ficha_tecnica_herf');
             $file->move(public_path() . '/assets/pdf/productos/', $file->getClientOriginalName());
@@ -132,6 +151,18 @@ class ProductoController extends Controller
 
         $reg->save();
         return redirect()->route('productos.index')->with('success', 'Producto creado exitosamente');
+    }
+
+    //funcion para importar productos
+    public function import(Request $request)
+    {
+        $file = $request->file('import_file');
+        Excel::import(new ProductoImport, $file);
+        $reg = new Producto();
+        $reg->fecha_ingreso = $request->get('fecha_ingreso');
+        //si no manda la fecha de ingreso se le asigna la fecha actual
+        $reg->fecha_ingreso = date('Y-m-d');
+        return redirect()->route('productos.index')->with('success', 'Productos importados exitosamente');
     }
 
     /**
@@ -172,20 +203,20 @@ class ProductoController extends Controller
     public function update(Request $request, Producto $producto)
     {
         request()->validate([
+            'OEM'   => 'required',
             'nombre' => 'required',
-            'categoria_id' => 'required',
-            'sku' => 'required|unique:producto',
             'descripcion' => 'required',
             'marca_id' => 'required',
-            'lote' => 'required',
-            'fecha_ingreso' => 'required',
-            'existencia' => 'required',
-            'existencia_limite' => 'required',
-            'estado_producto_id' => 'required',
-            'etiqueta_destacado' => 'required',
-            'precio_1' => 'required|numeric',
-            'volumen' => 'required',
-            'peso' => 'required',
+            'origen' => 'required',
+            'categoria_id' => 'required',
+            'garantia' => 'required',
+            'unidad_por_caja' => 'required',
+            'volumen' => 'required|numeric',
+            'unidad_volumen' => 'required',
+            'peso' => 'required|numeric',
+            'unidad_peso' => 'required',
+            'precio_distribuidor' => 'required',
+            'precio_taller' => 'required',
         ]);
 
         //almacenar datos
@@ -198,7 +229,7 @@ class ProductoController extends Controller
         $producto->precio_1 = $request->get('precio_1');
         $producto->precio_2 = $request->get('precio_2');
         $producto->precio_3 = $request->get('precio_3');
-        $producto->precio_4 = $request->get('precio_4');
+        $producto->precio_oferta = $request->get('precio_oferta');
 
         $producto->volumen = $request->get('volumen');
         $producto->unidad_volumen = $request->get('unidad_volumen');
@@ -213,6 +244,12 @@ class ProductoController extends Controller
         $producto->existencia = $request->get('existencia');
         $producto->existencia_limite = $request->get('existencia_limite');
         $producto->estado_producto_id = $request->get('estado_producto_id');
+
+        $producto->origen = $request->get('origen');
+        $producto->unidad_por_caja = $request->get('unidad_por_caja');
+        $producto->precio_distribuidor = $request->get('precio_distribuidor');
+        $producto->precio_taller = $request->get('precio_taller');
+
         //subir archivos pdf
         if ($request->hasFile('ficha_tecnica_herf')) {
             $file = $request->file('ficha_tecnica_herf');
