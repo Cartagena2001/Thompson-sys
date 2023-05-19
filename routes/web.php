@@ -28,6 +28,10 @@ Route::resource('/dashboard/productos', App\Http\Controllers\ProductoController:
 //hacer ruta para el import de productos
 Route::post('/dashboard/productos/import', [App\Http\Controllers\ProductoController::class, 'import'])->name('productos.import')->middleware('auth');
 Route::resource('/dashboard/ordenes', App\Http\Controllers\OrdenesController::class)->middleware('auth');
+//ruta para cambiar el estado de la orden a en proceso
+Route::put('/dashboard/ordenes/enProceso/{id}', [App\Http\Controllers\OrdenesController::class, 'enProceso'])->name('ordenes.enProceso')->middleware('auth');
+//ruta para cambiar el estado de la orden a finalizada
+Route::put('/dashboard/ordenes/finalizada/{id}', [App\Http\Controllers\OrdenesController::class, 'finalizada'])->name('ordenes.finalizada')->middleware('auth');
 
 // Route::resource('/dashboard/tienda', App\Http\Controllers\TiendaController::class)->middleware('auth');
 

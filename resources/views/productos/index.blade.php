@@ -78,33 +78,33 @@
             <button class="btn btn-primary me-1 mb-1" type="button"><i class="fas fa-plus"></i> Agregar nueva producto
             </button>
         </a>
-        {{-- <form method="POST" action="{{ route('productos.store') }}" role="form"             
-                enctype="multipart/form-data">
-                @csrf
-                <input type="file" name="import_file"/>
-            </form>
-            <div>
-                <a href="{{ route('productos.create') }}"> Importar productos</a>
-            </div> --}}
         {{-- Importar productos desde la funciona del controlador import --}}
-        <form method="POST" action="{{ route('productos.import') }}" role="form" enctype="multipart/form-data">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <strong>Whoops!</strong> Hubo un problema con la importacion de productos.<br><br>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form class="row mt-3" method="POST" action="{{ route('productos.import') }}" role="form"
+            enctype="multipart/form-data">
             @csrf
-            <input type="file" name="import_file" />
-            <button class="btn btn-primary me-1 mb-1" type="submit"><i class="fas fa-file-import"></i> Importar
-                productos
-            </button>
+            <h3>Importar productos con Hoja de excel</h3>
+            <div class="col-6">
+                <input class="form-control" type="file" name="import_file" />
+            </div>
+            <div class="col-6">
+                <button class="btn btn-primary me-1 mb-1" type="submit"><i class="fas fa-file-import"></i> Importar
+                    productos
+                </button>
+            </div>
+        </form>
     </div>
 </div>
-{{-- <div class="row mb-3">
-        <div class="col-lg-6">
-            <label class="form-label" for="exampleFormControlInput1">Buscar Producto</label>
-            <input class="form-control" type="text" placeholder="Alternador" />
-        </div>
-        <div class="col-lg-6 d-flex align-items-end">
-            <button class="btn btn-primary me-1 mb-1 mt-2" type="button"><i class="fas fa-search"></i> Buscar Producto
-            </button>
-        </div>
-    </div> --}}
 <div class="card mb-3">
     <div class="card-header">
         <div class="row flex-between-end">
@@ -133,7 +133,7 @@
                     @foreach ($productos as $producto)
                         <tr>
                             <td>{{ $producto->nombre }}</td>
-                            <td>{{ $producto->descripcion }}</td>
+                            <td>{{ Str::limit($producto->descripcion, 100, '...') }}</td>
                             <td>{{ $producto->marca->nombre }}</td>
                             <td>{{ $producto->OEM }}</td>
                             <td>{{ $producto->categoria->nombre }}</td>

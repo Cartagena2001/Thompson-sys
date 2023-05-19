@@ -99,31 +99,41 @@ if ($producto->etiqueta_destacado == 1) {
 
             </div>
             <div class="col-lg-6">
-                <h2>{{ $producto->nombre }}</h2><a class="mb-2 d-block">Categoria:
-                    {{ $producto->categoria->nombre }}</a>
+                <h2>{{ $producto->nombre }}</h2><a class="mb-2 d-block">
+                    Categoria:
+                    {{ $producto->categoria->nombre }}
+                    <br>
+                    Marca:
+                    {{ $producto->marca->nombre }}</a>
                 <span class="badge rounded-pill bg-info mt-2 mb-2 z-index-2 top-0 end-0">{{ $destacado }}</span>
                 <p class="text-justify">{{ $producto->descripcion }}</p>
                 <h3 class="d-flex align-items-center"><span style="color: #F3151E">$
                         {{ $producto->precio_1 }} C/Caja</span><span class="me-1 fs--1 text-500">
                     </span></h3>
                 @if ($producto->unidad_por_caja == 0)
-                <h3 class="fs--1"><span style="color: #F3151E">Producto
-                        agotado</span></h3>
+                    <h3 class="fs--1"><span style="color: #F3151E">Producto
+                            agotado</span></h3>
                 @else
-                <h3 class="fs--1"><span class="text-success">En Stock: 
-                        {{ $producto->unidad_por_caja }} Cajas</span></h3>
+                    <h3 class="fs--1"><span style="color: #F3151E">En Stock:
+                            {{ $producto->unidad_por_caja }} Cajas</span></h3>
                 @endif
                 </h3>
+                <span>• Unidad por caja: {{ $producto->unidad_por_caja }}</span>
+                <br>
+                <span>• Pais de origen: {{ $producto->origen }}</span>
+                <br>
+                <span>• Garantia: {{ $producto->garantia }}</span>
                 <div class="row">
                     <form method="post" action="{{ route('carrito.add') }}">
                         @csrf
-                        <div class="mb-2">
+                        <div class="mb-2 mt-4">
                             <div class="input-group" data-quantity="data-quantity">
                                 <input type="hidden" name="producto_id" value="{{ $producto->id }}">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" type="button" id="btn-menos">-</button>
-                                    <input class="btn btn-outline-secondary" type="number" name="cantidad" value="1"
-                                        id="cantidad" min="1" max="{{ $producto->unidad_por_caja }}" readonly>
+                                    <input class="btn btn-outline-secondary" type="number" name="cantidad"
+                                        value="1" id="cantidad" min="1"
+                                        max="{{ $producto->unidad_por_caja }}" readonly>
                                     <button class="btn btn-outline-secondary" type="button" id="btn-mas">+</button>
                                 </div>
                             </div>

@@ -2,19 +2,39 @@
 
 namespace App\Imports;
 
+use App\Models\Marca;
+use App\Models\Categoria;
 use App\Models\Producto;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Illuminate\Support\Str;
 
-class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading
+class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading, WithValidation, WithMultipleSheets 
 {
+
+    private $marca;
+    private $categoria;
+
+    public function __construct()
+    {
+        $this->marca = Marca::pluck('id', 'nombre');
+        $this->categoria = Categoria::pluck('id', 'nombre');
+    }
+
+    private function generateSlug($value)
+    {
+        return Str::slug($value);
+    }
+
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * @param array $row
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
     public function model(array $row)
     {
         return new Producto([
@@ -22,9 +42,9 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'lote' => $row['lote'],
             'nombre' => $row['nombre'],
             'descripcion' => $row['descripcion'],
-            'marca_id' => 1,
+            'marca_id' => $this->marca[$row['marca']],
             'origen' => $row['origen'],
-            'categoria_id' => 1,
+            'categoria_id' => $this->categoria[$row['categoria']],
             'ref_1' => $row['ref1'],
             'ref_2' => $row['ref2'],
             'ref_3' => $row['ref3'],
@@ -47,7 +67,32 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'imagen_2_src' => $row['imagen2'],
             'imagen_3_src' => $row['imagen3'],
             'imagen_4_src' => $row['imagen4'],
+            //campos que no estan en el excel
+            'fecha_ingreso' => now(),
+            'etiqueta_destacado' => 0,
+            'slug' => $this->generateSlug($row['nombre']),
+            'precio_1' => $row['precio_distribuidor'],
+            'existencia' => $row['unidad_por_caja'],
         ]);
+    }
+
+    public function rules(): array
+    {
+        return [
+            '*.oem' => 'required | unique:producto',
+            '*.nombre' => 'required',
+            '*.descripcion' => 'required',
+            '*.marca' => 'required',
+            '*.origen' => 'required',
+            '*.categoria' => 'required',
+        ];
+    }
+
+    public function sheets(): array
+    {
+        return [
+            0 => $this,
+        ];
     }
 
     public function batchSize(): int

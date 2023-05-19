@@ -147,6 +147,10 @@ class ProductoController extends Controller
             $reg->imagen_4_src = '/assets/img/products/' . $file->getClientOriginalName();
         }
         $reg->etiqueta_destacado = $request->get('etiqueta_destacado');
+        //si no manda la etiqueta destacado se le asigna 0
+        if ($request->get('etiqueta_destacado') == null) {
+            $reg->etiqueta_destacado = 0;
+        }
         $reg->garantia = $request->get('garantia');
 
         $reg->save();
@@ -156,12 +160,12 @@ class ProductoController extends Controller
     //funcion para importar productos
     public function import(Request $request)
     {
+        $request->validate([
+            'import_file' => 'required|file|mimes:xlsx'
+        ]);
+    
         $file = $request->file('import_file');
         Excel::import(new ProductoImport, $file);
-        $reg = new Producto();
-        $reg->fecha_ingreso = $request->get('fecha_ingreso');
-        //si no manda la fecha de ingreso se le asigna la fecha actual
-        $reg->fecha_ingreso = date('Y-m-d');
         return redirect()->route('productos.index')->with('success', 'Productos importados exitosamente');
     }
 
