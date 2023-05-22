@@ -78,17 +78,17 @@
                                     <i class="fas fa-folder-open"></i> <span
                                         class="ms-1 d-none d-sm-inline">Ordenes</span></a>
                             </li>
-                            {{-- <div class="divider">Clientes</div>
-                            <li>
+                            <div class="divider">Clientes</div>
+                            {{-- <li>
                                 <a href="{{ url('/dashboard/cliente_lista') }}" class="nav-link px-0 align-middle">
                                     <i class="fas fa-user"></i> <span class="ms-1 d-none d-sm-inline">Lista de
                                         clientes</span></a>
-                            </li>
+                            </li> --}}
                             <li>
-                                <a href="{{ url('/dashboard/aspirante') }}" class="nav-link px-0 align-middle">
+                                <a href="{{ url('/dashboard/aspirantes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/aspirantes') !== false ? 'active-menu' : '' }}">
                                     <i class="fas fa-users-cog"></i> <span
                                         class="ms-1 d-none d-sm-inline">Aspirantes</span></a>
-                            </li> --}}
+                            </li>
                         </ul>
                         <hr>
                         <div class="dropdown pb-4">

@@ -32,8 +32,13 @@ Route::resource('/dashboard/ordenes', App\Http\Controllers\OrdenesController::cl
 Route::put('/dashboard/ordenes/enProceso/{id}', [App\Http\Controllers\OrdenesController::class, 'enProceso'])->name('ordenes.enProceso')->middleware('auth');
 //ruta para cambiar el estado de la orden a finalizada
 Route::put('/dashboard/ordenes/finalizada/{id}', [App\Http\Controllers\OrdenesController::class, 'finalizada'])->name('ordenes.finalizada')->middleware('auth');
-
-// Route::resource('/dashboard/tienda', App\Http\Controllers\TiendaController::class)->middleware('auth');
+//ruta para cambiar el estado de la orden a cancelada
+Route::put('/dashboard/ordenes/cancelada/{id}', [App\Http\Controllers\OrdenesController::class, 'cancelada'])->name('ordenes.cancelada')->middleware('auth');
+//ruta para aspirantes
+Route::get('/dashboard/aspirantes', [App\Http\Controllers\AspirantesController::class, 'index'])->name('aspirantes.index')->middleware('auth');
+Route::get('/dashboard/aspirantes/{id}', [App\Http\Controllers\AspirantesController::class, 'show'])->name('aspirantes.show')->middleware('auth');
+Route::put('/dashboard/aspirantes/aprovado/{id}', [App\Http\Controllers\AspirantesController::class, 'aprovado'])->name('aspirantes.aprovado')->middleware('auth');
+Route::put('/dashboard/aspirantes/rechazado/{id}', [App\Http\Controllers\AspirantesController::class, 'rechazado'])->name('aspirantes.rechazado')->middleware('auth');
 
 Route::get('/dashboard/tienda', [App\Http\Controllers\TiendaController::class, 'index'])->name('tienda.index');
 

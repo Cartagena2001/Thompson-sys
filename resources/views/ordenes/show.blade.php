@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@section('title', 'Productos')
+@section('title', 'Orden # ' . $orden->id)
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
 <link rel="stylesheet" type="text/css"
     href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.css" />
@@ -37,10 +37,13 @@
 </div>
 {{-- Cards de informacion --}}
 <div class="card mb-3">
-    
+
     <div class="card-body">
         <div class="mt-3">
             <h2>Cliente: {{ $orden->user->name }} </h2>
+            <span>Empresa: {{ $orden->user->nombre_empresa }}</span> <br>
+            <span>NIT: {{ $orden->user->nit }}</span><br>
+            <span>NRC: {{ $orden->user->nrc }}</span>
         </div>
         <div>
             Orden #{{ $orden->id }} <br>
@@ -79,6 +82,36 @@
                 </tbody>
             </table>
         </div>
+        @if ($orden->estado == 'Finalizada' || $orden->estado == 'Cancelada')
+            <h4>La orden ha sido finazalidada</h1>
+            @else
+                <div class="mt-4">
+                    <h4>Actualizar estado de la orden</h1>
+                        @if ($orden->estado == 'Pendiente')
+                            <form action="{{ route('ordenes.enProceso', $orden->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <button class="btn btn-info p-2 p-0" type="submit">Actualizar En
+                                    Progreso</button>
+                            </form>
+                        @elseif($orden->estado == 'En proceso')
+                            <form action="{{ route('ordenes.finalizada', $orden->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <button class="btn btn-info p-2 p-0" type="submit">Actualizar a
+                                    Finalizada</button>
+                            </form>
+                        @endif
+                </div>
+        @endif
+        @if ($orden->estado != 'Cancelada' && $orden->estado != 'Finalizada')
+            <form action="{{ route('ordenes.cancelada', $orden->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <button class="btn btn-primary p-2 p-0 mt-2" type="submit">Cancelar Orden</button>
+            </form>
+        @endif
+
     </div>
 </div>
 @endsection
