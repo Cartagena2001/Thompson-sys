@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-3">
                     {{ Form::label('unidad_volumen', 'Ingrese Unidad del Volumen *', ['class' => 'form-label']) }}
-                    {{ Form::select('unidad_volumen', ['galon' => 'Galón', 'galones' => 'Galones', 'ml' => 'Mililitros', 'litro' => 'Litros'], $producto->unidad_volumen, ['class' => 'form-control', 'placeholder' => 'Volumen',  'required']) }}
+                    {{ Form::select('unidad_volumen', ['galon.' => 'Galón', 'galones.' => 'Galones', 'ml.' => 'Mililitros', 'litro.' => 'Litros'], $producto->unidad_volumen, ['class' => 'form-control', 'placeholder' => 'Volumen',  'required']) }}
                 </div>
                 <div class="col-3">
                     {{ Form::label('peso', 'Ingrese Peso del producto *', ['class' => 'form-label']) }}
@@ -74,7 +74,7 @@
                 </div>
                 <div class="col-3">
                     {{ Form::label('unidad_peso', 'Ingrese Unidad del Peso *', ['class' => 'form-label']) }}
-                    {{ Form::select('unidad_peso', ['grs' => 'Gramos', 'kgs' => 'Kilogramos', 'oz' => 'Onza', 'lb' => 'Libras'], $producto->unidad_peso, ['class' => 'form-control', 'placeholder' => 'Peso', 'required']) }}
+                    {{ Form::select('unidad_peso', ['grs.' => 'Gramos', 'kgs.' => 'Kilogramos', 'oz.' => 'Onza', 'lb.' => 'Libras'], $producto->unidad_peso, ['class' => 'form-control', 'placeholder' => 'Peso', 'required']) }}
                 </div>
             </div>
         </div>

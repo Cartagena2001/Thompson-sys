@@ -41,6 +41,7 @@
     <div class="card-body">
         <div class="mt-3">
             <h2>Cliente: {{ $orden->user->name }} </h2>
+            <h3>Tipo de cliente: {{ $orden->user->clasificacion }} </h3>
             <span>Empresa: {{ $orden->user->nombre_empresa }}</span> <br>
             <span>NIT: {{ $orden->user->nit }}</span><br>
             <span>NRC: {{ $orden->user->nrc }}</span>

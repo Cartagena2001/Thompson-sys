@@ -42,6 +42,18 @@ Route::get('/dashboard/aspirantes/{id}', [App\Http\Controllers\AspirantesControl
 Route::put('/dashboard/aspirantes/aprovado/{id}', [App\Http\Controllers\AspirantesController::class, 'aprovado'])->name('aspirantes.aprovado')->middleware('auth');
 Route::put('/dashboard/aspirantes/rechazado/{id}', [App\Http\Controllers\AspirantesController::class, 'rechazado'])->name('aspirantes.rechazado')->middleware('auth');
 
+//Rutas para clientes
+Route::get('/dashboard/clientes', [App\Http\Controllers\ClientesController::class, 'index'])->name('clientes.index')->middleware('auth');
+Route::get('/dashboard/clientes/{id}', [App\Http\Controllers\ClientesController::class, 'show'])->name('clientes.show')->middleware('auth');
+Route::put('/dashboard/clientes/cobre/{id}', [App\Http\Controllers\ClientesController::class, 'cobre'])->name('clientes.cobre')->middleware('auth');
+Route::put('/dashboard/clientes/plata/{id}', [App\Http\Controllers\ClientesController::class, 'plata'])->name('clientes.plata')->middleware('auth');
+Route::put('/dashboard/clientes/oro/{id}', [App\Http\Controllers\ClientesController::class, 'oro'])->name('clientes.oro')->middleware('auth');
+Route::put('/dashboard/clientes/platino/{id}', [App\Http\Controllers\ClientesController::class, 'platino'])->name('clientes.platino')->middleware('auth');
+Route::put('/dashboard/clientes/diamante/{id}', [App\Http\Controllers\ClientesController::class, 'diamante'])->name('clientes.diamante')->middleware('auth');
+Route::put('/dashboard/clientes/taller/{id}', [App\Http\Controllers\ClientesController::class, 'taller'])->name('clientes.taller')->middleware('auth');
+Route::put('/dashboard/clientes/distribucion/{id}', [App\Http\Controllers\ClientesController::class, 'distribucion'])->name('clientes.distribucion')->middleware('auth');
+
+
 //Rutas para tienda
 Route::get('/dashboard/tienda', [App\Http\Controllers\TiendaController::class, 'index'])->name('tienda.index');
 Route::get('/dashboard/tienda/{producto:slug}', [App\Http\Controllers\TiendaController::class, 'show'])->name('tienda.show');
