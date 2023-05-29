@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@section('title', 'Listado de ordenes')
+@section('title', 'Aspirantes de cliente')
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
 <link rel="stylesheet" type="text/css"
     href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.css" />
@@ -19,9 +19,9 @@
     <div class="card-body position-relative mt-4">
         <div class="row">
             <div class="col-lg-8">
-                <h3>🏷️ Ordenes 🏷️</h3>
-                <p class="mt-2">Administracion de ordenes <b>para Thompson.</b> Aqui podras encontrar todas las
-                    ordenes, podras ver el estado de cada orden, y podras editarlas.
+                <h3>🎯 Aspirantes a clientes 🎯</h3>
+                <p class="mt-2">En esta sección se muestran los aspirantes a clientes que se han registrado en la
+                    plataforma.</p>
             </div>
         </div>
     </div>
@@ -35,15 +35,15 @@
             </div>
             <!--/.bg-holder-->
             <div class="card-body position-relative">
-                <h6>Ordenes Pendientes</h6>
+                <h6>Clientes Aspirantes</h6>
                 <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-warning"
                     data-countup='{"endValue":58.386,"decimalPlaces":2,"suffix":"k"}'>
                     {{-- contar los productos activos de la base de datos --}}
                     <?php
-                    $ordenPendientes = DB::table('orden')
-                        ->where('estado', 'Pendiente')
+                    $clientesAspirantes = DB::table('users')
+                        ->where('estatus', 'aspirante')
                         ->get();
-                    echo count($ordenPendientes);
+                    echo count($clientesAspirantes);
                     ?>
                 </div>
             </div>
@@ -56,13 +56,13 @@
             </div>
             <!--/.bg-holder-->
             <div class="card-body position-relative">
-                <h6>Ordenes En proceso</h6>
+                <h6>Clientes Aprovados</h6>
                 <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info"
                     data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
                     {{-- contar los productos activos de la base de datos --}}
                     <?php
-                    $ordenesProceso = DB::table('orden')
-                        ->where('estado', 'En proceso')
+                    $ordenesProceso = DB::table('users')
+                        ->where('estatus', 'aprobado')
                         ->get();
                     echo count($ordenesProceso);
                     ?> </div>
@@ -76,13 +76,13 @@
             </div>
             <!--/.bg-holder-->
             <div class="card-body position-relative">
-                <h6>Ordenes Finazalida</h6>
+                <h6>Clientes Rechazados</h6>
                 <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info"
                     data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
                     {{-- contar los productos activos de la base de datos --}}
                     <?php
-                    $ordenesProceso = DB::table('orden')
-                        ->where('estado', 'Finalizada')
+                    $ordenesProceso = DB::table('users')
+                        ->where('estatus', 'rechazado')
                         ->get();
                     echo count($ordenesProceso);
                     ?> </div>
@@ -94,7 +94,7 @@
     <div class="card-header">
         <div class="row flex-between-end">
             <div class="col-auto align-self-center">
-                <h5 class="mb-0" data-anchor="data-anchor">Tabla de Ordenes</h5>
+                <h5 class="mb-0" data-anchor="data-anchor">Tabla de aspirantes</h5>
             </div>
         </div>
     </div>
@@ -103,55 +103,34 @@
             <table id="table_productos" class="table display">
                 <thead>
                     <tr>
-                        <th scope="col">Fecha de registro</th>
-                        <th scope="col">Cliente</th>
+                        <th scope="col">Nombre del cliente</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Empresa</th>
+                        <th scope="col">Municipio</th>
+                        <th scope="col">Departamento</th>
+                        <th scope="col">NIT</th>
                         <th scope="col">Estado</th>
-                        <th scope="col">Fecha envio</th>
-                        <th scope="col">Fecha Entrega</th>
-                        <th scope="col">Total</th>
                         <th class="text-end" scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($ordenes as $orden)
+                    @foreach ($aspirantes as $aspirante)
                         <tr>
-                            <td>{{ $orden->fecha_registro }}</td>
-                            <td>{{ $orden->user->name }}</td>
-                            @if ($orden->estado == 'Pendiente')
-                                <td class="text-warning">{{ $orden->estado }}</td>
-                            @elseif($orden->estado == 'En proceso')
-                                <td class="text-success">{{ $orden->estado }}</td>
-                            @elseif($orden->estado == 'Finalizada')
-                                <td class="text-success">{{ $orden->estado }}</td>
-                            @else
-                                <td class="text-danger">{{ $orden->estado }}</td>
-                            @endif
-                            <td>{{ $orden->fecha_envio }}</td>
-                            <td>{{ $orden->fecha_entrega }}</td>
-                            <td>${{ $orden->total }}</td>
+                            <td>{{ $aspirante->name }}</td>
+                            <td>{{ $aspirante->email }}</td>
+                            <td>{{ $aspirante->nombre_empresa }}</td>
+                            <td>{{ $aspirante->municipio }}</td>
+                            <td>{{ $aspirante->departamento }}</td>
+                            <td>{{ $aspirante->nit }}</td>
+                            <td class="text-success">{{ $aspirante->estatus }}</td>
                             <td class="text-end">
-                                <form action="{{ route('productos.destroy', $orden->id) }}" method="POST">
-                                    <a href="{{ route('ordenes.show', $orden->id) }}">
-                                        <button class="btn p-0" type="button" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" title="Edit"><span
-                                                class="text-500 fas fa-eye"></span> Ver Orden</button></a>
-                                    @csrf
-                                </form>
-                                {{-- @if ($orden->estado == 'Pendiente')
-                                    <form action="{{ route('ordenes.enProceso', $orden->id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <button class="btn btn-info p-2 p-0 ms-2" type="submit">Actualizar En
-                                            Progreso</button>
-                                    </form>
-                                @elseif($orden->estado == 'En proceso')
-                                    <form action="{{ route('ordenes.finalizada', $orden->id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <button class="btn btn-info p-2 p-0 ms-2" type="submit">Actualizar a
-                                            Finalizada</button>
-                                    </form>
-                                @endif --}}
+                                <a href="{{ route('aspirantes.show', $aspirante->id) }}">
+                                    <button class="btn p-0" type="button" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Edit">
+                                        <span class="text-500 fas fa-eye"></span>
+                                        Ver Cliente
+                                    </button>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

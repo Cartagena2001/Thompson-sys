@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('permiso', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre', 30);
+            $table->string('nombre', 100);
             $table->integer('nivel')->unsigned();
             $table->string('estado', 10);
             //relacionar con la tabla rol
