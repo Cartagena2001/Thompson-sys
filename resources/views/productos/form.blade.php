@@ -1,28 +1,31 @@
-<div class="row">
+<div class="row mt-5">
     <div class="col-lg-6">
+        <div class="mb-3">
+            {{ Form::label('OEM', 'OEM del producto *', ['class' => 'form-label']) }}
+            {{ Form::text('OEM', $producto->OEM, ['class' => 'form-control', 'placeholder' => '', 'required']) }}
+        </div>
         <div class="mb-3">
             {{ Form::label('nombre', 'Nombre del producto *', ['class' => 'form-label']) }}
             {{ Form::text('nombre', $producto->nombre, ['class' => 'form-control', 'placeholder' => '', 'required']) }}
         </div>
         <div class="mb-3">
-            {{ Form::label('sku', 'SKU del producto *', ['class' => 'form-label']) }}
+            {{ Form::label('descripcion', 'Descripcion del producto *', ['class' => 'form-label']) }}
+            {{ Form::textarea('descripcion', $producto->descripcion, ['class' => 'form-control', 'rows' => '4', 'required']) }}
+        </div>
+        {{-- <div class="mb-3">
+            {{ Form::label('sku', 'SKU del producto ', ['class' => 'form-label']) }}
             {{ Form::text('sku', $producto->sku, ['class' => 'form-control', 'placeholder' => '', 'required']) }}
-            {{-- validar que sku sea unico --}}
             @if ($errors->has('sku'))
                 <span class="text-danger">{{ $errors->first('sku') }}</span>
             @endif
-        </div>
+        </div> --}}
         <div class="mb-3">
-            {{ Form::label('marca_id', 'Seleciona la marca *', ['class' => 'form-label']) }}
-            {{ Form::select('marca_id', $marcas, $producto->marca_id, ['class' => 'form-select', 'aria-label' => 'Default select example', 'required', 'placeholder' => 'Selecione una marca']) }}
+            {{ Form::label('garantia', 'Garantia del producto *', ['class' => 'form-label']) }}
+            {{ Form::text('garantia', $producto->garantia, ['class' => 'form-control', 'placeholder' => '', 'required']) }}
         </div>
         <div>
             {{ Form::label('estado_producto_id', 'Estado del producto *', ['class' => 'form-label']) }}
-            {{ Form::select('estado_producto_id', $estadoProductos, $producto->estado_producto_id, ['class' => 'form-select mb-3', 'aria-label' => 'Default select example', 'required', 'placeholder' => 'Selecione el estado']) }}
-        </div>
-        <div class="mb-3">
-            {{ Form::label('descripcion', 'Descripcion del producto *', ['class' => 'form-label']) }}
-            {{ Form::textarea('descripcion', $producto->descripcion, ['class' => 'form-control', 'rows' => '4', 'required']) }}
+            {{ Form::select('estado_producto_id', $estadoProductos, $producto->estado_producto_id, ['class' => 'form-select mb-3', 'aria-label' => 'Default select example', 'placeholder' => 'Selecione el estado']) }}
         </div>
         <div class="mb-3">
             {{ Form::label('ref_1', 'Referencia 1 del producto', ['class' => 'form-label']) }}
@@ -39,7 +42,7 @@
         <div class="mb-3">
             <div class="row">
                 <div class="col-3">
-                    {{ Form::label('volumen', 'Ingrese Volumen del producto', ['class' => 'form-label']) }}
+                    {{ Form::label('volumen', 'Ingrese Volumen del producto *', ['class' => 'form-label']) }}
                     {{ Form::text('volumen', $producto->volumen, ['class' => 'form-control', 'placeholder' => '']) }}
                     {{-- validar que el dato sea un numero con el validate del controlador --}}
                     @if ($errors->any())
@@ -53,11 +56,11 @@
                     @endif
                 </div>
                 <div class="col-3">
-                    {{ Form::label('unidad_volumen', 'Ingrese Unidad del Volumen', ['class' => 'form-label']) }}
-                    {{ Form::select('unidad_volumen', ['ml' => 'Mililitros', 'l' => 'Litros', 'gal' => 'Galones'], $producto->unidad_volumen, ['class' => 'form-control', 'placeholder' => 'Volumen']) }}
+                    {{ Form::label('unidad_volumen', 'Ingrese Unidad del Volumen *', ['class' => 'form-label']) }}
+                    {{ Form::select('unidad_volumen', ['galon.' => 'Galón', 'galones.' => 'Galones', 'ml.' => 'Mililitros', 'litro.' => 'Litros'], $producto->unidad_volumen, ['class' => 'form-control', 'placeholder' => 'Volumen',  'required']) }}
                 </div>
                 <div class="col-3">
-                    {{ Form::label('peso', 'Ingrese Peso del producto', ['class' => 'form-label']) }}
+                    {{ Form::label('peso', 'Ingrese Peso del producto *', ['class' => 'form-label']) }}
                     {{ Form::text('peso', $producto->peso, ['class' => 'form-control', 'placeholder' => '']) }}
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -70,32 +73,40 @@
                     @endif
                 </div>
                 <div class="col-3">
-                    {{ Form::label('unidad_peso', 'Ingrese Unidad del Peso', ['class' => 'form-label']) }}
-                    {{ Form::select('unidad_peso', ['g' => 'Gramos', 'kg' => 'Kilogramos', 'lb' => 'Libras'], $producto->unidad_peso, ['class' => 'form-control', 'placeholder' => 'Peso']) }}
+                    {{ Form::label('unidad_peso', 'Ingrese Unidad del Peso *', ['class' => 'form-label']) }}
+                    {{ Form::select('unidad_peso', ['grs.' => 'Gramos', 'kgs.' => 'Kilogramos', 'oz.' => 'Onza', 'lb.' => 'Libras'], $producto->unidad_peso, ['class' => 'form-control', 'placeholder' => 'Peso', 'required']) }}
                 </div>
             </div>
         </div>
     </div>
     <div class="col-lg-6">
         <div class="mb-3">
+            {{ Form::label('lote', 'Lote', ['class' => 'form-label']) }}
+            {{ Form::text('lote', $producto->lote, ['class' => 'form-control', 'placeholder' => '']) }}
+        </div>
+        <div class="mb-3">
+            {{ Form::label('marca_id', 'Seleciona la marca *', ['class' => 'form-label']) }}
+            {{ Form::select('marca_id', $marcas, $producto->marca_id, ['class' => 'form-select', 'aria-label' => 'Default select example', 'required', 'placeholder' => 'Selecione una marca']) }}
+        </div>
+        <div class="mb-3">
+            {{ Form::label('origen', 'Origen del producto *', ['class' => 'form-label']) }}
+            {{ Form::select('origen', ['HECHO EN MEXICO' => 'HECHO EN MEXICO', 'HECHO EN USA' => 'HECHO EN USA'], $producto->origen, ['class' => 'form-control', 'placeholder' => 'Origen', 'required']) }}
+        </div>
+        <div class="mb-3">
             {{ Form::label('categoria', 'Seleciona la categoria *', ['class' => 'form-label']) }}
-            {{ Form::select('categoria_id', $categorias, $producto->categoria_id, ['class' => 'form-select', 'aria-label' => 'Default select example', 'required', 'placeholder' => 'Selecione la categoria']) }}
+            {{ Form::select('categoria_id', $categorias, $producto->categoria_id, ['class' => 'form-select', 'aria-label' => 'Default select example', 'required', 'placeholder' => 'Selecione la categoria', 'required']) }}
         </div>
         <div class="mb-3">
-            {{ Form::label('lote', 'Lote *', ['class' => 'form-label']) }}
-            {{ Form::text('lote', $producto->lote, ['class' => 'form-control', 'placeholder' => '', 'required']) }}
+            {{ Form::label('fecha_ingreso', 'Fecha de ingreso', ['class' => 'form-label']) }}
+            {{ Form::date('fecha_ingreso', $producto->fecha_ingreso, ['class' => 'form-control', 'placeholder' => '']) }}
         </div>
         <div class="mb-3">
-            {{ Form::label('fecha_ingreso', 'Fecha de ingreso *', ['class' => 'form-label']) }}
-            {{ Form::date('fecha_ingreso', $producto->fecha_ingreso, ['class' => 'form-control', 'placeholder' => '', 'required']) }}
+            {{ Form::label('unidad_por_caja', 'Unidad por Caja *', ['class' => 'form-label']) }}
+            {{ Form::number('unidad_por_caja', $producto->unidad_por_caja, ['class' => 'form-control', 'placeholder' => '']) }}
         </div>
         <div class="mb-3">
-            {{ Form::label('existencia', 'Unidad por caja *', ['class' => 'form-label']) }}
-            {{ Form::number('existencia', $producto->existencia, ['class' => 'form-control', 'placeholder' => '', 'required']) }}
-        </div>
-        <div class="mb-3">
-            {{ Form::label('existencia_limite', 'Unidad por caja Existencia limite*', ['class' => 'form-label']) }}
-            {{ Form::number('existencia_limite', $producto->existencia_limite, ['class' => 'form-control', 'placeholder' => '', 'required']) }}
+            {{ Form::label('existencia', 'Existencia', ['class' => 'form-label']) }}
+            {{ Form::number('existencia', $producto->existencia, ['class' => 'form-control', 'placeholder' => '']) }}
         </div>
         <div class="mb-3">
             {{ Form::label('etiqueta_destacado', 'Etiqueta para destacar destacar el producto*', ['class' => 'form-label']) }}
@@ -103,9 +114,21 @@
         </div>
         <div class="mb-3">
             <div class="row">
+                <div class="col-6">
+                    {{ Form::label('precio_distribuidor', 'Precio Distribuidor *', ['class' => 'form-label']) }}
+                    {{ Form::number('precio_distribuidor', $producto->precio_distribuidor, ['class' => 'form-control', 'placeholder' => '', 'required' ,'step' => 'any']) }}
+                </div>
+                <div class="col-6">
+                    {{ Form::label('precio_taller', 'Precio Taller *', ['class' => 'form-label']) }}
+                    {{ Form::number('precio_taller', $producto->precio_taller, ['class' => 'form-control', 'placeholder' => '', 'required' ,'step' => 'any']) }}
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="row">
                 <div class="col-3">
-                    {{ Form::label('precio_1', 'Precio principal *', ['class' => 'form-label']) }}
-                    {{ Form::number('precio_1', $producto->precio_1, ['class' => 'form-control', 'placeholder' => '', 'required', 'step' => 'any']) }}
+                    {{ Form::label('precio_1', 'Precio principal', ['class' => 'form-label']) }}
+                    {{ Form::number('precio_1', $producto->precio_1, ['class' => 'form-control', 'placeholder' => '','step' => 'any']) }}
                 </div>
                 <div class="col-3">
                     {{ Form::label('precio_2', 'Segundo Precio', ['class' => 'form-label']) }}
@@ -116,19 +139,16 @@
                     {{ Form::number('precio_3', $producto->precio_3, ['class' => 'form-control', 'placeholder' => '', 'step' => 'any']) }}
                 </div>
                 <div class="col-3">
-                    {{ Form::label('precio_4', 'Cuarto Precio', ['class' => 'form-label']) }}
-                    {{ Form::number('precio_4', $producto->precio_4, ['class' => 'form-control', 'placeholder' => '', 'step' => 'any']) }}
+                    {{ Form::label('precio_oferta', 'Precio Oferta', ['class' => 'form-label']) }}
+                    {{ Form::number('precio_oferta', $producto->precio_oferta, ['class' => 'form-control', 'placeholder' => '', 'step' => 'any']) }}
                 </div>
             </div>
         </div>
-        <div class="mb-3">
-            {{ Form::label('oem', 'OEM del producto', ['class' => 'form-label']) }}
-            {{ Form::text('oem', $producto->OEM, ['class' => 'form-control', 'placeholder' => '']) }}
-        </div>
-        <div class="mb-3">
-            {{ Form::label('garantia', 'Garantia del producto', ['class' => 'form-label']) }}
-            {{ Form::text('garantia', $producto->garantia, ['class' => 'form-control', 'placeholder' => '']) }}
-        </div>
+    </div>
+    <div class="mb-3">
+        {{ Form::label('hoja_seguridad', 'Hoja de seguridad', ['class' => 'form-label']) }}
+        {{ Form::hidden('hoja_seguridad', $producto->hoja_seguridad, ['id' => 'hoja_seguridad']) }}
+        {{ Form::file('hoja_seguridad', ['class' => 'form-control', 'placeholder' => '']) }}
     </div>
     <div class="mb-3">
         {{ Form::label('ficha_tecnica_herf', 'Ficha tecnica del producto', ['class' => 'form-label']) }}

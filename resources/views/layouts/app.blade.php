@@ -78,32 +78,38 @@
                                     <i class="fas fa-folder-open"></i> <span
                                         class="ms-1 d-none d-sm-inline">Ordenes</span></a>
                             </li>
-                            {{-- <div class="divider">Clientes</div>
+                            <div class="divider">Clientes</div>
                             <li>
-                                <a href="{{ url('/dashboard/cliente_lista') }}" class="nav-link px-0 align-middle">
-                                    <i class="fas fa-user"></i> <span class="ms-1 d-none d-sm-inline">Lista de
+                                <a href="{{ url('/dashboard/clientes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/clientes') !== false ? 'active-menu' : '' }}">
+                                    <i class="fas fa-user"></i> <span class="ms-1 d-none d-sm-inline">Rango de
                                         clientes</span></a>
                             </li>
                             <li>
-                                <a href="{{ url('/dashboard/aspirante') }}" class="nav-link px-0 align-middle">
+                                <a href="{{ url('/dashboard/aspirantes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/aspirantes') !== false ? 'active-menu' : '' }}">
                                     <i class="fas fa-users-cog"></i> <span
                                         class="ms-1 d-none d-sm-inline">Aspirantes</span></a>
-                            </li> --}}
+                            </li>
+                            <div class="divider">Informacion de usuario</div>
+                            <li>
+                                <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
+                                    <i class="fas fa-user-edit"></i> <span
+                                        class="ms-1 d-none d-sm-inline">Configuracion de perfil</span></a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/perfil/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/ordenes') !== false ? 'active-menu' : '' }}">
+                                    <i class="fas fa-truck-loading"></i> <span
+                                        class="ms-1 d-none d-sm-inline">Mis ordenes</span></a>
+                            </li>
                         </ul>
                         <hr>
                         <div class="dropdown pb-4">
                             <a href="" class="d-flex align-items-center text-decoration-none dropdown-toggle"
                                 id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
+                                <img src={{ Auth::user()->imagen_perfil_src }} alt="hugenerd" width="30" height="30"
                                     class="rounded-circle">
                                 <span class="d-none d-sm-inline mx-1" style="font-size: 12px">{{ Auth::user()->name }}</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                                <li><a class="dropdown-item" href="#">Configuracion</a></li>
-                                <li><a class="dropdown-item" href="#">perfil</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
                                 <li><a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                   document.getElementById('logout-form').submit();">

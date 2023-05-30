@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
+use Illuminate\Support\Facades\Auth;
 
 class CarritoController extends Controller
 {
@@ -22,13 +23,36 @@ class CarritoController extends Controller
 
         $cart = session()->get('cart', []);
 
+        //validar que clasificacion tiene el cliente para poner un precio u otro
+        if (Auth::user()->clasificacion == 'Cobre') {
+            $precio = $product->precio_1;
+        } elseif (Auth::user()->clasificacion == 'Plata') {
+            $precio = $product->precio_1;
+        } elseif (Auth::user()->clasificacion == 'Oro') {
+            $precio = $product->precio_2;
+        } elseif (Auth::user()->clasificacion == 'Platino') {
+            $precio = $product->precio_3;
+        } elseif (Auth::user()->clasificacion == 'Diamante') {
+            $precio = $product->precio_oferta;
+        } else if (Auth::user()->clasificacion == 'Taller') {
+            $precio = $product->precio_taller;
+        } else if (Auth::user()->clasificacion == 'Reparto') {
+            $precio = $product->precio_distribuidor;
+        }
+
+        
+        //validar si hay existencia del producto
+        if ($product->existencia < $cantidad) {
+            return redirect()->route('carrito.index')->with('toast_error', 'No hay existencia del producto ' . $product->nombre . '');
+        }
+
         if (isset($cart[$product->id])) {
             $cart[$product->id]['cantidad'] += $cantidad;
         } else {
             $cart[$product->id] = [
                 'producto_id' => $product->id,
                 'nombre' => $product->nombre,
-                'precio_1' => $product->precio_1,
+                'precio_1' => $precio,
                 'cantidad' => $cantidad,
                 'existencia' => $product->existencia,
             ];
@@ -47,13 +71,30 @@ class CarritoController extends Controller
 
         $cart = session()->get('cart', []);
 
+        //validar que clasificacion tiene el cliente para poner un precio u otro
+        if (Auth::user()->clasificacion == 'Cobre') {
+            $precio = $product->precio_1;
+        } elseif (Auth::user()->clasificacion == 'Plata') {
+            $precio = $product->precio_1;
+        } elseif (Auth::user()->clasificacion == 'Oro') {
+            $precio = $product->precio_2;
+        } elseif (Auth::user()->clasificacion == 'Platino') {
+            $precio = $product->precio_3;
+        } elseif (Auth::user()->clasificacion == 'Diamante') {
+            $precio = $product->precio_oferta;
+        } else if (Auth::user()->clasificacion == 'Taller') {
+            $precio = $product->precio_taller;
+        } else if (Auth::user()->clasificacion == 'Reparto') {
+            $precio = $product->precio_distribuidor;
+        }
+
         if (isset($cart[$product->id])) {
             $cart[$product->id]['cantidad'] = $cantidad;
         } else {
             $cart[$product->id] = [
                 'producto_id' => $product->id,
                 'nombre' => $product->nombre,
-                'precio_1' => $product->precio_1,
+                'precio_1' => $precio,
                 'cantidad' => $cantidad,
                 'existencia' => $product->existencia,
             ];
@@ -98,5 +139,4 @@ class CarritoController extends Controller
 
         return view('orden.index');
     }
-
 }

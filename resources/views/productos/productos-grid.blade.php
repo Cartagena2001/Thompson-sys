@@ -103,8 +103,22 @@
 
                                 <p class="fs--1 mb-3"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
                                 <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3">
-                                    ${{ $producto->precio_1 }}
-                                    <del class="ms-2 fs--1 text-500">$ {{ $producto->precio_1 + 10 }}</del>
+                                    @if (Auth::user()->clasificacion == "Cobre")
+                                        $ {{ $producto->precio_1 }}
+                                    @elseif (Auth::user()->clasificacion == "Plata")
+                                        $ {{ $producto->precio_1 }}
+                                    @elseif (Auth::user()->clasificacion == "Oro")
+                                        $ {{ $producto->precio_2 }}
+                                    @elseif (Auth::user()->clasificacion == "Platino")
+                                        $ {{ $producto->precio_3 }}
+                                    @elseif (Auth::user()->clasificacion == "Diamante")
+                                        $ {{ $producto->precio_oferta }}
+                                    @elseif (Auth::user()->clasificacion == "Taller")
+                                        $ {{ $producto->precio_taller }}
+                                    @elseif (Auth::user()->clasificacion == "Reparto")
+                                        $ {{ $producto->precio_distribuidor }}
+                                    @endif
+                                    <del class="ms-2 fs--1 text-500">$ {{ $producto->precio_1 + $producto->precio_1 }}</del>
                                 </h5>
                                 <p class="fs--1 mb-1">Estado: <strong
                                         class="text-success">{{ $producto->estadoProducto->estado }}</strong>
