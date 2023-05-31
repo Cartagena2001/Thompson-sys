@@ -11,11 +11,39 @@
     <!--    Document Title-->
     <!-- ===============================================-->
     <title>Representaciones Thompson - El Salvador</title>
-    <meta name="theme-color" content="#ffffff">                                     
+                                     
+
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{url('assets/img/favicons/apple-touch-icon.png')}}"> 
+    <link rel="icon" type="image/png" sizes="32x32" href="{{url('assets/img/favicons/favicon-32x32.png')}}"> 
+    <link rel="icon" type="image/png" sizes="16x16" href="{{url('assets/img/favicons/favicon-16x16.png')}}"> 
+    <link rel="shortcut icon" type="image/x-icon" href="{{url('assets/img/favicons/favicon.ico')}}">         
+    <link rel="manifest" href="{{url('assets/img/favicons/manifest.json')}}">                                
+    <meta name="msapplication-TileImage" content="{{url('assets/img/favicons/mstile-150x150.png')}}">        
+    <meta name="theme-color" content="#ffffff">
+    <script src="{{url('assets/js/config.js')}}"></script>                                                   
+    <script src="{{url('assets/vendors/overlayscrollbars/OverlayScrollbars.min.js')}}"></script>                   
+    <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
+
+{{url('assets/js/theme.js')}}
+
 
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
+
+    <link href="{{url('assets/vendors/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
+    <link href="{{url('assets/vendors/overlayscrollbars/OverlayScrollbars.min.css')}}" rel="stylesheet">  
+    <link href="{{url('assets/css/theme-rtl.css')}}" rel="stylesheet" id="style-rtl">
+    <link href="{{url('assets/css/theme.css')}}" rel="stylesheet" id="style-default">
+    <link href="{{url('assets/css/user-rtl.css')}}" rel="stylesheet" id="user-style-rtl"> 
+    <link href="{{url('assets/css/user.css')}}" rel="stylesheet" id="user-style-default">
+
+
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
@@ -35,7 +63,8 @@
         src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.js">
     </script>
     
-    @vite(['resources/sass/app.scss', 'resources/css/theme-rtl.css', 'resources/css/theme.css', 'resources/css/user-rtl.css', 'resources/css/user.css', 'resources/js/app.js'])
+  {{--   @vite(['resources/sass/app.scss', 'resources/css/theme-rtl.css', 'resources/css/theme.css', 'resources/css/user-rtl.css', 'resources/css/user.css', 'resources/js/app.js'])
+  --}}
 
     <script>
       var isRTL = JSON.parse(localStorage.getItem('isRTL'));
@@ -103,19 +132,22 @@
     <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
-    {{-- <script src="{{url('vendors/popper/popper.min.js')}}"></script>  
-    <script src="{{url('vendors/bootstrap/bootstrap.min.js')}}"></script> 
-    <script src="{{url('vendors/anchorjs/anchor.min.js')}}"></script>  
-    <script src="{{url('vendors/is/is.min.js')}}"></script>
-    <script src="{{url('vendors/swiper/swiper-bundle.min.js')}}"> </script>
-    <script src="{{url('vendors/typed.js/typed.js')}}"></script>
-    <script src="{{url('vendors/fontawesome/all.min.js')}}"></script> 
+    <script src="{{url('assets/vendors/popper/popper.min.js')}}"></script>  
+    <script src="{{url('assets/vendors/bootstrap/bootstrap.min.js')}}"></script> 
+    <script src="{{url('assets/vendors/anchorjs/anchor.min.js')}}"></script>  
+    <script src="{{url('assets/vendors/is/is.min.js')}}"></script>
+    <script src="{{url('assets/vendors/swiper/swiper-bundle.min.js')}}"> </script>
+    <script src="{{url('assets/vendors/typed.js/typed.js')}}"></script>
+    <script src="{{url('assets/vendors/fontawesome/all.min.js')}}"></script> 
     <!--<script src="{{url('vendors/echarts/echarts.min.js')}}"></script>-->  
-    <script src="{{url('vendors/lodash/lodash.min.js')}}"></script>  
+    <script src="{{url('assets/vendors/lodash/lodash.min.js')}}"></script>  
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
-    <script src="{{url('vendors/list.js/list.min.js')}}"></script>  
-    <script src="{{asset('js/theme.js')}}"></script>  --}}
+    <script src="{{url('assets/vendors/list.js/list.min.js')}}"></script>  
+    <script src="{{url('assets/js/theme.js')}}"></script>
 
   </body>
 
 </html>
+
+
+

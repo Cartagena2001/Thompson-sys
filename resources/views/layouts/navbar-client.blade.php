@@ -2,7 +2,7 @@
 
         <div class="container">
 
-          <a class="navbar-brand" href="{{url('/')}}"><img src="{{asset('img/rtthompson-logo.png')}}" title="Ir a Inicio" style="width: 100%; max-width: 200px; height: auto;" class="" alt="rt-logo-img" /></a>
+          <a class="navbar-brand" href="{{url('/')}}"><img src="{{url('assets/img/rtthompson-logo.png')}}" title="Ir a Inicio" style="width: 100%; max-width: 200px; height: auto;" class="" alt="rt-logo-img" /></a>
 
           <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarStandard" aria-controls="navbarStandard" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
@@ -46,10 +46,18 @@
                 </div>
               </li>
 
-              <li id="iniMenu" class="nav-item"><a class="nav-link" href="{{url('/iniciar-sesion')}}">Inicio de Sesión</a></li>
+              @if (Route::has('login'))
 
-              <li id="regMenu" class="nav-item"><a class="nav-link" href="{{url('/registrarse')}}">Registrarse</a></li>
+                @auth
 
+                @else
+                  <li id="iniMenu" class="nav-item"><a class="nav-link" href="{{ route('login') }}">Inicio de Sesión</a></li>
+
+                  @if (Route::has('register'))
+                    <li id="regMenu" class="nav-item"><a class="nav-link" href="{{ route('register') }}">Registrarse</a></li>
+                  @endif
+                @endauth
+              @endif
             </ul>
 
           </div>
@@ -57,3 +65,7 @@
         </div>
 
       </nav>
+
+
+
+
