@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Models\CMS;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $cmsVars = CMS::get()->toArray();
+    return view('welcome',compact('cmsVars'));
+});
+
+//Politica de Privacidad
+Route::get('/politica-de-privacidad', function () {
+    return view('polpriv');
+});
+
+//Terminos y Condiciones
+Route::get('/terminos-y-condiciones', function () {
+    return view('terms');
 });
 
 Auth::routes();
