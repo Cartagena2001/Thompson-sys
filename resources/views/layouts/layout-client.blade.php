@@ -25,10 +25,7 @@
     <meta name="theme-color" content="#ffffff">
     <script src="{{url('assets/js/config.js')}}"></script>                                                   
     <script src="{{url('assets/vendors/overlayscrollbars/OverlayScrollbars.min.js')}}"></script>                   
-    <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
-
-{{url('assets/js/theme.js')}}
-
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
     <!-- ===============================================-->
     <!--    Stylesheets-->

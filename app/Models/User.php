@@ -21,6 +21,24 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'cliente_id_interno',
+        'direccion',
+        'nombre_empresa',
+        'municipio',
+        'departamento',
+        'telefono',
+        'whatsapp',
+        'website',
+        'nit',
+        'nrc',
+        'rol_id',
+        'estado',
+        'clasificacion',
+        'boletin',
+        'fecha_registro',
+        'imagen_perfil_src',
+        'notas',
+        'estatus'
     ];
 
     /**

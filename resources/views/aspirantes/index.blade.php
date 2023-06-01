@@ -100,7 +100,7 @@
     </div>
     <div class="card-body pt-0">
         <div class="table-responsive scrollbar">
-            <table id="table_productos" class="table display">
+            <table id="table_aspirantes" class="table display">
                 <thead>
                     <tr>
                         <th scope="col">Nombre del cliente</th>
@@ -141,12 +141,18 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('#table_productos').DataTable({
+        $('#table_aspirantes').DataTable({
             dom: 'Bfrtip',
             buttons: [
                 'copy', 'excel', 'pdf'
-            ]
+            ],
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            }
         });
     });
 </script>
 @endsection
+
+
+
