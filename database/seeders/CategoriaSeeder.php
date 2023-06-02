@@ -43,10 +43,6 @@ class CategoriaSeeder extends Seeder
             'estado' => 'Activo',
         ]);
         Categoria::create([
-            'nombre' => 'Limpiadores',
-            'estado' => 'Activo',
-        ]);
-        Categoria::create([
             'nombre' => 'Aditivos',
             'estado' => 'Activo',
         ]);
