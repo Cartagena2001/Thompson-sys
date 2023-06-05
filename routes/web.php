@@ -89,4 +89,9 @@ Route::patch('/perfil/configuracion', [App\Http\Controllers\PerfilController::cl
 Route::get('/perfil/ordenes', [App\Http\Controllers\PerfilController::class, 'ordenes'])->name('perfil.ordenes')->middleware('verified');
 Route::get('/perfil/ordenes/detalle/{id}', [App\Http\Controllers\PerfilController::class, 'ordenes_detalle'])->name('perfil.orden.detalle')->middleware('verified');
 
+//Rutas para los reportes
+Route::get('/dashboard/reportes', [App\Http\Controllers\ReportesController::class, 'index'])->name('reportes.index')->middleware('auth');
+Route::get('/dashboard/reportes/productos', [App\Http\Controllers\ReportesController::class, 'productos'])->name('reportes.productos')->middleware('auth');
+Route::get('/dashboard/reportes/clientes', [App\Http\Controllers\ReportesController::class, 'clientes'])->name('reportes.clientes')->middleware('auth');
+
 

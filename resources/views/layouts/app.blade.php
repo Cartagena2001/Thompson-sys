@@ -51,6 +51,12 @@
                                     <i class="fas fa-chart-pie"></i> <span
                                         class="ms-1 d-none d-sm-inline">Dashboard</span></a>
                             </li>
+                            <div class="divider">Reportes</div>
+                            <li>
+                                <a href="{{ url('/dashboard/reportes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/reportes') !== false ? 'active-menu' : '' }}">
+                                    <i class="fas fa-file-word"></i> <span class="ms-1 d-none d-sm-inline">Reportes</span>
+                                </a>
+                            </li>
                             <div class="divider">Productos</div>
                             <li>
                                 <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
