@@ -59,7 +59,7 @@
         <div class="mt-4">
             <h4>Actualizar estado del cliente</h1>
             @if ($aspirante->estatus == 'aspirante')
-                <form action="{{ route('aspirantes.aprovado', $aspirante->id) }}" method="POST">
+                <form action="{{ route('aspirantes.aprobado', $aspirante->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <button class="btn btn-success p-2 p-0" type="submit">Aprobar cliente</button>
