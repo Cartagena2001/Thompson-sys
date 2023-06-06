@@ -70,7 +70,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'estado' => 'activo',
             'rol_id' => 2,
-            'estatus' => 'espera'
+            'estatus' => 'aspirante'
         ]);
     }
 }

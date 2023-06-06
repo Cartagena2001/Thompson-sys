@@ -155,7 +155,7 @@ class UsuarioSeeder extends Seeder
                       'fecha_registro' => '2022-12-11 11:21:44', 
                       'imagen_perfil_src' => 'juancho11122022\juancho_profile.png', 
                       'notas' => '-', 
-                      'estatus' => 'espera',
+                      'estatus' => 'aspirante',
                     ]);
 
         User::create(['cliente_id_interno' => '-', 
@@ -178,7 +178,7 @@ class UsuarioSeeder extends Seeder
                       'fecha_registro' => '2022-12-10 10:05:33', 
                       'imagen_perfil_src' => 'lucho10122022\lucho_profile.png', 
                       'notas' => '-', 
-                      'estatus' => 'espera',
+                      'estatus' => 'aspirante',
                     ]);
 
     }

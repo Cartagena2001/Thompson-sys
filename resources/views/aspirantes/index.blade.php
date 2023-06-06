@@ -56,7 +56,7 @@
             </div>
             <!--/.bg-holder-->
             <div class="card-body position-relative">
-                <h6>Clientes Aprovados</h6>
+                <h6>Clientes Aprobados</h6>
                 <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info"
                     data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
                     {{-- contar los productos activos de la base de datos --}}
