@@ -18,17 +18,17 @@
     </div>
     <div class="card-body position-relative mt-4">
         <div class="row">
-            <div class="col-lg-8">
-                <h3>🎯 Aspirantes a clientes 🎯</h3>
-                <p class="mt-2">En esta sección se muestran los aspirantes a clientes que se han registrado en la
+            <div class="col-lg-12">
+                <h1 class="text-center">🎯 Aspirantes a Clientes 🎯</h1>
+                <p class="mt-4 mb-4 text-center">En esta sección se muestran los aspirantes a clientes que se han registrado en la
                     plataforma.</p>
             </div>
-            <div>
+            <div class="text-center mb-4">
                 <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/aspirantes') }}">
                     <span class="fas fa-long-arrow-alt-left me-sm-2">
                     </span>
                     <span class="d-none d-sm-inline-block">
-                        Volver atras
+                        Volver Atrás
                     </span>
                 </a>
             </div>
@@ -39,40 +39,87 @@
 <div class="card mb-3">
 
     <div class="card-body">
-        <div class="mt-3">
-            <h2>Cliente: {{ $aspirante->name }} </h2>
+
+        <div class="mt-3 mb-4">
+            <h4 class="text-center">Nombre del contacto: <br/> <span style="color: #ff161f">{{ $aspirante->name }}</span> </h4>
         </div>
-        <div>
-            <a href="mailto:{{ $aspirante->email }}">Correo: {{ $aspirante->email }} <br></a>
-            Direccion: {{ $aspirante->direccion }} <br>
-            Municipio: {{ $aspirante->municipio }} <br>
-            Departamento: {{ $aspirante->departamento }} <br>
-            Telefono: {{ $aspirante->telefono }} <br>
-            WhatsApp: {{ $aspirante->whatsapp }} <br>
-            <a href="http://{{ $aspirante->website }}" target="__blank">Pagina web: {{ $aspirante->website }} <br></a>
+
+        <hr/>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <p class="mt-4 mb-4 text-end" style="font-size: 18px;">
+                    <span class="font-weight-bold" style="color:#000;">Correo Electrónico:</span> <br>
+                    <span class="font-weight-bold" style="color:#000;">Dirección:</span> <br>
+                    <span class="font-weight-bold" style="color:#000;">Municipio:</span> <br>
+                    <span class="font-weight-bold" style="color:#000;">Departamento:</span> <br>
+                    <span class="font-weight-bold" style="color:#000;">Teléfono:</span> <br>
+                    <span class="font-weight-bold" style="color:#000;">WhatsApp:</span> <br>
+                    <span class="font-weight-bold" style="color:#000;">Sitio Web: </span>
+                </p>
+            </div>
+            <div class="col-sm-6">
+                <p class="mt-4 mb-4 text-start" style="font-size: 18px;">
+                    <a href="mailto:{{ $aspirante->email }}" title="contactar" target="_blank">{{ $aspirante->email }}</a><br>
+                    {{ $aspirante->direccion }} <br>
+                    {{ $aspirante->municipio }} <br>
+                    {{ $aspirante->departamento }} <br>
+                    {{ $aspirante->telefono }} <br>
+                    {{ $aspirante->whatsapp }} <br>
+                    <a href="http://{{ $aspirante->website }}" title="Ir a" target="_blank">{{ $aspirante->website }} <br></a>
+                </p>
+            </div>
         </div>
-        <div class="mt-1">
-            <h2>Empresa: {{ $aspirante->nombre_empresa }}</h2>
-            <h2>NIT: {{ $aspirante->nit }}</h2>
-            <h2>NIT: {{ $aspirante->nrc }}</h2>
+        
+        <hr/>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <p class="mt-4 mb-4 text-end" style="font-size: 18px;">
+                    <span class="font-weight-bold" style="color:#000;">Empresa:</span> <br>
+                    <span class="font-weight-bold" style="color:#000;">NIT:</span> <br>
+                    <span class="font-weight-bold" style="color:#000;">NIT:</span> <br>
+                </p>
+            </div>
+            <div class="col-sm-6">
+                <p class="mt-4 mb-4 text-start" style="font-size: 18px;">
+                    {{ $aspirante->nombre_empresa }} <br>
+                    {{ $aspirante->nit }} <br>
+                    {{ $aspirante->nrc }} <br>
+                </p>
+            </div>
         </div>
-        <div class="mt-4">
-            <h4>Actualizar estado del cliente</h1>
+
+        <hr/>
+
+        <div class="row mb-4">
+
+            <h4 class="text-center mb-4">Actualizar Estado:</h4>
+
+            <div class="col-sm-6">
+                <div class="text-end">
             @if ($aspirante->estatus == 'aspirante')
                 <form action="{{ route('aspirantes.aprobado', $aspirante->id) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <button class="btn btn-success p-2 p-0" type="submit">Aprobar cliente</button>
+                    <button class="btn btn-success p-2 p-0" type="submit">Aprobar Cliente</button>
                 </form>
             @endif
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="text-start">
             @if ($aspirante->estatus == 'aspirante')
                 <form action="{{ route('aspirantes.rechazado', $aspirante->id) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <button class="btn btn-primary p-2 p-0 mt-1" type="submit">Rechazar cliente</button>
+                    <button class="btn btn-primary p-2 p-0" type="submit">Rechazar Cliente</button>
                 </form>
             @endif
+                </div>
+            </div>
         </div>
-    </div>
+
 </div>
 @endsection
