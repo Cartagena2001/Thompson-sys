@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Exports\ProductosExport;
 use App\Exports\ClientesExport;
+use App\Exports\MarcasExport;
+use App\Exports\CategoriasExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\User;
 
@@ -32,4 +34,16 @@ class ReportesController extends Controller
 
         return Excel::download(new ClientesExport($estado), $nombreArchivo);
     }
+
+    public function marcas()
+    {
+        return Excel::download(new MarcasExport, 'marcas.xlsx');
+    }
+
+    public function categorias()
+    {
+        return Excel::download(new CategoriasExport, 'categorias.xlsx');
+    }
+
+
 }

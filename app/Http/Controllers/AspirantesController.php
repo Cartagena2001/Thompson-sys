@@ -23,7 +23,7 @@ class AspirantesController extends Controller
     public function aprovado($id)
     {
         $aspirante = User::find($id);
-        $aspirante->estatus = 'aprovado';
+        $aspirante->estatus = 'aprobado';
         $aspirante->save();
         return redirect('/dashboard/aspirantes')->with('toast_success', 'Se actualizo el estado del aspirante a Aprobado');
     }

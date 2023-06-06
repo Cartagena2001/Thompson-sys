@@ -43,6 +43,7 @@
                     <?php
                     $clientesCobre = DB::table('users')
                         ->where('clasificacion', 'Cobre')
+                        ->where('estatus', 'aprobado')
                         ->get();
                     echo count($clientesCobre);
                     ?>
@@ -64,6 +65,7 @@
                     <?php
                     $clientesPlata = DB::table('users')
                         ->where('clasificacion', 'Plata')
+                        ->where('estatus', 'aprobado')
                         ->get();
                     echo count($clientesPlata);
                     ?> </div>
@@ -84,6 +86,7 @@
                     <?php
                     $ordenesPlatino = DB::table('users')
                         ->where('clasificacion', 'Platino')
+                        ->where('estatus', 'aprobado')
                         ->get();
                     echo count($ordenesPlatino);
                     ?> </div>
@@ -104,6 +107,7 @@
                     <?php
                     $ordenesDiamante = DB::table('users')
                         ->where('clasificacion', 'Diamante')
+                        ->where('estatus', 'aprobado')
                         ->get();
                     echo count($ordenesDiamante);
                     ?> </div>
@@ -124,6 +128,7 @@
                     <?php
                     $ordenesTaller = DB::table('users')
                         ->where('clasificacion', 'Taller')
+                        ->where('estatus', 'aprobado')
                         ->get();
                     echo count($ordenesTaller);
                     ?> </div>
@@ -144,6 +149,7 @@
                     <?php
                     $ordenesDistribuidor = DB::table('users')
                         ->where('estatus', 'Distribuidor')
+                        ->where('estatus', 'aprobado')
                         ->get();
                     echo count($ordenesDistribuidor);
                     ?> </div>
@@ -158,7 +164,26 @@
                 <h5 class="mb-0" data-anchor="data-anchor">Tabla de clientes</h5>
             </div>
         </div>
+        <div class="row mt-4">
+            <div class="col-4">
+                <label for="filtro_rango">Filtrar por rango de clientes:</label>
+                <select class="form-select" id="filtro_rango">
+                    <option value="">Todos los clientes</option>
+                    <option value="cobre">Cobre</option>
+                    <option value="plata">Plata</option>
+                    <option value="oro">Oro</option>
+                    <option value="platino">Platino</option>
+                    <option value="diamante">Diamante</option>
+                    <option value="taller">Taller</option>
+                    <option value="reparto">Distribucion</option>
+                </select>
+            </div>
+            <div class="col-3 mt-4">
+                <button class="btn btn-primary" id="limpiar_filtro">Limpiar filtro</button>
+            </div>
+        </div>
     </div>
+
     <div class="card-body pt-0">
         <div class="table-responsive scrollbar">
             <table id="table_productos" class="table display">
@@ -196,14 +221,26 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('#table_productos').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'excel', 'pdf'
-            ],
+        var table = $('#table_productos').DataTable({
             language: {
                 url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
             }
+        });
+
+        var filtroColumna = table.column(3);
+
+        $('#filtro_rango').on('change', function() {
+            var filtro = $(this).val();
+
+            if (filtro === '') {
+                filtroColumna.search('').draw();
+            } else {
+                filtroColumna.search('^' + filtro + '$', true, false).draw();
+            }
+        });
+
+        $('#limpiar_filtro').on('click', function() {
+            $('#filtro_rango').val('').trigger('change');
         });
     });
 </script>
