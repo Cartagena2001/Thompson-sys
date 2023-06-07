@@ -53,11 +53,30 @@
             <div class="card-body">
                 <div class="mt-1">
                     <h5>Reportes de categorias</h5>
-                    <span>Obten los reporte de tus categorias que estan registradas en tu sistema en formato Excel</span>
+                    <span>Obten los reporte de tus categorias que estan registradas en tu sistema en formato
+                        Excel</span>
                 </div>
                 <div class="mt-1">
                     <a href="{{ url('/dashboard/reportes/categorias') }}" class="btn btn-primary">Generar reporte</a>
                 </div>
+            </div>
+        </div>
+        <div class="card mb-3 col-4">
+            <div class="card-body">
+                <h5>Reportes de ordenes</h5>
+                <span>Obten los reporte de tus ordenes que estan registradas en tu sistema en formato Excel</span>
+                <form action="{{ url('/dashboard/reportes/ordenes') }}" method="GET">
+                    <div class="form-group">
+                        <label for="estado">Estado:</label>
+                        <select name="estadoOrden" id="estadoOrden" class="form-control">
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En proceso">Progreso</option>
+                            <option value="Finalizada">Finazliada</option>
+                            <option value="Cancelada">Cancelada</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Generar reporte</button>
+                </form>
             </div>
         </div>
     </div>

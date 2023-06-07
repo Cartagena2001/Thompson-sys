@@ -31,57 +31,60 @@
                         Volver atras
                     </span>
                 </a>
+                <button id="imprimir_btn" class="btn btn-sm btn-primary" type="button"><i class="fas fa-print"></i> Imprimir detalle de la orden</button>
             </div>
         </div>
     </div>
 </div>
 {{-- Cards de informacion --}}
 <div class="card mb-3">
-
+    
     <div class="card-body">
-        <div class="mt-3">
-            <h2>Cliente: {{ $orden->user->name }} </h2>
-            <h3>Tipo de cliente: {{ $orden->user->clasificacion }} </h3>
-            <span>Empresa: {{ $orden->user->nombre_empresa }}</span> <br>
-            <span>NIT: {{ $orden->user->nit }}</span><br>
-            <span>NRC: {{ $orden->user->nrc }}</span>
-        </div>
-        <div>
-            Orden #{{ $orden->id }} <br>
-            Fecha: {{ $orden->created_at }} <br>
-            <span class="text-warning">Estado: {{ $orden->estado }} <br></span>
-        </div>
-        <div class="table-responsive scrollbar mt-4">
-            <table id="table_detalle" class="table display">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio</th>
-                        <th>Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($detalle as $detalles)
+        <div id="contenido-imprimir">
+            <div class="mt-3">
+                <h2>Cliente: {{ $orden->user->name }} </h2>
+                <h3>Tipo de cliente: {{ $orden->user->clasificacion }} </h3>
+                <span>Empresa: {{ $orden->user->nombre_empresa }}</span> <br>
+                <span>NIT: {{ $orden->user->nit }}</span><br>
+                <span>NRC: {{ $orden->user->nrc }}</span>
+            </div>
+            <div>
+                Orden #{{ $orden->id }} <br>
+                Fecha: {{ $orden->created_at }} <br>
+                <span class="text-warning">Estado: {{ $orden->estado }} <br></span>
+            </div>
+            <div class="table-responsive scrollbar mt-4">
+                <table id="table_detalle" class="table display">
+                    <thead>
                         <tr>
-                            <td>{{ $detalles->producto->nombre }}</td>
-                            <td>{{ $detalles->cantidad }}</td>
-                            <td>{{ $detalles->producto->precio_1 }}</td>
-                            <td>{{ $detalles->cantidad * $detalles->producto->precio_1 }}</td>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
                         </tr>
-                    @endforeach
-                    @php
-                        $total = 0;
-                        foreach ($detalle as $detalles) {
-                            $total += $detalles->cantidad * $detalles->producto->precio_1;
-                        }
-                    @endphp
-                    <tr>
-                        <td colspan="3"><strong>Total a pagar</strong></td>
-                        <td>{{ $total }}</td>
-                    </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($detalle as $detalles)
+                            <tr>
+                                <td>{{ $detalles->producto->nombre }}</td>
+                                <td>{{ $detalles->cantidad }}</td>
+                                <td>{{ $detalles->producto->precio_1 }}</td>
+                                <td>{{ $detalles->cantidad * $detalles->producto->precio_1 }}</td>
+                            </tr>
+                        @endforeach
+                        @php
+                            $total = 0;
+                            foreach ($detalle as $detalles) {
+                                $total += $detalles->cantidad * $detalles->producto->precio_1;
+                            }
+                        @endphp
+                        <tr>
+                            <td colspan="3"><strong>Total a pagar</strong></td>
+                            <td>{{ $total }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         @if ($orden->estado == 'Finalizada' || $orden->estado == 'Cancelada')
             <h4>La orden ha sido finazalidada</h1>
@@ -115,4 +118,16 @@
 
     </div>
 </div>
+<script>
+    document.getElementById('imprimir_btn').addEventListener('click', function() {
+        var contenidoImprimir = document.getElementById('contenido-imprimir').innerHTML;
+
+        var ventanaImpresion = window.open('', '_blank');
+        ventanaImpresion.document.write('<html><head><title>Detalle Orden</title></head><body>' +
+            contenidoImprimir + '</body></html>');
+        ventanaImpresion.document.close();
+        ventanaImpresion.print();
+        ventanaImpresion.close();
+    });
+</script>
 @endsection
