@@ -78,7 +78,7 @@
                 <p class="mt-4 mb-4 text-end" style="font-size: 18px;">
                     <span class="font-weight-bold" style="color:#000;">Empresa:</span> <br>
                     <span class="font-weight-bold" style="color:#000;">NIT:</span> <br>
-                    <span class="font-weight-bold" style="color:#000;">NIT:</span> <br>
+                    <span class="font-weight-bold" style="color:#000;">NRC:</span> <br>
                 </p>
             </div>
             <div class="col-sm-6">
