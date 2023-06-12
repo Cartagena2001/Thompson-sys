@@ -35,19 +35,45 @@
 
 <body class="test">
 
-    <div id="app">
-        <div class="container-fluid">
+    <header>
+        <div class="row" style="background-color: #000;">
 
-            <div class="row" style="background-color: #000;">
-                <div class="col-lg-12 text-center pb-3 pt-3 mb-md-0 me-md-auto">
-                    <a href="/" class="text-decoration-none"><img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="" width="200"></a>
-                    <hr/>
-                </div>
+            <div class="col-lg-12 text-center pb-3 pt-3 mb-md-0 me-md-auto">
+                <a href="/" class="text-decoration-none"><img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="" width="200"></a>
+                <hr/>
             </div>
+
+            <div class="col-lg-12 text-center pb-2 pt-2 my-2">
+                <div class="dropdown flex-center">
+                    <a href="" class="d-flex align-items-center text-decoration-none dropdown-toggle"
+                        id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src={{ Auth::user()->imagen_perfil_src }} alt="img-perfil" width="30" height="30" class="rounded-circle" />
+                        <span class="d-none d-sm-inline mx-1" style="font-size: 12px">{{ Auth::user()->name }}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                        <li><a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                          document.getElementById('logout-form').submit();">
+                             {{ __('Cerrar Sesión') }}
+                         </a>
+                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                        </li>
+                    </ul>
+                </div>                
+            </div>
+
+        </div>
+    </header>
+    
+
+    <div class="pb-6" id="app">
+        <div class="container-fluid">
 
             <div class="row flex-nowrap">
 
-                <div class="col-auto col-md-4 col-xl-2 px-sm-3 px-0 pb-6 nav-thompson">
+                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 py-5 px-4 nav-thompson">
 
                     <div class="d-flex flex-column align-items-center align-items-sm-start px-5 pt-2 text-white min-vh-100">
                         
@@ -121,7 +147,7 @@
 
                                 <li><hr/></li>
 
-                                <div class="divider"><h5 class="rt-color-1 ">- Reportes Y Estadísticas</h5></div>
+                                <div class="divider"><h5 class="rt-color-1 ">- Datos</h5></div>
 
                                 <li>
                                     <a href="{{ url('/dashboard/reportes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/reportes') !== false ? 'active-menu' : '' }}">
@@ -188,32 +214,11 @@
 
                         </ul>
 
-  
-
-                        <div class="dropdown pb-6">
-                            <a href="" class="d-flex align-items-center text-decoration-none dropdown-toggle"
-                                id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src={{ Auth::user()->imagen_perfil_src }} alt="img-perfil" width="30" height="30" class="rounded-circle" />
-                                <span class="d-none d-sm-inline mx-1" style="font-size: 12px">{{ Auth::user()->name }}</span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                                <li><a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                  document.getElementById('logout-form').submit();">
-                                     {{ __('Cerrar Sesión') }}
-                                 </a>
-                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                                </li>
-                            </ul>
-                        </div>
-
                     </div>
 
                 </div>
 
-                <div class="col py-5 px-5">
+                <div class="col-12 col-sm-9 col-md-9 col-lg-9 col-xl-9 py-5 px-4">
                     @yield('content')
                 </div>
 

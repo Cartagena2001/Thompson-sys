@@ -34,7 +34,7 @@ class UsuarioSeeder extends Seeder
                       'clasificacion' => '-', 
                       'boletin' => '0', 
                       'fecha_registro' => '2022-12-05 08:11:33', 
-                      'imagen_perfil_src' => 'pedro05122022\pedro_profile.png', 
+                      'imagen_perfil_src' => '/assets/img/perfil-user/pedro-img-profile.png', 
                       'notas' => '-', 
                       'estatus' => 'otro',
                     ]);
@@ -57,14 +57,14 @@ class UsuarioSeeder extends Seeder
                       'clasificacion' => '-', 
                       'boletin' => '0', 
                       'fecha_registro' => '2022-12-08 09:10:21', 
-                      'imagen_perfil_src' => 'guill08122022\guill_profile.png', 
+                      'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png', 
                       'notas' => '-', 
                       'estatus' => 'otro',
                     ]);
 
         User::create(['cliente_id_interno' => '-', 
                       'name' => 'Guillermo Flores', 
-                      'email' => 'thompson.guillermoflores@gmail.com', 
+                      'email' => 'thompson.guillermof@gmail.com', 
                       'direccion' => '-', 
                       'nombre_empresa' => '-', 
                       'municipio' => '-', 
@@ -80,7 +80,7 @@ class UsuarioSeeder extends Seeder
                       'clasificacion' => '-', 
                       'boletin' => '0', 
                       'fecha_registro' => '2022-12-05 08:12:43', 
-                      'imagen_perfil_src' => 'guillf05122022\guillf_profile.png', 
+                      'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png', 
                       'notas' => '-', 
                       'estatus' => 'otro',
                     ]);
@@ -103,7 +103,7 @@ class UsuarioSeeder extends Seeder
                       'clasificacion' => '-', 
                       'boletin' => '0', 
                       'fecha_registro' => '2023-01-05 10:12:56', 
-                      'imagen_perfil_src' => 'jonam05012023\esan_profile.png', 
+                      'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png', 
                       'notas' => '-', 
                       'estatus' => 'otro',
                     ]);
@@ -128,7 +128,7 @@ class UsuarioSeeder extends Seeder
                       'clasificacion' => 'Plata', 
                       'boletin' => '1', 
                       'fecha_registro' => '2023-01-06 15:12:44', 
-                      'imagen_perfil_src' => 'donap06012023\donap_profile.png', 
+                      'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png', 
                       'notas' => '-', 
                       'estatus' => 'aprobado',
                     ]);
@@ -153,7 +153,7 @@ class UsuarioSeeder extends Seeder
                       'clasificacion' => '-', 
                       'boletin' => '1', 
                       'fecha_registro' => '2022-12-11 11:21:44', 
-                      'imagen_perfil_src' => 'juancho11122022\juancho_profile.png', 
+                      'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png', 
                       'notas' => '-', 
                       'estatus' => 'aspirante',
                     ]);
@@ -176,7 +176,7 @@ class UsuarioSeeder extends Seeder
                       'clasificacion' => '-', 
                       'boletin' => '0', 
                       'fecha_registro' => '2022-12-10 10:05:33', 
-                      'imagen_perfil_src' => 'lucho10122022\lucho_profile.png', 
+                      'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png', 
                       'notas' => '-', 
                       'estatus' => 'aspirante',
                     ]);
