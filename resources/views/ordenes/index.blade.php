@@ -97,6 +97,21 @@
                 <h5 class="mb-0" data-anchor="data-anchor">Tabla de Ordenes</h5>
             </div>
         </div>
+        <div class="row mt-4">
+            <div class="col-4">
+                <label for="filtro_estado">Filtrar por estado de orden</label>
+                <select class="form-select" id="filtro_estado">
+                    <option value="">Todos los estados</option>
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="En Proceso">En Proceso</option>
+                    <option value="Finalizada">Finalizada</option>
+                    <option value="Cancelada">Cancelada</option>
+                </select>
+            </div>
+            <div class="col-3 mt-4">
+                <button class="btn btn-primary" id="limpiar_filtro">Limpiar filtro</button>
+            </div>
+        </div>
     </div>
     <div class="card-body pt-0">
         <div class="table-responsive scrollbar">
@@ -137,21 +152,6 @@
                                                 class="text-500 fas fa-eye"></span> Ver Orden</button></a>
                                     @csrf
                                 </form>
-                                {{-- @if ($orden->estado == 'Pendiente')
-                                    <form action="{{ route('ordenes.enProceso', $orden->id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <button class="btn btn-info p-2 p-0 ms-2" type="submit">Actualizar En
-                                            Progreso</button>
-                                    </form>
-                                @elseif($orden->estado == 'En proceso')
-                                    <form action="{{ route('ordenes.finalizada', $orden->id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <button class="btn btn-info p-2 p-0 ms-2" type="submit">Actualizar a
-                                            Finalizada</button>
-                                    </form>
-                                @endif --}}
                             </td>
                         </tr>
                     @endforeach
@@ -162,14 +162,26 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('#table_productos').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'excel', 'pdf'
-            ],
+        var table = $('#table_productos').DataTable({
             language: {
                 url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
             }
+        });
+
+        var filtroColumna = table.column(2);
+
+        $('#filtro_estado').on('change', function() {
+            var filtro = $(this).val();
+
+            if (filtro === '') {
+                filtroColumna.search('').draw();
+            } else {
+                filtroColumna.search('^' + filtro + '$', true, false).draw();
+            }
+        });
+
+        $('#limpiar_filtro').on('click', function() {
+            $('#filtro_estado').val('').trigger('change');
         });
     });
 </script>

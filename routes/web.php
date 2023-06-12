@@ -93,5 +93,8 @@ Route::get('/perfil/ordenes/detalle/{id}', [App\Http\Controllers\PerfilControlle
 Route::get('/dashboard/reportes', [App\Http\Controllers\ReportesController::class, 'index'])->name('reportes.index')->middleware('auth');
 Route::get('/dashboard/reportes/productos', [App\Http\Controllers\ReportesController::class, 'productos'])->name('reportes.productos')->middleware('auth');
 Route::get('/dashboard/reportes/clientes', [App\Http\Controllers\ReportesController::class, 'clientes'])->name('reportes.clientes')->middleware('auth');
+Route::get('/dashboard/reportes/marcas', [App\Http\Controllers\ReportesController::class, 'marcas'])->name('reportes.marcas')->middleware('auth');
+Route::get('/dashboard/reportes/categorias', [App\Http\Controllers\ReportesController::class, 'categorias'])->name('reportes.categorias')->middleware('auth');
+Route::get('/dashboard/reportes/ordenes', [App\Http\Controllers\ReportesController::class, 'ordenes'])->name('reportes.ordenes')->middleware('auth');
 
 
