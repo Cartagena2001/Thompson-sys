@@ -107,6 +107,30 @@ class UsuarioSeeder extends Seeder
                       'notas' => '-', 
                       'estatus' => 'otro',
                     ]);
+        
+        //Bódega
+        User::create(['cliente_id_interno' => '-', 
+                      'name' => 'Jonathan Meza', 
+                      'email' => 'thompson.jonathanmeza@gmail.com', 
+                      'direccion' => '-', 
+                      'nombre_empresa' => '-', 
+                      'municipio' => '-', 
+                      'departamento' => '-', 
+                      'password' => bcrypt('bodega_123*'), 
+                      'telefono' => '-', 
+                      'whatsapp' => '-', 
+                      'website' => '-', 
+                      'nit' => null, 
+                      'nrc' => null, 
+                      'rol_id' => 1, 
+                      'estado' => 'activo', 
+                      'clasificacion' => '-', 
+                      'boletin' => '0', 
+                      'fecha_registro' => '2023-12-06 16:12:56', 
+                      'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png', 
+                      'notas' => '-', 
+                      'estatus' => 'otro',
+                    ]);
 
 
         //Clientes
