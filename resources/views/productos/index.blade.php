@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="text-center">🏷️ Productos 🏷️</h1>
-                <p class="mt-4 mb-4 text-center">Administracion de productos <b>para Thompson.</b> Aqui podras encontrar todas los
+                <p class="mt-4 mb-4 text-center">Administración de productos <b>para Thompson.</b> Aqui podras encontrar todas los
                     productos, y tener un control como cuantos productos hay en stock, cuandos falta de stock, editar,
                     agregar e eliminar.
                 </p>

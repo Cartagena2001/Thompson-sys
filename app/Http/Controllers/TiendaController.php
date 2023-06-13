@@ -18,13 +18,13 @@ class TiendaController extends Controller
      */
     public function index(Request $request)
     {
-        $productos = Producto::simplePaginate(10);
+        $productos = Producto::paginate(12);
 
         //if ver si esta selecionado el filtro de categoria
         if($request->has('categoria')){
             $categoria_id = $request->input('categoria');
             
-            $productos = Producto::where('categoria_id', $categoria_id)->simplePaginate(10);
+            $productos = Producto::where('categoria_id', $categoria_id)->paginate(12);
         }
 
         $categoriaActual = $request->input('categoria');

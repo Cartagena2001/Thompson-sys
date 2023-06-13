@@ -42,7 +42,7 @@ if ($producto->etiqueta_destacado == 1) {
 <div class="card mb-3">
     <div class="col-auto px-2 px-md-3 mt-3"><a class="btn btn-sm btn-primary" href="{{ url('/dashboard/tienda') }}"><span
                 class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block">Volver
-                atras</span></a></div>
+                atrás</span></a></div>
     <div class="card-body mb-8">
         <div class="row">
             <div class="col-lg-6 mb-lg-0">
@@ -135,7 +135,7 @@ if ($producto->etiqueta_destacado == 1) {
                 </h3>
                 <span>• Unidad por caja: {{ $producto->unidad_por_caja }}</span>
                 <br>
-                <span>• Pais de origen: {{ $producto->origen }}</span>
+                <span>• País de origen: {{ $producto->origen }}</span>
                 <br>
                 <span>• Garantia: {{ $producto->garantia }}</span> <br>
                 <div class="row">
@@ -154,7 +154,7 @@ if ($producto->etiqueta_destacado == 1) {
                             </div>
                         </div>
                         <button class="btn btn-x btn-primary" type="submit"> <span
-                                class="fas fa-cart-plus me-sm-2"></span>Agregar al carrito</button>
+                                class="fas fa-cart-plus me-sm-2"></span>Agregar al Carrito</button>
                     </form>
                 </div>
             </div>
