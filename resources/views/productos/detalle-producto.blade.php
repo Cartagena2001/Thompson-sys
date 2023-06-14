@@ -2,31 +2,33 @@
 
 @section('content')
 @section('title', $producto->nombre)
+
 {{-- Titulo --}}
+
 <?php
 //hacer un if para ver si el producto tiene imagen o no
 if ($producto->imagen_1_src != null) {
     $imagen = "{$producto->imagen_1_src}";
 } else {
-    $imagen = '../../../assets/img/products/default.webp';
+    $imagen = '../../../assets/img/products/demo-product-img.jpg';
 }
 
 if ($producto->imagen_2_src != null) {
     $imagen2 = "{$producto->imagen_2_src}";
 } else {
-    $imagen2 = '../../../assets/img/products/default.webp';
+    $imagen2 = '../../../assets/img/products/demo-product-img.jpg';
 }
 
 if ($producto->imagen_3_src != null) {
     $imagen3 = "{$producto->imagen_3_src}";
 } else {
-    $imagen3 = '../../../assets/img/products/default.webp';
+    $imagen3 = '../../../assets/img/products/demo-product-img.jpg';
 }
 
 if ($producto->imagen_4_src != null) {
     $imagen4 = "{$producto->imagen_4_src}";
 } else {
-    $imagen4 = '../../../assets/img/products/default.webp';
+    $imagen4 = '../../../assets/img/products/demo-product-img.jpg';
 }
 
 //verificar si el producto tiene la etiqueta de destacado
@@ -36,13 +38,13 @@ if ($producto->etiqueta_destacado == 1) {
     $destacado = '';
 }
 ?>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
 <div class="card mb-3">
     <div class="col-auto px-2 px-md-3 mt-3"><a class="btn btn-sm btn-primary" href="{{ url('/dashboard/tienda') }}"><span
-                class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block">Volver
-                atrás</span></a></div>
+                class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block">Volver Atrás</span></a></div>
     <div class="card-body mb-8">
         <div class="row">
             <div class="col-lg-6 mb-lg-0">
@@ -51,10 +53,10 @@ if ($producto->etiqueta_destacado == 1) {
                         <div class="">
                             <div class="swiper mySwiper img-detalle-producto">
                                 <div class="swiper-wrapper">
-                                    <img class="swiper-slide img-fluid" src="{{ $imagen }}">
-                                    <img class="swiper-slide img-fluid" src="{{ $imagen2 }}">
-                                    <img class="swiper-slide img-fluid" src="{{ $imagen3 }}">
-                                    <img class="swiper-slide img-fluid" src="{{ $imagen4 }}">
+                                    <img style="width: 100%; height: auto;" class="swiper-slide img-fluid" src="{{ $imagen }}">
+                                    <img style="width: 100%; height: auto;" class="swiper-slide img-fluid" src="{{ $imagen2 }}">
+                                    <img style="width: 100%; height: auto;" class="swiper-slide img-fluid" src="{{ $imagen3 }}">
+                                    <img style="width: 100%; height: auto;" class="swiper-slide img-fluid" src="{{ $imagen4 }}">
                                 </div>
                                 <div class="swiper-button-next"></div>
                                 <div class="swiper-button-prev"></div>
@@ -98,16 +100,24 @@ if ($producto->etiqueta_destacado == 1) {
                 </script>
 
             </div>
+            
             <div class="col-lg-6">
-                <h2>{{ $producto->nombre }}</h2><a class="mb-2 d-block">
-                    Categoria:
-                    {{ $producto->categoria->nombre }}
+                
+                <h3>{{ $producto->nombre }}</h3>
+
+                <div class="mt-3 mb-3 d-block">
+                    <span class="rt-color-2 font-weight-bold">Categoría: </span> <a href="#" target="_self" title="Ver">{{ $producto->categoria->nombre }}</a>
                     <br>
-                    Marca:
-                    {{ $producto->marca->nombre }}</a>
+                    <span class="rt-color-2 font-weight-bold">Marca: </span> <a href="#" target="_self" title="Ver">{{ $producto->marca->nombre }}</a>
+                </div>
+                
                 <span class="badge rounded-pill bg-info mt-2 mb-2 z-index-2 top-0 end-0">{{ $destacado }}</span>
-                <p class="text-justify">{{ $producto->descripcion }}</p>
-                <h3 class="d-flex align-items-center"><span style="color: #F3151E">
+
+                <span class="rt-color-2 font-weight-bold">Descripción: </span>
+                <p class="text-justify mb-4">{{ $producto->descripcion }}</p>
+
+                <h3 class="d-flex align-items-center mb-4">
+                    <span style="color: #F3151E">
                         @if (Auth::user()->clasificacion == 'Cobre')
                             $ {{ $producto->precio_1 }}
                         @elseif (Auth::user()->clasificacion == 'Plata')
@@ -122,22 +132,26 @@ if ($producto->etiqueta_destacado == 1) {
                             $ {{ $producto->precio_taller }}
                         @elseif (Auth::user()->clasificacion == 'Reparto')
                             $ {{ $producto->precio_distribuidor }}
-                        @endif C/Producto
-                    </span><span class="me-1 fs--1 text-500">
-                    </span></h3>
+                        @endif 
+                        <span class="rt-color-2">c/producto</span>
+                    </span>
+                    <span class="me-1 fs--1 text-500"></span>
+                </h3>
+
                 @if ($producto->existencia == 0)
-                    <h3 class="fs--1"><span style="color: #F3151E">Producto
-                            agotado</span></h3>
+                    <h3 class="fs--1"><span style="color: #F3151E">Producto agotado</span></h3>
                 @else
-                    <h3 class="fs--1"><span style="color: #F3151E">En Stock:
-                            {{ $producto->existencia }} productos</span></h3>
+                    <h3 class="fs--1"><span style="color: #F3151E">En Stock: {{ $producto->existencia }} productos</span></h3>
                 @endif
                 </h3>
-                <span>• Unidad por caja: {{ $producto->unidad_por_caja }}</span>
+                
+                <span>• Unidades por caja: {{ $producto->unidad_por_caja }}</span>
                 <br>
                 <span>• País de origen: {{ $producto->origen }}</span>
                 <br>
-                <span>• Garantia: {{ $producto->garantia }}</span> <br>
+                <span>• Garantía: {{ $producto->garantia }}</span>
+                <br>
+                
                 <div class="row">
                     <form method="post" action="{{ route('carrito.add') }}">
                         @csrf
@@ -153,8 +167,9 @@ if ($producto->etiqueta_destacado == 1) {
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-x btn-primary" type="submit"> <span
-                                class="fas fa-cart-plus me-sm-2"></span>Agregar al Carrito</button>
+
+                        <button class="btn btn-x btn-primary" type="submit"><span class="fas fa-cart-plus me-sm-2"></span>Agregar al Carrito</button>
+
                     </form>
                 </div>
             </div>

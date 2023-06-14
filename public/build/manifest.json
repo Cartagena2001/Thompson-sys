@@ -42,7 +42,7 @@
     "src": "resources/css/theme-rtl.css"
   },
   "resources/css/theme.css": {
-    "file": "assets/theme-df8b668c.css",
+    "file": "assets/theme-5d1e6ab3.css",
     "isEntry": true,
     "src": "resources/css/theme.css"
   },
@@ -52,7 +52,7 @@
     "src": "resources/css/user-rtl.css"
   },
   "resources/css/user.css": {
-    "file": "assets/user-1847fb13.css",
+    "file": "assets/user-4fb6ae21.css",
     "isEntry": true,
     "src": "resources/css/user.css"
   },

@@ -139,7 +139,7 @@
 
                         </div>
 
-                        <div class="d-flex flex-between-center px-2">
+                        <div class="d-flex flex-between-center px-2 flex-center">
                             <div class="d-flex">
                                 <a class="btn btn-x btn-primary me-2"
                                     href="{{ route('tienda.show', $producto->slug) }}" data-bs-toggle="tooltip"
@@ -167,7 +167,9 @@
     </div>
     @if ($productos->count() > 0)
         <div class="card-footer pb-5 d-flex justify-content-center">
+            <hr/>
             {{ $productos->links('pagination::simple-bootstrap-4') }}
+            <hr/>
         </div>
     @endif
 </div>

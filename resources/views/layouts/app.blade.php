@@ -39,26 +39,24 @@
 <body class="test">
 
     <header>
-        <div class="row" style="background-color: #000;">
+        <div class="row" style="background-color: #000; border-bottom: 2px ridge #ff1620;">
 
-            <div class="col-lg-12 text-center pb-3 pt-3 mb-md-0 me-md-auto">
+            <div class="col-lg-12 text-center pt-3 me-md-auto">
                 <a href="/" class="text-decoration-none"><img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="" width="200"></a>
                 <hr/>
             </div>
 
-            <div class="col-lg-12 text-center pb-2 pt-2 my-2">
+            <div class="col-lg-12 text-center pt-2 mb-4">
                 <div class="dropdown flex-center">
                     <a href="" class="d-flex align-items-center text-decoration-none dropdown-toggle"
-                        id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" style="border: ridge 1px #ff1620; border-radius: 20px; padding: 1px 1px;">
                         <img src={{ Auth::user()->imagen_perfil_src }} alt="img-perfil" width="30" height="30" class="rounded-circle" />
-                        <span class="d-none d-sm-inline mx-1" style="font-size: 12px">{{ Auth::user()->name }}</span>
+                        <span class="d-none d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                        <li><a class="dropdown-item" href="{{ route('logout') }}"
+                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow py-1">
+                        <li><a class="dropdown-item text-center" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                                          document.getElementById('logout-form').submit();">
-                             {{ __('Cerrar Sesión') }}
-                         </a>
+                                          document.getElementById('logout-form').submit();">❌ {{ __('Cerrar Sesión') }}</a>
                          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
@@ -84,89 +82,89 @@
                             
                                 <li>
                                     <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}">
-                                        <i class="fas fa-fire"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span></a>
+                                        🖥 <span class="ms-1 d-none d-sm-inline rt-color-3 font-weight-bold">Dashboard</span></a>
                                 </li>
 
                             @if ( Auth::user()->rol_id == 1 )
                                 {{-- MENU ADMIN  --}}
 
-                                <div class="divider mb-2"><h5 class="rt-color-1 ">- Configuraciones</h5></div>
+                                <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">⚒️ Configuraciones</h5></div>
 
-                                <li>
+                                <li class="ps-4">
                                     <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-user-edit"></i> <span class="ms-1 d-none d-sm-inline">Perfil de Usuario</span></a>
                                 </li>
 
-                                <li>
+                                <li class="ps-4">
                                     <a href="{{ url('/confi/cms') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/config/cms') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-brush"></i> <span class="ms-1 d-none d-sm-inline">CMS</span></a>
                                 </li>
 
                                 <li><hr/></li>
 
-                                <div class="divider"><h5 class="rt-color-1 ">- Tienda</h5></div>
+                                <div class="divider"><h5 class="rt-color-3 font-weight-bold">👜 Tienda</h5></div>
                                 
-                                <li>
+                                <li class="ps-4">
                                     <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Comprar</span>
                                     </a>
                                 </li>
 
-                                <li>
+                                <li class="ps-4">
                                     <a href="{{ url('/dashboard/productos') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/productos') !== false ? 'active-menu' : '' }}">
                                         <i class="fa-solid fa-newspaper"></i> <span class="ms-1 d-none d-sm-inline">Gestión de Productos</span>
                                     </a>
                                 </li>
                                 
-                                <li>
+                                <li class="ps-4">
                                     <a href="{{ url('/dashboard/categorias') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/categorias') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-list-ul"></i> <span class="ms-1 d-none d-sm-inline">Categorías</span>
                                     </a>
                                 </li>
                                 
-                                <li>
+                                <li class="ps-4">
                                     <a href="{{ url('/dashboard/marcas') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/marcas') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-copyright"></i> <span class="ms-1 d-none d-sm-inline">Marcas</span></a>
                                 </li>
                                 
-                                <li>
+                                <li class="ps-4">
                                     <a href="{{ url('/dashboard/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/ordenes') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-folder-open"></i> <span class="ms-1 d-none d-sm-inline">Ordenes de Compra</span></a>
                                 </li>
 
                                 <li><hr/></li>
 
-                                <div class="divider"><h5 class="rt-color-1 ">- Usuarios</h5></div>
+                                <div class="divider"><h5 class="rt-color-3 font-weight-bold">👥 Usuarios</h5></div>
 
-                                <li>
+                                <li class="ps-4">
                                     <a href="{{ url('/dashboard/aspirantes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/aspirantes') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-users-cog"></i> <span class="ms-1 d-none d-sm-inline">Aspirantes/Clientes</span></a>
                                 </li>
 
-                                <li>
+                                <li class="ps-4">
                                     <a href="{{ url('/dashboard/clientes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/clientes') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-medal"></i> <span class="ms-1 d-none d-sm-inline">Categoría Cliente</span></a>
                                 </li>
 
                                 <li><hr/></li>
 
-                                <div class="divider"><h5 class="rt-color-1 ">- Datos</h5></div>
+                                <div class="divider"><h5 class="rt-color-3 font-weight-bold">📊 Datos</h5></div>
 
-                                <li>
+                                <li class="ps-4">
                                     <a href="{{ url('/dashboard/reportes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/reportes') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-file-download"></i> <span class="ms-1 d-none d-sm-inline">Reportes</span>
                                     </a>
                                 </li>
 
-                                <li>
+                                <li class="ps-4">
                                     <a href="{{ url('/dashboard/estadisticas') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/estadisticas') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-chart-pie"></i> <span class="ms-1 d-none d-sm-inline">Estadísticas</span>
                                     </a>
                                 </li>
 
-                                <div class="divider"><h5 class="rt-color-1 ">- Documentación</h5></div>
+                                <div class="divider"><h5 class="rt-color-3 font-weight-bold">📕 Documentación</h5></div>
 
-                                <li>
+                                <li class="ps-4">
                                     <a href="{{ url('/dashboard/manuales') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/manuales') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-file-pdf"></i> <span class="ms-1 d-none d-sm-inline">Manuales</span>
                                     </a>
@@ -231,7 +229,7 @@
     @include('sweetalert::alert')
     </div>
 
-    <footer class="footer rt-color-2-bg">
+    <footer class="footer rt-color-2-bg" style="border-top: 2px ridge #ff1620;">
       <div class="row g-0 justify-content-between fs--1 mt-4 mb-4 mx-4">
         <div class="col-12 col-sm-auto text-center">
           <p class="mb-0 text-600"> &copy; 2023 <span class="d-none d-sm-inline-block">|</span> <br class="d-sm-none" /> Powered by <a class="opacity-85" href="https://markcoweb.com/" title="Ir a">MarkCoWeb</a></p>

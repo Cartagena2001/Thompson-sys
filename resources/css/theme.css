@@ -64,7 +64,7 @@
   --falcon-body-font-weight: 400;
   --falcon-body-line-height: 1.5;
   --falcon-body-color: #5e6e82;
-  --falcon-body-bg: #edf2f9;
+  --falcon-body-bg: #000000e0;
 }
 
 :root, :root.light, :root .light {
@@ -326,7 +326,7 @@
   --falcon-list-group-bg: #fff;
   --falcon-list-group-action-hover-color: #5e6e82;
   --falcon-list-group-hover-bg: #f9fafd;
-  --falcon-body-bg: #edf2f9;
+  --falcon-body-bg: #000000e0;
   --falcon-body-color: #5e6e82;
   --falcon-headings-color: #344050;
   --falcon-link-color: #2c7be5;
@@ -468,13 +468,13 @@
   /* ------------------------------- Pagination ------------------------------- */
   --falcon-pagination-color: #000;
   --falcon-pagination-bg: #fff;
-  --falcon-pagination-border-color: #edf2f9;
+  --falcon-pagination-border-color: #ff1620;
   --falcon-pagination-hover-color: #fff;
-  --falcon-pagination-hover-bg: #2c7be5;
-  --falcon-pagination-hover-border-color: #2c7be5;
+  --falcon-pagination-hover-bg: #ff1620;
+  --falcon-pagination-hover-border-color: #000;
   --falcon-pagination-active-color: #fff;
-  --falcon-pagination-active-bg: #2c7be5;
-  --falcon-pagination-active-border-color: #2c7be5;
+  --falcon-pagination-active-bg: #ff1620;
+  --falcon-pagination-active-border-color: #000;
   --falcon-pagination-disabled-bg: #fff;
   /* ---------------------------------- Card ---------------------------------- */
   --falcon-card-border-color: rgba(0, 0, 0, 0.125);
@@ -695,7 +695,7 @@
   --falcon-dark-rgb: 249, 250, 253;
   --falcon-light-rgb: 35, 46, 60;
   --falcon-body: #232e3c;
-  --falcon-body-bg: #0b1727;
+  --falcon-body-bg: #000000e0;
   --falcon-body-color: #9da9bb;
   --falcon-headings-color: #d8e2ef;
   --falcon-border-color: rgba(255, 255, 255, 0.05);
@@ -1137,7 +1137,7 @@ body {
   line-height: var(--falcon-body-line-height);
   color: var(--falcon-body-color);
   text-align: var(--falcon-body-text-align);
-  background-color: var(--falcon-body-bg);
+  background-color: #000000e0;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -5847,8 +5847,8 @@ fieldset:disabled .tox .tox-dialog__footer .tox-button--secondary,
 }
 
 .dropdown-menu-dark {
-  color: #d8e2ef;
-  background-color: #4d5969;
+  color: #fff;
+  background-color: #000;
   border-color: var(--falcon-dropdown-border-color);
 }
 .dropdown-menu-dark .dropdown-item {
