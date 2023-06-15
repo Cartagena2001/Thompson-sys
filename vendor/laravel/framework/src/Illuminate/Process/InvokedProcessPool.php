@@ -2,9 +2,7 @@
 
 namespace Illuminate\Process;
 
-use Countable;
-
-class InvokedProcessPool implements Countable
+class InvokedProcessPool
 {
     /**
      * The array of invoked processes.
@@ -53,15 +51,5 @@ class InvokedProcessPool implements Countable
     public function wait()
     {
         return new ProcessPoolResults(collect($this->invokedProcesses)->map->wait()->all());
-    }
-
-    /**
-     * Get the total number of processes.
-     *
-     * @return int
-     */
-    public function count(): int
-    {
-        return count($this->invokedProcesses);
     }
 }

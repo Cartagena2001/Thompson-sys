@@ -14,7 +14,6 @@ use function count;
 use function explode;
 use function method_exists;
 use function preg_replace;
-use function rtrim;
 use function str_contains;
 use function str_starts_with;
 use function strlen;
@@ -59,6 +58,11 @@ final class AnnotationParser implements Parser
 
                     break;
 
+                case 'codeCoverageIgnore':
+                    $result[] = Metadata::codeCoverageIgnoreOnClass();
+
+                    break;
+
                 case 'covers':
                     foreach ($values as $value) {
                         $value = $this->cleanUpCoversOrUsesTarget($value);
@@ -69,9 +73,7 @@ final class AnnotationParser implements Parser
                     break;
 
                 case 'coversDefaultClass':
-                    foreach ($values as $value) {
-                        $result[] = Metadata::coversDefaultClass($value);
-                    }
+                    $result[] = Metadata::coversDefaultClass($values[0]);
 
                     break;
 
@@ -138,9 +140,7 @@ final class AnnotationParser implements Parser
                     break;
 
                 case 'usesDefaultClass':
-                    foreach ($values as $value) {
-                        $result[] = Metadata::usesDefaultClass($value);
-                    }
+                    $result[] = Metadata::usesDefaultClass($values[0]);
 
                     break;
             }
@@ -159,7 +159,6 @@ final class AnnotationParser implements Parser
 
     /**
      * @psalm-param class-string $className
-     * @psalm-param non-empty-string $methodName
      *
      * @throws AnnotationsAreNotSupportedForInternalClassesException
      * @throws InvalidVersionOperatorException
@@ -202,6 +201,11 @@ final class AnnotationParser implements Parser
 
                     break;
 
+                case 'codeCoverageIgnore':
+                    $result[] = Metadata::codeCoverageIgnoreOnMethod();
+
+                    break;
+
                 case 'covers':
                     foreach ($values as $value) {
                         $value = $this->cleanUpCoversOrUsesTarget($value);
@@ -218,8 +222,6 @@ final class AnnotationParser implements Parser
 
                 case 'dataProvider':
                     foreach ($values as $value) {
-                        $value = rtrim($value, " ()\n\r\t\v\x00");
-
                         if (str_contains($value, '::')) {
                             $result[] = Metadata::dataProvider(...explode('::', $value));
 
@@ -374,7 +376,6 @@ final class AnnotationParser implements Parser
 
     /**
      * @psalm-param class-string $className
-     * @psalm-param non-empty-string $methodName
      *
      * @throws AnnotationsAreNotSupportedForInternalClassesException
      * @throws InvalidVersionOperatorException

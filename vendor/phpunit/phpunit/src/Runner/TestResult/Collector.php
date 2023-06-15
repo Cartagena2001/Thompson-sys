@@ -41,18 +41,12 @@ use PHPUnit\Event\TestSuite\Started as TestSuiteStarted;
 use PHPUnit\Event\TestSuite\TestSuiteForTestClass;
 use PHPUnit\Event\TestSuite\TestSuiteForTestMethodWithDataProvider;
 use PHPUnit\Event\UnknownSubscriberTypeException;
-use PHPUnit\TextUI\Configuration\Source;
-use PHPUnit\TextUI\Configuration\SourceFilter;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class Collector
 {
-    private readonly Source $source;
-    private readonly bool $restrictDeprecations;
-    private readonly bool $restrictNotices;
-    private readonly bool $restrictWarnings;
     private int $numberOfTests                       = 0;
     private int $numberOfTestsRun                    = 0;
     private int $numberOfAssertions                  = 0;
@@ -153,9 +147,9 @@ final class Collector
      * @throws EventFacadeIsSealedException
      * @throws UnknownSubscriberTypeException
      */
-    public function __construct(Facade $facade, Source $source, bool $restrictDeprecations, bool $restrictNotices, bool $restrictWarnings)
+    public function __construct()
     {
-        $facade->registerSubscribers(
+        Facade::registerSubscribers(
             new ExecutionStartedSubscriber($this),
             new TestSuiteSkippedSubscriber($this),
             new TestSuiteStartedSubscriber($this),
@@ -181,11 +175,6 @@ final class Collector
             new TestRunnerTriggeredDeprecationSubscriber($this),
             new TestRunnerTriggeredWarningSubscriber($this),
         );
-
-        $this->source               = $source;
-        $this->restrictDeprecations = $restrictDeprecations;
-        $this->restrictNotices      = $restrictNotices;
-        $this->restrictWarnings     = $restrictWarnings;
     }
 
     public function result(): TestResult
@@ -238,6 +227,19 @@ final class Collector
     public function hasTestMarkedIncompleteEvents(): bool
     {
         return !empty($this->testMarkedIncompleteEvents);
+    }
+
+    public function hasTestRunnerTriggeredWarningEvents(): bool
+    {
+        return !empty($this->testRunnerTriggeredWarningEvents);
+    }
+
+    /**
+     * @psalm-return list<TestRunnerWarningTriggered>
+     */
+    public function testRunnerTriggeredWarningEvents(): array
+    {
+        return $this->testRunnerTriggeredWarningEvents;
     }
 
     public function executionStarted(ExecutionStarted $event): void
@@ -370,10 +372,6 @@ final class Collector
 
     public function testTriggeredDeprecation(DeprecationTriggered $event): void
     {
-        if ($this->restrictDeprecations && !(new SourceFilter)->includes($this->source, $event->file())) {
-            return;
-        }
-
         if (!isset($this->testTriggeredDeprecationEvents[$event->test()->id()])) {
             $this->testTriggeredDeprecationEvents[$event->test()->id()] = [];
         }
@@ -383,10 +381,6 @@ final class Collector
 
     public function testTriggeredPhpDeprecation(PhpDeprecationTriggered $event): void
     {
-        if ($this->restrictDeprecations && !(new SourceFilter)->includes($this->source, $event->file())) {
-            return;
-        }
-
         if (!isset($this->testTriggeredPhpDeprecationEvents[$event->test()->id()])) {
             $this->testTriggeredPhpDeprecationEvents[$event->test()->id()] = [];
         }
@@ -414,10 +408,6 @@ final class Collector
 
     public function testTriggeredNotice(NoticeTriggered $event): void
     {
-        if ($this->restrictNotices && !(new SourceFilter)->includes($this->source, $event->file())) {
-            return;
-        }
-
         if (!isset($this->testTriggeredNoticeEvents[$event->test()->id()])) {
             $this->testTriggeredNoticeEvents[$event->test()->id()] = [];
         }
@@ -427,10 +417,6 @@ final class Collector
 
     public function testTriggeredPhpNotice(PhpNoticeTriggered $event): void
     {
-        if ($this->restrictNotices && !(new SourceFilter)->includes($this->source, $event->file())) {
-            return;
-        }
-
         if (!isset($this->testTriggeredPhpNoticeEvents[$event->test()->id()])) {
             $this->testTriggeredPhpNoticeEvents[$event->test()->id()] = [];
         }
@@ -440,10 +426,6 @@ final class Collector
 
     public function testTriggeredWarning(WarningTriggered $event): void
     {
-        if ($this->restrictWarnings && !(new SourceFilter)->includes($this->source, $event->file())) {
-            return;
-        }
-
         if (!isset($this->testTriggeredWarningEvents[$event->test()->id()])) {
             $this->testTriggeredWarningEvents[$event->test()->id()] = [];
         }
@@ -453,10 +435,6 @@ final class Collector
 
     public function testTriggeredPhpWarning(PhpWarningTriggered $event): void
     {
-        if ($this->restrictWarnings && !(new SourceFilter)->includes($this->source, $event->file())) {
-            return;
-        }
-
         if (!isset($this->testTriggeredPhpWarningEvents[$event->test()->id()])) {
             $this->testTriggeredPhpWarningEvents[$event->test()->id()] = [];
         }
@@ -490,20 +468,6 @@ final class Collector
     public function testRunnerTriggeredWarning(TestRunnerWarningTriggered $event): void
     {
         $this->testRunnerTriggeredWarningEvents[] = $event;
-    }
-
-    public function hasDeprecationEvents(): bool
-    {
-        return !empty($this->testTriggeredDeprecationEvents) ||
-               !empty($this->testTriggeredPhpDeprecationEvents) ||
-               !empty($this->testTriggeredPhpunitDeprecationEvents) ||
-               !empty($this->testRunnerTriggeredDeprecationEvents);
-    }
-
-    public function hasNoticeEvents(): bool
-    {
-        return !empty($this->testTriggeredNoticeEvents) ||
-               !empty($this->testTriggeredPhpNoticeEvents);
     }
 
     public function hasWarningEvents(): bool

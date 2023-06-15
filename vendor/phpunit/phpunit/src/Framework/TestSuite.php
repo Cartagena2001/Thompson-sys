@@ -27,6 +27,7 @@ use function trim;
 use Iterator;
 use IteratorAggregate;
 use PHPUnit\Event;
+use PHPUnit\Event\Code\TestDox;
 use PHPUnit\Event\Code\TestMethod;
 use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Metadata\Api\Dependencies;
@@ -38,7 +39,7 @@ use PHPUnit\Runner\Exception as RunnerException;
 use PHPUnit\Runner\Filter\Factory;
 use PHPUnit\Runner\PhptTestCase;
 use PHPUnit\Runner\TestSuiteLoader;
-use PHPUnit\TestRunner\TestResult\Facade as TestResultFacade;
+use PHPUnit\TestRunner\TestResult\Facade;
 use PHPUnit\TextUI\Configuration\Registry;
 use PHPUnit\Util\Filter;
 use PHPUnit\Util\Reflection;
@@ -69,15 +70,13 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
     private array $tests             = [];
     private ?array $providedTests    = null;
     private ?Factory $iteratorFilter = null;
-    private readonly bool $stopOnDefect;
-    private readonly bool $stopOnDeprecation;
     private readonly bool $stopOnError;
     private readonly bool $stopOnFailure;
-    private readonly bool $stopOnIncomplete;
-    private readonly bool $stopOnNotice;
-    private readonly bool $stopOnRisky;
-    private readonly bool $stopOnSkipped;
     private readonly bool $stopOnWarning;
+    private readonly bool $stopOnRisky;
+    private readonly bool $stopOnIncomplete;
+    private readonly bool $stopOnSkipped;
+    private readonly bool $stopOnDefect;
 
     public static function empty(string $name = null): static
     {
@@ -117,7 +116,7 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
             return $testSuite;
         }
 
-        foreach (Reflection::publicMethodsInTestClass($class) as $method) {
+        foreach ((new Reflection)->publicMethodsInTestClass($class) as $method) {
             if ($method->getDeclaringClass()->getName() === Assert::class) {
                 continue;
             }
@@ -151,15 +150,13 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
 
         $configuration = Registry::get();
 
-        $this->stopOnDeprecation = $configuration->stopOnDeprecation();
-        $this->stopOnDefect      = $configuration->stopOnDefect();
-        $this->stopOnError       = $configuration->stopOnError();
-        $this->stopOnFailure     = $configuration->stopOnFailure();
-        $this->stopOnIncomplete  = $configuration->stopOnIncomplete();
-        $this->stopOnNotice      = $configuration->stopOnNotice();
-        $this->stopOnRisky       = $configuration->stopOnRisky();
-        $this->stopOnSkipped     = $configuration->stopOnSkipped();
-        $this->stopOnWarning     = $configuration->stopOnWarning();
+        $this->stopOnError      = $configuration->stopOnError();
+        $this->stopOnFailure    = $configuration->stopOnFailure();
+        $this->stopOnWarning    = $configuration->stopOnWarning();
+        $this->stopOnRisky      = $configuration->stopOnRisky();
+        $this->stopOnIncomplete = $configuration->stopOnIncomplete();
+        $this->stopOnSkipped    = $configuration->stopOnSkipped();
+        $this->stopOnDefect     = $configuration->stopOnDefect();
     }
 
     /**
@@ -339,7 +336,7 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
         }
 
         $emitter                       = Event\Facade::emitter();
-        $testSuiteValueObjectForEvents = Event\TestSuite\TestSuiteBuilder::from($this);
+        $testSuiteValueObjectForEvents = Event\TestSuite\TestSuite::fromTestSuite($this);
 
         $emitter->testSuiteStarted($testSuiteValueObjectForEvents);
 
@@ -348,9 +345,7 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
         }
 
         foreach ($this as $test) {
-            if (TestResultFacade::shouldStop()) {
-                $emitter->testRunnerExecutionAborted();
-
+            if ($this->shouldStop()) {
                 break;
             }
 
@@ -431,9 +426,10 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
 
             foreach ($this->tests as $test) {
                 if (!($test instanceof Reorderable)) {
+                    // @codeCoverageIgnoreStart
                     continue;
+                    // @codeCoverageIgnoreEnd
                 }
-
                 $this->providedTests = ExecutionOrderDependency::mergeUnique($this->providedTests, $test->provides());
             }
         }
@@ -451,9 +447,10 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
 
             foreach ($this->tests as $test) {
                 if (!($test instanceof Reorderable)) {
+                    // @codeCoverageIgnoreStart
                     continue;
+                    // @codeCoverageIgnoreEnd
                 }
-
                 $this->requiredTests = ExecutionOrderDependency::mergeUnique(
                     ExecutionOrderDependency::filterInvalid($this->requiredTests),
                     $test->requires()
@@ -499,7 +496,7 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
                     $methodName,
                     $class->getFileName(),
                     $method->getStartLine(),
-                    Event\Code\TestDoxBuilder::fromClassNameAndMethodName(
+                    TestDox::fromClassNameAndMethodName(
                         $className,
                         $methodName
                     ),
@@ -552,6 +549,35 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
 
         return !$reflector->hasMethod($methodName) ||
                $reflector->getMethod($methodName)->getDeclaringClass()->getName() === TestCase::class;
+    }
+
+    private function shouldStop(): bool
+    {
+        if (($this->stopOnDefect || $this->stopOnError) && Facade::hasTestErroredEvents()) {
+            return true;
+        }
+
+        if (($this->stopOnDefect || $this->stopOnFailure) && Facade::hasTestFailedEvents()) {
+            return true;
+        }
+
+        if (($this->stopOnDefect || $this->stopOnWarning) && Facade::hasWarningEvents()) {
+            return true;
+        }
+
+        if (($this->stopOnDefect || $this->stopOnRisky) && Facade::hasTestConsideredRiskyEvents()) {
+            return true;
+        }
+
+        if ($this->stopOnSkipped && Facade::hasTestSkippedEvents()) {
+            return true;
+        }
+
+        if ($this->stopOnIncomplete && Facade::hasTestMarkedIncompleteEvents()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -632,7 +658,7 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
             $emitter->testBeforeFirstTestMethodErrored(
                 $this->name,
                 $methodCalledBeforeFirstTest,
-                Event\Code\ThrowableBuilder::from($t)
+                Event\Code\Throwable::from($t)
             );
 
             if (!empty($methodsCalledBeforeFirstTest)) {

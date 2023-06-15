@@ -87,7 +87,7 @@ class Application implements ResetInterface
     private string $defaultCommand;
     private bool $singleCommand = false;
     private bool $initialized = false;
-    private ?SignalRegistry $signalRegistry = null;
+    private SignalRegistry $signalRegistry;
     private array $signalsToDispatchEvent = [];
 
     public function __construct(string $name = 'UNKNOWN', string $version = 'UNKNOWN')

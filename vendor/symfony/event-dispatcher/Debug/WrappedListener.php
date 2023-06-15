@@ -112,12 +112,10 @@ final class WrappedListener
 
         $e = $this->stopwatch->start($this->name, 'event_listener');
 
-        try {
-            ($this->optimizedListener ?? $this->listener)($event, $eventName, $dispatcher);
-        } finally {
-            if ($e->isStarted()) {
-                $e->stop();
-            }
+        ($this->optimizedListener ?? $this->listener)($event, $eventName, $dispatcher);
+
+        if ($e->isStarted()) {
+            $e->stop();
         }
 
         if ($event instanceof StoppableEventInterface && $event->isPropagationStopped()) {

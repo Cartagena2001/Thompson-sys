@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Util;
 
-use League\CommonMark\Exception\InvalidArgumentException;
 use League\CommonMark\Extension\CommonMark\Node\Block\HtmlBlock;
 
 /**
@@ -162,7 +161,7 @@ final class RegexHelper
      *
      * @phpstan-param HtmlBlock::TYPE_* $type
      *
-     * @throws InvalidArgumentException if an invalid type is given
+     * @throws \InvalidArgumentException if an invalid type is given
      *
      * @psalm-pure
      */
@@ -184,7 +183,7 @@ final class RegexHelper
             case HtmlBlock::TYPE_7_MISC_ELEMENT:
                 return '/^(?:' . self::PARTIAL_OPENTAG . '|' . self::PARTIAL_CLOSETAG . ')\\s*$/i';
             default:
-                throw new InvalidArgumentException('Invalid HTML block type');
+                throw new \InvalidArgumentException('Invalid HTML block type');
         }
     }
 
@@ -197,7 +196,7 @@ final class RegexHelper
      *
      * @phpstan-param HtmlBlock::TYPE_* $type
      *
-     * @throws InvalidArgumentException if an invalid type is given
+     * @throws \InvalidArgumentException if an invalid type is given
      *
      * @psalm-pure
      */
@@ -215,7 +214,7 @@ final class RegexHelper
             case HtmlBlock::TYPE_5_CDATA:
                 return '/\]\]>/';
             default:
-                throw new InvalidArgumentException('Invalid HTML block type');
+                throw new \InvalidArgumentException('Invalid HTML block type');
         }
     }
 

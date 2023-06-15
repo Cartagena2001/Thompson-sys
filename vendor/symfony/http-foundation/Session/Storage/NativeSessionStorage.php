@@ -305,6 +305,7 @@ class NativeSessionStorage implements SessionStorageInterface
             trigger_deprecation('symfony/http-foundation', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
         }
         $this->metadataBag = $metaBag ?? new MetadataBag();
+
     }
 
     /**

@@ -6,7 +6,6 @@ use BadMethodCallException;
 use Closure;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\Builder as BuilderContract;
-use Illuminate\Contracts\Database\Query\Expression;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Concerns\BuildsQueries;
 use Illuminate\Database\Eloquent\Concerns\QueriesRelationships;
@@ -634,7 +633,7 @@ class Builder implements BuilderContract
     {
         try {
             return $this->baseSole($columns);
-        } catch (RecordsNotFoundException) {
+        } catch (RecordsNotFoundException $exception) {
             throw (new ModelNotFoundException)->setModel(get_class($this->model));
         }
     }
@@ -648,8 +647,6 @@ class Builder implements BuilderContract
     public function value($column)
     {
         if ($result = $this->first([$column])) {
-            $column = $column instanceof Expression ? $column->getValue($this->getGrammar()) : $column;
-
             return $result->{Str::afterLast($column, '.')};
         }
     }
@@ -665,8 +662,6 @@ class Builder implements BuilderContract
      */
     public function soleValue($column)
     {
-        $column = $column instanceof Expression ? $column->getValue($this->getGrammar()) : $column;
-
         return $this->sole([$column])->{Str::afterLast($column, '.')};
     }
 
@@ -680,8 +675,6 @@ class Builder implements BuilderContract
      */
     public function valueOrFail($column)
     {
-        $column = $column instanceof Expression ? $column->getValue($this->getGrammar()) : $column;
-
         return $this->firstOrFail([$column])->{Str::afterLast($column, '.')};
     }
 
@@ -866,8 +859,6 @@ class Builder implements BuilderContract
     {
         $results = $this->toBase()->pluck($column, $key);
 
-        $column = $column instanceof Expression ? $column->getValue($this->getGrammar()) : $column;
-
         // If the model has a mutator for the requested column, we will spin through
         // the results and mutate the values so that the mutated version of these
         // columns are returned as you would expect from these Eloquent models.
@@ -889,7 +880,6 @@ class Builder implements BuilderContract
      * @param  array|string  $columns
      * @param  string  $pageName
      * @param  int|null  $page
-     * @param  \Closure|int|null  $total
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      *
      * @throws \InvalidArgumentException
@@ -898,7 +888,7 @@ class Builder implements BuilderContract
     {
         $page = $page ?: Paginator::resolveCurrentPage($pageName);
 
-        $total = func_num_args() === 5 ? value(func_get_arg(4)) : $this->toBase()->getCountForPagination();
+        $total = $this->toBase()->getCountForPagination();
 
         $perPage = ($perPage instanceof Closure
             ? $perPage($total)
@@ -969,26 +959,19 @@ class Builder implements BuilderContract
             $this->enforceOrderBy();
         }
 
-        $reverseDirection = function ($order) {
-            if (! isset($order['direction'])) {
-                return $order;
-            }
-
-            $order['direction'] = $order['direction'] === 'asc' ? 'desc' : 'asc';
-
-            return $order;
-        };
-
         if ($shouldReverse) {
-            $this->query->orders = collect($this->query->orders)->map($reverseDirection)->toArray();
-            $this->query->unionOrders = collect($this->query->unionOrders)->map($reverseDirection)->toArray();
+            $this->query->orders = collect($this->query->orders)->map(function ($order) {
+                $order['direction'] = $order['direction'] === 'asc' ? 'desc' : 'asc';
+
+                return $order;
+            })->toArray();
         }
 
-        $orders = ! empty($this->query->unionOrders) ? $this->query->unionOrders : $this->query->orders;
+        if ($this->query->unionOrders) {
+            return collect($this->query->unionOrders);
+        }
 
-        return collect($orders)
-            ->filter(fn ($order) => Arr::has($order, 'direction'))
-            ->values();
+        return collect($this->query->orders);
     }
 
     /**
@@ -1051,7 +1034,7 @@ class Builder implements BuilderContract
         }
 
         return $this->toBase()->upsert(
-            $this->addTimestampsToUpsertValues($this->addUniqueIdsToUpsertValues($values)),
+            $this->addTimestampsToUpsertValues($values),
             $uniqueBy,
             $this->addUpdatedAtToUpsertColumns($update)
         );
@@ -1137,29 +1120,6 @@ class Builder implements BuilderContract
         $values[$qualifiedColumn] = Arr::get($values, $qualifiedColumn, $values[$column]);
 
         unset($values[$column]);
-
-        return $values;
-    }
-
-    /**
-     * Add unique IDs to the inserted values.
-     *
-     * @param  array  $values
-     * @return array
-     */
-    protected function addUniqueIdsToUpsertValues(array $values)
-    {
-        if (! $this->model->usesUniqueIds()) {
-            return $values;
-        }
-
-        foreach ($this->model->uniqueIds() as $uniqueIdAttribute) {
-            foreach ($values as &$row) {
-                if (! array_key_exists($uniqueIdAttribute, $row)) {
-                    $row = array_merge([$uniqueIdAttribute => $this->model->newUniqueId()], $row);
-                }
-            }
-        }
 
         return $values;
     }
@@ -1791,8 +1751,6 @@ class Builder implements BuilderContract
      */
     public function qualifyColumn($column)
     {
-        $column = $column instanceof Expression ? $column->getValue($this->getGrammar()) : $column;
-
         return $this->model->qualifyColumn($column);
     }
 
@@ -1879,7 +1837,7 @@ class Builder implements BuilderContract
      * @param  array  $parameters
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call($method, array $parameters)
     {
         if ($method === 'macro') {
             $this->localMacros[$parameters[0]] = $parameters[1];

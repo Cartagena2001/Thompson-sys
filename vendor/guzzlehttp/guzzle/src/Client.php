@@ -437,10 +437,6 @@ class Client implements ClientInterface, \Psr\Http\Client\ClientInterface
             }
         }
 
-        if (isset($options['version'])) {
-            $modify['version'] = $options['version'];
-        }
-
         $request = Psr7\Utils::modifyRequest($request, $modify);
         if ($request->getBody() instanceof Psr7\MultipartStream) {
             // Use a multipart/form-data POST if a Content-Type is not set.

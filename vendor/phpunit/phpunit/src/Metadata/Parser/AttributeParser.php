@@ -19,6 +19,7 @@ use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\BackupStaticProperties;
 use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\BeforeClass;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversFunction;
 use PHPUnit\Framework\Attributes\CoversNothing;
@@ -37,9 +38,6 @@ use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\ExcludeGlobalVariableFromBackup;
 use PHPUnit\Framework\Attributes\ExcludeStaticPropertyFromBackup;
 use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\IgnoreClassForCodeCoverage;
-use PHPUnit\Framework\Attributes\IgnoreFunctionForCodeCoverage;
-use PHPUnit\Framework\Attributes\IgnoreMethodForCodeCoverage;
 use PHPUnit\Framework\Attributes\Large;
 use PHPUnit\Framework\Attributes\Medium;
 use PHPUnit\Framework\Attributes\PostCondition;
@@ -104,6 +102,11 @@ final class AttributeParser implements Parser
 
                     break;
 
+                case CodeCoverageIgnore::class:
+                    $result[] = Metadata::codeCoverageIgnoreOnClass();
+
+                    break;
+
                 case CoversClass::class:
                     assert($attributeInstance instanceof CoversClass);
 
@@ -159,27 +162,6 @@ final class AttributeParser implements Parser
 
                 case Medium::class:
                     $result[] = Metadata::groupOnClass('medium');
-
-                    break;
-
-                case IgnoreClassForCodeCoverage::class:
-                    assert($attributeInstance instanceof IgnoreClassForCodeCoverage);
-
-                    $result[] = Metadata::ignoreClassForCodeCoverage($attributeInstance->className());
-
-                    break;
-
-                case IgnoreMethodForCodeCoverage::class:
-                    assert($attributeInstance instanceof IgnoreMethodForCodeCoverage);
-
-                    $result[] = Metadata::ignoreMethodForCodeCoverage($attributeInstance->className(), $attributeInstance->methodName());
-
-                    break;
-
-                case IgnoreFunctionForCodeCoverage::class:
-                    assert($attributeInstance instanceof IgnoreFunctionForCodeCoverage);
-
-                    $result[] = Metadata::ignoreFunctionForCodeCoverage($attributeInstance->functionName());
 
                     break;
 
@@ -320,7 +302,6 @@ final class AttributeParser implements Parser
 
     /**
      * @psalm-param class-string $className
-     * @psalm-param non-empty-string $methodName
      */
     public function forMethod(string $className, string $methodName): MetadataCollection
     {
@@ -365,6 +346,11 @@ final class AttributeParser implements Parser
 
                 case BeforeClass::class:
                     $result[] = Metadata::beforeClass();
+
+                    break;
+
+                case CodeCoverageIgnore::class:
+                    $result[] = Metadata::codeCoverageIgnoreOnMethod();
 
                     break;
 
@@ -623,7 +609,6 @@ final class AttributeParser implements Parser
 
     /**
      * @psalm-param class-string $className
-     * @psalm-param non-empty-string $methodName
      */
     public function forClassAndMethod(string $className, string $methodName): MetadataCollection
     {

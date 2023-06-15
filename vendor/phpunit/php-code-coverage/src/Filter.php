@@ -28,9 +28,6 @@ final class Filter
      */
     private array $isFileCache = [];
 
-    /**
-     * @deprecated
-     */
     public function includeDirectory(string $directory, string $suffix = '.php', string $prefix = ''): void
     {
         foreach ((new FileIteratorFacade)->getFilesAsArray($directory, $suffix, $prefix) as $file) {
@@ -59,9 +56,6 @@ final class Filter
         $this->files[$filename] = true;
     }
 
-    /**
-     * @deprecated
-     */
     public function excludeDirectory(string $directory, string $suffix = '.php', string $prefix = ''): void
     {
         foreach ((new FileIteratorFacade)->getFilesAsArray($directory, $suffix, $prefix) as $file) {
@@ -69,9 +63,6 @@ final class Filter
         }
     }
 
-    /**
-     * @deprecated
-     */
     public function excludeFile(string $filename): void
     {
         $filename = realpath($filename);

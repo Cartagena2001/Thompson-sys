@@ -2,7 +2,6 @@
 
 namespace Illuminate\Mail;
 
-use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Filesystem\Factory as FilesystemFactory;
 use Illuminate\Contracts\Mail\Attachable;
@@ -326,12 +325,7 @@ class Mailable implements MailableContract, Renderable
         $markdown = Container::getInstance()->make(Markdown::class);
 
         if (isset($this->theme)) {
-            $markdown->theme(
-                $this->theme,
-                Container::getInstance()
-                    ->get(ConfigRepository::class)
-                    ->get('mail.markdown.theme', 'default')
-            );
+            $markdown->theme($this->theme);
         }
 
         $data = $this->buildViewData();
@@ -1365,7 +1359,7 @@ class Mailable implements MailableContract, Renderable
      */
     public function assertSeeInOrderInHtml($strings, $escape = true)
     {
-        $strings = $escape ? array_map('e', $strings) : $strings;
+        $strings = $escape ? array_map('e', ($strings)) : $strings;
 
         [$html, $text] = $this->renderForAssertions();
 
@@ -1581,7 +1575,7 @@ class Mailable implements MailableContract, Renderable
      *
      * @return void
      */
-    protected function prepareMailableForDelivery()
+    private function prepareMailableForDelivery()
     {
         if (method_exists($this, 'build')) {
             Container::getInstance()->call([$this, 'build']);

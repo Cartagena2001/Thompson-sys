@@ -33,7 +33,7 @@ abstract class Queue
     /**
      * Indicates that jobs should be dispatched after all database transactions have committed.
      *
-     * @var bool
+     * @return $this
      */
     protected $dispatchAfterCommit;
 
@@ -325,7 +325,7 @@ abstract class Queue
      */
     protected function shouldDispatchAfterCommit($job)
     {
-        if (! $job instanceof Closure && is_object($job) && isset($job->afterCommit)) {
+        if (is_object($job) && isset($job->afterCommit)) {
             return $job->afterCommit;
         }
 

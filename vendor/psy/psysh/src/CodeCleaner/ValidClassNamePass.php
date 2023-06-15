@@ -265,7 +265,6 @@ class ValidClassNamePass extends NamespaceAwarePass
      * Get a symbol type key for storing in the scope name cache.
      *
      * @deprecated No longer used. Scope type should be passed into ensureCanDefine directly.
-     *
      * @codeCoverageIgnore
      *
      * @throws FatalErrorException

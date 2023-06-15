@@ -47,23 +47,23 @@ final class Reflection
     /**
      * @psalm-return list<ReflectionMethod>
      */
-    public static function publicMethodsInTestClass(ReflectionClass $class): array
+    public function publicMethodsInTestClass(ReflectionClass $class): array
     {
-        return self::filterMethods($class, ReflectionMethod::IS_PUBLIC);
+        return $this->filterMethods($class, ReflectionMethod::IS_PUBLIC);
     }
 
     /**
      * @psalm-return list<ReflectionMethod>
      */
-    public static function methodsInTestClass(ReflectionClass $class): array
+    public function methodsInTestClass(ReflectionClass $class): array
     {
-        return self::filterMethods($class, null);
+        return $this->filterMethods($class, null);
     }
 
     /**
      * @psalm-return list<ReflectionMethod>
      */
-    private static function filterMethods(ReflectionClass $class, ?int $filter): array
+    private function filterMethods(ReflectionClass $class, ?int $filter): array
     {
         $methods = [];
 

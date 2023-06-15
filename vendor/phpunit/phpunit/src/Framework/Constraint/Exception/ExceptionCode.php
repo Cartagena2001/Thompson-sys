@@ -12,7 +12,7 @@ namespace PHPUnit\Framework\Constraint;
 use function sprintf;
 
 /**
- * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
 final class ExceptionCode extends Constraint
 {
@@ -25,7 +25,7 @@ final class ExceptionCode extends Constraint
 
     public function toString(): string
     {
-        return 'exception code is ' . $this->expectedCode;
+        return 'exception code is ';
     }
 
     /**
@@ -34,7 +34,7 @@ final class ExceptionCode extends Constraint
      */
     protected function matches(mixed $other): bool
     {
-        return (string) $other === (string) $this->expectedCode;
+        return (string) $other->getCode() === (string) $this->expectedCode;
     }
 
     /**
@@ -47,7 +47,7 @@ final class ExceptionCode extends Constraint
     {
         return sprintf(
             '%s is equal to expected exception code %s',
-            $this->exporter()->export($other),
+            $this->exporter()->export($other->getCode()),
             $this->exporter()->export($this->expectedCode)
         );
     }

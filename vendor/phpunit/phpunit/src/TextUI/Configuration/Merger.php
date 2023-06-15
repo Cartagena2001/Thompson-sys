@@ -22,8 +22,8 @@ use PHPUnit\Runner\TestSuiteSorter;
 use PHPUnit\TextUI\CliArguments\Configuration as CliConfiguration;
 use PHPUnit\TextUI\XmlConfiguration\Configuration as XmlConfiguration;
 use PHPUnit\TextUI\XmlConfiguration\LoadedFromFileConfiguration;
-use PHPUnit\TextUI\XmlConfiguration\SchemaDetector;
 use PHPUnit\Util\Filesystem;
+use PHPUnit\Util\Xml\SchemaDetector;
 use SebastianBergmann\CodeCoverage\Report\Html\Colors;
 use SebastianBergmann\CodeCoverage\Report\Thresholds;
 use SebastianBergmann\Environment\Console;
@@ -115,12 +115,6 @@ final class Merger
             $disableCodeCoverageIgnore = $xmlConfiguration->codeCoverage()->disableCodeCoverageIgnore();
         }
 
-        if ($cliConfiguration->hasFailOnDeprecation()) {
-            $failOnDeprecation = $cliConfiguration->failOnDeprecation();
-        } else {
-            $failOnDeprecation = $xmlConfiguration->phpunit()->failOnDeprecation();
-        }
-
         if ($cliConfiguration->hasFailOnEmptyTestSuite()) {
             $failOnEmptyTestSuite = $cliConfiguration->failOnEmptyTestSuite();
         } else {
@@ -131,12 +125,6 @@ final class Merger
             $failOnIncomplete = $cliConfiguration->failOnIncomplete();
         } else {
             $failOnIncomplete = $xmlConfiguration->phpunit()->failOnIncomplete();
-        }
-
-        if ($cliConfiguration->hasFailOnNotice()) {
-            $failOnNotice = $cliConfiguration->failOnNotice();
-        } else {
-            $failOnNotice = $xmlConfiguration->phpunit()->failOnNotice();
         }
 
         if ($cliConfiguration->hasFailOnRisky()) {
@@ -155,60 +143,6 @@ final class Merger
             $failOnWarning = $cliConfiguration->failOnWarning();
         } else {
             $failOnWarning = $xmlConfiguration->phpunit()->failOnWarning();
-        }
-
-        if ($cliConfiguration->hasStopOnDefect()) {
-            $stopOnDefect = $cliConfiguration->stopOnDefect();
-        } else {
-            $stopOnDefect = $xmlConfiguration->phpunit()->stopOnDefect();
-        }
-
-        if ($cliConfiguration->hasStopOnDeprecation()) {
-            $stopOnDeprecation = $cliConfiguration->stopOnDeprecation();
-        } else {
-            $stopOnDeprecation = $xmlConfiguration->phpunit()->stopOnDeprecation();
-        }
-
-        if ($cliConfiguration->hasStopOnError()) {
-            $stopOnError = $cliConfiguration->stopOnError();
-        } else {
-            $stopOnError = $xmlConfiguration->phpunit()->stopOnError();
-        }
-
-        if ($cliConfiguration->hasStopOnFailure()) {
-            $stopOnFailure = $cliConfiguration->stopOnFailure();
-        } else {
-            $stopOnFailure = $xmlConfiguration->phpunit()->stopOnFailure();
-        }
-
-        if ($cliConfiguration->hasStopOnIncomplete()) {
-            $stopOnIncomplete = $cliConfiguration->stopOnIncomplete();
-        } else {
-            $stopOnIncomplete = $xmlConfiguration->phpunit()->stopOnIncomplete();
-        }
-
-        if ($cliConfiguration->hasStopOnNotice()) {
-            $stopOnNotice = $cliConfiguration->stopOnNotice();
-        } else {
-            $stopOnNotice = $xmlConfiguration->phpunit()->stopOnNotice();
-        }
-
-        if ($cliConfiguration->hasStopOnRisky()) {
-            $stopOnRisky = $cliConfiguration->stopOnRisky();
-        } else {
-            $stopOnRisky = $xmlConfiguration->phpunit()->stopOnRisky();
-        }
-
-        if ($cliConfiguration->hasStopOnSkipped()) {
-            $stopOnSkipped = $cliConfiguration->stopOnSkipped();
-        } else {
-            $stopOnSkipped = $xmlConfiguration->phpunit()->stopOnSkipped();
-        }
-
-        if ($cliConfiguration->hasStopOnWarning()) {
-            $stopOnWarning = $cliConfiguration->stopOnWarning();
-        } else {
-            $stopOnWarning = $xmlConfiguration->phpunit()->stopOnWarning();
         }
 
         if ($cliConfiguration->hasStderr() && $cliConfiguration->stderr()) {
@@ -390,6 +324,48 @@ final class Merger
             $processIsolation = $cliConfiguration->processIsolation();
         } else {
             $processIsolation = $xmlConfiguration->phpunit()->processIsolation();
+        }
+
+        if ($cliConfiguration->hasStopOnDefect()) {
+            $stopOnDefect = $cliConfiguration->stopOnDefect();
+        } else {
+            $stopOnDefect = $xmlConfiguration->phpunit()->stopOnDefect();
+        }
+
+        if ($cliConfiguration->hasStopOnError()) {
+            $stopOnError = $cliConfiguration->stopOnError();
+        } else {
+            $stopOnError = $xmlConfiguration->phpunit()->stopOnError();
+        }
+
+        if ($cliConfiguration->hasStopOnFailure()) {
+            $stopOnFailure = $cliConfiguration->stopOnFailure();
+        } else {
+            $stopOnFailure = $xmlConfiguration->phpunit()->stopOnFailure();
+        }
+
+        if ($cliConfiguration->hasStopOnWarning()) {
+            $stopOnWarning = $cliConfiguration->stopOnWarning();
+        } else {
+            $stopOnWarning = $xmlConfiguration->phpunit()->stopOnWarning();
+        }
+
+        if ($cliConfiguration->hasStopOnIncomplete()) {
+            $stopOnIncomplete = $cliConfiguration->stopOnIncomplete();
+        } else {
+            $stopOnIncomplete = $xmlConfiguration->phpunit()->stopOnIncomplete();
+        }
+
+        if ($cliConfiguration->hasStopOnRisky()) {
+            $stopOnRisky = $cliConfiguration->stopOnRisky();
+        } else {
+            $stopOnRisky = $xmlConfiguration->phpunit()->stopOnRisky();
+        }
+
+        if ($cliConfiguration->hasStopOnSkipped()) {
+            $stopOnSkipped = $cliConfiguration->stopOnSkipped();
+        } else {
+            $stopOnSkipped = $xmlConfiguration->phpunit()->stopOnSkipped();
         }
 
         if ($cliConfiguration->hasEnforceTimeLimit()) {
@@ -628,7 +604,7 @@ final class Merger
 
         if ($xmlConfiguration->wasLoadedFromFile() && $xmlConfiguration->hasValidationErrors()) {
             if ((new SchemaDetector)->detect($xmlConfiguration->filename())->detected()) {
-                EventFacade::emitter()->testRunnerTriggeredDeprecation(
+                EventFacade::emitter()->testRunnerTriggeredWarning(
                     'Your XML configuration validates against a deprecated schema. Migrate your XML configuration using "--migrate-configuration"!'
                 );
             } else {
@@ -685,30 +661,16 @@ final class Merger
             $testSuffixes = $cliConfiguration->testSuffixes();
         }
 
-        $sourceIncludeDirectories = [];
+        $coverageIncludeDirectories = [];
 
         if ($cliConfiguration->hasCoverageFilter()) {
             foreach ($cliConfiguration->coverageFilter() as $directory) {
-                $sourceIncludeDirectories[] = new FilterDirectory($directory, '', '.php');
+                $coverageIncludeDirectories[] = new FilterDirectory($directory, '', '.php');
             }
         }
 
-        if ($xmlConfiguration->codeCoverage()->hasNonEmptyListOfFilesToBeIncludedInCodeCoverageReport()) {
-            foreach ($xmlConfiguration->codeCoverage()->directories() as $directory) {
-                $sourceIncludeDirectories[] = $directory;
-            }
-
-            $sourceIncludeFiles       = $xmlConfiguration->codeCoverage()->files();
-            $sourceExcludeDirectories = $xmlConfiguration->codeCoverage()->excludeDirectories();
-            $sourceExcludeFiles       = $xmlConfiguration->codeCoverage()->excludeFiles();
-        } else {
-            foreach ($xmlConfiguration->source()->directories() as $directory) {
-                $sourceIncludeDirectories[] = $directory;
-            }
-
-            $sourceIncludeFiles       = $xmlConfiguration->source()->files();
-            $sourceExcludeDirectories = $xmlConfiguration->source()->excludeDirectories();
-            $sourceExcludeFiles       = $xmlConfiguration->source()->excludeFiles();
+        foreach ($xmlConfiguration->codeCoverage()->directories() as $directory) {
+            $coverageIncludeDirectories[] = $directory;
         }
 
         return new Configuration(
@@ -718,15 +680,10 @@ final class Merger
             $cacheResult,
             $cacheDirectory,
             $coverageCacheDirectory,
-            new Source(
-                FilterDirectoryCollection::fromArray($sourceIncludeDirectories),
-                $sourceIncludeFiles,
-                $sourceExcludeDirectories,
-                $sourceExcludeFiles,
-            ),
-            $xmlConfiguration->source()->restrictDeprecations(),
-            $xmlConfiguration->source()->restrictNotices(),
-            $xmlConfiguration->source()->restrictWarnings(),
+            FilterDirectoryCollection::fromArray($coverageIncludeDirectories),
+            $xmlConfiguration->codeCoverage()->files(),
+            $xmlConfiguration->codeCoverage()->excludeDirectories(),
+            $xmlConfiguration->codeCoverage()->excludeFiles(),
             $testResultCacheFile,
             $coverageClover,
             $coverageCobertura,
@@ -749,22 +706,11 @@ final class Merger
             $pathCoverage,
             $xmlConfiguration->codeCoverage()->ignoreDeprecatedCodeUnits(),
             $disableCodeCoverageIgnore,
-            $failOnDeprecation,
             $failOnEmptyTestSuite,
             $failOnIncomplete,
-            $failOnNotice,
             $failOnRisky,
             $failOnSkipped,
             $failOnWarning,
-            $stopOnDefect,
-            $stopOnDeprecation,
-            $stopOnError,
-            $stopOnFailure,
-            $stopOnIncomplete,
-            $stopOnNotice,
-            $stopOnRisky,
-            $stopOnSkipped,
-            $stopOnWarning,
             $outputToStandardErrorStream,
             $columns,
             $noExtensions,
@@ -775,6 +721,13 @@ final class Merger
             $beStrictAboutChangesToGlobalState,
             $colors,
             $processIsolation,
+            $stopOnDefect,
+            $stopOnError,
+            $stopOnFailure,
+            $stopOnWarning,
+            $stopOnIncomplete,
+            $stopOnRisky,
+            $stopOnSkipped,
             $enforceTimeLimit,
             $defaultTimeLimit,
             $timeoutForSmallTests,

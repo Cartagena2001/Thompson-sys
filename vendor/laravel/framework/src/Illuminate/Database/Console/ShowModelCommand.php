@@ -106,9 +106,10 @@ class ShowModelCommand extends DatabaseInspectionCommand
      */
     protected function getPolicy($model)
     {
-        $policy = Gate::getPolicyFor($model::class);
-
-        return $policy ? $policy::class : null;
+        return collect(Gate::policies())
+            ->filter(fn ($policy, $modelClass) => $modelClass === get_class($model))
+            ->values()
+            ->first();
     }
 
     /**

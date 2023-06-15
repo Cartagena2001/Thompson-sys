@@ -16,8 +16,7 @@ use Traversable;
 
 /**
  * @template TKey of array-key
- *
- * @template-covariant TValue
+ * @template TValue
  *
  * @implements \Illuminate\Support\Enumerable<TKey, TValue>
  */
@@ -1517,16 +1516,6 @@ class LazyCollection implements CanBeEscapedWhenCastToString, Enumerable
                 yield $key => $value;
             }
         });
-    }
-
-    /**
-     * Flatten a multi-dimensional associative array with dots.
-     *
-     * @return static
-     */
-    public function dot()
-    {
-        return $this->passthru('dot', []);
     }
 
     /**

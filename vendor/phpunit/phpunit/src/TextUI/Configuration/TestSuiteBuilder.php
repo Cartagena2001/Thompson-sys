@@ -57,7 +57,7 @@ final class TestSuiteBuilder
             );
         }
 
-        EventFacade::emitter()->testSuiteLoaded(\PHPUnit\Event\TestSuite\TestSuiteBuilder::from($testSuite));
+        EventFacade::emitter()->testSuiteLoaded(\PHPUnit\Event\TestSuite\TestSuite::fromTestSuite($testSuite));
 
         return $testSuite;
     }

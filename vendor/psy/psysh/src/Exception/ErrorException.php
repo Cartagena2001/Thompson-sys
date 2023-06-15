@@ -101,7 +101,7 @@ class ErrorException extends \ErrorException implements Exception
     /**
      * Create an ErrorException from an Error.
      *
-     * @deprecated PsySH no longer wraps Errors
+     * @deprecated psySH no longer wraps Errors
      *
      * @param \Error $e
      */

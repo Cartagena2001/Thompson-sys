@@ -38,11 +38,11 @@ final class ResultCacheHandler
      * @throws EventFacadeIsSealedException
      * @throws UnknownSubscriberTypeException
      */
-    public function __construct(ResultCache $cache, Facade $facade)
+    public function __construct(ResultCache $cache)
     {
         $this->cache = $cache;
 
-        $this->registerSubscribers($facade);
+        $this->registerSubscribers();
     }
 
     public function testSuiteStarted(): void
@@ -138,9 +138,9 @@ final class ResultCacheHandler
      * @throws EventFacadeIsSealedException
      * @throws UnknownSubscriberTypeException
      */
-    private function registerSubscribers(Facade $facade): void
+    private function registerSubscribers(): void
     {
-        $facade->registerSubscribers(
+        Facade::registerSubscribers(
             new TestSuiteStartedSubscriber($this),
             new TestSuiteFinishedSubscriber($this),
             new TestPreparedSubscriber($this),

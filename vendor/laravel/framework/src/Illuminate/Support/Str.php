@@ -217,24 +217,6 @@ class Str
     }
 
     /**
-     * Get the character at the specified index.
-     *
-     * @param  string  $subject
-     * @param  int  $index
-     * @return string|false
-     */
-    public static function charAt($subject, $index)
-    {
-        $length = mb_strlen($subject);
-
-        if ($index < 0 ? $index < -$length : $index > $length - 1) {
-            return false;
-        }
-
-        return mb_substr($subject, $index, 1);
-    }
-
-    /**
      * Determine if a given string contains a given substring.
      *
      * @param  string  $haystack
@@ -491,7 +473,11 @@ class Str
      */
     public static function length($value, $encoding = null)
     {
-        return mb_strlen($value, $encoding);
+        if ($encoding) {
+            return mb_strlen($value, $encoding);
+        }
+
+        return mb_strlen($value);
     }
 
     /**
@@ -626,32 +612,6 @@ class Str
         }
 
         return $matches[1] ?? $matches[0];
-    }
-
-    /**
-     * Determine if a given string matches a given pattern.
-     *
-     * @param  string|iterable<string>  $pattern
-     * @param  string  $value
-     * @return bool
-     */
-    public static function isMatch($pattern, $value)
-    {
-        $value = (string) $value;
-
-        if (! is_iterable($pattern)) {
-            $pattern = [$pattern];
-        }
-
-        foreach ($pattern as $pattern) {
-            $pattern = (string) $pattern;
-
-            if (preg_match($pattern, $value) === 1) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -808,7 +768,7 @@ class Str
             while (($len = strlen($string)) < $length) {
                 $size = $length - $len;
 
-                $bytesSize = (int) ceil($size / 3) * 3;
+                $bytesSize = (int) ceil(($size) / 3) * 3;
 
                 $bytes = random_bytes($bytesSize);
 
@@ -917,10 +877,9 @@ class Str
      * @param  string|iterable<string>  $search
      * @param  string|iterable<string>  $replace
      * @param  string|iterable<string>  $subject
-     * @param  bool  $caseSensitive
      * @return string
      */
-    public static function replace($search, $replace, $subject, $caseSensitive = true)
+    public static function replace($search, $replace, $subject)
     {
         if ($search instanceof Traversable) {
             $search = collect($search)->all();
@@ -934,9 +893,7 @@ class Str
             $subject = collect($subject)->all();
         }
 
-        return $caseSensitive
-                ? str_replace($search, $replace, $subject)
-                : str_ireplace($search, $replace, $subject);
+        return str_replace($search, $replace, $subject);
     }
 
     /**
@@ -1151,7 +1108,7 @@ class Str
      */
     public static function squish($value)
     {
-        return preg_replace('~(\s|\x{3164}|\x{1160})+~u', ' ', preg_replace('~^[\s\x{FEFF}]+|[\s\x{FEFF}]+$~u', '', $value));
+        return preg_replace('~(\s|\x{3164})+~u', ' ', preg_replace('~^[\s\x{FEFF}]+|[\s\x{FEFF}]+$~u', '', $value));
     }
 
     /**
@@ -1422,16 +1379,11 @@ class Str
     /**
      * Generate a ULID.
      *
-     * @param  \DateTimeInterface|null  $time
      * @return \Symfony\Component\Uid\Ulid
      */
-    public static function ulid($time = null)
+    public static function ulid()
     {
-        if ($time === null) {
-            return new Ulid();
-        }
-
-        return new Ulid(Ulid::generate($time));
+        return new Ulid();
     }
 
     /**

@@ -53,7 +53,7 @@ class RateLimiter
      * Get the given named rate limiter.
      *
      * @param  string  $name
-     * @return \Closure|null
+     * @return \Closure
      */
     public function limiter(string $name)
     {

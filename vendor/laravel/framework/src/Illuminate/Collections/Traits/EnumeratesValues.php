@@ -19,8 +19,7 @@ use UnitEnum;
 
 /**
  * @template TKey of array-key
- *
- * @template-covariant TValue
+ * @template TValue
  *
  * @property-read HigherOrderCollectionProxy $average
  * @property-read HigherOrderCollectionProxy $avg
@@ -297,11 +296,9 @@ trait EnumeratesValues
     /**
      * Get a single key's value from the first matching item in the collection.
      *
-     * @template TValueDefault
-     *
      * @param  string  $key
-     * @param  TValueDefault|(\Closure(): TValueDefault)  $default
-     * @return TValue|TValueDefault
+     * @param  mixed  $default
+     * @return mixed
      */
     public function value($key, $default = null)
     {
@@ -697,10 +694,8 @@ trait EnumeratesValues
     /**
      * Pass the collection into a new class.
      *
-     * @template TPipeIntoValue
-     *
-     * @param  class-string<TPipeIntoValue>  $class
-     * @return TPipeIntoValue
+     * @param  class-string  $class
+     * @return mixed
      */
     public function pipeInto($class)
     {

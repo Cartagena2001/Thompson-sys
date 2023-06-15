@@ -25,7 +25,6 @@ use Illuminate\Validation\ValidationData;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use ValueError;
 
 trait ValidatesAttributes
 {
@@ -250,7 +249,7 @@ trait ValidatesAttributes
             return $this->checkDateTimeOrder($format, $value, $parameters[0], $operator);
         }
 
-        if (is_null($date = $this->getDateTimestamp($parameters[0]))) {
+        if (! $date = $this->getDateTimestamp($parameters[0])) {
             $date = $this->getDateTimestamp($this->getValue($parameters[0]));
         }
 
@@ -551,14 +550,10 @@ trait ValidatesAttributes
         }
 
         foreach ($parameters as $format) {
-            try {
-                $date = DateTime::createFromFormat('!'.$format, $value);
+            $date = DateTime::createFromFormat('!'.$format, $value);
 
-                if ($date && $date->format($format) == $value) {
-                    return true;
-                }
-            } catch (ValueError) {
-                return false;
+            if ($date && $date->format($format) == $value) {
+                return true;
             }
         }
 
@@ -590,11 +585,11 @@ trait ValidatesAttributes
      */
     public function validateDecimal($attribute, $value, $parameters)
     {
-        $this->requireParameterCount(1, $parameters, 'decimal');
-
         if (! $this->validateNumeric($attribute, $value)) {
             return false;
         }
+
+        $this->requireParameterCount(1, $parameters, 'decimal');
 
         $matches = [];
 
@@ -683,21 +678,13 @@ trait ValidatesAttributes
             return true;
         }
 
-        if (! $this->isValidFileInstance($value)) {
-            return false;
-        }
-
-        $dimensions = method_exists($value, 'dimensions')
-                ? $value->dimensions()
-                : @getimagesize($value->getRealPath());
-
-        if (! $dimensions) {
+        if (! $this->isValidFileInstance($value) || ! $sizeDetails = @getimagesize($value->getRealPath())) {
             return false;
         }
 
         $this->requireParameterCount(1, $parameters, 'dimensions');
 
-        [$width, $height] = $dimensions;
+        [$width, $height] = $sizeDetails;
 
         $parameters = $this->parseNamedParameters($parameters);
 
@@ -1429,7 +1416,7 @@ trait ValidatesAttributes
      */
     public function validateMaxDigits($attribute, $value, $parameters)
     {
-        $this->requireParameterCount(1, $parameters, 'max_digits');
+        $this->requireParameterCount(1, $parameters, 'max');
 
         $length = strlen((string) $value);
 
@@ -1531,7 +1518,7 @@ trait ValidatesAttributes
      */
     public function validateMinDigits($attribute, $value, $parameters)
     {
-        $this->requireParameterCount(1, $parameters, 'min_digits');
+        $this->requireParameterCount(1, $parameters, 'min');
 
         $length = strlen((string) $value);
 
@@ -1622,7 +1609,7 @@ trait ValidatesAttributes
      */
     public function validateMissingWithAll($attribute, $value, $parameters)
     {
-        $this->requireParameterCount(1, $parameters, 'missing_with_all');
+        $this->requireParameterCount(1, $parameters, 'missing_with');
 
         if (Arr::has($this->data, $parameters)) {
             return $this->validateMissing($attribute, $value, $parameters);

@@ -76,6 +76,8 @@ abstract class Constraint implements Countable, SelfDescribing
      * constraint is met, false otherwise.
      *
      * This method can be overridden to implement the evaluation algorithm.
+     *
+     * @codeCoverageIgnore
      */
     protected function matches(mixed $other): bool
     {

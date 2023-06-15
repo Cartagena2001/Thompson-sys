@@ -10,9 +10,9 @@
 namespace PHPUnit\Metadata;
 
 /**
- * @psalm-immutable
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
  *
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ * @psalm-immutable
  */
 final class UsesFunction extends Metadata
 {
@@ -35,9 +35,6 @@ final class UsesFunction extends Metadata
         return $this->functionName;
     }
 
-    /**
-     * @internal This method is not covered by the backward compatibility promise for PHPUnit
-     */
     public function asStringForCodeUnitMapper(): string
     {
         return '::' . $this->functionName;

@@ -10,9 +10,7 @@
 namespace PHPUnit\Framework\Constraint;
 
 use function array_is_list;
-use function gettype;
 use function is_array;
-use function strtolower;
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
@@ -24,7 +22,7 @@ final class IsList extends Constraint
      */
     public function toString(): string
     {
-        return 'is a list';
+        return 'is list';
     }
 
     /**
@@ -48,21 +46,6 @@ final class IsList extends Constraint
      */
     protected function failureDescription(mixed $other): string
     {
-        $type = strtolower(gettype($other));
-
-        if ($type === 'double') {
-            $type = 'float';
-        }
-
-        if ($type === 'resource (closed)') {
-            $type = 'closed resource';
-        }
-
-        return match ($type) {
-            'array', 'integer', 'object' => 'an ' . $type . ' ' . $this->toString(),
-            'boolean', 'closed resource', 'float', 'resource', 'string' => 'a ' . $type . ' ' . $this->toString(),
-            'null'  => 'null ' . $this->toString(),
-            default => 'a value of ' . $type . ' ' . $this->toString(),
-        };
+        return 'an array ' . $this->toString();
     }
 }

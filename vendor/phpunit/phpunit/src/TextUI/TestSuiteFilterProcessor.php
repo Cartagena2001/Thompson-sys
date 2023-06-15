@@ -81,7 +81,7 @@ final class TestSuiteFilterProcessor
         $suite->injectFilter($this->filterFactory);
 
         Event\Facade::emitter()->testSuiteFiltered(
-            Event\TestSuite\TestSuiteBuilder::from($suite)
+            Event\TestSuite\TestSuite::fromTestSuite($suite)
         );
     }
 }

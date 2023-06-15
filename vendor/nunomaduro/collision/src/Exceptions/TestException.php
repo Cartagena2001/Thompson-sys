@@ -25,11 +25,6 @@ final class TestException
         //
     }
 
-    public function getThrowable(): Throwable
-    {
-        return $this->throwable;
-    }
-
     /**
      * @return class-string
      */
@@ -46,19 +41,50 @@ final class TestException
             $message = $this->throwable->message();
         }
 
-        $regexes = [
-            'To contain' => '/Failed asserting that \'(.*)\' contains "(.*)"\./s',
-            'Not to contain' => '/Failed asserting that \'(.*)\' does not contain "(.*)"\./s',
-        ];
+        // Contains...
+        $re = '/Failed asserting that \'(.*)\' contains "(.*)"\./s';
 
-        foreach ($regexes as $key => $pattern) {
-            preg_match($pattern, $message, $matches, PREG_OFFSET_CAPTURE, 0);
+        preg_match($re, $message, $matches, PREG_OFFSET_CAPTURE, 0);
 
-            if (count($matches) === 3) {
-                $message = $this->shortenMessage($matches, $key);
+        if (count($matches) === 3) {
+            $actual = $matches[1][0];
+            $expected = $matches[2][0];
 
-                break;
+            $actualExploded = explode(PHP_EOL, $actual);
+            $expectedExploded = explode(PHP_EOL, $expected);
+
+            if (($countActual = count($actualExploded)) > 4 && ! $this->isVerbose) {
+                $actualExploded = array_slice($actualExploded, 0, 3);
             }
+
+            if (($countExpected = count($expectedExploded)) > 4 && ! $this->isVerbose) {
+                $expectedExploded = array_slice($expectedExploded, 0, 3);
+            }
+
+            $actualAsString = '';
+            $expectedAsString = '';
+            foreach ($actualExploded as $line) {
+                $actualAsString .= PHP_EOL.$this->colorizeLine($line, 'red');
+            }
+
+            foreach ($expectedExploded as $line) {
+                $expectedAsString .= PHP_EOL.$this->colorizeLine($line, 'green');
+            }
+
+            if ($countActual > 4 && ! $this->isVerbose) {
+                $actualAsString .= PHP_EOL.$this->colorizeLine(sprintf('... (%s more lines)', $countActual), 'gray');
+            }
+
+            if ($countExpected > 4 && ! $this->isVerbose) {
+                $expectedAsString .= PHP_EOL.$this->colorizeLine(sprintf('... (%s more lines)', $countExpected), 'gray');
+            }
+
+            $message = implode(PHP_EOL, [
+                'Expected: '.ltrim($actualAsString, PHP_EOL.'  '),
+                '',
+                '  To contain: '.ltrim($expectedAsString, PHP_EOL.'  '),
+                '',
+            ]);
         }
 
         // Diffs...
@@ -75,48 +101,6 @@ final class TestException
         }
 
         return $message;
-    }
-
-    private function shortenMessage(array $matches, string $key): string
-    {
-        $actual = $matches[1][0];
-        $expected = $matches[2][0];
-
-        $actualExploded = explode(PHP_EOL, $actual);
-        $expectedExploded = explode(PHP_EOL, $expected);
-
-        if (($countActual = count($actualExploded)) > 4 && ! $this->isVerbose) {
-            $actualExploded = array_slice($actualExploded, 0, 3);
-        }
-
-        if (($countExpected = count($expectedExploded)) > 4 && ! $this->isVerbose) {
-            $expectedExploded = array_slice($expectedExploded, 0, 3);
-        }
-
-        $actualAsString = '';
-        $expectedAsString = '';
-        foreach ($actualExploded as $line) {
-            $actualAsString .= PHP_EOL.$this->colorizeLine($line, 'red');
-        }
-
-        foreach ($expectedExploded as $line) {
-            $expectedAsString .= PHP_EOL.$this->colorizeLine($line, 'green');
-        }
-
-        if ($countActual > 4 && ! $this->isVerbose) {
-            $actualAsString .= PHP_EOL.$this->colorizeLine(sprintf('... (%s more lines)', $countActual - 3), 'gray');
-        }
-
-        if ($countExpected > 4 && ! $this->isVerbose) {
-            $expectedAsString .= PHP_EOL.$this->colorizeLine(sprintf('... (%s more lines)', $countExpected - 3), 'gray');
-        }
-
-        return implode(PHP_EOL, [
-            'Expected: '.ltrim($actualAsString, PHP_EOL.'  '),
-            '',
-            '  '.$key.': '.ltrim($expectedAsString, PHP_EOL.'  '),
-            '',
-        ]);
     }
 
     public function getCode(): int

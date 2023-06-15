@@ -9,33 +9,20 @@
  */
 namespace PHPUnit\Framework\Constraint;
 
-use function class_exists;
-use function interface_exists;
 use function sprintf;
-use PHPUnit\Framework\UnknownClassOrInterfaceException;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
 final class IsInstanceOf extends Constraint
 {
-    private readonly string $name;
-    private readonly string $type;
+    private readonly string $className;
 
-    /**
-     * @throws UnknownClassOrInterfaceException
-     */
-    public function __construct(string $name)
+    public function __construct(string $className)
     {
-        if (class_exists($name)) {
-            $this->type = 'class';
-        } elseif (interface_exists($name)) {
-            $this->type = 'interface';
-        } else {
-            throw new UnknownClassOrInterfaceException($name);
-        }
-
-        $this->name = $name;
+        $this->className = $className;
     }
 
     /**
@@ -44,9 +31,9 @@ final class IsInstanceOf extends Constraint
     public function toString(): string
     {
         return sprintf(
-            'is an instance of %s %s',
-            $this->type,
-            $this->name
+            'is instance of %s "%s"',
+            $this->getType(),
+            $this->className
         );
     }
 
@@ -56,7 +43,7 @@ final class IsInstanceOf extends Constraint
      */
     protected function matches(mixed $other): bool
     {
-        return $other instanceof $this->name;
+        return $other instanceof $this->className;
     }
 
     /**
@@ -68,10 +55,24 @@ final class IsInstanceOf extends Constraint
     protected function failureDescription(mixed $other): string
     {
         return sprintf(
-            '%s is an instance of %s %s',
+            '%s is an instance of %s "%s"',
             $this->exporter()->shortenedExport($other),
-            $this->type,
-            $this->name
+            $this->getType(),
+            $this->className
         );
+    }
+
+    private function getType(): string
+    {
+        try {
+            $reflection = new ReflectionClass($this->className);
+
+            if ($reflection->isInterface()) {
+                return 'interface';
+            }
+        } catch (ReflectionException) {
+        }
+
+        return 'class';
     }
 }

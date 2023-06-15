@@ -45,7 +45,7 @@ final class TraversableContainsOnly extends Constraint
      *
      * @throws ExpectationFailedException
      */
-    public function evaluate(mixed $other, string $description = '', bool $returnResult = false): bool
+    public function evaluate(mixed $other, string $description = '', bool $returnResult = false): ?bool
     {
         $success = true;
 
@@ -57,11 +57,15 @@ final class TraversableContainsOnly extends Constraint
             }
         }
 
-        if (!$success && !$returnResult) {
+        if ($returnResult) {
+            return $success;
+        }
+
+        if (!$success) {
             $this->fail($other, $description);
         }
 
-        return $success;
+        return null;
     }
 
     /**

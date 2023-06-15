@@ -275,7 +275,7 @@ use Faker\Container\ContainerInterface;
  *
  * @property string $imageUrl
  *
- * @method string imageUrl($width = 640, $height = 480, $category = null, $randomize = true, $word = null, $gray = false, string $format = 'png')
+ * @method string imageUrl($width = 640, $height = 480, $category = null, $randomize = true, $word = null, $gray = false)
  *
  * @property string $image
  *

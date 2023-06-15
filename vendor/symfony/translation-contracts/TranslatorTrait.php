@@ -22,9 +22,6 @@ trait TranslatorTrait
 {
     private ?string $locale = null;
 
-    /**
-     * @return void
-     */
     public function setLocale(string $locale)
     {
         $this->locale = $locale;

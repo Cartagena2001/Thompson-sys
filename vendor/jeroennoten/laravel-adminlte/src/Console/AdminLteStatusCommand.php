@@ -144,6 +144,7 @@ class AdminLteStatusCommand extends Command
         $bar->start();
 
         foreach ($this->pkgResources as $name => $resource) {
+
             // Fill the status row of the current resource.
 
             $tblContent[] = [

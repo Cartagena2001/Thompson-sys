@@ -30,9 +30,9 @@ use PHPUnit\Event\TestData\NoDataSetFromDataProviderException;
 use PHPUnit\Metadata\Api\CodeCoverage as CodeCoverageMetadataApi;
 use PHPUnit\Metadata\Parser\Registry as MetadataRegistry;
 use PHPUnit\Runner\CodeCoverage;
-use PHPUnit\Runner\ErrorHandler;
 use PHPUnit\TextUI\Configuration\Configuration;
 use PHPUnit\TextUI\Configuration\Registry as ConfigurationRegistry;
+use PHPUnit\Util\ErrorHandler;
 use PHPUnit\Util\GlobalState;
 use PHPUnit\Util\PHP\AbstractPhpProcess;
 use ReflectionClass;
@@ -132,7 +132,6 @@ final class TestRunner
         $test->addToAssertionCount(Assert::getCount());
 
         if ($this->configuration->reportUselessTests() &&
-            !$test->doesNotPerformAssertions() &&
             $test->numberOfAssertionsPerformed() === 0) {
             $risky = true;
         }
@@ -176,7 +175,7 @@ final class TestRunner
                 CodeCoverage::instance()->stop(
                     $append,
                     $linesToBeCovered,
-                    $linesToBeUsed,
+                    $linesToBeUsed
                 );
             } catch (UnintentionallyCoveredCodeException $cce) {
                 Event\Facade::emitter()->testConsideredRisky(
@@ -194,9 +193,18 @@ final class TestRunner
 
         ErrorHandler::instance()->disable();
 
-        if (!$incomplete &&
-            !$skipped &&
-            $this->configuration->reportUselessTests() &&
+        if (isset($e)) {
+            if ($test->wasPrepared()) {
+                Event\Facade::emitter()->testFinished(
+                    $test->valueObjectForEvents(),
+                    $test->numberOfAssertionsPerformed()
+                );
+            }
+
+            return;
+        }
+
+        if ($this->configuration->reportUselessTests() &&
             !$test->doesNotPerformAssertions() &&
             $test->numberOfAssertionsPerformed() === 0) {
             Event\Facade::emitter()->testConsideredRisky(
@@ -216,11 +224,7 @@ final class TestRunner
             );
         }
 
-        if ($test->hasUnexpectedOutput()) {
-            Event\Facade::emitter()->testPrintedUnexpectedOutput($test->output());
-        }
-
-        if ($this->configuration->disallowTestOutput() && $test->hasUnexpectedOutput()) {
+        if ($this->configuration->disallowTestOutput() && $test->hasOutput()) {
             Event\Facade::emitter()->testConsideredRisky(
                 $test->valueObjectForEvents(),
                 sprintf(
@@ -279,8 +283,7 @@ final class TestRunner
             $iniSettings   = GlobalState::getIniSettingsAsString();
         }
 
-        $coverage         = CodeCoverage::instance()->isActive() ? 'true' : 'false';
-        $linesToBeIgnored = var_export(CodeCoverage::instance()->linesToBeIgnored(), true);
+        $coverage = CodeCoverage::instance()->isActive() ? 'true' : 'false';
 
         if (defined('PHPUNIT_COMPOSER_INSTALL')) {
             $composerAutoload = var_export(PHPUNIT_COMPOSER_INSTALL, true);
@@ -300,11 +303,13 @@ final class TestRunner
         $includePath     = var_export(get_include_path(), true);
         // must do these fixes because TestCaseMethod.tpl has unserialize('{data}') in it, and we can't break BC
         // the lines above used to use addcslashes() rather than var_export(), which breaks null byte escape sequences
-        $data                    = "'." . $data . ".'";
-        $dataName                = "'.(" . $dataName . ").'";
-        $dependencyInput         = "'." . $dependencyInput . ".'";
-        $includePath             = "'." . $includePath . ".'";
-        $offset                  = hrtime();
+        $data            = "'." . $data . ".'";
+        $dataName        = "'.(" . $dataName . ").'";
+        $dependencyInput = "'." . $dependencyInput . ".'";
+        $includePath     = "'." . $includePath . ".'";
+
+        $offset = hrtime();
+
         $serializedConfiguration = $this->saveConfigurationForChildProcess();
 
         $var = [
@@ -314,7 +319,6 @@ final class TestRunner
             'filename'                       => $class->getFileName(),
             'className'                      => $class->getName(),
             'collectCodeCoverageInformation' => $coverage,
-            'linesToBeIgnored'               => $linesToBeIgnored,
             'data'                           => $data,
             'dataName'                       => $dataName,
             'dependencyInput'                => $dependencyInput,
@@ -343,7 +347,6 @@ final class TestRunner
 
     /**
      * @psalm-param class-string $className
-     * @psalm-param non-empty-string $methodName
      */
     private function hasCoverageMetadata(string $className, string $methodName): bool
     {
@@ -440,7 +443,7 @@ final class TestRunner
      */
     private function saveConfigurationForChildProcess(): string
     {
-        $path = tempnam(sys_get_temp_dir(), 'phpunit_');
+        $path = tempnam(sys_get_temp_dir(), 'PHPUnit');
 
         if (!$path) {
             throw new ProcessIsolationException;

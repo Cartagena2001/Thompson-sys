@@ -68,11 +68,6 @@ final class Info
         return $this->memorySincePrevious;
     }
 
-    public function garbageCollectorStatus(): GarbageCollectorStatus
-    {
-        return $this->current->garbageCollectorStatus();
-    }
-
     public function asString(): string
     {
         return sprintf(

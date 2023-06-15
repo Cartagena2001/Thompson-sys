@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Parser\Inline;
 
-use League\CommonMark\Exception\InvalidArgumentException;
-
 final class InlineParserMatch
 {
     private string $regex;
@@ -76,7 +74,7 @@ final class InlineParserMatch
             if ($caseSensitive === null) {
                 $caseSensitive = $definition->caseSensitive;
             } elseif ($caseSensitive !== $definition->caseSensitive) {
-                throw new InvalidArgumentException('Case-sensitive and case-insensitive definitions cannot be combined');
+                throw new \LogicException('Case-sensitive and case-insensitive defintions cannot be comined');
             }
         }
 

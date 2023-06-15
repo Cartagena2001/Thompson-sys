@@ -12,13 +12,14 @@ namespace PHPUnit\Metadata;
 use PHPUnit\Metadata\Version\Requirement;
 
 /**
- * @psalm-immutable
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
  *
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ * @psalm-immutable
  */
 abstract class Metadata
 {
-    private const CLASS_LEVEL  = 0;
+    private const CLASS_LEVEL = 0;
+
     private const METHOD_LEVEL = 1;
     private readonly int $level;
 
@@ -60,6 +61,16 @@ abstract class Metadata
     public static function beforeClass(): BeforeClass
     {
         return new BeforeClass(self::METHOD_LEVEL);
+    }
+
+    public static function codeCoverageIgnoreOnClass(): CodeCoverageIgnore
+    {
+        return new CodeCoverageIgnore(self::CLASS_LEVEL);
+    }
+
+    public static function codeCoverageIgnoreOnMethod(): CodeCoverageIgnore
+    {
+        return new CodeCoverageIgnore(self::METHOD_LEVEL);
     }
 
     /**
@@ -165,31 +176,6 @@ abstract class Metadata
     public static function groupOnMethod(string $groupName): Group
     {
         return new Group(self::METHOD_LEVEL, $groupName);
-    }
-
-    /**
-     * @psalm-param class-string $className
-     */
-    public static function ignoreClassForCodeCoverage(string $className): IgnoreClassForCodeCoverage
-    {
-        return new IgnoreClassForCodeCoverage(self::CLASS_LEVEL, $className);
-    }
-
-    /**
-     * @psalm-param class-string $className
-     * @psalm-param non-empty-string $methodName
-     */
-    public static function ignoreMethodForCodeCoverage(string $className, string $methodName): IgnoreMethodForCodeCoverage
-    {
-        return new IgnoreMethodForCodeCoverage(self::CLASS_LEVEL, $className, $methodName);
-    }
-
-    /**
-     * @psalm-param non-empty-string $functionName
-     */
-    public static function ignoreFunctionForCodeCoverage(string $functionName): IgnoreFunctionForCodeCoverage
-    {
-        return new IgnoreFunctionForCodeCoverage(self::CLASS_LEVEL, $functionName);
     }
 
     public static function postCondition(): PostCondition
@@ -428,6 +414,14 @@ abstract class Metadata
     }
 
     /**
+     * @psalm-assert-if-true CodeCoverageIgnore $this
+     */
+    public function isCodeCoverageIgnore(): bool
+    {
+        return false;
+    }
+
+    /**
      * @psalm-assert-if-true Covers $this
      */
     public function isCovers(): bool
@@ -513,30 +507,6 @@ abstract class Metadata
      * @psalm-assert-if-true Group $this
      */
     public function isGroup(): bool
-    {
-        return false;
-    }
-
-    /**
-     * @psalm-assert-if-true IgnoreClassForCodeCoverage $this
-     */
-    public function isIgnoreClassForCodeCoverage(): bool
-    {
-        return false;
-    }
-
-    /**
-     * @psalm-assert-if-true IgnoreMethodForCodeCoverage $this
-     */
-    public function isIgnoreMethodForCodeCoverage(): bool
-    {
-        return false;
-    }
-
-    /**
-     * @psalm-assert-if-true IgnoreFunctionForCodeCoverage $this
-     */
-    public function isIgnoreFunctionForCodeCoverage(): bool
     {
         return false;
     }

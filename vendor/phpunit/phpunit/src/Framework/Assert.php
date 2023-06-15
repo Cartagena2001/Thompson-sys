@@ -51,7 +51,6 @@ use PHPUnit\Framework\Constraint\LogicalNot;
 use PHPUnit\Framework\Constraint\LogicalOr;
 use PHPUnit\Framework\Constraint\LogicalXor;
 use PHPUnit\Framework\Constraint\ObjectEquals;
-use PHPUnit\Framework\Constraint\ObjectHasProperty;
 use PHPUnit\Framework\Constraint\RegularExpression;
 use PHPUnit\Framework\Constraint\SameSize;
 use PHPUnit\Framework\Constraint\StringContains;
@@ -62,6 +61,7 @@ use PHPUnit\Framework\Constraint\StringStartsWith;
 use PHPUnit\Framework\Constraint\TraversableContainsEqual;
 use PHPUnit\Framework\Constraint\TraversableContainsIdentical;
 use PHPUnit\Framework\Constraint\TraversableContainsOnly;
+use PHPUnit\Util\Type;
 use PHPUnit\Util\Xml\Loader as XmlLoader;
 use PHPUnit\Util\Xml\XmlException;
 
@@ -103,7 +103,7 @@ abstract class Assert
     /**
      * @throws ExpectationFailedException
      */
-    final public static function assertIsList(mixed $array, string $message = ''): void
+    final public static function assertIsList(array $array, string $message = ''): void
     {
         static::assertThat(
             $array,
@@ -935,36 +935,6 @@ abstract class Assert
     }
 
     /**
-     * Asserts that an object has a specified property.
-     *
-     * @throws ExpectationFailedException
-     */
-    final public static function assertObjectHasProperty(string $propertyName, object $object, string $message = ''): void
-    {
-        static::assertThat(
-            $object,
-            new ObjectHasProperty($propertyName),
-            $message
-        );
-    }
-
-    /**
-     * Asserts that an object does not have a specified property.
-     *
-     * @throws ExpectationFailedException
-     */
-    final public static function assertObjectNotHasProperty(string $propertyName, object $object, string $message = ''): void
-    {
-        static::assertThat(
-            $object,
-            new LogicalNot(
-                new ObjectHasProperty($propertyName)
-            ),
-            $message
-        );
-    }
-
-    /**
      * Asserts that two variables have the same type and value.
      * Used on objects, it asserts that two variables reference
      * the same object.
@@ -1013,7 +983,6 @@ abstract class Assert
      *
      * @throws Exception
      * @throws ExpectationFailedException
-     * @throws UnknownClassOrInterfaceException
      *
      * @psalm-template ExpectedType of object
      *
@@ -1855,9 +1824,9 @@ abstract class Assert
      *
      * @throws ExpectationFailedException
      */
-    final public static function assertJson(string $actual, string $message = ''): void
+    final public static function assertJson(string $actualJson, string $message = ''): void
     {
-        static::assertThat($actual, static::isJson(), $message);
+        static::assertThat($actualJson, static::isJson(), $message);
     }
 
     /**
@@ -2156,9 +2125,6 @@ abstract class Assert
         return new IsIdentical($value);
     }
 
-    /**
-     * @throws UnknownClassOrInterfaceException
-     */
     final public static function isInstanceOf(string $className): IsInstanceOf
     {
         return new IsInstanceOf($className);

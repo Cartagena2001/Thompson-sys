@@ -39,7 +39,7 @@
 <body class="test">
 
     <header>
-        <div class="row" style="background-color: #000; border-bottom: 2px ridge #ff1620;">
+        <div class="row g-0" style="background-color: #000; border-bottom: 2px ridge #ff1620;">
 
             <div class="col-lg-12 text-center pt-3 me-md-auto">
                 <a href="/" class="text-decoration-none"><img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="" width="200"></a>
@@ -81,9 +81,10 @@
                         <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu">
                             
                                 <li>
-                                    <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}">
-                                        🖥 <span class="ms-1 d-none d-sm-inline rt-color-3 font-weight-bold">Dashboard</span></a>
+                                    <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}"><h5 class="rt-color-3 font-weight-bold">🖥 Dashboard</h5></a>
                                 </li>
+
+                                <li><hr/></li>
 
                             @if ( Auth::user()->rol_id == 1 )
                                 {{-- MENU ADMIN  --}}
@@ -161,6 +162,8 @@
                                         <i class="fas fa-chart-pie"></i> <span class="ms-1 d-none d-sm-inline">Estadísticas</span>
                                     </a>
                                 </li>
+
+                                <li><hr/></li>
 
                                 <div class="divider"><h5 class="rt-color-3 font-weight-bold">📕 Documentación</h5></div>
 

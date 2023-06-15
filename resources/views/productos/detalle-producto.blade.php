@@ -43,20 +43,26 @@ if ($producto->etiqueta_destacado == 1) {
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
 <div class="card mb-3">
-    <div class="col-auto px-2 px-md-3 mt-3"><a class="btn btn-sm btn-primary" href="{{ url('/dashboard/tienda') }}"><span
-                class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block">Volver Atrás</span></a></div>
-    <div class="card-body mb-8">
+
+    <div class="col-auto px-2 px-md-3 mt-3">
+        <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/tienda') }}"><span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block"> Volver Atrás</span></a>
+    </div>
+
+    <div class="card-body">
+        
         <div class="row">
-            <div class="col-lg-6 mb-lg-0">
-                <div class="product-slider" id="galleryTop">
-                    <div class="swiper-slide h-100">
+
+            <div class="col-lg-6">
+
+                <div class="row mb-4" style="position: relative;" id="galleryTop"> {{-- product-slider --}}
+                    <div class="swiper-slide">
                         <div class="">
-                            <div class="swiper mySwiper img-detalle-producto">
+                            <div class="swiper mySwiper">
                                 <div class="swiper-wrapper">
-                                    <img style="width: 100%; height: auto;" class="swiper-slide img-fluid" src="{{ $imagen }}">
-                                    <img style="width: 100%; height: auto;" class="swiper-slide img-fluid" src="{{ $imagen2 }}">
-                                    <img style="width: 100%; height: auto;" class="swiper-slide img-fluid" src="{{ $imagen3 }}">
-                                    <img style="width: 100%; height: auto;" class="swiper-slide img-fluid" src="{{ $imagen4 }}">
+                                    <img  class="swiper-slide img-fluid" src="{{ $imagen }}">
+                                    <img  class="swiper-slide img-fluid" src="{{ $imagen2 }}">
+                                    <img  class="swiper-slide img-fluid" src="{{ $imagen3 }}">
+                                    <img  class="swiper-slide img-fluid" src="{{ $imagen4 }}">
                                 </div>
                                 <div class="swiper-button-next"></div>
                                 <div class="swiper-button-prev"></div>
@@ -65,18 +71,16 @@ if ($producto->etiqueta_destacado == 1) {
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-4">
-                        <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
-                                src="{{ $imagen2 }}" alt="" /></div>
+                        <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100" src="{{ $imagen2 }}" alt="" /></div>
                     </div>
                     <div class="col-4">
-                        <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
-                                src="{{ $imagen3 }}" alt="" /></div>
+                        <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100" src="{{ $imagen3 }}" alt="" /></div>
                     </div>
                     <div class="col-4">
-                        <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
-                                src="{{ $imagen4 }}" alt="" /></div>
+                        <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100" src="{{ $imagen4 }}" alt="" /></div>
                     </div>
                 </div>
 
@@ -105,6 +109,8 @@ if ($producto->etiqueta_destacado == 1) {
                 
                 <h3>{{ $producto->nombre }}</h3>
 
+                <hr/>
+
                 <div class="mt-3 mb-3 d-block">
                     <span class="rt-color-2 font-weight-bold">Categoría: </span> <a href="#" target="_self" title="Ver">{{ $producto->categoria->nombre }}</a>
                     <br>
@@ -114,7 +120,7 @@ if ($producto->etiqueta_destacado == 1) {
                 <span class="badge rounded-pill bg-info mt-2 mb-2 z-index-2 top-0 end-0">{{ $destacado }}</span>
 
                 <span class="rt-color-2 font-weight-bold">Descripción: </span>
-                <p class="text-justify mb-4">{{ $producto->descripcion }}</p>
+                <p class="text-justify mb-4" style="margin-right: 25px;">{{ $producto->descripcion }}</p>
 
                 <h3 class="d-flex align-items-center mb-4">
                     <span style="color: #F3151E">
@@ -139,11 +145,10 @@ if ($producto->etiqueta_destacado == 1) {
                 </h3>
 
                 @if ($producto->existencia == 0)
-                    <h3 class="fs--1"><span style="color: #F3151E">Producto agotado</span></h3>
+                    <h3 class="fs--1"><span style="color: #F3151E">Producto Agotado</span></h3>
                 @else
-                    <h3 class="fs--1"><span style="color: #F3151E">En Stock: {{ $producto->existencia }} productos</span></h3>
+                    <h3 class="fs--1"><span style="color: #F3151E">En Stock: {{ $producto->existencia }} Cajas 📦</span></h3>
                 @endif
-                </h3>
                 
                 <span>• Unidades por caja: {{ $producto->unidad_por_caja }}</span>
                 <br>
@@ -153,6 +158,7 @@ if ($producto->etiqueta_destacado == 1) {
                 <br>
                 
                 <div class="row">
+
                     <form method="post" action="{{ route('carrito.add') }}">
                         @csrf
                         <div class="mb-2 mt-4">
@@ -171,10 +177,12 @@ if ($producto->etiqueta_destacado == 1) {
                         <button class="btn btn-x btn-primary" type="submit"><span class="fas fa-cart-plus me-sm-2"></span>Agregar al Carrito</button>
 
                     </form>
+
                 </div>
+
             </div>
-        </div>
-    </div>
+        </div>  
+    </div> 
 </div>
 
 <script>

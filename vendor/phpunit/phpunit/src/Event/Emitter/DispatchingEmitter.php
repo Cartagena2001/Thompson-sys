@@ -400,14 +400,10 @@ final class DispatchingEmitter implements Emitter
      */
     public function testAssertionSucceeded(mixed $value, Constraint\Constraint $constraint, string $message): void
     {
-        if (!$this->hasSubscriberFor(Test\AssertionSucceeded::class)) {
-            return;
-        }
-
         $this->dispatcher->dispatch(
             new Test\AssertionSucceeded(
                 $this->telemetryInfo(),
-                (new Exporter)->export($value),
+                '',
                 $constraint->toString(),
                 $constraint->count(),
                 $message,
@@ -421,10 +417,6 @@ final class DispatchingEmitter implements Emitter
      */
     public function testAssertionFailed(mixed $value, Constraint\Constraint $constraint, string $message): void
     {
-        if (!$this->hasSubscriberFor(Test\AssertionFailed::class)) {
-            return;
-        }
-
         $this->dispatcher->dispatch(
             new Test\AssertionFailed(
                 $this->telemetryInfo(),
@@ -843,22 +835,6 @@ final class DispatchingEmitter implements Emitter
     }
 
     /**
-     * @psalm-param non-empty-string $output
-     *
-     * @throws InvalidArgumentException
-     * @throws UnknownEventTypeException
-     */
-    public function testPrintedUnexpectedOutput(string $output): void
-    {
-        $this->dispatcher->dispatch(
-            new Test\PrintedUnexpectedOutput(
-                $this->telemetryInfo(),
-                $output
-            )
-        );
-    }
-
-    /**
      * @throws InvalidArgumentException
      * @throws UnknownEventTypeException
      */
@@ -1021,17 +997,6 @@ final class DispatchingEmitter implements Emitter
      * @throws InvalidArgumentException
      * @throws UnknownEventTypeException
      */
-    public function testRunnerExecutionAborted(): void
-    {
-        $this->dispatcher->dispatch(
-            new TestRunner\ExecutionAborted($this->telemetryInfo())
-        );
-    }
-
-    /**
-     * @throws InvalidArgumentException
-     * @throws UnknownEventTypeException
-     */
     public function testRunnerExecutionFinished(): void
     {
         $this->dispatcher->dispatch(
@@ -1082,17 +1047,5 @@ final class DispatchingEmitter implements Emitter
         $this->previousSnapshot = $current;
 
         return $info;
-    }
-
-    /**
-     * @psalm-param class-string $className
-     */
-    private function hasSubscriberFor(string $className): bool
-    {
-        if (!$this->dispatcher instanceof SubscribableDispatcher) {
-            return true;
-        }
-
-        return $this->dispatcher->hasSubscriberFor($className);
     }
 }

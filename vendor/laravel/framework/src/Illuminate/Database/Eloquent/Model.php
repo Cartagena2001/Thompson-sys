@@ -30,7 +30,6 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
         Concerns\HasGlobalScopes,
         Concerns\HasRelationships,
         Concerns\HasTimestamps,
-        Concerns\HasUniqueIds,
         Concerns\HidesAttributes,
         Concerns\GuardsAttributes,
         ForwardsCalls;
@@ -1276,10 +1275,6 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      */
     protected function performInsert(Builder $query)
     {
-        if ($this->usesUniqueIds()) {
-            $this->setUniqueIds();
-        }
-
         if ($this->fireModelEvent('creating') === false) {
             return false;
         }
@@ -2323,7 +2318,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
             return $this->$method(...$parameters);
         }
 
-        if ($resolver = $this->relationResolver(static::class, $method)) {
+        if ($resolver = ($this->relationResolver(static::class, $method))) {
             return $resolver($this);
         }
 

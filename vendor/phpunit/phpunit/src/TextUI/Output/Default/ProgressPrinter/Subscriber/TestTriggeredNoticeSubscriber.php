@@ -19,6 +19,6 @@ final class TestTriggeredNoticeSubscriber extends Subscriber implements NoticeTr
 {
     public function notify(NoticeTriggered $event): void
     {
-        $this->printer()->testTriggeredNotice($event);
+        $this->printer()->testTriggeredNotice();
     }
 }

@@ -3,6 +3,7 @@
 namespace Illuminate\Database\Schema\Grammars;
 
 use Doctrine\DBAL\Schema\AbstractSchemaManager as SchemaManager;
+use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use Illuminate\Database\Connection;
@@ -59,7 +60,7 @@ class ChangeColumn
     {
         $current = $schema->introspectTable($grammar->getTablePrefix().$blueprint->getTable());
 
-        return $schema->createComparator()->compareTables(
+        return (new Comparator)->compareTables(
             $current, static::getTableWithColumnChanges($blueprint, $current)
         );
     }

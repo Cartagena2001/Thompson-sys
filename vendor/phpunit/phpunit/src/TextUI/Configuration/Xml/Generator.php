@@ -37,11 +37,11 @@ final class Generator
         </testsuite>
     </testsuites>
 
-    <source restrictDeprecations="true" restrictNotices="true" restrictWarnings="true">
+    <coverage>
         <include>
-            <directory>{src_directory}</directory>
+            <directory suffix=".php">{src_directory}</directory>
         </include>
-    </source>
+    </coverage>
 </phpunit>
 
 EOT;

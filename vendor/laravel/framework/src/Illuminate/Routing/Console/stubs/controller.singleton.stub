@@ -3,7 +3,9 @@
 namespace {{ namespace }};
 
 use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class {{ class }} extends Controller
 {
@@ -26,7 +28,7 @@ class {{ class }} extends Controller
     /**
      * Display the resource.
      */
-    public function show()
+    public function show(): Response
     {
         //
     }
@@ -34,7 +36,7 @@ class {{ class }} extends Controller
     /**
      * Show the form for editing the resource.
      */
-    public function edit()
+    public function edit(): Response
     {
         //
     }
@@ -42,7 +44,7 @@ class {{ class }} extends Controller
     /**
      * Update the resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request): RedirectResponse
     {
         //
     }
