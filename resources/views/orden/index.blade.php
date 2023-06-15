@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-lg-8">
                 <h3>🛒 Orden Final 🛒</h3>
-                <p class="mt-2">Carrito de compras <b>para Thompson.</b> Aqui podras los productos que has agregado a
+                <p class="mt-2">Carrito de compras <b>para Thompson.</b> Aquí podrás los productos que has agregado a
                     tu carrito de compras, podras editar la cantidad de cada producto antes de finalizar la compra.
             </div>
         </div>

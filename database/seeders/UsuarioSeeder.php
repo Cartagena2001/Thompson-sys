@@ -122,7 +122,7 @@ class UsuarioSeeder extends Seeder
                       'website' => '-', 
                       'nit' => null, 
                       'nrc' => null, 
-                      'rol_id' => 1, 
+                      'rol_id' => 3, 
                       'estado' => 'activo', 
                       'clasificacion' => '-', 
                       'boletin' => '0', 

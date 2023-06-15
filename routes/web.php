@@ -97,4 +97,16 @@ Route::get('/dashboard/reportes/marcas', [App\Http\Controllers\ReportesControlle
 Route::get('/dashboard/reportes/categorias', [App\Http\Controllers\ReportesController::class, 'categorias'])->name('reportes.categorias')->middleware('auth');
 Route::get('/dashboard/reportes/ordenes', [App\Http\Controllers\ReportesController::class, 'ordenes'])->name('reportes.ordenes')->middleware('auth');
 
+//Envío de Correos (Notificaciones)
+
+
+
+
+
+
+
+
+
+
+
 

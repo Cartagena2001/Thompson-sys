@@ -2,7 +2,7 @@
 
 @section('content')
 @section('title', 'Tienda')
-<div class="card mb-3">
+<div class="card mb-3" style="border: ridge 1px #ff1620;">
     <div class="card-body">
         <div class="row flex-between-center">
             
@@ -63,7 +63,7 @@
 </div>
 
 {{-- Tienda --}}
-<div class="card mb-3">
+<div class="card mb-3" style="border: ridge 1px #ff1620;">
 
     <h6 class="card-body">Categoría:
         {{ $categoriaActual == null ? 'Todas las categorias' : $categoriaActualname->nombre }}</h6>

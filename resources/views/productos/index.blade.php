@@ -12,16 +12,13 @@
 
 {{-- Titulo --}}
 <div class="card mb-3">
-    <div class="bg-holder d-none d-lg-block bg-card"
-        style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png);">
-    </div>
+    <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
     <div class="card-body position-relative mt-4">
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="text-center">🏷️ Productos 🏷️</h1>
-                <p class="mt-4 mb-4 text-center">Administración de productos <b>para Tienda rtelsalvador.</b> Aquí podrás encontrar todos los
-                    productos disponibles y gestionar las existencias, editar,
-                    agregar y desactivar productos.
+                <p class="mt-4 mb-4 text-center">Administración de productos para Tienda <b>rtelsalvador.</b> Aquí podrás encontrar todos los
+                    productos disponibles y gestionar las existencias, editar, agregar y desactivar productos.
                 </p>
             </div>
         </div>
@@ -33,9 +30,7 @@
 
     <div class="col-sm-4 col-md-4">
         <div class="card overflow-hidden" style="min-width: 12rem">
-            <div class="bg-holder bg-card"
-                style="background-image:url(../../assets/img/icons/spot-illustrations/corner-1.png);">
-            </div>
+            <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
             <!--/.bg-holder-->
             <div class="card-body position-relative">
                 <h6># Productos Activos</h6>
@@ -55,9 +50,7 @@
 
     <div class="col-sm-4 col-md-4">
         <div class="card overflow-hidden" style="min-width: 12rem">
-            <div class="bg-holder bg-card"
-                style="background-image:url(../../assets/img/icons/spot-illustrations/corner-2.png);">
-            </div>
+            <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
             <!--/.bg-holder-->
             <div class="card-body position-relative">
                 <h6># Producos Inactivos</h6>
@@ -76,9 +69,7 @@
 
     <div class="col-sm-4 col-md-4">
         <div class="card overflow-hidden" style="min-width: 12rem">
-            <div class="bg-holder bg-card"
-                style="background-image:url(../../assets/img/icons/spot-illustrations/corner-2.png);">
-            </div>
+            <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
             <!--/.bg-holder-->
             <div class="card-body position-relative">
                 <h6># Productos Baja Existencia</h6>
@@ -129,7 +120,7 @@
     </div>
 </div>
 
-<div class="card mb-3">
+<div class="card mb-3" style="border: ridge 1px #ff1620;">
 
     <div class="card-header">
         <div class="row flex-between-end">
@@ -151,7 +142,7 @@
                         <th scope="col">Descripción</th>
                         <th scope="col">Marca</th>
                         <th scope="col">OEM</th>
-                        <th scope="col">Categoria</th>
+                        <th scope="col">Categoría</th>
                         <th scope="col">Precio</th>
                         <th scope="col">Unidades</th>
                         <th scope="col">Fecha Ingreso</th>
@@ -173,12 +164,12 @@
                             <td class="text-center">
                                 <form action="{{ route('productos.destroy', $producto->id) }}" method="POST">
                                     <a href="{{ route('productos.edit', $producto->id) }}">
-                                        <button class="btn p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="text-500 fas fa-edit"></span></button>
+                                        <button class="btn p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Producto"><span class="text-500 fas fa-edit"></span></button>
                                     </a>
                                     @csrf
                                     @method('DELETE')
                                     {{-- 
-                                    <button class="btn p-0 ms-2" type="submit" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="text-500 fas fa-trash-alt"></span></button>
+                                    <button class="btn p-0 ms-2" type="submit" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar Producto"><span class="text-500 fas fa-trash-alt"></span></button>
                                     --}}
                                 </form>
                             </td>
