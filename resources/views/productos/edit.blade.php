@@ -9,9 +9,9 @@
         </div>
         <div class="card-body position-relative mt-4">
             <div class="row">
-                <div class="col-lg-8">
-                    <h3>🏷️ Productos 🏷️</h3>
-                    <p class="mt-2">Administracion de productos <b>para Thompson.</b> Aqui podras encontrar todas los
+                <div class="col-lg-12">
+                    <h1 class="text-center">🏷️ Productos 🏷️</h1>
+                    <p class="mt-4 mb-4 text-center">Administración de productos <b>para Thompson.</b> Aqui podras encontrar todas los
                         productos, y tener un control como cuantos productos hay en stock, cuandos falta de stock, editar,
                         agregar e eliminar.
                         <br>
@@ -23,7 +23,8 @@
     </div>
     <div class="card card-default">
         <div class="card-header">
-            <span class="card-title">Update Formulario Excel</span>
+            <h2 class="text-center" style="color:#ff161f;">Actualizar Producto</h2>
+            <hr/>
         </div>
         <div class="card-body">
             <form method="POST" action="{{ route('productos.update', $producto->id) }}"  role="form" enctype="multipart/form-data">

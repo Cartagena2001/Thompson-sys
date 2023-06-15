@@ -1,11 +1,13 @@
 
   <div class="row g-3 mb-3">
       
-      <div class="col-md-6 col-xxl-3">
+      <div class="col-md-6">
         <div class="card h-md-100 ecommerce-card-min-width">
           
           <div class="card-header pb-0">
+
             <h6 class="mb-0 mt-2 d-flex align-items-center">Ventas Semanales<span class="ms-1 text-400" data-bs-toggle="tooltip" data-bs-placement="top" title="Calculado según las ventas de la semana pasada"><span class="far fa-question-circle" data-fa-transform="shrink-1"></span></span></h6>
+
           </div>
 
           <div class="card-body d-flex flex-column justify-content-end">
@@ -26,8 +28,7 @@
         </div>
       </div>
 
-
-      <div class="col-md-6 col-xxl-3">
+      <div class="col-md-6">
         <div class="card h-md-100">
 
           <div class="card-header pb-0">
@@ -50,9 +51,9 @@
 
   </div>
 
-  <div class="row g-0">
+  <div class="row g-3 mb-3">
 
-    <div class="col-lg-6 pe-lg-2 mb-3">
+    <div class="col-md-6 mb-3">
       <div class="card h-lg-100 overflow-hidden">
         <div class="card-body p-0">
           <div class="table-responsive scrollbar">
@@ -179,7 +180,7 @@
       </div>
     </div>
 
-    <div class="col-lg-6 ps-lg-2 mb-3">
+    <div class="col-md-6 mb-3">
       <div class="card h-lg-100">
         <div class="card-header">
           <div class="row flex-between-center">

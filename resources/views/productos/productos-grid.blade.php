@@ -5,9 +5,10 @@
 <div class="card mb-3">
     <div class="card-body">
         <div class="row flex-between-center">
+            
             <div class="col-sm-auto mb-2 mb-sm-0">
                 <a href="{{ url('/carrito') }}">
-                    <h6 class="btn btn-sm btn-primary"><i class="fa-solid fa-cart-shopping"></i> Ver carrito
+                    <h6 class="btn btn-sm btn-primary"><i class="fa-solid fa-cart-shopping"></i> Ver Carrito
                         <?php
                         $carrito = session('cart', []);
                         $cantidad = 0;
@@ -27,6 +28,7 @@
                     productos</h6>
 
             </div>
+
             <div class="col-sm-auto">
                 <div class="row gx-2 align-items-center">
                     <div class="col-auto">
@@ -55,23 +57,28 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
 
 {{-- Tienda --}}
 <div class="card mb-3">
-    <h6 class="card-body">Categoria:
+
+    <h6 class="card-body">Categoría:
         {{ $categoriaActual == null ? 'Todas las categorias' : $categoriaActualname->nombre }}</h6>
     <div>
         @if ($productos->count() == 0)
             <div class="card-body text-center">
-                <h2 class="card-body">No hay productos en esta categoria <i class="far fa-folder-open"></i></h2>
+                <h2 class="card-body">No hay productos en esta categoría <i class="far fa-folder-open"></i></h2>
             </div>
         @endif
     </div>
+
     <div class="card-body">
+
         <div class="row">
+
             @foreach ($productos as $producto)
                 <?php
                 //hacer un if para ver si el producto tiene imagen o no
@@ -87,22 +94,27 @@
                     $destacado = '';
                 }
                 ?>
-                <div class="mb-4 col-md-12 col-lg-4">
+
+                <div class="mb-4 col-md-12 col-lg-3">
+
                     <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
                         <div class="overflow-hidden">
+
                             <div class="position-relative rounded-top overflow-hidden div-tienda"><a class="d-block"
                                     href="{{ route('tienda.show', $producto->slug) }}"><img class="rounded-top"
                                         src="{{ $imagen }}" alt="" /></a>
                             </div>
+
                             <div class="p-3">
                                 <span
                                     class="badge rounded-pill bg-info mt-2 mb-2 z-index-2 top-0 end-0">{{ $destacado }}</span>
-                                <h5 class="fs-1"><a class="text-dark"
+                                <h5 style="min-height: 55px;" class="fs--1 text-end"><a class="text-dark"
                                         href="{{ route('tienda.show', $producto->slug) }}">{{ $producto->nombre }}</a>
                                 </h5>
 
-                                <p class="fs--1 mb-3"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
-                                <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3">
+                                <p class="fs--1 mb-2"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
+                                
+                                <h5 class="fs-md-2 text-warning d-flex align-items-center mb-2">
                                     @if (Auth::user()->clasificacion == "Cobre")
                                         $ {{ $producto->precio_1 }}
                                     @elseif (Auth::user()->clasificacion == "Plata")
@@ -120,17 +132,19 @@
                                     @endif
                                     <del class="ms-2 fs--1 text-500">$ {{ $producto->precio_1 + $producto->precio_1 }}</del>
                                 </h5>
-                                <p class="fs--1 mb-1">Estado: <strong
-                                        class="text-success">{{ $producto->estadoProducto->estado }}</strong>
-                                </p>
+
+                                <p class="fs--1 mb-2">Estado: <strong class="text-success">{{ $producto->estadoProducto->estado }}</strong></p>
+
                             </div>
+
                         </div>
-                        <div class="d-flex flex-between-center px-2">
+
+                        <div class="d-flex flex-between-center px-2 flex-center">
                             <div class="d-flex">
                                 <a class="btn btn-x btn-primary me-2"
                                     href="{{ route('tienda.show', $producto->slug) }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Ver producto"><i class="fa-regular fa-eye"></i>
-                                    Ver producto
+                                    Ver Producto
                                 </a>
                                 <form method="post" action="{{ route('carrito.add') }}">
                                     @csrf
@@ -145,13 +159,17 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             @endforeach
         </div>
+
     </div>
     @if ($productos->count() > 0)
-        <div class="card-footer d-flex justify-content-center">
-            {{ $productos->links() }}
+        <div class="card-footer pb-5 d-flex justify-content-center">
+            <hr/>
+            {{ $productos->links('pagination::simple-bootstrap-4') }}
+            <hr/>
         </div>
     @endif
 </div>

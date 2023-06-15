@@ -18,9 +18,9 @@
     </div>
     <div class="card-body position-relative mt-4">
         <div class="row">
-            <div class="col-lg-8">
-                <h3>🎯 Aspirantes a clientes 🎯</h3>
-                <p class="mt-2">En esta sección se muestran los aspirantes a clientes que se han registrado en la
+            <div class="col-lg-12">
+                <h1 class="text-center">🎯 Aspirantes a Clientes 🎯</h1>
+                <p class="mt-4 mb-4 text-center">En esta sección se muestran los aspirantes a clientes que se han registrado en la
                     plataforma.</p>
             </div>
         </div>
@@ -35,7 +35,7 @@
             </div>
             <!--/.bg-holder-->
             <div class="card-body position-relative">
-                <h6>Clientes Aspirantes</h6>
+                <h6># Aspirantes</h6>
                 <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-warning"
                     data-countup='{"endValue":58.386,"decimalPlaces":2,"suffix":"k"}'>
                     {{-- contar los productos activos de la base de datos --}}
@@ -56,7 +56,7 @@
             </div>
             <!--/.bg-holder-->
             <div class="card-body position-relative">
-                <h6>Clientes Aprovados</h6>
+                <h6># Clientes</h6>
                 <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info"
                     data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
                     {{-- contar los productos activos de la base de datos --}}
@@ -76,7 +76,7 @@
             </div>
             <!--/.bg-holder-->
             <div class="card-body position-relative">
-                <h6>Clientes Rechazados</h6>
+                <h6># Rechazados</h6>
                 <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info"
                     data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
                     {{-- contar los productos activos de la base de datos --}}

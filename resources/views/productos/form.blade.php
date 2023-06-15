@@ -1,4 +1,4 @@
-<div class="row mt-5">
+<div class="row mt-1">
     <div class="col-lg-6">
         <div class="mb-3">
             {{ Form::label('OEM', 'OEM del producto *', ['class' => 'form-label']) }}

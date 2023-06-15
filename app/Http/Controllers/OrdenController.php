@@ -22,7 +22,7 @@ class OrdenController extends Controller
         $orden = new Orden();
         $orden->fecha_registro = date('Y-m-d');
         $orden->user_id = Auth::user()->id;
-        $orden->estado = 'Pendiente';
+        $orden->estado = 'Pendiente'; //1er estado por defecto
         $orden->fecha_envio = date('Y-m-d', strtotime('+1 days'));
         $orden->fecha_entrega = date('Y-m-d', strtotime('+4 days'));
         $orden->total = 0;

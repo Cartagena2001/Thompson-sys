@@ -25,7 +25,7 @@ class AspirantesController extends Controller
         $aspirante = User::find($id);
         $aspirante->estatus = 'aprobado';
         $aspirante->save();
-        return redirect('/dashboard/aspirantes')->with('toast_success', 'Se actualizo el estado del aspirante a Aprobado');
+        return redirect('/dashboard/aspirantes')->with('toast_success', 'Se actualizó el estado del aspirante a Aprobado');
     }
 
     public function rechazado($id)
@@ -33,6 +33,6 @@ class AspirantesController extends Controller
         $aspirante = User::find($id);
         $aspirante->estatus = 'rechazado';
         $aspirante->save();
-        return redirect('/dashboard/aspirantes')->with('toast_success', 'Se actualizo el estado del aspirante a Rechazado');
+        return redirect('/dashboard/aspirantes')->with('toast_success', 'Se actualizó el estado del aspirante a Rechazado');
     }
 }

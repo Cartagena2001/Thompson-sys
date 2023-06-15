@@ -38,8 +38,8 @@ class PerfilController extends Controller
         //almacenar datos
         if ($request->hasFile('imagen_perfil_src')) {
             $file = $request->file('imagen_perfil_src');
-            $file->move(public_path() . '/assets/img/', $file->getClientOriginalName());
-            $user->imagen_perfil_src = '/assets/img/' . $file->getClientOriginalName();
+            $file->move(public_path() . '/assets/img/perfil-user/', $file->getClientOriginalName());
+            $user->imagen_perfil_src = '/assets/img/perfil-user/' . $file->getClientOriginalName();
         }
         $user->name = $request->get('name');
         $user->email = $request->get('email');

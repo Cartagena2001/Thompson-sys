@@ -41,8 +41,8 @@ body {
 }
 
 .div-tienda{
-    width:470px;
-    height:250px;
+    width: 100%;
+    height: auto;
     //centrar imagen en el div 
     display: flex;
     justify-content: center;
@@ -56,8 +56,9 @@ body {
 }
 
 .img-detalle-producto{
-    width:100%;
-    height:550px;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
 }
 
 .img-detalle-producto img{

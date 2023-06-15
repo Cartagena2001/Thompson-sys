@@ -33,7 +33,7 @@ class OrdenesController extends Controller
         $orden = Orden::find($id);
         $orden->estado = 'En proceso';
         $orden->save();
-        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizo la orden a En proceso');
+        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizó la orden a En proceso');
     }
 
     //crear una funcion para actualizar el estado de la orden a finalizada
@@ -41,7 +41,7 @@ class OrdenesController extends Controller
         $orden = Orden::find($id);
         $orden->estado = 'Finalizada';
         $orden->save();
-        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizo la orden a Finalizada');
+        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizó la orden a Finalizada');
     }
 
     //crear una funcion para actualizar el estado de la orden a cancelada
@@ -49,7 +49,7 @@ class OrdenesController extends Controller
         $orden = Orden::find($id);
         $orden->estado = 'Cancelada';
         $orden->save();
-        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizo la orden a Cancelada');
+        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizó la orden a Cancelada');
     }
 
 }
