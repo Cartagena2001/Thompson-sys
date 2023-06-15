@@ -67,7 +67,7 @@
                             </form>
                         </td>
                         <td>${{ $item['precio_1'] }}</td>
-                        <td>${{ $item['cantidad'] * $item['precio_1'] }}</td>
+                        <td>${{ $item['precio_1'] * $item['cantidad'] * $item['unidad_caja']  }}</td>
                         <td>
                             <form action="{{ route('carrito.delete', $item['producto_id']) }}" method="POST">
                                 @csrf
@@ -106,7 +106,7 @@
                     $total = 0;
                     $cart = session('cart', []);
                     foreach ($cart as $item) {
-                        $total += $item['cantidad'] * $item['precio_1'];
+                        $total += $item['precio_1'] * $item['cantidad'] * $item['unidad_caja'];
                     }
                     echo '<h3 class="text-center">Total: $' . $total . '</h3>';
                 @endphp

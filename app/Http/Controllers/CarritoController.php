@@ -55,6 +55,7 @@ class CarritoController extends Controller
                 'precio_1' => $precio,
                 'cantidad' => $cantidad,
                 'existencia' => $product->existencia,
+                'unidad_caja' => $product->unidad_por_caja,
             ];
         }
 
@@ -97,6 +98,7 @@ class CarritoController extends Controller
                 'precio_1' => $precio,
                 'cantidad' => $cantidad,
                 'existencia' => $product->existencia,
+                'unidad_caja' => $product->unidad_por_caja,
             ];
         }
 

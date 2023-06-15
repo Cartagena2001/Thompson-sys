@@ -58,8 +58,9 @@
                     <thead>
                         <tr>
                             <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Precio</th>
+                            <th>Cantidad De cajas</th>
+                            <th>Cantidad por caja</th>
+                            <th>Precio Unitario</th>
                             <th>Subtotal</th>
                         </tr>
                     </thead>
@@ -68,22 +69,24 @@
                             <tr>
                                 <td>{{ $detalles->producto->nombre }}</td>
                                 <td>{{ $detalles->cantidad }}</td>
+                                <td>{{ $detalles->producto->unidad_por_caja }}</td>
                                 <td>{{ $detalles->producto->precio_1 }}</td>
-                                <td>{{ $detalles->cantidad * $detalles->producto->precio_1 }}</td>
+                                <td>{{ $detalles->cantidad * $detalles->producto->precio_1 * $detalles->producto->unidad_por_caja }}</td>
                             </tr>
                         @endforeach
                         @php
                             $total = 0;
                             foreach ($detalle as $detalles) {
-                                $total += $detalles->cantidad * $detalles->producto->precio_1;
+                                $total += $detalles->cantidad * $detalles->producto->precio_1 * $detalles->producto->unidad_por_caja;
                             }
                         @endphp
-                        <tr>
-                            <td colspan="3"><strong>Total a pagar</strong></td>
-                            <td>{{ $total }}</td>
-                        </tr>
+                        
                     </tbody>
                 </table>
+                <div class="card-body d-flex align-items-end flex-column">
+                    <span colspan="3"><strong>Total a pagar</strong></span>
+                    <h2>${{ $total }}</h2>
+                </div>
             </div>
         </div>
         @if ($orden->estado == 'Finalizada' || $orden->estado == 'Cancelada')
