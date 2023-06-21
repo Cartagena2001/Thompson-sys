@@ -46,7 +46,7 @@ class OrdenController extends Controller
 
         //actualizar el total de la orden
         foreach ($cart as $producto) {
-            $orden->total = $orden->total + ($producto['precio_1'] * $producto['cantidad']);
+            $orden->total = $orden->total + ($producto['precio_1'] * $producto['cantidad'] * $producto['unidad_caja']);
         }
         $orden->save();
 

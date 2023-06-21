@@ -25,7 +25,7 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Cantidad</th>
+                    <th>Cantidad de cajas</th>
                     <th>Precio Unitario</th>
                     <th>Total</th>
                 </tr>
@@ -36,14 +36,14 @@
                         <td>{{ $item['nombre'] }}</td>
                         <td>{{ $item['cantidad'] }}</td>
                         <td>{{ $item['precio_1'] }}</td>
-                        <td>{{ $item['cantidad'] * $item['precio_1'] }}</td>
+                        <td>{{ $item['precio_1'] * $item['cantidad'] * $item['unidad_caja']; }}</td>
                     </tr>
                 @endforeach
                 @php
                     $total = 0;
                     $cart = session('cart', []);
                     foreach ($cart as $item) {
-                        $total += $item['cantidad'] * $item['precio_1'];
+                        $total += $item['precio_1'] * $item['cantidad'] * $item['unidad_caja'];
                     }
                 @endphp
             </tbody>

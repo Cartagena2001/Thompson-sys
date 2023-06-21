@@ -76,7 +76,7 @@
                             @php
                                 $total = 0;
                                 foreach ($detalle as $detalles) {
-                                    $total += $detalles->cantidad * $detalles->producto->precio_1;
+                                    $total += $detalles->cantidad * $detalles->producto->precio_1 * $detalles->producto->unidad_por_caja;
                                 }
                             @endphp
                             <tr>
