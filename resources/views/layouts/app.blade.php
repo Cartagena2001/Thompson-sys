@@ -81,7 +81,7 @@
                         <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu">
                             
                                 <li>
-                                    <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}"><h5 class="rt-color-3 font-weight-bold">🖥 Dashboard</h5></a>
+                                    <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}"><h5 class="rt-color-3 font-weight-bold">🖥 Dashboard (15%)</h5></a>
                                 </li>
 
                                 <li><hr/></li>
@@ -93,7 +93,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-user-edit"></i> <span class="ms-1 d-none d-sm-inline">Perfil de Usuario</span></a>
+                                        <i class="fas fa-user-edit"></i> <span class="ms-1 d-none d-sm-inline">Perfil de Usuario (85%)</span></a>
                                 </li>
 
                                 <li class="ps-4">
@@ -159,7 +159,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/estadisticas') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/estadisticas') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-chart-pie"></i> <span class="ms-1 d-none d-sm-inline">Estadísticas</span>
+                                        <i class="fas fa-chart-pie"></i> <span class="ms-1 d-none d-sm-inline">Estadísticas (10%)</span>
                                     </a>
                                 </li>
 
@@ -169,7 +169,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/manuales') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/manuales') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-file-pdf"></i> <span class="ms-1 d-none d-sm-inline">Manuales</span>
+                                        <i class="fas fa-file-pdf"></i> <span class="ms-1 d-none d-sm-inline">Manuales (1%)</span>
                                     </a>
                                 </li>
 
@@ -177,41 +177,45 @@
                             @elseif ( Auth::user()->rol_id == 2 )
                                 {{-- MENU CLIENTE --}}
 
-                                <div class="divider"><h5 class="rt-color-1 ">- Tienda</h5></div>
+                                <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">👤 Configuración de Cuenta</h5></div>
 
-                                <li>
+                                <li class="ps-4">
+                                    <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
+                                        <i class="fas fa-user-edit"></i> <span class="ms-1 d-none d-sm-inline">Mi Perfil</span></a>
+                                </li>
+
+                                <li class="ps-4">
+                                    <a href="{{ url('/perfil/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/ordenes') !== false ? 'active-menu' : '' }}">
+                                        <i class="fas fa-truck-loading"></i> <span class="ms-1 d-none d-sm-inline">Mis Ordenes (65%)</span></a>
+                                </li>
+
+                                <li><hr/></li>
+                                
+                                <div class="divider"><h5 class="rt-color-3 font-weight-bold">👜 Tienda</h5></div>
+
+                                <li class="ps-4">
                                     <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Catálogo</span>
                                     </a>
                                 </li>
                                  
-                                <div class="divider">Informacion de usuario</div>
-
-                                <li>
-                                    <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-user-edit"></i> <span class="ms-1 d-none d-sm-inline">Mi Perfil</span></a>
-                                </li>
-
-                                <li>
-                                    <a href="{{ url('/perfil/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/ordenes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-truck-loading"></i> <span class="ms-1 d-none d-sm-inline">Mis Ordenes</span></a>
-                                </li>
-
                             @else
-                                {{-- MENU BODEGA --}}
+                                {{-- MENU BÓDEGA --}}
 
-                                <div class="divider"><h5 class="rt-color-1 ">- Despacho</h5></div>
+                                <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">👤 Configuración de Cuenta</h5></div>
 
-                                <li>
-                                    <a href="{{ url('/dashboard/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/ordenes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-folder-open"></i> <span class="ms-1 d-none d-sm-inline">Ordenes de Compra</span></a>
-                                </li>
-
-                                <div class="divider">Informacion de usuario</div>
-
-                                <li>
+                                <li class="ps-4">
                                     <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-user-edit"></i> <span class="ms-1 d-none d-sm-inline">Mi Perfil</span></a>
+                                </li>
+
+                                <li><hr/></li>
+
+                                <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">🚚 Bódega</h5></div>
+
+                                <li class="ps-4">
+                                    <a href="{{ url('/dashboard/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/ordenes') !== false ? 'active-menu' : '' }}">
+                                        <i class="fas fa-folder-open"></i> <span class="ms-1 d-none d-sm-inline">Órdenes de Compra</span></a>
                                 </li>
 
                             @endif

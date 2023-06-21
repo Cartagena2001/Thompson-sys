@@ -33,7 +33,7 @@ class MailerController extends Controller {
             $mail->Port = 465;                          // port - 587/465
 
             $mail->setFrom('notificaciones@rtelsalvador.com', 'Representaciones Thompson');
-            $mail->addAddress($request->emailRecipient); /* mandar a llamar email según config en la BD*/
+            $mail->addAddress($request->emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
             //$mail->addCC($request->emailCc);
             //$mail->addBCC($request->emailBcc);
 

@@ -25,13 +25,14 @@ if ($producto->etiqueta_destacado == 1) {
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
-<div class="card mb-3">
+<div class="card mb-3" style="border: ridge 1px #ff1620;">
 
-    <div class="col-auto px-2 px-md-3 mt-3">
-        <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/tienda') }}"><span
-                class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block"> Volver
-                Atrás</span></a>
+
+    <div class="col-auto px-2 px-md-3 mt-3 text-center">
+        <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/tienda') }}"><span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block"> Volver Atrás</span></a>
     </div>
+
+    <hr/>
 
     <div class="card-body">
 

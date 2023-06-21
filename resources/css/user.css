@@ -235,6 +235,63 @@ nav.navbar.navbar-standard.navbar-expand-lg.fixed-top.navbar-dark {
     justify-content: center;
 }
 
+.ccobre {
+    color:#c09281 !important;
+}
+
+.cplata {
+    color:#9e9e9e !important;
+}
+
+.coro {
+    color:#FFD700 !important;
+}
+
+.cplatino {
+    color:#b0b0b0b3 !important;
+}
+
+.cdiamante {
+    color:#03a9f4 !important;
+}
+
+.ctaller {
+    color:#ff9800 !important;
+}
+
+.cdist {
+    color:#e91e63 !important;
+}
+
+.ccobrebg {
+    background-color:#c09281 !important;
+}
+
+.cplatabg {
+    background-color:#9e9e9e !important;
+}
+
+.corobg {
+    background-color:#FFD700 !important;
+}
+
+.cplatinobg {
+    background-color:#b0b0b0b3 !important;
+}
+
+.cdiamantebg {
+    background-color:#03a9f4 !important;
+}
+
+.ctallerbg {
+    background-color:#ff9800 !important;
+}
+
+.cdistbg {
+    background-color:#e91e63 !important;
+}
+
+
 
 
 
