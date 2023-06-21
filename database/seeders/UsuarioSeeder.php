@@ -110,13 +110,13 @@ class UsuarioSeeder extends Seeder
         
         //Bódega
         User::create(['cliente_id_interno' => '-', 
-                      'name' => 'Jonathan Meza', 
-                      'email' => 'thompson.jonathanmeza@gmail.com', 
+                      'name' => 'Marco Rodríguez', 
+                      'email' => 'logistica.thompson@gmail.com', 
                       'direccion' => '-', 
                       'nombre_empresa' => '-', 
                       'municipio' => '-', 
                       'departamento' => '-', 
-                      'password' => bcrypt('bodega_123*'), 
+                      'password' => bcrypt('abc123456*'), 
                       'telefono' => '-', 
                       'whatsapp' => '-', 
                       'website' => '-', 
