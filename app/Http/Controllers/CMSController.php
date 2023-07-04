@@ -30,7 +30,7 @@ class CMSController extends Controller
             'numFijoURL' => 'required',
             'perfilFB' => 'required',
             'perfilIG' => 'required',
-            'dirrOfi' => 'required',
+            'dirOfi' => 'required',
             'horOfi' => 'required',
             'dirBod' => 'required',
             'horBod' => 'required',
@@ -63,9 +63,9 @@ class CMSController extends Controller
         $perfilIG = $request->post('perfilIG');
         $perfilIG->save();
 
-        $dirrOfi = CMS::where('variable', '=', 'dirOF')->get();
-        $dirrOfi = $request->post('dirrOfi');
-        $dirrOfi->save();
+        $dirOfi = CMS::where('variable', '=', 'dirOF')->get();
+        $dirOfi = $request->post('dirOfi');
+        $dirOfi->save();
 
         $horOfi = CMS::where('variable', '=', 'horarioOF')->get();
         $horOfi = $request->post('horOfi');
@@ -90,10 +90,6 @@ class CMSController extends Controller
         return redirect()->route('cms.index');
 
     }
-
-
-
-
 
     /**
      * Display a listing of the resource.
