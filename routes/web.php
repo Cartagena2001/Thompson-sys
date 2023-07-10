@@ -17,6 +17,7 @@ use App\Models\CMS;
 
 Route::get('/', function () {
     $cmsVars = CMS::get()->toArray();
+    
     return view('welcome',compact('cmsVars'));
 });
 
