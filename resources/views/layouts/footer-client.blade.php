@@ -1,6 +1,6 @@
       
       <div class="whatsappchat pulso">
-        <a href="https://api.whatsapp.com/send?phone=50377361910&amp;text=¡Hola, buen día!" title="Escríbenos" target="_blank"><img alt="whatsApp" width="64px" src="{{url('assets/img/icons/whatsApp_ico.png')}}"></a>  
+        <a href="https://api.whatsapp.com/send?phone=503{{ $cmsVars[1]['parametro'] }}&amp;text=¡Hola, buen día!" title="Escríbenos" target="_blank"><img alt="whatsApp" width="64px" src="{{url('assets/img/icons/whatsApp_ico.png')}}"></a>  
       </div>
 
       <section class="py-0 bg-dark light footer-c">

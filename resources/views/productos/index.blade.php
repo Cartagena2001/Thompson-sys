@@ -98,7 +98,7 @@
         {{-- Importar productos desde la funciona del controlador import --}}
         @if ($errors->any())
             <div class="alert alert-danger">
-                <strong>Whoops!</strong> Hubo un problema con la importacion de productos.<br><br>
+                <strong>Whoops!</strong> Hubo un problema con la importación de productos.<br><br>
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
