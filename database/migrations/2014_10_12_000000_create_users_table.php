@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
 
             $table->string('cliente_id_interno', 10)->nullable();
+            $table->string('form_status', 15)->nullable();
             $table->string('direccion', 80)->nullable();
             $table->string('nombre_empresa', 35)->nullable();
             $table->string('municipio', 22)->nullable();

@@ -38,7 +38,8 @@ class User extends Authenticatable
         'fecha_registro',
         'imagen_perfil_src',
         'notas',
-        'estatus'
+        'estatus',
+        'form_status'
     ];
 
     /**

@@ -20,6 +20,7 @@ class PerfilController extends Controller
     {
         //capturar la informacion del usuario logeado
         $user = auth()->User();
+
         return view('perfil.configuracion.index', compact('user'));
     }
 
@@ -28,6 +29,7 @@ class PerfilController extends Controller
     {
         //capturar la informacion del usuario logeado
         $user = auth()->User();
+        
         //validar los datos
         $request->validate([
             'name' => 'required',
@@ -35,6 +37,7 @@ class PerfilController extends Controller
             'nit' => 'unique:users,nit,' . $user->id,
             'nrc' => 'unique:users,nrc,' . $user->id,
         ]);
+
         //almacenar datos
         if ($request->hasFile('imagen_perfil_src')) {
             $file = $request->file('imagen_perfil_src');
@@ -53,8 +56,54 @@ class PerfilController extends Controller
         $user->nrc = $request->get('nrc');
         $user->whatsapp = $request->get('whatsapp');
         $user->update();
+
         //redireccionar
-        return redirect()->route('perfil.index')->with('toast_success', 'Informacion actualizada correctamente');
+        return redirect()->route('perfil.index')->with('toast_success', 'Información actualizada correctamente');
+    }
+
+    public function indexInfoSent()
+    {
+        //capturar la informacion del usuario logeado
+        $user = auth()->User();
+
+        return view('aspirantes.form-inscripcion', compact('user'));
+    }
+
+    // método para cargar la información del aspirante a cliente
+    public function loadInfo(Request $request, User $user)
+    {
+        //capturar la información del usuario logeado
+        $user = auth()->User();
+        
+        //validar los datos
+        $request->validate([
+            'nit' => 'unique:users,nit,' . $user->id,
+            'nrc' => 'unique:users,nrc,' . $user->id,
+        ]);
+        
+        //almacenar datos
+        if ($request->hasFile('imagen_perfil_src')) {
+            $file = $request->file('imagen_perfil_src');
+            $file->move(public_path() . '/assets/img/perfil-user/', $file->getClientOriginalName());
+            $user->imagen_perfil_src = '/assets/img/perfil-user/' . $file->getClientOriginalName();
+        }
+        
+        $user->form_status = 'sent'; //uso de emergencia como bandera
+
+        $user->telefono = $request->get('telefono');
+        $user->direccion = $request->get('direccion');
+        $user->municipio = $request->get('municipio');
+        $user->departamento = $request->get('departamento');
+        $user->nombre_empresa = $request->get('nombre_empresa');
+        $user->website = $request->get('website');
+        $user->nit = $request->get('nit');
+        $user->nrc = $request->get('nrc');
+        $user->whatsapp = $request->get('whatsapp');
+        
+        $user->update();
+
+        //redireccionar
+        return redirect()->route('info.enviada')->with('toast_success', '¡Información enviada con éxito!');
     }
 
     public function ordenes()

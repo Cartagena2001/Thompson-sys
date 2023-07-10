@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        //capturar la informacion del usuario logeado
+        $user = auth()->User();
+
+        if($user->estatus == "aspirante" || $user->estatus == "rechazado"){
+
+            return view('aspirantes.form-inscripcion', compact('user'));
+
+        }else{
+            //estatus = aprobado
+            return view('home');
+        }
+             
     }
 }

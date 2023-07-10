@@ -1,5 +1,8 @@
 @extends('layouts.internal')
 
+@section('content')
+
+@section('title', 'Términos y Condiciones de Uso')
 
       <section class="py-0 pb-6 mb-4 overflow-hidden light" id="banner">
 
@@ -173,3 +176,5 @@
           </div>
 
   </div>
+
+  @endsection

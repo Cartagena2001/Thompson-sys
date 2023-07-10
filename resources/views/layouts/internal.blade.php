@@ -2,6 +2,6 @@
 
 @section('main-content')
   @include('layouts.navbar-client')
-    @yield('home')          
+    @yield('content')          
   @include('layouts.footer-client')              
 @endsection

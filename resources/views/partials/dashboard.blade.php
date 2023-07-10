@@ -1,4 +1,19 @@
 
+  {{-- Logos marcas --}}
+
+  @if ( Auth::user()->rol_id == 2 )
+  <div class="row g-3 mb-3">
+
+    <div class="col-md-12 text-center">
+      <img src="{{ URL('assets/img/logos/cti.jpg') }}" alt="brand-logo-1" style="width:100%; max-width: 150px;" />
+      <img src="{{ URL('assets/img/logos/ecom.jpg') }}" alt="brand-logo-2"style="width:100%; max-width: 150px;" />
+      <img src="{{ URL('assets/img/logos/temco-logo.jpeg') }}" alt="brand-logo-3" style="width:100%; max-width: 150px;" /> 
+    </div>
+
+  </div>
+  @endif
+
+
   <div class="row g-3 mb-3">
       
       <div class="col-md-6">
