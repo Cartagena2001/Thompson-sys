@@ -23,12 +23,16 @@ Route::get('/', function () {
 
 //Politica de Privacidad
 Route::get('/politica-de-privacidad', function () {
-    return view('polpriv');
+    $cmsVars = CMS::get()->toArray();
+
+    return view('polpriv', compact('cmsVars'));
 });
 
 //Terminos y Condiciones
 Route::get('/terminos-y-condiciones', function () {
-    return view('terms');
+    $cmsVars = CMS::get()->toArray();
+    
+    return view('terms', compact('cmsVars'));
 });
 
 Auth::routes();

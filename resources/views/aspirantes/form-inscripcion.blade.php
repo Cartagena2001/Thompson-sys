@@ -49,7 +49,7 @@
             </div>
         </div>
 
-    @if ( Auth::user()->formStatus == "sent" )
+    @if ( Auth::user()->form_status == "sent" )
 
         <div class="card mb-3">
             <div class="card-header">
@@ -82,17 +82,17 @@
                         
                         <div class="mt-3">
                             <label>Imagen de perfil/Logo empresa (200x200px | .png, .jpg, .jpeg): </label>
-                            <input class="form-control" type="file" name="imagen_perfil_src" id="image_perfil_src" value="{{ $user->imagen_perfil_src }}" required>
+                            <input class="form-control" type="file" name="imagen_perfil_src" id="image_perfil_src" value="{{ $user->imagen_perfil_src }}">
                             <img class="rounded mt-2" src="{{ $user->imagen_perfil_src }}" alt="" width="200">
                         </div>
 
                         <div class="mt-3">
-                            <label for="nombre_empresa">Nombre de la empresa: </label>
+                            <label for="nombre_empresa">Nombre de la empresa (Según tarjeta de IVA): </label>
                             <input class="form-control" type="text" name="nombre_empresa" id="nombre_empresa" value="{{ $user->nombre_empresa }}" placeholder="-" maxlength="35" required>
                         </div>
 
                         <div class="mt-3">
-                            <label for="direccion">Dirección: </label>
+                            <label for="direccion">Dirección (Según tarjeta de IVA): </label>
                             <input class="form-control" type="text" name="direccion" id="direccion" value="{{ $user->direccion }}" placeholder="-" maxlength="70" required>
                         </div>
 
@@ -102,7 +102,7 @@
                         </div>
 
                         <div class="mt-3">
-                            <label for="municipio">Municipio: </label>
+                            <label for="municipio">Municipio/Distrito: </label>
                             <input class="form-control" type="text" name="municipio" id="municipio" value="{{ $user->municipio }}" placeholder="-" maxlength="22" required>
                         </div>
 
@@ -122,7 +122,7 @@
                         </div>
 
                         <div class="mt-3">
-                            <label for="nit">NIT: </label>
+                            <label for="nit">NIT/DUI: </label>
                             <input class="form-control" type="text" name="nit" id="nit" value="{{ $user->nit }}" placeholder="0000-000000-000-0" maxlength="18" required>
                             @error('nit')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -130,7 +130,7 @@
                         </div>
 
                         <div class="mt-3">
-                            <label for="nrc">NRC: </label>
+                            <label for="nrc">NRC (Nuémro de IVA): </label>
                             <input class="form-control" type="text" name="nrc" id="nrc" value="{{ $user->nrc }}" placeholder="0000000-0" maxlength="10" required>
                             @error('nrc')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
