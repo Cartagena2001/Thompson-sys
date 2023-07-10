@@ -49,7 +49,7 @@
             </div>
         </div>
 
-    @if ( Auth::user()->form_status == "sent" )
+    @if ( Auth::user()->form_status == "sent" || Auth::user()->form_status == "pending" )
 
         <div class="card mb-3">
             <div class="card-header">

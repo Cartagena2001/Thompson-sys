@@ -66,7 +66,13 @@ class PerfilController extends Controller
         //capturar la informacion del usuario logeado
         $user = auth()->User();
 
-        return view('aspirantes.form-inscripcion', compact('user'));
+        if ( $user->estatus == 'aspirante' || $user->estatus == 'rechazado' ) {
+
+            return view('aspirantes.form-inscripcion', compact('user'));
+        } else {
+            return view('home', compact('user'));
+        }
+  
     }
 
     // método para cargar la información del aspirante a cliente

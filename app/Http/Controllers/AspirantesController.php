@@ -28,6 +28,8 @@ class AspirantesController extends Controller
     {
         $aspirante = User::find($id);
         $aspirante->estatus = 'aprobado';
+        $aspirante->clasificacion = 'Cobre';
+        $aspirante->form_status = 'none';
         $aspirante->save();
 
         return redirect('/dashboard/aspirantes')->with('toast_success', 'Se actualizó el estado del aspirante a Aprobado');
@@ -37,6 +39,7 @@ class AspirantesController extends Controller
     {
         $aspirante = User::find($id);
         $aspirante->estatus = 'rechazado';
+        $aspirante->form_status = 'pending';
         $aspirante->save();
 
         return redirect('/dashboard/aspirantes')->with('toast_success', 'Se actualizó el estado del aspirante a Rechazado');
