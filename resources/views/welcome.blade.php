@@ -1,5 +1,5 @@
 @extends('layouts.internal')
 
-@section('home')
+@section('content')
   @include('partials.home') 
 @endsection

@@ -1,5 +1,9 @@
 @extends('layouts.internal')
 
+@section('content')
+
+@section('title', 'Política de Privacidad')
+
   <section class="py-0 pb-6 mb-4 overflow-hidden light" id="banner">
 
     <div class="bg-holder overlay" style="background-image:url({{url('assets/img/bg/pol-priv-img-bg-rt.png')}});background-position: center bottom;">
@@ -139,3 +143,5 @@
           </div>
 
   </div>
+
+@endsection

@@ -91,11 +91,28 @@
 
             <div class="row mb-4">
 
+                <h4 class="text-center mb-4">Marcas disponibles:</h4>
+
+                <div class="col-sm-12">
+                    <div class="text-center">
+                @foreach ($marcas as $marca)
+                    <label for="marca-{{ $marca->nombre }}"><input id="marca-{{ $marca->nombre }}" type="checkbox" value="{{ $marca->id }}" /> {{ $marca->nombre }}</label>
+                    <br/>
+                @endforeach
+                    </div>
+                </div>
+
+            </div>        
+
+            <hr/>
+
+            <div class="row mb-4">
+
                 <h4 class="text-center mb-4">Actualizar Estado:</h4>
 
                 <div class="col-sm-6">
                     <div class="text-end">
-                @if ($aspirante->estatus == 'aspirante')
+                @if ($aspirante->estatus == 'aspirante' || $aspirante->estatus == 'rechazado')
                     <form action="{{ route('aspirantes.aprobado', $aspirante->id) }}" method="POST">
                         @csrf
                         @method('PUT')

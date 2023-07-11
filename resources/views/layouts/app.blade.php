@@ -98,7 +98,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/confi/cms') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/config/cms') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-brush"></i> <span class="ms-1 d-none d-sm-inline">CMS</span></a>
+                                        <i class="fas fa-brush"></i> <span class="ms-1 d-none d-sm-inline">CMS (50%)</span></a>
                                 </li>
 
                                 <li><hr/></li>
@@ -139,12 +139,17 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/aspirantes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/aspirantes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-users-cog"></i> <span class="ms-1 d-none d-sm-inline">Aspirantes/Clientes</span></a>
+                                        <i class="fas fa-users-cog"></i> <span class="ms-1 d-none d-sm-inline">Aspirantes</span></a>
                                 </li>
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/clientes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/clientes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-medal"></i> <span class="ms-1 d-none d-sm-inline">Categoría Cliente</span></a>
+                                        <i class="fas fa-medal"></i> <span class="ms-1 d-none d-sm-inline">Clientes</span></a>
+                                </li>
+
+                                <li class="ps-4">
+                                    <a href="{{ url('/dashboard/contactos') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/contactos') !== false ? 'active-menu' : '' }}">
+                                        <i class="fas fa-user-plus"></i> <span class="ms-1 d-none d-sm-inline">Contactos</span></a>
                                 </li>
 
                                 <li><hr/></li>

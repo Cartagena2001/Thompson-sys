@@ -90,6 +90,23 @@
 
             <hr/>
 
+            <div class="row mb-4">
+
+                <h4 class="text-center mb-4">Marcas permitidas:</h4>
+
+                <div class="col-sm-12">
+                    <div class="text-center">
+                @foreach ($marcas as $marca)
+                    <label for="marca-{{ $marca->nombre }}"><input id="marca-{{ $marca->nombre }}" type="checkbox" value="{{ $marca->id }}" /> {{ $marca->nombre }}</label>
+                    <br/>
+                @endforeach
+                    </div>
+                </div>
+
+            </div> 
+
+            <hr/>
+
             <div class="row mt-4 mb-4">
 
                 <h4 class="text-center mb-4">Actualizar clasificación del cliente</h4>

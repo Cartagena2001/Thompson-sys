@@ -17,22 +17,28 @@ use App\Models\CMS;
 
 Route::get('/', function () {
     $cmsVars = CMS::get()->toArray();
+    
     return view('welcome',compact('cmsVars'));
 });
 
 //Politica de Privacidad
 Route::get('/politica-de-privacidad', function () {
-    return view('polpriv');
+    $cmsVars = CMS::get()->toArray();
+
+    return view('polpriv', compact('cmsVars'));
 });
 
 //Terminos y Condiciones
 Route::get('/terminos-y-condiciones', function () {
-    return view('terms');
+    $cmsVars = CMS::get()->toArray();
+    
+    return view('terms', compact('cmsVars'));
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::patch('/home', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscrip.load')->middleware('verified');
 
 //Rutas para el dashboard
 Route::resource('/dashboard/marcas', App\Http\Controllers\MarcaController::class)->middleware('auth');
@@ -53,6 +59,16 @@ Route::get('/dashboard/aspirantes', [App\Http\Controllers\AspirantesController::
 Route::get('/dashboard/aspirantes/{id}', [App\Http\Controllers\AspirantesController::class, 'show'])->name('aspirantes.show')->middleware('auth');
 Route::put('/dashboard/aspirantes/aprobado/{id}', [App\Http\Controllers\AspirantesController::class, 'aprobado'])->name('aspirantes.aprobado')->middleware('auth');
 Route::put('/dashboard/aspirantes/rechazado/{id}', [App\Http\Controllers\AspirantesController::class, 'rechazado'])->name('aspirantes.rechazado')->middleware('auth');
+
+//Rutas para aspirantes II
+Route::get('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'indexInfoSent'])->name('info.enviada')->middleware('verified');
+Route::patch('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscrip.load')->middleware('verified');
+
+
+//Rutas Contactos
+Route::get('/dashboard/contactos', [App\Http\Controllers\ContactosController::class, 'index'])->name('contactos.index')->middleware('auth');
+Route::get('/dashboard/contactos/{id}', [App\Http\Controllers\ContactosController::class, 'show'])->name('contactos.show')->middleware('auth');
+
 
 //Rutas para clientes
 Route::get('/dashboard/clientes', [App\Http\Controllers\ClientesController::class, 'index'])->name('clientes.index')->middleware('auth');
@@ -86,6 +102,7 @@ Route::post('/carrito/validar', [App\Http\Controllers\CarritoController::class, 
 //Rutas para el perfil
 Route::get('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'index'])->name('perfil.index')->middleware('verified');
 Route::patch('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'update'])->name('perfil.update')->middleware('verified');
+
 Route::get('/perfil/ordenes', [App\Http\Controllers\PerfilController::class, 'ordenes'])->name('perfil.ordenes')->middleware('verified');
 Route::get('/perfil/ordenes/detalle/{id}', [App\Http\Controllers\PerfilController::class, 'ordenes_detalle'])->name('perfil.orden.detalle')->middleware('verified');
 
@@ -99,6 +116,9 @@ Route::get('/dashboard/reportes/ordenes', [App\Http\Controllers\ReportesControll
 
 //Envío de Correos (Notificaciones)
 
+
+
+//Config CMS
 
 
 

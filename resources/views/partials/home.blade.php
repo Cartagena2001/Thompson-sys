@@ -193,7 +193,7 @@
                   </div>  
                 </div>
               </form>
-               <p class="mt-4 text-600 text-justify">También puedes llamarnos a nuestro número de atención al cliente <a href="{{ $cmsVars[2]['parametro'] }}" title="Llamar" target="_blank"> {{ $cmsVars[1]['parametro'] }} </a> ó whatsApp <a href="https://api.whatsapp.com/send?phone=503{{ $cmsVars[11]['parametro'] }}&amp;text=¡Hola, buen día!" title="Escríbenos" target="_blank">+503 {{ $cmsVars[0]['parametro'] }}</a></p>
+               <p class="mt-4 text-600 text-justify">También puedes llamarnos a nuestro número de atención al cliente <a href="{{ $cmsVars[3]['parametro'] }}" title="Llamar" target="_blank"> {{ $cmsVars[2]['parametro'] }} </a> ó whatsApp <a href="https://api.whatsapp.com/send?phone=503{{ $cmsVars[1]['parametro'] }}&amp;text=¡Hola, buen día!" title="Escríbenos" target="_blank">+503 {{ $cmsVars[0]['parametro'] }}</a></p>
             </div>
           </div>
         </div>
@@ -225,8 +225,8 @@
               <p class="text-600 text-justify">Buscamos ser líderes en el rubro de las importaciones de productos de la industria automotriz y así poder ofrecer excelentes precios y servicios a nuestros clientes posicionandose como la empresa número uno.</p>
               <div class="icon-group mt-4">
                 <p class="mt-2" style="">SÍGUENOS: &nbsp;&nbsp;</p>
-                  <a class="icon-item bg-white text-facebook" href="{{ $cmsVars[3]['parametro'] }}" title="Ir a" target="_blank"><span class="fab fa-facebook-square"></span></a> 
-                  <a class="icon-item bg-white text-instagram" href="{{{ $cmsVars[4]['parametro'] }}}" title="Ir a" target="_blank"><span class="fab fa-instagram-square"></span></a> 
+                  <a class="icon-item bg-white text-facebook" href="{{ $cmsVars[4]['parametro'] }}" title="Ir a" target="_blank"><span class="fab fa-facebook-square"></span></a> 
+                  <a class="icon-item bg-white text-instagram" href="{{{ $cmsVars[5]['parametro'] }}}" title="Ir a" target="_blank"><span class="fab fa-instagram-square"></span></a> 
               </div>
             </div>
 
@@ -248,10 +248,10 @@
                   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d969.0502442360397!2d-89.22328017082137!3d13.706274302313108!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xc3988d90a90bb588!2zMTPCsDQyJzIyLjYiTiA4OcKwMTMnMjEuOCJX!5e0!3m2!1ses-419!2ssv!4v1663794422515!5m2!1ses-419!2ssv" width="100%" height="auto" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </li>
                 <li>
-                  <p class="text-600 opacity-85"><b>Oficina:</b> {{ $cmsVars[5]['parametro'] }} </p> 
-                  <p class="text-600 opacity-75"> {{ $cmsVars[6]['parametro'] }} </p> 
-                  <p class="text-600 opacity-85"><b>Bódega:</b> {{ $cmsVars[7]['parametro'] }}</p> 
-                  <p class="text-600 opacity-75"> {{ $cmsVars[8]['parametro'] }} </p> 
+                  <p class="text-600 opacity-85"><b>Oficina:</b> {{ $cmsVars[6]['parametro'] }} </p> 
+                  <p class="text-600 opacity-75"> {{ $cmsVars[7]['parametro'] }} </p> 
+                  <p class="text-600 opacity-85"><b>Bódega:</b> {{ $cmsVars[8]['parametro'] }}</p> 
+                  <p class="text-600 opacity-75"> {{ $cmsVars[9]['parametro'] }} </p> 
                 </li>
               </ul>
             </div>

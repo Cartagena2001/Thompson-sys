@@ -16,7 +16,8 @@ class UsuarioSeeder extends Seeder
     public function run()
     {
         //Administradores
-        User::create(['cliente_id_interno' => '-', 
+        User::create(['cliente_id_interno' => '-',
+                      'form_status' => '-',
                       'name' => 'Pedro Pozo', 
                       'email' => 'desarrollo@markcoweb.com', 
                       'direccion' => '-', 
@@ -39,7 +40,8 @@ class UsuarioSeeder extends Seeder
                       'estatus' => 'otro',
                     ]);
 
-        User::create(['cliente_id_interno' => '-', 
+        User::create(['cliente_id_interno' => '-',
+                      'form_status' => '-', 
                       'name' => 'Guillermo Cartagena', 
                       'email' => 'programacion@markcoweb.com', 
                       'direccion' => '-', 
@@ -62,7 +64,8 @@ class UsuarioSeeder extends Seeder
                       'estatus' => 'otro',
                     ]);
 
-        User::create(['cliente_id_interno' => '-', 
+        User::create(['cliente_id_interno' => '-',
+                      'form_status' => '-', 
                       'name' => 'Guillermo Flores', 
                       'email' => 'thompson.guillermof@gmail.com', 
                       'direccion' => '-', 
@@ -85,7 +88,8 @@ class UsuarioSeeder extends Seeder
                       'estatus' => 'otro',
                     ]);
 
-        User::create(['cliente_id_interno' => '-', 
+        User::create(['cliente_id_interno' => '-',
+                      'form_status' => '-', 
                       'name' => 'Jonathan Meza', 
                       'email' => 'thompson.jonathanmeza@gmail.com', 
                       'direccion' => '-', 
@@ -109,7 +113,8 @@ class UsuarioSeeder extends Seeder
                     ]);
         
         //Bódega
-        User::create(['cliente_id_interno' => '-', 
+        User::create(['cliente_id_interno' => '-',
+                      'form_status' => '-', 
                       'name' => 'Marco Rodríguez', 
                       'email' => 'logistica.thompson@gmail.com', 
                       'direccion' => '-', 
@@ -134,7 +139,8 @@ class UsuarioSeeder extends Seeder
 
 
         //Clientes
-        User::create(['cliente_id_interno' => '-', 
+        User::create(['cliente_id_interno' => '-',
+                      'form_status' => 'sent', 
                       'name' => 'Don Aprobado', 
                       'email' => 'ventas@kartoys.com.sv', 
                       'direccion' => '49 av. norte, local #1, col. Ursula', 
@@ -159,7 +165,8 @@ class UsuarioSeeder extends Seeder
 
 
         //Aspirantes
-        User::create(['cliente_id_interno' => '-', 
+        User::create(['cliente_id_interno' => '-',
+                      'form_status' => 'pending', 
                       'name' => 'Juan Pruebas', 
                       'email' => 'juancho@carbunny.com', 
                       'direccion' => '9na ca. poniente, edificio sefas, nivel 2 local #14, Col. Escalón', 
@@ -182,7 +189,8 @@ class UsuarioSeeder extends Seeder
                       'estatus' => 'aspirante',
                     ]);
 
-        User::create(['cliente_id_interno' => '-', 
+        User::create(['cliente_id_interno' => '-',
+                      'form_status' => 'pending', 
                       'name' => 'Lucho en Pruebas', 
                       'email' => 'lucho@autotool.com', 
                       'direccion' => '4ta av. norte, local #32, col. Esquival', 
