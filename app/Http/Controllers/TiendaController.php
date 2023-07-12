@@ -18,7 +18,9 @@ class TiendaController extends Controller
      */
     public function index(Request $request)
     {
-        $productos = Producto::paginate(12);
+        $productos = Producto::whereHas('marca', function($query){
+            $query->where('estado', "Activo");
+        })->paginate(12);
 
         //if ver si esta selecionado el filtro de categoria
         if($request->has('categoria')){

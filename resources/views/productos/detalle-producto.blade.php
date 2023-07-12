@@ -131,27 +131,48 @@ if ($producto->etiqueta_destacado == 1) {
                 <span class="rt-color-2 font-weight-bold">Descripción: </span>
                 <p class="text-justify mb-4" style="margin-right: 25px;">{{ $producto->descripcion }}</p>
 
-                <h3 class="d-flex align-items-center mb-4">
+                <h3 class="d-flex align-items-center">
                     <span style="color: #F3151E">
                         @if (Auth::user()->clasificacion == 'Cobre')
-                            $ {{ $producto->precio_1 }}
+                            $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
                         @elseif (Auth::user()->clasificacion == 'Plata')
-                            $ {{ $producto->precio_1 }}
+                            $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
                         @elseif (Auth::user()->clasificacion == 'Oro')
-                            $ {{ $producto->precio_2 }}
+                            $ {{ $producto->precio_2 * $producto->unidad_por_caja }}
                         @elseif (Auth::user()->clasificacion == 'Platino')
-                            $ {{ $producto->precio_3 }}
+                            $ {{ $producto->precio_3 * $producto->unidad_por_caja }}
                         @elseif (Auth::user()->clasificacion == 'Diamante')
-                            $ {{ $producto->precio_oferta }}
+                            $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
                         @elseif (Auth::user()->clasificacion == 'Taller')
-                            $ {{ $producto->precio_taller }}
+                            $ {{ $producto->precio_taller * $producto->unidad_por_caja }}
                         @elseif (Auth::user()->clasificacion == 'Reparto')
-                            $ {{ $producto->precio_distribuidor }}
+                            $ {{ $producto->precio_distribuidor * $producto->unidad_por_caja }}
                         @endif
-                        <span class="rt-color-2">c/producto</span>
+                        <span class="rt-color-2">C/Caja</span>
                     </span>
                     <span class="me-1 fs--1 text-500"></span>
                 </h3>
+                <span class="d-flex align-items-center mb-4">
+                    <span style="color: #F3151E">
+                        @if (Auth::user()->clasificacion == 'Cobre')
+                            $ {{ $producto->precio_1}}
+                        @elseif (Auth::user()->clasificacion == 'Plata')
+                            $ {{ $producto->precio_1 }}
+                        @elseif (Auth::user()->clasificacion == 'Oro')
+                            $ {{ $producto->precio_2}}
+                        @elseif (Auth::user()->clasificacion == 'Platino')
+                            $ {{ $producto->precio_3}}
+                        @elseif (Auth::user()->clasificacion == 'Diamante')
+                            $ {{ $producto->precio_oferta}}
+                        @elseif (Auth::user()->clasificacion == 'Taller')
+                            $ {{ $producto->precio_taller}}
+                        @elseif (Auth::user()->clasificacion == 'Reparto')
+                            $ {{ $producto->precio_distribuidor}}
+                        @endif
+                        <span class="rt-color-2">C/Producto</span>
+                    </span>
+                    <span class="me-1 fs--1 text-500"></span>
+                </span>
 
                 @if ($producto->existencia == 0)
                     <h3 class="fs--1"><span style="color: #F3151E">Producto Agotado</span></h3>

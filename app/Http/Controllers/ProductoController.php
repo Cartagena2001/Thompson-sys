@@ -22,7 +22,7 @@ class ProductoController extends Controller
     public function index()
     {
         //paginate
-        $productos = Producto::paginate();
+        $productos = Producto::paginate(10000);
 
         $categorias = Categoria::all();
         $marcas = Marca::all();
@@ -120,10 +120,10 @@ class ProductoController extends Controller
             $file->move(public_path() . '/assets/pdf/productos/', $file->getClientOriginalName());
             $reg->hoja_seguridad = '/assets/pdf/productos/' . $file->getClientOriginalName();
         }
-        if ($request->hasFile('ficha_tecnica_herf')) {
-            $file = $request->file('ficha_tecnica_herf');
+        if ($request->hasFile('ficha_tecnica_href')) {
+            $file = $request->file('ficha_tecnica_href');
             $file->move(public_path() . '/assets/pdf/productos/', $file->getClientOriginalName());
-            $reg->ficha_tecnica_herf = '/assets/pdf/productos/' . $file->getClientOriginalName();
+            $reg->ficha_tecnica_href = '/assets/pdf/productos/' . $file->getClientOriginalName();
         }
         //subir archivos imagenes
         if ($request->hasFile('imagen_1_src')) {
@@ -255,10 +255,15 @@ class ProductoController extends Controller
         $producto->precio_taller = $request->get('precio_taller');
 
         //subir archivos pdf
-        if ($request->hasFile('ficha_tecnica_herf')) {
-            $file = $request->file('ficha_tecnica_herf');
+        if ($request->hasFile('hoja_seguridad')) {
+            $file = $request->file('hoja_seguridad');
             $file->move(public_path() . '/assets/pdf/productos/', $file->getClientOriginalName());
-            $producto->ficha_tecnica_herf = $file->getClientOriginalName();
+            $producto->hoja_seguridad = '/assets/pdf/productos/' . $file->getClientOriginalName();
+        }
+        if ($request->hasFile('ficha_tecnica_href')) {
+            $file = $request->file('ficha_tecnica_href');
+            $file->move(public_path() . '/assets/pdf/productos/', $file->getClientOriginalName());
+            $producto->ficha_tecnica_href = '/assets/pdf/productos/' . $file->getClientOriginalName();
         }
         //subir archivos imagenes
         if ($request->hasFile('imagen_1_src')) {
@@ -296,7 +301,7 @@ class ProductoController extends Controller
      */
     public function destroy($id)
     {
-        $producto = Producto::find($id)->delete();
+        // $producto = Producto::find($id)->delete();
         //buscar imagenes del producto por su id para eliminarlas
         // $filename = public_path() . $producto->imagen_1_src;
         // File::delete($filename);
@@ -308,8 +313,16 @@ class ProductoController extends Controller
         // File::delete($filename);
         // $filename = public_path() . $producto->ficha_tecnica_herf;
         // File::delete($filename);
-         
-
+        $producto = Producto::findOrfail($id);
+        $path = 'assets/pdf/productos/'.$producto->hoja_seguridad;
+        if (File::exists($path)) {
+            File::delete($path);
+        }
+        $path = 'assets/pdf/productos/'.$producto->ficha_tecnica_href;
+        if (File::exists($path)) {
+            File::delete($path);
+        }
+        $producto->delete();
         return redirect()->route('productos.index')->with('success', 'Producto eliminado exitosamente');
     }
 }

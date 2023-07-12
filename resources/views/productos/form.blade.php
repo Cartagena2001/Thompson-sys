@@ -158,11 +158,17 @@
         {{ Form::label('hoja_seguridad', 'Hoja de seguridad (.pdf):', ['class' => 'form-label']) }}
         {{ Form::hidden('hoja_seguridad', $producto->hoja_seguridad, ['id' => 'hoja_seguridad']) }}
         {{ Form::file('hoja_seguridad', ['class' => 'form-control', 'placeholder' => '']) }}
+        @if ($producto->hoja_seguridad != null)
+            <a href="{{ asset(''.$producto->hoja_seguridad) }}" target="_blank">Ver archivo 📃 </a>
+        @endif
     </div>
     <div class="mb-3">
-        {{ Form::label('ficha_tecnica_herf', 'Ficha técnica del producto (.pdf):', ['class' => 'form-label']) }}
-        {{ Form::hidden('ficha_tecnica_herf', $producto->ficha_tecnica_herf, ['id' => 'ficha_tecnica_herf']) }}
-        {{ Form::file('ficha_tecnica_herf', ['class' => 'form-control', 'placeholder' => '']) }}
+        {{ Form::label('ficha_tecnica_href', 'Ficha técnica del producto (.pdf):', ['class' => 'form-label']) }}
+        {{ Form::hidden('ficha_tecnica_href', $producto->ficha_tecnica_href, ['id' => 'ficha_tecnica_herf']) }}
+        {{ Form::file('ficha_tecnica_href', ['class' => 'form-control', 'placeholder' => '']) }}
+        @if ($producto->ficha_tecnica_href != null)
+            <a href="{{ asset(''.$producto->ficha_tecnica_href) }}" target="_blank">Ver archivo 📃</a>
+        @endif
     </div>
 
     <p class="mt-4 text-start rt-color-1">📷 Imagenes del Producto:</p>

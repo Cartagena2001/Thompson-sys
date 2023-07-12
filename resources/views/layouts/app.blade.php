@@ -52,6 +52,9 @@
                         id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" style="border: ridge 1px #ff1620; border-radius: 20px; padding: 1px 1px;">
                         <img src={{ Auth::user()->imagen_perfil_src }} alt="img-perfil" width="30" height="30" class="rounded-circle" />
                         <span class="d-none d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
+                        @if ( Auth::user()->nombre_empresa != null)
+                        <span class="d-none d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">({{ Auth::user()->nombre_empresa }})</span>
+                        @endif
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow py-1">
                         <li><a class="dropdown-item text-center" href="{{ route('logout') }}"
