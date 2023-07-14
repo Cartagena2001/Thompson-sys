@@ -31,6 +31,7 @@ class MarcaController extends Controller
     {
         //paginate
         $marca = new Marca();
+        
         return view('marcas.create', compact('marca'));
     }
 

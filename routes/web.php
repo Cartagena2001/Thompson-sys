@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PHPMailerController;
 use Illuminate\Support\Facades\Route;
 use App\Models\CMS;
+use App\Models\Contacto;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +19,10 @@ use App\Models\CMS;
 
 Route::get('/', function () {
     $cmsVars = CMS::get()->toArray();
+    $contacto = new Contacto();
     
-    return view('welcome',compact('cmsVars'));
-});
+    return view('welcome',compact('cmsVars', 'contacto'));
+})->name('inicio');
 
 //Politica de Privacidad
 Route::get('/politica-de-privacidad', function () {
@@ -64,11 +67,10 @@ Route::put('/dashboard/aspirantes/rechazado/{id}', [App\Http\Controllers\Aspiran
 Route::get('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'indexInfoSent'])->name('info.enviada')->middleware('verified');
 Route::patch('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscrip.load')->middleware('verified');
 
-
 //Rutas Contactos
-Route::get('/dashboard/contactos', [App\Http\Controllers\ContactosController::class, 'index'])->name('contactos.index')->middleware('auth');
-Route::get('/dashboard/contactos/{id}', [App\Http\Controllers\ContactosController::class, 'show'])->name('contactos.show')->middleware('auth');
-
+Route::get('/dashboard/contactos', [App\Http\Controllers\ContactoController::class, 'index'])->name('contactos.index')->middleware('auth');
+Route::get('/dashboard/contactos/{id}', [App\Http\Controllers\ContactoController::class, 'show'])->name('contactos.show')->middleware('auth');
+Route::post('/', [App\Http\Controllers\ContactoController::class, 'store'])->name('contactos.store');
 
 //Rutas para clientes
 Route::get('/dashboard/clientes', [App\Http\Controllers\ClientesController::class, 'index'])->name('clientes.index')->middleware('auth');
@@ -115,10 +117,11 @@ Route::get('/dashboard/reportes/categorias', [App\Http\Controllers\ReportesContr
 Route::get('/dashboard/reportes/ordenes', [App\Http\Controllers\ReportesController::class, 'ordenes'])->name('reportes.ordenes')->middleware('auth');
 
 //Envío de Correos (Notificaciones)
+//Route::get("email", [PHPMailerController::class, "email"])->name("email");
+Route::post("send-email", [PHPMailerController::class, "composeEmail"])->name("send-email");
 
 
 
-//Config CMS
 
 
 

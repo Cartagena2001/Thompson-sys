@@ -6,18 +6,22 @@ use Illuminate\Http\Request;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Illuminate\Support\Collection;
 
-class MailerController extends Controller {
+class PHPMailerController extends Controller {
 
     // =============== [ Email ] ===================
     public function email() {
+
         return view("email");
     }
 
 
     // ========== [ Compose Email ] ================
-    public function composeEmail(Request $request) {
+    public function sendEmailNotif(Collection $message) {
+
         require base_path("vendor/autoload.php");
+
         $mail = new PHPMailer(true);     // Passing `true` enables exceptions
 
         try {
@@ -33,7 +37,7 @@ class MailerController extends Controller {
             $mail->Port = 465;                          // port - 587/465
 
             $mail->setFrom('notificaciones@rtelsalvador.com', 'Representaciones Thompson');
-            $mail->addAddress($request->emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
+            $mail->addAddress($message->get('emailRecipient')); /* NOTA: mandar a llamar email según config en la BD*/
             //$mail->addCC($request->emailCc);
             //$mail->addBCC($request->emailBcc);
 
@@ -47,19 +51,19 @@ class MailerController extends Controller {
             }
             */
 
-
             $mail->isHTML(true);                // Set email content format to HTML
 
-            $mail->Subject = $request->emailSubject;
-            $mail->Body    = $request->emailBody;
+            $mail->Subject = $message->get('emailSubject');
+            $mail->Body    = $message->get('emailBody');
 
             // $mail->AltBody = plain text version of email body;
 
             if( !$mail->send() ) {
+
                 return back()->with("failed", "Email not sent.")->withErrors($mail->ErrorInfo);
-            }
-            
+            } 
             else {
+
                 return back()->with("success", "Email has been sent.");
             }
 
