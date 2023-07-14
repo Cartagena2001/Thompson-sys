@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@section('title', 'Editar Marca')
+@section('title', 'Crear Marca')
 
     {{-- Titulo --}}
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
@@ -28,8 +28,7 @@
       
         {{-- formuarlio --}}
         <div class="card-body pt-0">
-            <form method="POST" action="{{ route('marcas.store') }}" role="form" 
-                enctype="multipart/form-data">
+            <form method="POST" action="{{ route('marcas.store') }}" role="form" enctype="multipart/form-data">
                 @csrf
                 @include('marcas.form')
             </form>

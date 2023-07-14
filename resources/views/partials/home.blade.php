@@ -154,46 +154,53 @@
 
               <p class="fs-3 fs-sm-4 text-white text-center">¿Estás interesado en nuestros servicios?</p>
 
-              <form class="row g-3 needs-validation" novalidate="">
+              {{-- formuarlio contacto --}}
+              <form method="POST" class="row g-3 needs-validation" novalidate="" action="{{ route('contactos.store') }}" role="form" enctype="multipart/form-data">
+                @csrf
+
                 <div class="col-md-6">
-                  <label class="form-label text-white" for="nomC">Nombre Completo:</label>
-                  <input class="form-control" id="nomC" type="text" placeholder="-" />
+                  {{ Form::label('nomC', 'Nombre Completo: *', ['class' => 'form-label text-white']) }}
+                  {{ Form::text('nomC', $contacto->nombre, ['class' => 'form-control', 'placeholder' => '-', 'required']) }}
                 </div>
+
                 <div class="col-md-6">
-                  <label class="form-label text-white" for="emailC">Correo Electrónico:</label>
-                  <input class="form-control" id="emailC" type="email" placeholder="ejemplo@email.com" />
+                  {{ Form::label('emailC', 'Correo Electrónico: *', ['class' => 'form-label text-white']) }}
+                  {{ Form::text('emailC', $contacto->correo, ['class' => 'form-control', 'placeholder' => 'ejemplo@email.com', 'required']) }}
                 </div>
+
                 <div class="col-md-6">
-                  <label class="form-label text-white" for="nomEC">Nombre Empresa:</label>
-                  <input class="form-control" id="nomEC" type="text" placeholder="-" />
+                  {{ Form::label('nomEC', 'Nombre Empresa/Negocio: *', ['class' => 'form-label text-white']) }}
+                  {{ Form::text('nomEC', $contacto->nombre_empresa, ['class' => 'form-control', 'placeholder' => '-', 'required']) }}
                 </div>
+
                 <div class="col-md-6">
-                  <label class="form-label text-white" for="numWC">Número de WhatsApp:</label>
-                  <input class="form-control" id="numWC" type="text" placeholder="0000-0000" />
+                  {{ Form::label('numWC', 'Número de WhatsApp: *', ['class' => 'form-label text-white']) }}
+                  {{ Form::text('numWC', $contacto->numero_whatsapp, ['class' => 'form-control', 'placeholder' => '0000-0000', 'required']) }}
                 </div>
+
                 <div class="col-md-12">
-                  <label class="form-label text-white" for="msjC">Mensaje:</label>
-                  <textarea class="form-control" id="msjC" rows="3" placeholder="Dejános tu mensaje..."></textarea>
+                  {{ Form::label('msjC', 'Mensaje: ', ['class' => 'form-label text-white']) }}
+                  {{ Form::textarea('msjC', $contacto->mensaje, ['class' => 'form-control', 'placeholder' => 'Dejános tu mensaje...']) }}
                 </div>
-                <div class="col-md-12 mt-4" style="display: flex; justify-content: center;">
-                  <div>
-                     {!! htmlFormSnippet() !!}
-                  </div>
-                </div>
+
                 <div class="col-12">
                   <div class="form-check" style="display: flex; justify-content: center;">
-                    <input class="form-check-input" id="invalidCheck" type="checkbox" value="" />
+                    {{ Form::checkbox('boletin', $contacto->mensaje, ['class' => 'form-check-input']) }}
                     &nbsp;&nbsp;
-                    <label class="form-check-label mb-0 text-white" for="invalidCheck">Suscríbete a nuestro boletín</label>
+                    {{ Form::label('boletin', 'Suscríbete a nuestro boletín ', ['class' => 'form-check-label mb-0 text-whitee']) }}
                   </div>
                 </div>
+
                 <div class="col-12">
                   <div style="display: flex; justify-content: center;">
                     <button class="btn btn-primary" type="submit">Enviar</button>
                   </div>  
                 </div>
+
               </form>
+
                <p class="mt-4 text-600 text-justify">También puedes llamarnos a nuestro número de atención al cliente <a href="{{ $cmsVars[3]['parametro'] }}" title="Llamar" target="_blank"> {{ $cmsVars[2]['parametro'] }} </a> ó whatsApp <a href="https://api.whatsapp.com/send?phone=503{{ $cmsVars[1]['parametro'] }}&amp;text=¡Hola, buen día!" title="Escríbenos" target="_blank">+503 {{ $cmsVars[0]['parametro'] }}</a></p>
+
             </div>
           </div>
         </div>
