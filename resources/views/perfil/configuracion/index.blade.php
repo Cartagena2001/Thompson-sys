@@ -36,73 +36,76 @@
                     {{ method_field('PATCH') }}
                     @csrf
 
-                    <div class="mt-3">
+                    <div class="mt-3 col-auto text-center col-4 mx-auto">
                         <label>Imagen de perfil: </label>
                         <input class="form-control" type="file" name="imagen_perfil_src" id="image_perfil_src" value="{{ $user->imagen_perfil_src }}">
                         <img class="rounded mt-2" src="{{ $user->imagen_perfil_src }}" alt="" width="200">
                     </div>
 
-                    <div class="mt-3">
-                        <label>Nombre: </label>
-                        <input class="form-control" type="text" name="name" id="name" value="{{ $user->name }}">
+                    <div class="row">
+                        <div class="col-6">
+                            <label>Nombre: </label>
+                            <input class="form-control" type="text" name="name" id="name" value="{{ $user->name }}">
+                        </div>
+                        <div class="col-6">
+                            <label>Correo Electrónico: </label>
+                            <input class="form-control" type="text" name="email" id="email" value="{{ $user->email }}">
+                        </div>                      
                     </div>
-
-                    <div class="mt-3">
-                        <label>Correo Electrónico: </label>
-                        <input class="form-control" type="text" name="email" id="email" value="{{ $user->email }}">
-                    </div>
-                    <div class="mt-3">
-                        <label>Teléfono: </label>
-                        <input class="form-control" type="text" name="telefono" id="telefono" value="{{ $user->telefono }}">
-                    </div>
-                    <div class="mt-3">
-                        <label>Municipio: </label>
+                    <div class="row">
+                        <div class="col-4">
+                            <label>Teléfono: </label>
+                            <input class="form-control" type="text" name="telefono" id="telefono" value="{{ $user->telefono }}">
+                        </div>
+                        <div class="col-4">
+                            <label>Municipio: </label>
                         <input class="form-control" type="text" name="municipio" id="municipio" value="{{ $user->municipio }}">
-                    </div>
-                    <div class="mt-3">
-                        <label>Departamento: </label>
+                        </div>
+                        <div class="col-4">
+                            <label>Departamento: </label>
                         <input class="form-control" type="text" name="departamento" id="departamento" value="{{ $user->departamento }}">
+                        </div>
                     </div>
-
                     <div class="mt-3">
                         <label>Dirección: </label>
                         <input class="form-control" type="text" name="direccion" id="direccion" value="{{ $user->direccion }}">
                     </div>
 
-
                     <div class="col-auto align-self-center mt-5">
-                        <h5 class="mb-0" data-anchor="data-anchor">Información de la empresa</h5>
+                        <h4 class="mb-0" data-anchor="data-anchor">Información de la empresa 💼</h4>
                     </div>
-
-                    <div>
-                        <label>Nombre: </label>
-                        <input class="form-control" type="text" name="nombre_empresa" id="nombre_empresa" value="{{ $user->nombre_empresa }}" maxlength="45" placeholder="-">
+                    <div class="row">
+                        <div class="col-4">
+                            <label>Nombre: </label>
+                            <input class="form-control" type="text" name="nombre_empresa" id="nombre_empresa" value="{{ $user->nombre_empresa }}" maxlength="45" placeholder="-">
+                        </div>
+                        <div class="col-4">
+                            <label>WebSite: </label>
+                            <input class="form-control" type="text" name="website" id="website" value="{{ $user->website }}">
+                        </div>
+                        <div class="col-4">
+                            <label>WhatsApp: </label>
+                            <input class="form-control" type="text" name="whatsapp" id="whatsapp" value="{{ $user->whatsapp }}">
+                        </div>
                     </div>
-                    <div>
-                        <label>WebSite: </label>
-                        <input class="form-control" type="text" name="website" id="website" value="{{ $user->website }}">
-                    </div>
-                    <div>
-                        <label>NIT: </label>
+                    <div class="row">
+                        <div class="col-6">
+                            <label>NIT: </label>
                         <input class="form-control" type="text" name="nit" id="nit" value="{{ $user->nit }}" minlength="17" maxlength="17" placeholder="0000-000000-000-0">
                         @error('nit')
                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                         @enderror
-                    </div>
-                    <div>
-                        <label>NRC: </label>
+                        </div>
+                        <div class="col-6">
+                            <label>NRC: </label>
                         <input class="form-control" type="text" name="nrc" id="nrc" value="{{ $user->nrc }}" minlength="8" maxlength="8" placeholder="0000000-0">
                         @error('nrc')
                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                         @enderror
-                    </div>
-                    <div>
-                        <label>WhatsApp: </label>
-                        <input class="form-control" type="text" name="whatsapp" id="whatsapp" value="{{ $user->whatsapp }}">
-                    </div>
-                    
-                    <div class="mt-3">
-                        <button type="submit" href="" class="btn btn-outline-primary btn-sm">Actualizar información</button>
+                        </div>
+                    </div>    
+                    <div class="mt-4 col-auto text-center col-4 mx-auto">
+                        <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Actualizar información</button>
                     </div>
 
                 </form>
