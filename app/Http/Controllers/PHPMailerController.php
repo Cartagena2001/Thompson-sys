@@ -35,6 +35,8 @@ class PHPMailerController extends Controller {
             $mail->Password = '24fm2l$PX_5(';       // sender password
             $mail->SMTPSecure = 'tls';                  // encryption - ssl/tls
             $mail->Port = 465;                          // port - 587/465
+            $mail->CharSet = 'UTF-8';
+            $mail->Encoding = 'base64';
 
             $mail->setFrom('notificaciones@rtelsalvador.com', 'Representaciones Thompson');
             $mail->addAddress($message->get('emailRecipient')); /* NOTA: mandar a llamar email según config en la BD*/
@@ -57,6 +59,8 @@ class PHPMailerController extends Controller {
             $mail->Body    = $message->get('emailBody');
 
             // $mail->AltBody = plain text version of email body;
+
+            echo '<script> console.log("working... 2"); </script>';
 
             if( !$mail->send() ) {
 

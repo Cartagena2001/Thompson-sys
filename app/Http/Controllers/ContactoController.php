@@ -52,6 +52,8 @@ class ContactoController extends Controller
             'numWC' => 'required',
         ]);
 
+        echo '<script> console.log("working... ¿?"); </script>';
+
         //almacenar datos
         $contact = new Contacto();
         $contact->nombre = $request->get('nomC');
@@ -60,10 +62,13 @@ class ContactoController extends Controller
         $contact->numero_whatsapp = $request->get('numWC');
         $contact->mensaje = $request->get('msjC');
         $contact->fecha_hora_form = \Carbon\Carbon::now()->toDateTimeString();
-        //echo '<script> console.log("fecha/hora: '.$contact->fecha_hora_form.' "); </script>';
+        echo '<script> console.log("fecha/hora: '.$contact->fecha_hora_form.' "); </script>';
 
         //echo '<script> console.log("boletin value: '.$request->get('boletin').' "); </script>';
          $boletinC = "";
+
+
+        echo '<script> console.log("working... 1"); </script>';
 
         if ($request->get('boletin') == 'on') {
             
@@ -109,6 +114,8 @@ class ContactoController extends Controller
 
         $otherController = new PHPMailerController();
         $otherController->sendEmailNotif($message);
+
+        echo '<script> console.log("working... 3"); </script>';
       
         //redireccionar
         return redirect()->route('inicio')->with('success', 'Tu mensaje ha sido enviado con éxito');

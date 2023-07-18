@@ -191,6 +191,43 @@
                   </div>
                 </div>
 
+                @if (isset($success))
+                    <div class="col-sm-12">
+                        <div class="alert  alert-danger alert-dismissible fade show" role="alert">
+                          $success
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                    </div>
+                @elseif ((isset($error))
+                    <div class="col-sm-12">
+                        <div class="alert  alert-danger alert-dismissible fade show" role="alert">
+                          $error
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                    </div>
+                @else
+                    <div class="col-sm-12">
+                        <div class="alert  alert-danger alert-dismissible fade show" role="alert">
+                          $failed
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                    </div>
+                @endif
+
+                @foreach ($errors->all() as $error)
+
+                  <div>{{ $error }}</div>
+
+                @endforeach
+
+
+
                 <div class="col-12">
                   <div style="display: flex; justify-content: center;">
                     <button class="btn btn-primary" type="submit">Enviar</button>
