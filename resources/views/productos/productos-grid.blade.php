@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 @section('title', 'Tienda')
 <div class="card mb-3" style="border: ridge 1px #ff1620;">
     <div class="card-body">

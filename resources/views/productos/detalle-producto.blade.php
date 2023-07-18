@@ -45,21 +45,19 @@ if ($producto->etiqueta_destacado == 1) {
                         <div class="">
                             <div class="swiper mySwiper">
                                 <div class="swiper-wrapper">
-                                    <img class="swiper-slide img-fluid" src="{{ $imagen }}">
 
+                                        <img class="swiper-slide img-fluid" src="{{ $imagen }}">
                                     @if ($producto->imagen_2_src != null)
-                                        <img class="swiper-slide img-fluid" src="{{ $producto->imagen_2_src }}"
-                                            alt="{{ $producto->nombre }}">
+                                        <img class="swiper-slide img-fluid" src="{{ $producto->imagen_2_src }}" alt="{{ $producto->nombre }}">
                                     @endif
                                     @if ($producto->imagen_3_src != null)
-                                        <img class="swiper-slide img-fluid" src="{{ $producto->imagen_3_src }}"
-                                            alt="{{ $producto->nombre }}">
+                                        <img class="swiper-slide img-fluid" src="{{ $producto->imagen_3_src }}" alt="{{ $producto->nombre }}">
                                     @endif
 
                                     @if ($producto->imagen_4_src != null)
-                                        <img class="swiper-slide img-fluid" src="{{ $producto->imagen_4_src }}"
-                                            alt="{{ $producto->nombre }}">
+                                        <img class="swiper-slide img-fluid" src="{{ $producto->imagen_4_src }}" alt="{{ $producto->nombre }}">
                                     @endif
+
                                 </div>
                                 <div class="swiper-button-next"></div>
                                 <div class="swiper-button-prev"></div>
@@ -72,21 +70,18 @@ if ($producto->etiqueta_destacado == 1) {
                 <div class="row">
                     @if ($producto->imagen_2_src != null)
                         <div class="col-4">
-                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
-                                    src="{{ $producto->imagen_2_src }}" alt="" /></div>
+                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100" src="{{ $producto->imagen_2_src }}" alt="" /></div>
                         </div>
                     @endif
 
                     @if ($producto->imagen_3_src != null)
                         <div class="col-4">
-                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
-                                    src="{{ $producto->imagen_3_src }}" alt="" /></div>
+                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100" src="{{ $producto->imagen_3_src }}" alt="" /></div>
                         </div>
                     @endif
                     @if ($producto->imagen_4_src != null)
                         <div class="col-4">
-                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100"
-                                    src="{{ $producto->imagen_4_src }}" alt="" /></div>
+                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100" src="{{ $producto->imagen_4_src }}" alt="" /></div>
                         </div>
                     @endif
                 </div>
@@ -119,17 +114,30 @@ if ($producto->etiqueta_destacado == 1) {
                 <hr />
 
                 <div class="mt-3 mb-3 d-block">
-                    <span class="rt-color-2 font-weight-bold">Categoría: </span> <a href="#" target="_self"
-                        title="Ver">{{ $producto->categoria->nombre }}</a>
-                    <br>
-                    <span class="rt-color-2 font-weight-bold">Marca: </span> <a href="#" target="_self"
-                        title="Ver">{{ $producto->marca->nombre }}</a>
+                    <span class="rt-color-2 font-weight-bold">OEM: </span> <a href="#" target="_self" title="Ver">{{ $producto->OEM }}</a>
+                    <br/>
+                    <span class="rt-color-2 font-weight-bold">Categoría: </span> <a href="#" target="_self" title="Ver">{{ $producto->categoria->nombre }}</a>
+                    <br/>
+                    <span class="rt-color-2 font-weight-bold">Marca: </span> <a href="#" target="_self" title="Ver">{{ $producto->marca->nombre }}</a>
                 </div>
 
                 <span class="badge rounded-pill bg-info mt-2 mb-2 z-index-2 top-0 end-0">{{ $destacado }}</span>
 
-                <span class="rt-color-2 font-weight-bold">Descripción: </span>
-                <p class="text-justify mb-4" style="margin-right: 25px;">{{ $producto->descripcion }}</p>
+                <div class="mt-3 mb-3 d-block">
+                    <span class="rt-color-2 font-weight-bold">Descripción: </span>
+                    <p class="text-justify mb-4" style="margin-right: 25px;">{{ $producto->descripcion }}</p>
+                </div>
+
+                @if( $producto->ficha_tecnica_href != null )
+                    <div class="mt-3 mb-4 d-block">
+                        <span class="rt-color-2 font-weight-bold">🧾️ Ficha Técnica: <a href="{{ $producto->ficha_tecnica_href }}" title="Leer" target="_blank">ver pdf</a></span>
+                        <br/>
+                @endif
+
+                @if( $producto->hoja_seguridad != null )
+                    <span class="rt-color-2 font-weight-bold">📋 Hoja de Seguridad: <a href="{{ $producto->hoja_seguridad }}" title="Leer" target="_blank">ver pdf</a></span>
+                </div>
+                @endif
 
                 <h3 class="d-flex align-items-center">
                     <span style="color: #F3151E">
@@ -148,7 +156,7 @@ if ($producto->etiqueta_destacado == 1) {
                         @elseif (Auth::user()->clasificacion == 'Reparto')
                             $ {{ $producto->precio_distribuidor * $producto->unidad_por_caja }}
                         @endif
-                        <span class="rt-color-2">C/Caja</span>
+                        <span class="rt-color-2">c/caja</span>
                     </span>
                     <span class="me-1 fs--1 text-500"></span>
                 </h3>
@@ -169,7 +177,7 @@ if ($producto->etiqueta_destacado == 1) {
                         @elseif (Auth::user()->clasificacion == 'Reparto')
                             $ {{ $producto->precio_distribuidor}}
                         @endif
-                        <span class="rt-color-2">C/Producto</span>
+                        <span class="rt-color-2">c/producto</span>
                     </span>
                     <span class="me-1 fs--1 text-500"></span>
                 </span>
@@ -177,8 +185,7 @@ if ($producto->etiqueta_destacado == 1) {
                 @if ($producto->existencia == 0)
                     <h3 class="fs--1"><span style="color: #F3151E">Producto Agotado</span></h3>
                 @else
-                    <h3 class="fs--1"><span style="color: #F3151E">En Stock: {{ $producto->existencia }} Cajas
-                            📦</span></h3>
+                    <h3 class="fs--1"><span style="color: #F3151E">En Stock: {{ $producto->existencia }} Cajas 📦</span></h3>
                 @endif
 
                 <span>• Unidades por caja: {{ $producto->unidad_por_caja }}</span>
@@ -198,16 +205,13 @@ if ($producto->etiqueta_destacado == 1) {
                                 <input type="hidden" name="producto_id" value="{{ $producto->id }}">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" type="button" id="btn-menos">-</button>
-                                    <input class="btn btn-outline-secondary" type="number" name="cantidad"
-                                        value="1" id="cantidad" min="1"
-                                        max="{{ $producto->unidad_por_caja }}" readonly>
+                                    <input class="btn btn-outline-secondary" type="number" name="cantidad" value="1" id="cantidad" min="1" max="{{ $producto->unidad_por_caja }}" readonly>
                                     <button class="btn btn-outline-secondary" type="button" id="btn-mas">+</button>
                                 </div>
                             </div>
                         </div>
 
-                        <button class="btn btn-x btn-primary" type="submit"><span
-                                class="fas fa-cart-plus me-sm-2"></span>Agregar al Carrito</button>
+                        <button class="btn btn-x btn-primary" type="submit"><span class="fas fa-cart-plus me-sm-2"></span>Agregar al Carrito</button>
 
                     </form>
 
