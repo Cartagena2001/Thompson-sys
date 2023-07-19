@@ -66,3 +66,19 @@ body {
     width:100%;
     height:100%;
 }
+
+.producto-destacado {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    max-width: 160px;
+}
+
+.producto-destacado-thumb {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    max-width: 100px;
+    width: auto !important;
+    height: auto !important;
+}

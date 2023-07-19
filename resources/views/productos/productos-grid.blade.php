@@ -25,8 +25,7 @@
                     ->where('estado_producto_id', '1')
                     ->get();
                 ?>
-                <h6 class="mb-0">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }}
-                    productos</h6>
+                <h6 class="mb-0">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }} productos</h6>
 
             </div>
 
@@ -37,8 +36,7 @@
                             <div class="col-auto"><small>Ordenar por categoría:</small></div>
                             <div class="col-auto">
                                 <form action="{{ route('productos.index') }}" method="get">
-                                    <select name="categoria" id="categoria" class="form-select form-select-sm"
-                                        aria-label="Bulk actions">
+                                    <select name="categoria" id="categoria" class="form-select form-select-sm" aria-label="Bulk actions">
                                         @foreach ($categorias as $categoria)
                                             <option value="{{ $categoria->id }}"
                                                 @if ($categoria->id == $categoriaActual) selected @endif>
@@ -46,11 +44,8 @@
                                         @endforeach
                                     </select>
                                     <div class="mt-2">
-                                        <button class="btn btn-sm btn-primary" type="submit"><i
-                                                class="fas fa-filter"></i> Aplicar filtro</button>
-                                        <a href="{{ url('/dashboard/tienda') }}" class="btn btn-sm btn-primary"
-                                            type="submit"><i class="fas fa-trash-alt"></i> Limpiar
-                                            filtro</a>
+                                        <button class="btn btn-sm btn-primary" type="submit"><i class="fas fa-filter"></i> Aplicar filtro</button>
+                                        <a href="{{ url('/dashboard/tienda') }}" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-trash-alt"></i> Limpiar filtro</a>
                                     </div>
                                 </form>
                             </div>
@@ -88,12 +83,6 @@
                 } else {
                     $imagen = '../../../assets/img/products/default.webp';
                 }
-                //verificar si el producto tiene la etiqueta de destacado
-                if ($producto->etiqueta_destacado == 1) {
-                    $destacado = '¡Producto destacado!';
-                } else {
-                    $destacado = '';
-                }
                 ?>
 
                 <div class="mb-4 col-md-12 col-lg-3">
@@ -101,16 +90,16 @@
                     <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
                         <div class="overflow-hidden">
 
-                            <div class="position-relative rounded-top overflow-hidden div-tienda"><a class="d-block"
-                                    href="{{ route('tienda.show', $producto->slug) }}"><img class="rounded-top"
-                                        src="{{ $imagen }}" alt="" /></a>
+                            <div class="position-relative rounded-top overflow-hidden div-tienda" style="position: relative;">
+                                <a class="d-block" href="{{ route('tienda.show', $producto->slug) }}"><img class="rounded-top" src="{{ $imagen }}" alt="img-producto-thumbnail" /></a>
+                                @if ($producto->etiqueta_destacado == 1) 
+                                    <image src="{{url('assets/img/imgs/destacado.svg')}}" alt="destacado-seal-img-thumb" class="producto-destacado-thumb" />
+                                @endif
                             </div>
 
                             <div class="p-3">
-                                <span
-                                    class="badge rounded-pill bg-info mt-2 mb-2 z-index-2 top-0 end-0">{{ $destacado }}</span>
-                                <h5 style="min-height: 55px;" class="fs--1 text-end"><a class="text-dark"
-                                        href="{{ route('tienda.show', $producto->slug) }}">{{ $producto->nombre }}</a>
+
+                                <h5 style="min-height: 55px;" class="fs--1 text-start"><a class="text-dark" href="{{ route('tienda.show', $producto->slug) }}">{{ $producto->nombre }}</a>
                                 </h5>
 
                                 <p class="fs--1 mb-2"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>

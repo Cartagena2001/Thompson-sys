@@ -13,12 +13,6 @@ if ($producto->imagen_1_src != null) {
     $imagen = '../../../assets/img/products/demo-product-img.jpg';
 }
 
-//verificar si el producto tiene la etiqueta de destacado
-if ($producto->etiqueta_destacado == 1) {
-    $destacado = '¡Producto destacado!';
-} else {
-    $destacado = '';
-}
 
 ?>
 
@@ -44,7 +38,7 @@ if ($producto->etiqueta_destacado == 1) {
                     <div class="swiper-slide">
                         <div class="">
                             <div class="swiper mySwiper">
-                                <div class="swiper-wrapper">
+                                <div class="swiper-wrapper" style="position: relative;">
 
                                         <img class="swiper-slide img-fluid" src="{{ $imagen }}">
                                     @if ($producto->imagen_2_src != null)
@@ -56,6 +50,10 @@ if ($producto->etiqueta_destacado == 1) {
 
                                     @if ($producto->imagen_4_src != null)
                                         <img class="swiper-slide img-fluid" src="{{ $producto->imagen_4_src }}" alt="{{ $producto->nombre }}">
+                                    @endif
+
+                                    @if ($producto->etiqueta_destacado == 1) 
+                                        <image src="{{url('assets/img/imgs/destacado.svg')}}" alt="destacado-seal-img" class="producto-destacado" />
                                     @endif
 
                                 </div>
@@ -121,11 +119,11 @@ if ($producto->etiqueta_destacado == 1) {
                     <span class="rt-color-2 font-weight-bold">Marca: </span> <a href="#" target="_self" title="Ver">{{ $producto->marca->nombre }}</a>
                 </div>
 
-                <span class="badge rounded-pill bg-info mt-2 mb-2 z-index-2 top-0 end-0">{{ $destacado }}</span>
+                
 
                 <div class="mt-3 mb-3 d-block">
                     <span class="rt-color-2 font-weight-bold">Descripción: </span>
-                    <p class="text-justify mb-4" style="margin-right: 25px;">{{ $producto->descripcion }}</p>
+                    <p class="text-justify mb-4 line-height: 28px;" style="margin-right: 25px;">{{ $producto->descripcion }}</p>
                 </div>
 
                 @if( $producto->ficha_tecnica_href != null )
