@@ -82,3 +82,19 @@ body {
     width: auto !important;
     height: auto !important;
 }
+
+.producto-oferta {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    max-width: 280px;
+}
+
+.producto-oferta-thumb {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    max-width: 130px;
+    width: auto !important;
+    height: auto !important;
+}

@@ -95,6 +95,10 @@
                                 @if ($producto->etiqueta_destacado == 1) 
                                     <image src="{{url('assets/img/imgs/destacado.svg')}}" alt="destacado-seal-img-thumb" class="producto-destacado-thumb" />
                                 @endif
+
+                                @if ($producto->precio_oferta != null) 
+                                    <image src="{{url('assets/img/imgs/oferta.svg')}}" alt="oferta-seal-img-thumb" class="producto-oferta-thumb" />
+                                @endif
                             </div>
 
                             <div class="p-3">

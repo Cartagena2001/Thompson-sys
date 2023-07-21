@@ -56,6 +56,10 @@ if ($producto->imagen_1_src != null) {
                                         <image src="{{url('assets/img/imgs/destacado.svg')}}" alt="destacado-seal-img" class="producto-destacado" />
                                     @endif
 
+                                    @if ($producto->precio_oferta != null) 
+                                        <image src="{{url('assets/img/imgs/oferta.svg')}}" alt="oferta-seal-img" class="producto-oferta" />
+                                    @endif
+
                                 </div>
                                 <div class="swiper-button-next"></div>
                                 <div class="swiper-button-prev"></div>
