@@ -34,7 +34,7 @@ class OrdenController extends Controller
             $ordenDetalle->orden_id = $orden->id;
             $ordenDetalle->producto_id = $producto['producto_id'];
             $ordenDetalle->cantidad = $producto['cantidad'];
-            $ordenDetalle->precio = $producto['precio_1'];
+            $ordenDetalle->precio = $producto['precio_f'];
             $ordenDetalle->descuento = 0;
             $ordenDetalle->save();
 
@@ -46,7 +46,7 @@ class OrdenController extends Controller
 
         //actualizar el total de la orden
         foreach ($cart as $producto) {
-            $orden->total = $orden->total + ($producto['precio_1'] * $producto['cantidad'] * $producto['unidad_caja']);
+            $orden->total = $orden->total + ($producto['precio_f'] * $producto['cantidad'] * $producto['unidad_caja']);
         }
         $orden->save();
 

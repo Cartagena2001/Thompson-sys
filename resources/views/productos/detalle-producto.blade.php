@@ -36,9 +36,10 @@ if ($producto->imagen_1_src != null) {
 
                 <div class="row mb-4" style="position: relative;" id="galleryTop"> {{-- product-slider --}}
                     <div class="swiper-slide">
-                        <div class="">
+                        <div style="position: relative;">
+                            
                             <div class="swiper mySwiper">
-                                <div class="swiper-wrapper" style="position: relative;">
+                                <div class="swiper-wrapper">
 
                                         <img class="swiper-slide img-fluid" src="{{ $imagen }}">
                                     @if ($producto->imagen_2_src != null)
@@ -52,19 +53,20 @@ if ($producto->imagen_1_src != null) {
                                         <img class="swiper-slide img-fluid" src="{{ $producto->imagen_4_src }}" alt="{{ $producto->nombre }}">
                                     @endif
 
-                                    @if ($producto->etiqueta_destacado == 1) 
-                                        <image src="{{url('assets/img/imgs/destacado.svg')}}" alt="destacado-seal-img" class="producto-destacado" />
-                                    @endif
-
-                                    @if ($producto->precio_oferta != null) 
-                                        <image src="{{url('assets/img/imgs/oferta.svg')}}" alt="oferta-seal-img" class="producto-oferta" />
-                                    @endif
-
                                 </div>
                                 <div class="swiper-button-next"></div>
                                 <div class="swiper-button-prev"></div>
                                 <div class="swiper-pagination"></div>
                             </div>
+
+                            @if ($producto->etiqueta_destacado == 1) 
+                                <image src="{{url('assets/img/imgs/destacado.svg')}}" alt="destacado-seal-img" class="producto-destacado" />
+                            @endif
+
+                            @if ($producto->precio_oferta != null) 
+                                <image src="{{url('assets/img/imgs/oferta.svg')}}" alt="oferta-seal-img" class="producto-oferta" />
+                            @endif 
+
                         </div>
                     </div>
                 </div>
@@ -143,7 +145,11 @@ if ($producto->imagen_1_src != null) {
 
                 <h3 class="d-flex align-items-center">
                     <span style="color: #F3151E">
-                        @if (Auth::user()->clasificacion == 'Cobre')
+
+                        @if ($producto->precio_oferta != null)                        
+                            $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
+
+                        @elseif (Auth::user()->clasificacion == 'Cobre')
                             $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
                         @elseif (Auth::user()->clasificacion == 'Plata')
                             $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
@@ -164,7 +170,11 @@ if ($producto->imagen_1_src != null) {
                 </h3>
                 <span class="d-flex align-items-center mb-4">
                     <span style="color: #F3151E">
-                        @if (Auth::user()->clasificacion == 'Cobre')
+
+                        @if ($producto->precio_oferta != null)                        
+                            $ {{ $producto->precio_oferta }}
+
+                        @elseif (Auth::user()->clasificacion == 'Cobre')
                             $ {{ $producto->precio_1}}
                         @elseif (Auth::user()->clasificacion == 'Plata')
                             $ {{ $producto->precio_1 }}
@@ -190,11 +200,11 @@ if ($producto->imagen_1_src != null) {
                     <h3 class="fs--1"><span style="color: #F3151E">En Stock: {{ $producto->existencia }} Cajas 📦</span></h3>
                 @endif
 
-                <span>• Unidades por caja: {{ $producto->unidad_por_caja }}</span>
+                <span><b>• Unidades por caja:</b> {{ $producto->unidad_por_caja }}</span>
                 <br>
-                <span>• País de origen: {{ $producto->origen }}</span>
+                <span><b>• País de origen:</b> <span style="text-transform: capitalize;">{{ $producto->origen }}</span></span>
                 <br>
-                <span>• Garantía: {{ $producto->garantia }}</span>
+                <span><b>• Garantía:</b> {{ $producto->garantia }}</span>
                 <br>
 
                 <div class="row">
@@ -202,7 +212,8 @@ if ($producto->imagen_1_src != null) {
                     <form method="post" action="{{ route('carrito.add') }}">
                         @csrf
                         <div class="mb-2 mt-4">
-                            <span class="fs--1 text-500">Cantidad de cajas</span>
+                            <span class="fs--1 text-500">Cantidad de cajas a ordenar:</span>
+                            
                             <div class="input-group" data-quantity="data-quantity">              
                                 <input type="hidden" name="producto_id" value="{{ $producto->id }}">
                                 <div class="input-group-append">
@@ -211,6 +222,7 @@ if ($producto->imagen_1_src != null) {
                                     <button class="btn btn-outline-secondary" type="button" id="btn-mas">+</button>
                                 </div>
                             </div>
+                            
                         </div>
 
                         <button class="btn btn-x btn-primary" type="submit"><span class="fas fa-cart-plus me-sm-2"></span>Agregar al Carrito</button>

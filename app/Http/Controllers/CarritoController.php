@@ -24,7 +24,9 @@ class CarritoController extends Controller
         $cart = session()->get('cart', []);
 
         //validar que clasificacion tiene el cliente para poner un precio u otro
-        if (Auth::user()->clasificacion == 'Cobre') {
+        if ($product->precio_oferta != null) {
+            $precio = $product->precio_oferta;
+        } elseif (Auth::user()->clasificacion == 'Cobre') {
             $precio = $product->precio_1;
         } elseif (Auth::user()->clasificacion == 'Plata') {
             $precio = $product->precio_1;
@@ -52,8 +54,8 @@ class CarritoController extends Controller
             $cart[$product->id] = [
                 'producto_id' => $product->id,
                 'nombre' => $product->nombre,
-                'precio_1' => $precio,
                 'cantidad' => $cantidad,
+                'precio_f' => $precio,
                 'existencia' => $product->existencia,
                 'unidad_caja' => $product->unidad_por_caja,
             ];
@@ -73,7 +75,9 @@ class CarritoController extends Controller
         $cart = session()->get('cart', []);
 
         //validar que clasificacion tiene el cliente para poner un precio u otro
-        if (Auth::user()->clasificacion == 'Cobre') {
+        if ($product->precio_oferta != null) {
+            $precio = $product->precio_oferta;
+        } elseif (Auth::user()->clasificacion == 'Cobre') {
             $precio = $product->precio_1;
         } elseif (Auth::user()->clasificacion == 'Plata') {
             $precio = $product->precio_1;
@@ -95,7 +99,7 @@ class CarritoController extends Controller
             $cart[$product->id] = [
                 'producto_id' => $product->id,
                 'nombre' => $product->nombre,
-                'precio_1' => $precio,
+                'precio_f' => $precio,
                 'cantidad' => $cantidad,
                 'existencia' => $product->existencia,
                 'unidad_caja' => $product->unidad_por_caja,

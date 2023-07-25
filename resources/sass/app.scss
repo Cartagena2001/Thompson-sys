@@ -72,6 +72,7 @@ body {
     left: 10px;
     top: 10px;
     max-width: 160px;
+    z-index: 1000;
 }
 
 .producto-destacado-thumb {
@@ -88,6 +89,7 @@ body {
     right: 0px;
     top: 0px;
     max-width: 280px;
+    z-index: 1000;
 }
 
 .producto-oferta-thumb {

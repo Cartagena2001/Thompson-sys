@@ -2,6 +2,7 @@
 
 @section('content')
 @section('title', 'Carrito de compras')
+
 {{-- Titulo --}}
 <div class="card mb-3">
     <div class="bg-holder d-none d-lg-block bg-card"
@@ -17,6 +18,7 @@
         </div>
     </div>
 </div>
+
 <div class="card card-body pt-0">
     <div class="table-responsive scrollbar">
         <table class="table">
@@ -28,8 +30,7 @@
                             haciendo click en el boton <b>"Agregar al carrito"</b> que se encuentra en la
                             pagina de cada producto.</p>
                         <hr>
-                        <p class="mb-0">Ve a la pagina de productos haciendo click <a
-                                href="{{ url('/dashboard/tienda') }}">aqui</a>.</p>
+                        <p class="mb-0">Ve a la pagina de productos haciendo click <a href="{{ url('/dashboard/tienda') }}">aqui</a>.</p>
                     </div>
                 @endif
                 <tr>
@@ -52,11 +53,8 @@
                                     <div class="input-group" data-quantity="data-quantity">
                                         <input type="hidden" name="producto_id" value="{{ $item['producto_id'] }}">
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary btn-menos"
-                                                type="button">-</button>
-                                            <input class="btn btn-outline-secondary cantidad" type="number"
-                                                name="cantidad" value="{{ $item['cantidad'] }}" min="1"
-                                                max="{{ $item['existencia'] }}" readonly>
+                                            <button class="btn btn-outline-secondary btn-menos" type="button">-</button>
+                                            <input class="btn btn-outline-secondary cantidad" type="number" name="cantidad" value="{{ $item['cantidad'] }}" min="1" max="{{ $item['existencia'] }}" readonly>
                                             <button class="btn btn-outline-secondary btn-mas" type="button">+</button>
                                             <button type="submit" class="btn btn-sm btn-primary">
                                                 <i class="fas fa-sync-alt"></i> Actualizar cantidad
@@ -66,16 +64,14 @@
                                 </div>
                             </form>
                         </td>
-                        <td>${{ $item['precio_1'] }}</td>
-                        <td>${{ $item['precio_1'] * $item['cantidad'] * $item['unidad_caja']  }}</td>
+                        <td>${{ $item['precio_f'] }}</td>
+                        <td>${{ $item['precio_f'] * $item['cantidad'] * $item['unidad_caja']  }}</td>
                         <td>
                             <form action="{{ route('carrito.delete', $item['producto_id']) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="producto_id" value="{{ $item['producto_id'] }}">
-                                <button type="submit" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-trash-alt"></i> Eliminar producto
-                                </button>
+                                <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i> Eliminar producto</button>
                             </form>
                         </td>
                     </tr>
@@ -87,9 +83,10 @@
     </div>
     <div class="d-flex justify-content-between">
         <div class="col-2">
-            <div class="col-auto px-2 px-md-3 mt-3"><a class="btn btn-primary"
-                    href="{{ url('/dashboard/tienda') }}"><span class="fas fa-long-arrow-alt-left me-sm-2"></span><span
-                        class="d-none d-sm-inline-block">Seguir comprando!</span></a>
+            <div class="col-auto px-2 px-md-3 mt-3">
+                <a class="btn btn-primary" href="{{ url('/dashboard/tienda') }}">
+                    <span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block">Seguir comprando!</span>
+                </a>
             </div>
             <div class="col-auto px-2 px-md-3 mt-3">
                 <form action="{{ route('carrito.clear') }}" method="POST">
@@ -106,7 +103,7 @@
                     $total = 0;
                     $cart = session('cart', []);
                     foreach ($cart as $item) {
-                        $total += $item['precio_1'] * $item['cantidad'] * $item['unidad_caja'];
+                        $total += $item['precio_f'] * $item['cantidad'] * $item['unidad_caja'];
                     }
                     echo '<h3 class="text-center">Total: $' . $total . '</h3>';
                 @endphp
