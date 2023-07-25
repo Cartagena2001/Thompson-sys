@@ -46,7 +46,7 @@
         <div class="mb-3">
             <div class="row">
                 <div class="col-3">
-                    {{ Form::label('volumen', 'Ingrese volumen del producto: *', ['class' => 'form-label']) }}
+                    {{ Form::label('volumen', 'Ingrese volumen del producto: ', ['class' => 'form-label']) }}
                     {{ Form::text('volumen', $producto->volumen, ['class' => 'form-control', 'placeholder' => '0.00']) }}
                     {{-- validar que el dato sea un numero con el validate del controlador --}}
                     @if ($errors->any())
@@ -60,11 +60,11 @@
                     @endif
                 </div>
                 <div class="col-3">
-                    {{ Form::label('unidad_volumen', 'Ingrese unidad del volumen: *', ['class' => 'form-label']) }}
-                    {{ Form::select('unidad_volumen', ['galon.' => 'Galón', 'galones.' => 'Galones', 'ml.' => 'Mililitros', 'litro.' => 'Litros'], $producto->unidad_volumen, ['class' => 'form-control', 'placeholder' => 'Seleccine una unidad de Volumen',  'required']) }}
+                    {{ Form::label('unidad_volumen', 'Ingrese unidad de volumen: ', ['class' => 'form-label']) }}
+                    {{ Form::select('unidad_volumen', ['galon.' => 'Galón', 'galones.' => 'Galones', 'ml.' => 'Mililitros', 'litro.' => 'Litros'], $producto->unidad_volumen, ['class' => 'form-control', 'placeholder' => 'Selecciona una unidad de Volumen']) }}
                 </div>
                 <div class="col-3">
-                    {{ Form::label('peso', 'Ingrese peso del producto: *', ['class' => 'form-label']) }}
+                    {{ Form::label('peso', 'Ingrese peso del producto: ', ['class' => 'form-label']) }}
                     {{ Form::text('peso', $producto->peso, ['class' => 'form-control', 'placeholder' => '0.0']) }}
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -77,8 +77,8 @@
                     @endif
                 </div>
                 <div class="col-3">
-                    {{ Form::label('unidad_peso', 'Ingrese unidad del peso: *', ['class' => 'form-label']) }}
-                    {{ Form::select('unidad_peso', ['grs.' => 'Gramos', 'kgs.' => 'Kilogramos', 'oz.' => 'Onza', 'lb.' => 'Libras'], $producto->unidad_peso, ['class' => 'form-control', 'placeholder' => 'Seleccion una Unidad de Peso', 'required']) }}
+                    {{ Form::label('unidad_peso', 'Ingrese unidad del peso: ', ['class' => 'form-label']) }}
+                    {{ Form::select('unidad_peso', ['grs.' => 'Gramos', 'kgs.' => 'Kilogramos', 'oz.' => 'Onza', 'lb.' => 'Libras'], $producto->unidad_peso, ['class' => 'form-control', 'placeholder' => 'Seleccion una Unidad de Peso']) }}
                 </div>
             </div>
         </div>
