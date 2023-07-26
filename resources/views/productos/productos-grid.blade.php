@@ -103,13 +103,18 @@
 
                             <div class="p-3">
 
-                                <h5 style="min-height: 55px;" class="fs--1 text-start"><a class="text-dark" href="{{ route('tienda.show', $producto->slug) }}">{{ $producto->nombre }}</a>
-                                </h5>
+                                <h5 style="min-height: 55px;" class="fs--1 text-start"><a class="text-dark" href="{{ route('tienda.show', $producto->slug) }}">{{ $producto->nombre }}</a></h5>
 
-                                <p class="fs--1 mb-2"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
+                                <span class="rt-color-2 font-weight-bold">OEM: </span>{{ $producto->OEM }}
+
+                                <p class="fs--1 mt-2 mb-2"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
                                 
-                                <h5 class="fs-md-2 text-warning d-flex align-items-center mb-2">
-                                    @if (Auth::user()->clasificacion == "Cobre")
+                                <h5 class="fs-md-2 text-dark d-flex align-items-center mb-2">
+
+                                    @if ($producto->precio_oferta != null)                        
+                                        $ {{ $producto->precio_oferta }}
+
+                                    @elseif (Auth::user()->clasificacion == "Cobre")
                                         $ {{ $producto->precio_1 }}
                                     @elseif (Auth::user()->clasificacion == "Plata")
                                         $ {{ $producto->precio_1 }}
@@ -124,7 +129,32 @@
                                     @elseif (Auth::user()->clasificacion == "Reparto")
                                         $ {{ $producto->precio_distribuidor }}
                                     @endif
-                                    <del class="ms-2 fs--1 text-500">$ {{ $producto->precio_1 + $producto->precio_1 }}</del>
+
+                                    {{-- Precio antes de descuento --}}
+                                    <del class="ms-2 fs--1 text-500">
+                                    <?php if ($producto->precio_oferta != null) { ?>
+                                    
+                                       
+                                        @if (Auth::user()->clasificacion == "Cobre")
+                                            $ {{ $producto->precio_1 }}
+                                        @elseif (Auth::user()->clasificacion == "Plata")
+                                            $ {{ $producto->precio_1 }}
+                                        @elseif (Auth::user()->clasificacion == "Oro")
+                                            $ {{ $producto->precio_2 }}
+                                        @elseif (Auth::user()->clasificacion == "Platino")
+                                            $ {{ $producto->precio_3 }}
+                                        @elseif (Auth::user()->clasificacion == "Diamante")
+                                            $ {{ $producto->precio_oferta }}
+                                        @elseif (Auth::user()->clasificacion == "Taller")
+                                            $ {{ $producto->precio_taller }}
+                                        @elseif (Auth::user()->clasificacion == "Reparto")
+                                            $ {{ $producto->precio_distribuidor }}
+                                        @endif
+
+                                     <?php } ?>
+                                    
+                                    </del>
+
                                 </h5>
 
                                 <p class="fs--1 mb-2">Estado: <strong class="text-success">{{ $producto->estadoProducto->estado }}</strong></p>
