@@ -28,7 +28,7 @@
     <script type="text/javascript"
         src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.js">
     </script>
-    
+
     @vite(['resources/sass/app.scss', 'resources/css/theme-rtl.css', 'resources/css/theme.css', 'resources/css/user-rtl.css', 'resources/css/user.css', 'resources/js/app.js'])
     
     <!-- tailwind CSS Style 
@@ -96,7 +96,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-user-edit"></i> <span class="ms-1 d-none d-sm-inline">Perfil de Usuario (85%)</span></a>
+                                        <i class="fas fa-user-edit"></i> <span class="ms-1 d-none d-sm-inline">Perfil de Usuario</span></a>
                                 </li>
 
                                 <li class="ps-4">

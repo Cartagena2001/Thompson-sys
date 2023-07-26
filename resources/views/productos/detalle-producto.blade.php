@@ -19,6 +19,8 @@ if ($producto->imagen_1_src != null) {
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
+
+
 <div class="card mb-3" style="border: ridge 1px #ff1620;">
 
 
@@ -41,7 +43,7 @@ if ($producto->imagen_1_src != null) {
                             <div class="swiper mySwiper">
                                 <div class="swiper-wrapper">
 
-                                        <img class="swiper-slide img-fluid" src="{{ $imagen }}">
+                                        <a href="{{ $imagen }}" data-lightbox="image-1" data-title="My caption"><img class="swiper-slide img-fluid" src="{{ $imagen }}"></a>
                                     @if ($producto->imagen_2_src != null)
                                         <img class="swiper-slide img-fluid" src="{{ $producto->imagen_2_src }}" alt="{{ $producto->nombre }}">
                                     @endif

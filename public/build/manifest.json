@@ -31,8 +31,24 @@
     "file": "assets/fa-v4compatibility-7c377405.woff2",
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
+  "node_modules/lightbox2/dist/images/close.png": {
+    "file": "assets/close-5d62e6c9.png",
+    "src": "node_modules/lightbox2/dist/images/close.png"
+  },
+  "node_modules/lightbox2/dist/images/loading.gif": {
+    "file": "assets/loading-225aa88b.gif",
+    "src": "node_modules/lightbox2/dist/images/loading.gif"
+  },
+  "node_modules/lightbox2/dist/images/next.png": {
+    "file": "assets/next-15b869b0.png",
+    "src": "node_modules/lightbox2/dist/images/next.png"
+  },
+  "node_modules/lightbox2/dist/images/prev.png": {
+    "file": "assets/prev-7fd9273f.png",
+    "src": "node_modules/lightbox2/dist/images/prev.png"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-4ed993c7.js",
+    "file": "assets/app-a3891545.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
@@ -57,7 +73,7 @@
     "src": "resources/css/user.css"
   },
   "resources/js/app.js": {
-    "file": "assets/app-20b9e4fb.js",
+    "file": "assets/app-93cd097e.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
