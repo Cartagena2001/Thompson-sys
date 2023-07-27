@@ -116,6 +116,12 @@ Route::get('/dashboard/reportes/marcas', [App\Http\Controllers\ReportesControlle
 Route::get('/dashboard/reportes/categorias', [App\Http\Controllers\ReportesController::class, 'categorias'])->name('reportes.categorias')->middleware('auth');
 Route::get('/dashboard/reportes/ordenes', [App\Http\Controllers\ReportesController::class, 'ordenes'])->name('reportes.ordenes')->middleware('auth');
 
+
+//Config CMS
+Route::get('/configuracion/cms', [App\Http\Controllers\PerfilController::class, 'index'])->name('perfil.index')->middleware('verified');
+Route::patch('/configuracion/cms', [App\Http\Controllers\PerfilController::class, 'update'])->name('perfil.update')->middleware('verified');
+
+
 //Envío de Correos (Notificaciones)
 //Route::get("email", [PHPMailerController::class, "email"])->name("email");
 Route::post("send-email", [PHPMailerController::class, "composeEmail"])->name("send-email");

@@ -1,4 +1,8 @@
 {
+  "_lightbox-ce15e5fb.js": {
+    "file": "assets/lightbox-ce15e5fb.js",
+    "isDynamicEntry": true
+  },
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
     "file": "assets/fa-brands-400-2ef6fdde.ttf",
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf"
@@ -58,7 +62,7 @@
     "src": "resources/css/theme-rtl.css"
   },
   "resources/css/theme.css": {
-    "file": "assets/theme-5d1e6ab3.css",
+    "file": "assets/theme-c9ff10be.css",
     "isEntry": true,
     "src": "resources/css/theme.css"
   },
@@ -73,12 +77,15 @@
     "src": "resources/css/user.css"
   },
   "resources/js/app.js": {
-    "file": "assets/app-93cd097e.js",
+    "dynamicImports": [
+      "_lightbox-ce15e5fb.js"
+    ],
+    "file": "assets/app-d879beb4.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-ffce4b90.css",
+    "file": "assets/app-c2b4eab9.css",
     "isEntry": true,
     "src": "resources/sass/app.scss"
   }

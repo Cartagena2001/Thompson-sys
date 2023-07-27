@@ -1,25 +1,21 @@
 @extends('layouts.default')
 
 @section('dashboard')
-    {{-- Titulo --}}
-
+    
+          {{-- Titulo --}}
           <div class="card mb-3">
-
-            <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url( {{asset('img/icons/spot-illustrations/corner-4.png')}} );">
-            </div>
-            <!--/.bg-holder-->
-
-            <div class="card-body position-relative">
-              <div class="row">
-                <div class="col-lg-8">
-                  <h3>CMS</h3>
-                  <p class="mt-2 text-justify">Administración de contenido del sitio web de <b>RTElsalvador.</b> Aquí podrás encontrar todos los campos editables del contenido del sitio web.
-                </div>
+              <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(/../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
+              <div class="card-body position-relative mt-4">
+                  <div class="row">
+                      <div class="col-lg-12">
+                          <h1 class="text-center">🎨 CMS</h1>
+                          <p class="mt-4 mb-4 text-center">Administración de contenido del sitio web de <b>RTElsalvador.</b> Aquí podrás encontrar todos los campos editables del contenido del sitio web.</p>
+                      </div>
+                  </div>
               </div>
-            </div>
-
           </div>
-    {{-- Cards de informacion --}}
+
+          {{-- Cards de informacion --}}
 
           <div class="card mb-3">
             
@@ -78,4 +74,5 @@
             </div>
 
           </div>
+          
 @endsection

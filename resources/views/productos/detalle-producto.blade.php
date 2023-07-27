@@ -43,16 +43,16 @@ if ($producto->imagen_1_src != null) {
                             <div class="swiper mySwiper">
                                 <div class="swiper-wrapper">
 
-                                        <a href="{{ $imagen }}" data-lightbox="image-1" data-title="My caption"><img class="swiper-slide img-fluid" src="{{ $imagen }}"></a>
+                                        <a href="{{ $imagen }}" data-lightbox="image-1" data-title="p-img-1"><img class="swiper-slide img-fluid" src="{{ $imagen }}" alt="{{ $producto->nombre }}-1"></a>
                                     @if ($producto->imagen_2_src != null)
-                                        <img class="swiper-slide img-fluid" src="{{ $producto->imagen_2_src }}" alt="{{ $producto->nombre }}">
+                                        <a href="{{ $producto->imagen_2_src }}" data-lightbox="image-2" data-title="p-img-2"><img class="swiper-slide img-fluid" src="{{ $producto->imagen_2_src }}" alt="{{ $producto->nombre }}-2"></a>
                                     @endif
                                     @if ($producto->imagen_3_src != null)
-                                        <img class="swiper-slide img-fluid" src="{{ $producto->imagen_3_src }}" alt="{{ $producto->nombre }}">
+                                        <a href="{{ $producto->imagen_3_src }}" data-lightbox="image-3" data-title="p-img-3"><img class="swiper-slide img-fluid" src="{{ $producto->imagen_3_src }}" alt="{{ $producto->nombre }}-3"></a>
                                     @endif
 
                                     @if ($producto->imagen_4_src != null)
-                                        <img class="swiper-slide img-fluid" src="{{ $producto->imagen_4_src }}" alt="{{ $producto->nombre }}">
+                                        <a href="{{ $producto->imagen_4_src }}" data-lightbox="image-4" data-title="p-img-4"><img class="swiper-slide img-fluid" src="{{ $producto->imagen_4_src }}" alt="{{ $producto->nombre }}-4"></a>
                                     @endif
 
                                 </div>
@@ -134,16 +134,16 @@ if ($producto->imagen_1_src != null) {
                     <p class="text-justify mb-4 line-height: 28px;" style="margin-right: 25px;">{{ $producto->descripcion }}</p>
                 </div>
 
-                @if( $producto->ficha_tecnica_href != null )
-                    <div class="mt-3 mb-4 d-block">
+                <div class="mt-3 mb-4 d-block">
+                    @if( $producto->ficha_tecnica_href != null )
                         <span class="rt-color-2 font-weight-bold">🧾️ Ficha Técnica: <a href="{{ $producto->ficha_tecnica_href }}" title="Leer" target="_blank">ver pdf</a></span>
-                        <br/>
-                @endif
+                        <br/> 
+                    @endif
 
-                @if( $producto->hoja_seguridad != null )
-                    <span class="rt-color-2 font-weight-bold">📋 Hoja de Seguridad: <a href="{{ $producto->hoja_seguridad }}" title="Leer" target="_blank">ver pdf</a></span>
+                    @if( $producto->hoja_seguridad != null )
+                        <span class="rt-color-2 font-weight-bold">📋 Hoja de Seguridad: <a href="{{ $producto->hoja_seguridad }}" title="Leer" target="_blank">ver pdf</a></span>
+                    @endif
                 </div>
-                @endif
 
                 <h3 class="d-flex align-items-center">
                     <span style="color: #F3151E">

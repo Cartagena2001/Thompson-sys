@@ -171,6 +171,7 @@ class ComposerStaticInit5f456fa188136d28242224572b78e293
             'Doctrine\\Common\\Lexer\\' => 22,
             'Dflydev\\DotAccessData\\' => 22,
             'DeepCopy\\' => 9,
+            'Davcpas1234\\LaravelPdfViewer\\' => 29,
             'Database\\Seeders\\' => 17,
             'Database\\Factories\\' => 19,
         ),
@@ -372,8 +373,8 @@ class ComposerStaticInit5f456fa188136d28242224572b78e293
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -529,6 +530,10 @@ class ComposerStaticInit5f456fa188136d28242224572b78e293
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
         ),
+        'Davcpas1234\\LaravelPdfViewer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/davcpas1234/laravelpdfviewer/src',
+        ),
         'Database\\Seeders\\' => 
         array (
             0 => __DIR__ . '/../..' . '/database/seeders',
@@ -610,11 +615,13 @@ class ComposerStaticInit5f456fa188136d28242224572b78e293
         'App\\Http\\Controllers\\CarritoController' => __DIR__ . '/../..' . '/app/Http/Controllers/CarritoController.php',
         'App\\Http\\Controllers\\CategoriaController' => __DIR__ . '/../..' . '/app/Http/Controllers/CategoriaController.php',
         'App\\Http\\Controllers\\ClientesController' => __DIR__ . '/../..' . '/app/Http/Controllers/ClientesController.php',
+        'App\\Http\\Controllers\\ContactoController' => __DIR__ . '/../..' . '/app/Http/Controllers/ContactoController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\MarcaController' => __DIR__ . '/../..' . '/app/Http/Controllers/MarcaController.php',
         'App\\Http\\Controllers\\OrdenController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrdenController.php',
         'App\\Http\\Controllers\\OrdenesController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrdenesController.php',
+        'App\\Http\\Controllers\\PHPMailerController' => __DIR__ . '/../..' . '/app/Http/Controllers/PHPMailerController.php',
         'App\\Http\\Controllers\\PerfilController' => __DIR__ . '/../..' . '/app/Http/Controllers/PerfilController.php',
         'App\\Http\\Controllers\\ProductoController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProductoController.php',
         'App\\Http\\Controllers\\ReportesController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportesController.php',
@@ -803,6 +810,8 @@ class ComposerStaticInit5f456fa188136d28242224572b78e293
         'Database\\Seeders\\PermisoSeeder' => __DIR__ . '/../..' . '/database/seeders/PermisoSeeder.php',
         'Database\\Seeders\\RolSeeder' => __DIR__ . '/../..' . '/database/seeders/RolSeeder.php',
         'Database\\Seeders\\UsuarioSeeder' => __DIR__ . '/../..' . '/database/seeders/UsuarioSeeder.php',
+        'Davcpas1234\\LaravelPdfViewer\\Facade\\LaravelPdfViewer' => __DIR__ . '/..' . '/davcpas1234/laravelpdfviewer/src/Facade/LaravelPdfViewer.php',
+        'Davcpas1234\\LaravelPdfViewer\\LaravelPdfViewerServiceProvider' => __DIR__ . '/..' . '/davcpas1234/laravelpdfviewer/src/LaravelPdfViewerServiceProvider.php',
         'DeepCopy\\DeepCopy' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
         'DeepCopy\\Exception\\CloneException' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/Exception/CloneException.php',
         'DeepCopy\\Exception\\PropertyException' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/Exception/PropertyException.php',
