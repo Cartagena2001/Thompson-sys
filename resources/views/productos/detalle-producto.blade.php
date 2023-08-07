@@ -43,9 +43,9 @@ if ($producto->imagen_1_src != null) {
                             <div class="swiper mySwiper">
                                 <div class="swiper-wrapper">
 
-                                        <a href="{{ $imagen }}" data-lightbox="image-1" data-title="p-img-1"><img class="swiper-slide img-fluid" src="{{ $imagen }}" alt="{{ $producto->nombre }}-1"></a>
+                                        <!--<a href="{{ $imagen }}" data-lightbox="image-1" data-title="p-img-1">--><img class="swiper-slide img-fluid" src="{{ $imagen }}" alt="{{ $producto->nombre }}-1"><!--</a>-->
                                     @if ($producto->imagen_2_src != null)
-                                        <a href="{{ $producto->imagen_2_src }}" data-lightbox="image-2" data-title="p-img-2"><img class="swiper-slide img-fluid" src="{{ $producto->imagen_2_src }}" alt="{{ $producto->nombre }}-2"></a>
+                                        <!--<a href="{{ $producto->imagen_2_src }}" data-lightbox="image-2" data-title="p-img-2">--><img class="swiper-slide img-fluid" src="{{ $producto->imagen_2_src }}" alt="{{ $producto->nombre }}-2"><!--</a>-->
                                     @endif
                                     @if ($producto->imagen_3_src != null)
                                         <a href="{{ $producto->imagen_3_src }}" data-lightbox="image-3" data-title="p-img-3"><img class="swiper-slide img-fluid" src="{{ $producto->imagen_3_src }}" alt="{{ $producto->nombre }}-3"></a>
