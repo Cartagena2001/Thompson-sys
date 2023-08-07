@@ -5,7 +5,7 @@
 
     <div class="col-lg-6">
         <div class="mb-3">
-            {{ Form::label('OEM', 'OEM del producto: *', ['class' => 'form-label']) }}
+            {{ Form::label('OEM', 'OEM del producto: ', ['class' => 'form-label']) }}
             {{ Form::text('OEM', $producto->OEM, ['class' => 'form-control', 'placeholder' => '-', 'required']) }}
         </div>
         <div class="mb-3">
@@ -110,11 +110,11 @@
             {{ Form::number('unidad_por_caja', $producto->unidad_por_caja, ['class' => 'form-control', 'placeholder' => '0']) }}
         </div>
         <div class="mb-3">
-            {{ Form::label('existencia', 'Existencia:', ['class' => 'form-label']) }}
+            {{ Form::label('existencia', 'Existencia: *', ['class' => 'form-label']) }}
             {{ Form::number('existencia', $producto->existencia, ['class' => 'form-control', 'placeholder' => '0']) }}
         </div>
         <div class="mb-3">
-            {{ Form::label('etiqueta_destacado', 'Etiqueta "Producto Destacado": *', ['class' => 'form-label']) }}
+            {{ Form::label('etiqueta_destacado', 'Etiqueta "Producto Destacado": ', ['class' => 'form-label']) }}
             {{ Form::select('etiqueta_destacado', ['1' => 'Activar Etiqueta', '0' => 'Desactivar Etiqueta'], $producto->etiqueta_destacado, ['class' => 'form-control', 'placeholder' => 'Selecione el estado de la etiqueta', 'required']) }}
         </div>
         <div class="mb-3">
@@ -136,15 +136,15 @@
                     {{ Form::number('precio_1', $producto->precio_1, ['class' => 'form-control', 'placeholder' => '0.00 US$','step' => 'any']) }}
                 </div>
                 <div class="col-3">
-                    {{ Form::label('precio_2', 'Segundo precio: *', ['class' => 'form-label']) }}
+                    {{ Form::label('precio_2', 'Segundo precio: ', ['class' => 'form-label']) }}
                     {{ Form::number('precio_2', $producto->precio_2, ['class' => 'form-control', 'placeholder' => '0.00 US$', 'step' => 'any']) }}
                 </div>
                 <div class="col-3">
-                    {{ Form::label('precio_3', 'Tercer precio: *', ['class' => 'form-label']) }}
+                    {{ Form::label('precio_3', 'Tercer precio: ', ['class' => 'form-label']) }}
                     {{ Form::number('precio_3', $producto->precio_3, ['class' => 'form-control', 'placeholder' => '0.00 US$', 'step' => 'any']) }}
                 </div>
                 <div class="col-3">
-                    {{ Form::label('precio_oferta', 'Precio oferta: *', ['class' => 'form-label']) }}
+                    {{ Form::label('precio_oferta', 'Precio oferta: ', ['class' => 'form-label']) }}
                     {{ Form::number('precio_oferta', $producto->precio_oferta, ['class' => 'form-control', 'placeholder' => '0.00 US$', 'step' => 'any']) }}
                 </div>
             </div>
@@ -175,7 +175,7 @@
     <hr/>
 
     <div class="mb-3">
-        {{ Form::label('imagen_1_src', 'Imagen principal (800x800px | .jpg, .jpeg, .png):', ['class' => 'form-label']) }}
+        {{ Form::label('imagen_1_src', 'Imagen principal (800x800px | .jpg, .jpeg, .png): *', ['class' => 'form-label']) }}
         {{ Form::hidden('imagen_1_src', $producto->imagen_1_src, ['id' => 'imagen_1_src']) }}
         {{ Form::file('imagen_1_src', ['class' => 'form-control', 'placeholder' => '']) }}
         {{-- mostrar imagen del producto con una etiqueta img comprobar si hay imagen para mostrar --}}
