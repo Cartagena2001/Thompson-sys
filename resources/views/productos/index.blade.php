@@ -34,8 +34,7 @@
             <!--/.bg-holder-->
             <div class="card-body position-relative">
                 <h6># Productos Activos</h6>
-                <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-warning"
-                    data-countup='{"endValue":58.386,"decimalPlaces":2,"suffix":"k"}'>
+                <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-warning" data-countup='{"endValue":58.386,"decimalPlaces":2,"suffix":"k"}'>
                     {{-- contar los productos activos de la base de datos --}}
                     <?php
                     $productosActivos = DB::table('producto')
@@ -92,8 +91,7 @@
 <div class="row mb-3 justify-content-md-center">
     <div class="col">
         <a href="{{ route('productos.create') }}">
-            <button class="btn btn-primary me-1 mb-1" type="button"><i class="fas fa-plus"></i> Agregar nuevo producto
-            </button>
+            <button class="btn btn-primary me-1 mb-1" type="button"><i class="fas fa-plus"></i> Agregar nuevo producto</button>
         </a>
         {{-- Importar productos desde la funciona del controlador import --}}
         @if ($errors->any())

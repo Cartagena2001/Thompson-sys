@@ -100,8 +100,8 @@
                                 </li>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/confi/cms') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/config/cms') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-brush"></i> <span class="ms-1 d-none d-sm-inline">CMS (50%)</span></a>
+                                    <a href="{{ url('/configuracion/cms') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/cms') !== false ? 'active-menu' : '' }}">
+                                        <i class="fas fa-brush"></i> <span class="ms-1 d-none d-sm-inline">CMS</span></a>
                                 </li>
 
                                 <li><hr/></li>

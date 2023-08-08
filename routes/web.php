@@ -118,8 +118,8 @@ Route::get('/dashboard/reportes/ordenes', [App\Http\Controllers\ReportesControll
 
 
 //Config CMS
-Route::get('/configuracion/cms', [App\Http\Controllers\PerfilController::class, 'index'])->name('perfil.index')->middleware('verified');
-Route::patch('/configuracion/cms', [App\Http\Controllers\PerfilController::class, 'update'])->name('perfil.update')->middleware('verified');
+Route::get('/configuracion/cms', [App\Http\Controllers\CMSController::class, 'index'])->name('cms.index')->middleware('verified');
+Route::patch('/configuracion/cms', [App\Http\Controllers\CMSController::class, 'update'])->name('cms.update')->middleware('verified');
 
 
 //Envío de Correos (Notificaciones)

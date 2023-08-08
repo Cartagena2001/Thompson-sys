@@ -14,7 +14,7 @@ class CategoriaSeeder extends Seeder
      */
     public function run()
     {
-
+        
         Categoria::create([
             'nombre' => 'Fajas',
             'estado' => 'Activo',

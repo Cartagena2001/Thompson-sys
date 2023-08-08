@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div class="card mb-3">
+    <div class="card mb-3" style="border: ridge 1px #ff1620;">
         <div class="card-header">
             <div class="row flex-between-end">
                 
@@ -99,7 +99,7 @@
                     <div class="row mb-2">
 
                         <div class="col-4">
-                            <label>Nombre: </label>
+                            <label>Nombre Negocio: </label>
                             <input class="form-control" type="text" name="nombre_empresa" id="nombre_empresa" value="{{ $user->nombre_empresa }}" maxlength="45" placeholder="-">
                         </div>
 

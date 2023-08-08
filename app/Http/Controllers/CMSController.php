@@ -13,83 +13,99 @@ use Illuminate\Http\Request;
 class CMSController extends Controller
 {
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index() {
+
+        $cmsVars = CMS::get()->toArray();
+        
+        return view('config.editCMS', compact('cmsVars'));
+    }
+
     public function create() {
 
         $cmsVars = CMS::get()->toArray();
 
-        return view('config.index',compact('cmsVars'));
+        return view('config.index', compact('cmsVars'));
     }
 
-    public function store(Request $request) {
-        
+    // funcion para actualizar la informacion de la página
+    public function update(Request $request)
+    {
+
         //validar campos
         $request->validate([
             'numWhat' => 'required',
             'numWhatURL' => 'required',
             'numFijo' => 'required',
             'numFijoURL' => 'required',
-            'perfilFB' => 'required',
-            'perfilIG' => 'required',
-            'dirOfi' => 'required',
-            'horOfi' => 'required',
+            'fbURL' => 'required',
+            'igURL' => 'required',
+            'dirOF' => 'required',
+            'horarioOF' => 'required',
             'dirBod' => 'required',
-            'horBod' => 'required',
-            'emailContacto' => 'required',
-            'emailOrder' => 'required',
+            'horarioBod' => 'required',
+            'corrContacto' => 'required',
+            'corrOrden' => 'required'
         ]);
 
         //guardar parametros CMS
-        $numWhat = CMS::where('variable', '=', 'numWhat')->get();
-        $numWhat = $request->post('numWhat');
-        $numWhat->save();
 
-        $numWhatURL = CMS::where('variable', '=', 'numWhatURL')->get();
-        $numWhatURL = $request->post('numWhatURL');
-        $numWhatURL->save();
+        $numWhat = CMS::find(1);
+        $numWhat->parametro = $request->get('numWhat');
+        $numWhat->update();
 
-        $numFijo = CMS::where('variable', '=', 'numFijo')->get();
-        $numFijo = $request->post('numFijo');
-        $numFijo->save();
+        $numWhatURL = CMS::find(2);
+        $numWhatURL->parametro = $request->get('numWhatURL');
+        $numWhatURL->update();
 
-        $numFijoURL = CMS::where('variable', '=', 'numFijoURL')->get();
-        $numFijoURL = $request->post('numFijoURL');
-        $numFijoURL->save();
+        $numFijo = CMS::find(3);
+        $numFijo->parametro = $request->get('numFijo');
+        $numFijo->update();
 
-        $perfilFB = CMS::where('variable', '=', 'fbURL')->get();
-        $perfilFB = $request->post('perfilFB');
-        $perfilFB->save();
+        $numFijoURL = CMS::find(4);
+        $numFijoURL->parametro = $request->get('numFijoURL');
+        $numFijoURL->update();
 
-        $perfilIG = CMS::where('variable', '=', 'igURL')->get();
-        $perfilIG = $request->post('perfilIG');
-        $perfilIG->save();
+        $fbURL = CMS::find(5);
+        $fbURL->parametro = $request->get('fbURL');
+        $fbURL->update();
 
-        $dirOfi = CMS::where('variable', '=', 'dirOF')->get();
-        $dirOfi = $request->post('dirOfi');
-        $dirOfi->save();
+        $igURL = CMS::find(6);
+        $igURL->parametro = $request->get('igURL');
+        $igURL->update();
 
-        $horOfi = CMS::where('variable', '=', 'horarioOF')->get();
-        $horOfi = $request->post('horOfi');
-        $horOfi->save();
+        $dirOF = CMS::find(7);
+        $dirOF->parametro = $request->get('dirOF');
+        $dirOF->update();
 
-        $dirBod = CMS::where('variable', '=', 'dirBod')->get();
-        $dirBod = $request->post('dirBod');
-        $dirBod->save();
+        $horarioOF = CMS::find(8);
+        $horarioOF->parametro = $request->get('horarioOF');
+        $horarioOF->update();
 
-        $horarioBod = CMS::where('variable', '=', 'horarioBod')->get();
-        $horarioBod = $request->post('horBod');
-        $horarioBod->save();
+        $dirBod = CMS::find(9);
+        $dirBod->parametro = $request->get('dirBod');
+        $dirBod->update();
 
-        $emailContacto = CMS::where('variable', '=', 'corrContacto')->get();
-        $emailContacto = $request->post('emailContacto');
-        $emailContacto->save();
+        $horarioBod = CMS::find(10);
+        $horarioBod->parametro = $request->get('horarioBod');
+        $horarioBod->update();
 
-        $emailOrder = CMS::where('variable', '=', 'corrOrden')->get();
-        $emailOrder = $request->post('emailOrder');
-        $emailOrder->save();
+        $corrContacto = CMS::find(11);
+        $corrContacto->parametro = $request->get('corrContacto');
+        $corrContacto->update();
 
-        return redirect()->route('cms.index');
-
+        $corrOrden = CMS::find(12);
+        $corrOrden->parametro = $request->get('corrOrden');
+        $corrOrden->update();
+        
+        //redireccionar
+        return redirect()->route('cms.index')->with('toast_success', 'Configuración actualizada correctamente');
     }
+
 
     /**
      * Display a listing of the resource.

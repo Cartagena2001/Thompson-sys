@@ -32,21 +32,38 @@ class TiendaController extends Controller
         $categoriaActual = $request->input('categoria');
         $categoriaActualname = null;
         //obtener el nombre de la categoria actual para mostrarlo en el titulo de la pagina
+        
         if($categoriaActual != null){
             $categoriaActualname = Categoria::find($categoriaActual);
         }else{
-            $categoriaActualname = "Todos los productos";
+            $categoriaActualname = "Todas";
         }
+
         $categorias = Categoria::all();
         $marcas = Marca::all();
         $estadoProductos = EstadoProducto::all();
+
         return view('productos.productos-grid', compact('productos', 'categorias', 'marcas', 'estadoProductos', 'categoriaActual', 'categoriaActualname'));
     }
 
     public function showByCategoria(Request $request)
     {
         $categoria_id = $request->input('categoria');
+
+        if ($categoria_id == 0) {
+            $productos = Producto::all();
+        } else {
+           $productos = Producto::where('categoria_id', $categoria_id)->get(); 
+        }
+        
+        return view('productos.productos-grid')->with('productos', $productos);
+    }
+
+    public function showByMarca(Request $request)
+    {
+        $categoria_id = $request->input('categoria');
         $productos = Producto::where('categoria_id', $categoria_id)->get();
+
         return view('productos.productos-grid')->with('productos', $productos);
     }
 

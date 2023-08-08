@@ -29,14 +29,17 @@
 
             </div>
 
+            {{-- Filtros --}}
             <div class="col-sm-auto">
                 <div class="row gx-2 align-items-center">
                     <div class="col-auto">
+                        
                         <form class="row gx-2">
                             <div class="col-auto"><small>Ordenar por categoría:</small></div>
                             <div class="col-auto">
                                 <form action="{{ route('productos.index') }}" method="get">
                                     <select name="categoria" id="categoria" class="form-select form-select-sm" aria-label="Bulk actions">
+                                        <option value="0">Todas</option>
                                         @foreach ($categorias as $categoria)
                                             <option value="{{ $categoria->id }}"
                                                 @if ($categoria->id == $categoriaActual) selected @endif>
@@ -50,6 +53,7 @@
                                 </form>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -62,7 +66,7 @@
 <div class="card mb-3" style="border: ridge 1px #ff1620;">
 
     <h6 class="card-body">Categoría:
-        {{ $categoriaActual == null ? 'Todas las categorias' : $categoriaActualname->nombre }}</h6>
+        {{ $categoriaActual == 0 ? 'Todas' : $categoriaActualname->nombre }}</h6>
     <div>
         @if ($productos->count() == 0)
             <div class="card-body text-center">
@@ -81,7 +85,7 @@
                 if ($producto->imagen_1_src != null) {
                     $imagen = "{$producto->imagen_1_src}";
                 } else {
-                    $imagen = '../../../assets/img/products/default.webp';
+                    $imagen = '../../../assets/img/products/demo-product-img.jpg';
                 }
                 ?>
 
