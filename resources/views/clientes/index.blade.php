@@ -16,8 +16,8 @@
         <div class="card-body position-relative mt-4">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="text-center">🥇 Clasificación de Clientes 🥇</h1>
-                    <p class="mt-4 mb-4 text-center">En esta sección podrás ver la clasificación de los clientes aprobados registrados en el sistema.</p>
+                    <h1 class="text-center">🥇 Nuestros Clientes 🥇</h1>
+                    <p class="mt-4 mb-4 text-center">En esta sección podrás ver el listado de clientes aprobados registrados en el sistema.</p>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                 <div class="card-body position-relative">
                     <h6># Clientes | Cobre <span class="text-500 fas fa-certificate ccobre"></span></h6>
                     <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":58.386,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los productos activos de la base de datos --}}
+                        {{-- contar los clientes cobre --}}
                         <?php
                         $clientesCobre = DB::table('users')
                             ->where('clasificacion', 'Cobre')
@@ -54,7 +54,7 @@
                 <div class="card-body position-relative">
                     <h6># Clientes | Plata <span class="text-500 fas fa-certificate cplata"></span></h6>
                     <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los productos activos de la base de datos --}}
+                        {{-- contar los clientes plata --}}
                         <?php
                         $clientesPlata = DB::table('users')
                             ->where('clasificacion', 'Plata')
@@ -74,7 +74,7 @@
                 <div class="card-body position-relative">
                     <h6># Clientes | Platino <span class="text-500 fas fa-certificate cplatino"></span></h6>
                     <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los productos activos de la base de datos --}}
+                        {{-- contar los clientes platino --}}
                         <?php
                         $ordenesPlatino = DB::table('users')
                             ->where('clasificacion', 'Platino')
@@ -94,7 +94,7 @@
                 <div class="card-body position-relative">
                     <h6># Clientes | Diamante <span class="text-500 fas fa-certificate cdiamante"></span></h6>
                     <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los productos activos de la base de datos --}}
+                        {{-- contar los clientes diamante --}}
                         <?php
                         $ordenesDiamante = DB::table('users')
                             ->where('clasificacion', 'Diamante')
@@ -114,7 +114,7 @@
                 <div class="card-body position-relative">
                     <h6># Clientes | Taller <span class="text-500 fas fa-certificate ctaller"></span></h6>
                     <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los productos activos de la base de datos --}}
+                        {{-- contar los clientes taller --}}
                         <?php
                         $ordenesTaller = DB::table('users')
                             ->where('clasificacion', 'Taller')
@@ -134,7 +134,7 @@
                 <div class="card-body position-relative">
                     <h6># Clientes | Distribuidor <span class="text-500 fas fa-certificate cdist"></span></h6>
                     <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los productos activos de la base de datos --}}
+                        {{-- contar los clientes distribuidores --}}
                         <?php
                         $ordenesDistribuidor = DB::table('users')
                             ->where('estatus', 'Distribuidor')
@@ -208,9 +208,9 @@
                                 <td class="text-center">
                                     <a href="{{ route('clientes.show', $cliente->id) }}">
                                         <button class="btn p-0" type="button" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" title="Edit">
-                                            <span class="text-500 fas fa-eye"></span>
-                                            Modificar Clasificacion
+                                            data-bs-placement="top" title="Ir a">
+                                            <span class="text-500 fas fa-pencil"></span>
+                                            Editar
                                         </button>
                                     </a>
                                 </td>

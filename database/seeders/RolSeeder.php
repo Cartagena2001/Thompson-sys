@@ -13,6 +13,12 @@ class RolSeeder extends Seeder
      */
     public function run()
     {
+        Rol::create([
+            'id' => 0,
+            'nombre' => 'SuperAdmin',
+            'descripcion' => 'Administrador del Sistema con permisos extendidos.',
+            'estado' => 'activo',
+        ]);
 
         Rol::create([
             'id' => 1,
@@ -30,8 +36,8 @@ class RolSeeder extends Seeder
 
         Rol::create([
             'id' => 3,
-            'nombre' => 'SuperAdmin',
-            'descripcion' => 'Administrador del Sistema con permisos extendidos.',
+            'nombre' => 'Bodega',
+            'descripcion' => 'Usuario en bodega, puede ver las ordenes en curso.',
             'estado' => 'activo',
         ]);
 

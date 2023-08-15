@@ -291,7 +291,15 @@ nav.navbar.navbar-standard.navbar-expand-lg.fixed-top.navbar-dark {
     background-color:#e91e63 !important;
 }
 
+.classtag {
+    color: #000;
+    font-weight: bold;
+    font-size: 17px;   
+}
 
+.classtagsel {
+    border: solid 3px #000;
+}
 
 
 

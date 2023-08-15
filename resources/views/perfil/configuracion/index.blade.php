@@ -62,21 +62,54 @@
 
                     </div>
 
-                    <div class="row mb-2">                      
+                    <div class="row mb-2">
 
-                        <div class="col-4">
-                            <label>Teléfono: </label>
-                            <input class="form-control" type="text" name="telefono" id="telefono" value="{{ $user->telefono }}">
+                        <div class="col-6">
+                            <label>DUI: </label>
+                            <input class="form-control" type="text" name="dui" id="dui" value="{{ $user->dui }}" minlength="10" maxlength="10" placeholder="00000000-0">
+                            @error('dui')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
+                        </div>                      
+
+                        <div class="col-6">
+                            <label>Celular/Núm. WhatsApp: </label>
+                            <input class="form-control" type="text" name="whatsapp" id="whatsapp" value="{{ $user->whatsapp }}">
                         </div>
 
-                        <div class="col-4">
-                            <label>Municipio/Distrito: </label>
-                        <input class="form-control" type="text" name="municipio" id="municipio" value="{{ $user->municipio }}">
+                    </div>
+
+                    <div class="col-auto align-self-center mt-5 mb-3">
+                        <h4 class="mb-0" data-anchor="data-anchor">💼 Información de la Empresa/Negocio:</h4>
+                    </div>
+
+                    <hr />
+
+                    <div class="row mb-2">
+
+                        <div class="col-6">
+                            <label>N° de registro (NRC): </label>
+                            <input class="form-control" type="text" name="nrc" id="nrc" value="{{ $user->nrc }}" minlength="8" maxlength="8" placeholder="0000000-0">
+                            @error('nrc')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        <div class="col-4">
-                            <label>Departamento: </label>
-                            <input class="form-control" type="text" name="departamento" id="departamento" value="{{ $user->departamento }}">
+                        <div class="col-6">
+                            <label>NIT: </label>
+                            <input class="form-control" type="text" name="nit" id="nit" value="{{ $user->nit }}" minlength="17" maxlength="17" placeholder="0000-000000-000-0">
+                            @error('nit')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col-12">
+                            <label>Nombre/razón ó denominación social: </label>
+                            <input class="form-control" type="text" name="razon_social" id="razon_social" value="{{ $user->razon_social }}" maxlength="45" placeholder="-">
                         </div>
 
                     </div>
@@ -90,46 +123,48 @@
 
                     </div>
 
-                    <div class="col-auto align-self-center mt-5 mb-3">
-                        <h4 class="mb-0" data-anchor="data-anchor">💼 Información de la Empresa/Negocio:</h4>
-                    </div>
+                    <div class="row mb-2">                      
 
-                    <hr />
+                        <div class="col-6">
+                            <label>Municipio/Distrito: </label>
+                        <input class="form-control" type="text" name="municipio" id="municipio" value="{{ $user->municipio }}">
+                        </div>
+
+                        <div class="col-6">
+                            <label>Departamento: </label>
+                            <input class="form-control" type="text" name="departamento" id="departamento" value="{{ $user->departamento }}">
+                        </div>
+
+                    </div>
 
                     <div class="row mb-2">
 
-                        <div class="col-4">
-                            <label>Nombre Negocio: </label>
-                            <input class="form-control" type="text" name="nombre_empresa" id="nombre_empresa" value="{{ $user->nombre_empresa }}" maxlength="45" placeholder="-">
-                        </div>
-
-                        <div class="col-4">
-                            <label>WebSite: </label>
-                            <input class="form-control" type="text" name="website" id="website" value="{{ $user->website }}">
-                        </div>
-
-                        <div class="col-4">
-                            <label>Núm. WhatsApp: </label>
-                            <input class="form-control" type="text" name="whatsapp" id="whatsapp" value="{{ $user->whatsapp }}">
+                        <div class="col-12">
+                            <label>Giro ó actividad económica: </label>
+                            <textarea class="form-control" type="text" name="giro" id="giro" value="{{ $user->giro }}" rows="4" cols="50" maxlength="200" placeholder="-"></textarea>
                         </div>
 
                     </div>
 
                     <div class="row mb-2">  
 
-                        <div class="col-6">
-                            <label>DUI/NIT: </label>
-                        <input class="form-control" type="text" name="nit" id="nit" value="{{ $user->nit }}" minlength="17" maxlength="17" placeholder="0000-000000-000-0">
-                        @error('nit')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                        @enderror
+                        <div class="col-12">
+                            <label>Nombre Comercial: </label>
+                            <input class="form-control" type="text" name="nombre_empresa" id="nombre_empresa" value="{{ $user->nombre_empresa }}" maxlength="45" placeholder="-">
                         </div>
+
+                    </div>
+
+                    <div class="row mb-2"> 
+
                         <div class="col-6">
-                            <label>Número de IVA (NRC): </label>
-                        <input class="form-control" type="text" name="nrc" id="nrc" value="{{ $user->nrc }}" minlength="8" maxlength="8" placeholder="0000000-0">
-                        @error('nrc')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                        @enderror
+                            <label>WebSite: </label>
+                            <input class="form-control" type="text" name="website" id="website" value="{{ $user->website }}">
+                        </div>
+
+                        <div class="col-6">
+                            <label>Teléfono: </label>
+                            <input class="form-control" type="text" name="telefono" id="telefono" value="{{ $user->telefono }}">
                         </div>
 
                     </div> 

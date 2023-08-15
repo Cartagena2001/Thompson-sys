@@ -1,6 +1,6 @@
 {
-  "_lightbox-ce15e5fb.js": {
-    "file": "assets/lightbox-ce15e5fb.js",
+  "_lightbox-af7ec53a.js": {
+    "file": "assets/lightbox-af7ec53a.js",
     "isDynamicEntry": true
   },
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
@@ -57,12 +57,12 @@
     "src": "resources/css/app.css"
   },
   "resources/css/theme-rtl.css": {
-    "file": "assets/theme-rtl-74f2f04c.css",
+    "file": "assets/theme-rtl-1a208f78.css",
     "isEntry": true,
     "src": "resources/css/theme-rtl.css"
   },
   "resources/css/theme.css": {
-    "file": "assets/theme-c9ff10be.css",
+    "file": "assets/theme-b438e9ad.css",
     "isEntry": true,
     "src": "resources/css/theme.css"
   },
@@ -72,20 +72,20 @@
     "src": "resources/css/user-rtl.css"
   },
   "resources/css/user.css": {
-    "file": "assets/user-3f00dd12.css",
+    "file": "assets/user-4b1d2e3e.css",
     "isEntry": true,
     "src": "resources/css/user.css"
   },
   "resources/js/app.js": {
     "dynamicImports": [
-      "_lightbox-ce15e5fb.js"
+      "_lightbox-af7ec53a.js"
     ],
-    "file": "assets/app-d879beb4.js",
+    "file": "assets/app-7b2583da.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-c2b4eab9.css",
+    "file": "assets/app-18780b1f.css",
     "isEntry": true,
     "src": "resources/sass/app.scss"
   }

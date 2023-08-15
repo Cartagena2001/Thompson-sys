@@ -22,12 +22,15 @@ return new class extends Migration
             $table->string('form_status', 15)->nullable();
             $table->string('direccion', 80)->nullable();
             $table->string('nombre_empresa', 35)->nullable();
+            $table->string('razon_social', 35)->nullable();
+            $table->string('giro', 200)->nullable();
             $table->string('municipio', 22)->nullable();
             $table->string('departamento', 15)->nullable();
             $table->string('telefono', 20)->nullable();
             $table->string('whatsapp', 20)->nullable();
             $table->string('website', 35)->nullable();
             $table->string('nit', 18)->nullable()->unique();
+            $table->string('dui', 10)->nullable()->unique();
             $table->string('nrc', 10)->nullable()->unique();
             //relacionar con la tabla rol
             $table->integer('rol_id')->unsigned()->nullable();
@@ -37,6 +40,7 @@ return new class extends Migration
             $table->boolean('boletin')->nullable();
             $table->dateTime('fecha_registro')->nullable();
             $table->string('imagen_perfil_src', 60)->nullable();
+            $table->string('marcas', 300)->nullable();
             $table->string('notas', 300)->nullable();
             $table->string('estatus', 15)->nullable();
 
