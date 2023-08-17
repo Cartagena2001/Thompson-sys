@@ -39,25 +39,31 @@
                     @csrf
 
                     <div class="mt-3 col-auto text-center col-4 mx-auto">
-                        <label>Imagen de perfil: </label>
+                        <label for="imagen_perfil_src">Imagen de perfil: </label>
                         <br/>
                         <img class="rounded mt-2" src="{{ $user->imagen_perfil_src }}" alt="per" width="200">
                         <br/>
                         <br/>
                         <input class="form-control" type="file" name="imagen_perfil_src" id="image_perfil_src" value="{{ $user->imagen_perfil_src }}">  
                         <br/>
+                        @error('imagen_perfil_src')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="row mb-2">
 
                         <div class="col-6">
-                            <label>Nombre: </label>
-                            <input class="form-control" type="text" name="name" id="name" value="{{ $user->name }}">
+                            <label for="name">Nombre: </label>
+                            <input class="form-control" type="text" name="name" id="name" value="{{ $user->name }}" maxlength="100" placeholder="-" required>
+                            @error('name')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-6">
-                            <label>Correo Electrónico: </label>
-                            <input class="form-control" type="text" name="email" id="email" value="{{ $user->email }}">
+                            <label for="email">Correo Electrónico: </label>
+                            <input class="form-control" type="text" id="email" value="{{ $user->email }}" maxlength="100" placeholder="tucorreo@email.com" readonly>
                         </div>
 
                     </div>
@@ -65,7 +71,7 @@
                     <div class="row mb-2">
 
                         <div class="col-6">
-                            <label>DUI: </label>
+                            <label for="dui">DUI: </label>
                             <input class="form-control" type="text" name="dui" id="dui" value="{{ $user->dui }}" minlength="10" maxlength="10" placeholder="00000000-0">
                             @error('dui')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -73,8 +79,11 @@
                         </div>                      
 
                         <div class="col-6">
-                            <label>Celular/Núm. WhatsApp: </label>
-                            <input class="form-control" type="text" name="whatsapp" id="whatsapp" value="{{ $user->whatsapp }}">
+                            <label for="whatsapp">Celular/Núm. WhatsApp: </label>
+                            <input class="form-control" type="text" name="whatsapp" id="whatsapp" value="{{ $user->whatsapp }}" minlength="9" maxlength="9" placeholder="0000-0000">
+                            @error('whatsapp')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                     </div>
@@ -88,15 +97,15 @@
                     <div class="row mb-2">
 
                         <div class="col-6">
-                            <label>N° de registro (NRC): </label>
-                            <input class="form-control" type="text" name="nrc" id="nrc" value="{{ $user->nrc }}" minlength="8" maxlength="8" placeholder="0000000-0">
+                            <label for="nrc">N° de registro (NRC): </label>
+                            <input class="form-control" type="text" name="nrc" id="nrc" value="{{ $user->nrc }}" minlength="8" maxlength="10" placeholder="0000000-0">
                             @error('nrc')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="col-6">
-                            <label>NIT: </label>
+                            <label for="nit">NIT: </label>
                             <input class="form-control" type="text" name="nit" id="nit" value="{{ $user->nit }}" minlength="17" maxlength="17" placeholder="0000-000000-000-0">
                             @error('nit')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -108,8 +117,11 @@
                     <div class="row mb-2">
 
                         <div class="col-12">
-                            <label>Nombre/razón ó denominación social: </label>
-                            <input class="form-control" type="text" name="razon_social" id="razon_social" value="{{ $user->razon_social }}" maxlength="45" placeholder="-">
+                            <label for="razon_social">Nombre/razón ó denominación social: </label>
+                            <input class="form-control" type="text" name="razon_social" id="razon_social" value="{{ $user->razon_social }}" maxlength="34" placeholder="-">
+                            @error('razon_social')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                     </div>
@@ -117,8 +129,11 @@
                     <div class="row mb-2">
 
                         <div class="col-12">
-                            <label>Dirección: </label>
-                            <input class="form-control" type="text" name="direccion" id="direccion" value="{{ $user->direccion }}">
+                            <label for="direccion">Dirección: </label>
+                            <input class="form-control" type="text" name="direccion" id="direccion" value="{{ $user->direccion }}" maxlength="75" placeholder="-">
+                            @error('direccion')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                     </div>
@@ -126,13 +141,19 @@
                     <div class="row mb-2">                      
 
                         <div class="col-6">
-                            <label>Municipio/Distrito: </label>
-                        <input class="form-control" type="text" name="municipio" id="municipio" value="{{ $user->municipio }}">
+                            <label for="municipio">Municipio/Distrito: </label>
+                        <input class="form-control" type="text" name="municipio" id="municipio" value="{{ $user->municipio }}" maxlength="25" placeholder="-">
+                        @error('municipio')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-6">
-                            <label>Departamento: </label>
-                            <input class="form-control" type="text" name="departamento" id="departamento" value="{{ $user->departamento }}">
+                            <label for="departamento">Departamento: </label>
+                            <input class="form-control" type="text" name="departamento" id="departamento" value="{{ $user->departamento }}" maxlength="15" placeholder="-">
+                            @error('departamento')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                     </div>
@@ -140,8 +161,11 @@
                     <div class="row mb-2">
 
                         <div class="col-12">
-                            <label>Giro ó actividad económica: </label>
-                            <textarea class="form-control" type="text" name="giro" id="giro" value="{{ $user->giro }}" rows="4" cols="50" maxlength="200" placeholder="-"></textarea>
+                            <label for="giro">Giro ó actividad económica: </label>
+                            <textarea class="form-control" type="text" name="giro" id="giro" value="{{ $user->giro }}" rows="4" cols="50" maxlength="180" placeholder="-"></textarea>
+                            @error('giro')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                     </div>
@@ -149,8 +173,11 @@
                     <div class="row mb-2">  
 
                         <div class="col-12">
-                            <label>Nombre Comercial: </label>
-                            <input class="form-control" type="text" name="nombre_empresa" id="nombre_empresa" value="{{ $user->nombre_empresa }}" maxlength="45" placeholder="-">
+                            <label for="nombre_empresa">Nombre Comercial: </label>
+                            <input class="form-control" type="text" name="nombre_empresa" id="nombre_empresa" value="{{ $user->nombre_empresa }}" maxlength="34" placeholder="-">
+                            @error('nombre_empresa')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                     </div>
@@ -158,13 +185,19 @@
                     <div class="row mb-2"> 
 
                         <div class="col-6">
-                            <label>WebSite: </label>
-                            <input class="form-control" type="text" name="website" id="website" value="{{ $user->website }}">
+                            <label for="website">WebSite: </label>
+                            <input class="form-control" type="text" name="website" id="website" value="{{ $user->website }}" maxlength="34" placeholder="-">
+                            @error('website')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-6">
-                            <label>Teléfono: </label>
-                            <input class="form-control" type="text" name="telefono" id="telefono" value="{{ $user->telefono }}">
+                            <label for="telefono">Teléfono: </label>
+                            <input class="form-control" type="text" name="telefono" id="telefono" value="{{ $user->telefono }}" minlength="9" maxlength="9" placeholder="0000-0000">
+                            @error('telefono')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                     </div> 

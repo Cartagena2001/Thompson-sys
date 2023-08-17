@@ -136,4 +136,35 @@ class TiendaController extends Controller
     {
         //
     }
+
+    public function showCat(Request $request)
+    {
+        $productos = Producto::whereHas('marca', function($query){
+            $query->where('estado', "Activo");
+        })->paginate(100);
+
+        //if ver si esta selecionado el filtro de categoria
+        if($request->has('categoria')){
+            $categoria_id = $request->input('categoria');
+            
+            $productos = Producto::where('categoria_id', $categoria_id)->paginate(12);
+        }
+
+        $categoriaActual = $request->input('categoria');
+        $categoriaActualname = null;
+        //obtener el nombre de la categoria actual para mostrarlo en el titulo de la pagina
+        
+        if($categoriaActual != null){
+            $categoriaActualname = Categoria::find($categoriaActual);
+        }else{
+            $categoriaActualname = "Todas";
+        }
+
+        $categorias = Categoria::all();
+        $marcas = Marca::all();
+        $estadoProductos = EstadoProducto::all();
+
+        return view('productos.compra-masiva', compact('productos', 'categorias', 'marcas', 'estadoProductos', 'categoriaActual', 'categoriaActualname'));
+    }
+
 }

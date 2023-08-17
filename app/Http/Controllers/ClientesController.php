@@ -93,4 +93,17 @@ Class ClientesController extends Controller{
 
         return redirect('/dashboard/clientes')->with('toast_success', 'Se actualizo el estado del cliente a Reparto');
     }
+
+    public function admPermMarca(){
+
+        $clientes = User::where('estatus', 'aprobado')->paginate();
+        $marcas = Marca::all();
+
+        return view('clientes.marcasAdm', compact('clientes', 'marcas'));
+    }
+
+
+
+
+
 }

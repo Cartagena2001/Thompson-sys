@@ -63,14 +63,20 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
     protected function create(array $data)
-    {
+    { 
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'estado' => 'activo',
             'rol_id' => 2,
-            'estatus' => 'aspirante'
+            'estatus' => 'aspirante', 
+            'clasificacion' => 'Cobre',
+            'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png',
+            'marcas' => '0,',
+            'form_status' => 'none',
+            'fecha_registro' => \Carbon\Carbon::now()->toDateTimeString(),
+            'boletin' => 1
         ]);
     }
 }

@@ -301,6 +301,13 @@ nav.navbar.navbar-standard.navbar-expand-lg.fixed-top.navbar-dark {
     border: solid 3px #000;
 }
 
+.cantnoti {
+    background-color: #ff1620;
+    padding: 1px 5px;
+    border-radius: 50px;
+    color: #fff;
+}
+
 
 
 

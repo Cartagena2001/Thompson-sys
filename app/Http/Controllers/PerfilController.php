@@ -32,10 +32,19 @@ class PerfilController extends Controller
         
         //validar los datos
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'nit' => 'unique:users,nit,' . $user->id,
-            'nrc' => 'unique:users,nrc,' . $user->id,
+            'name' => 'required|max:100',
+            'dui' => 'required|unique:users,dui|min:10|max:10' . $user->id,
+            'whatsapp' => 'required|min:9|max:9',
+            'nrc' => 'required|unique:users,nrc|min:8|max:10' . $user->id,
+            'nit' => 'required|unique:users,nit|min:17|max:17' . $user->id,
+            'razon_social' => 'required|max:34',
+            'direccion' => 'required|max:75',
+            'municipio' => 'required|max:25',
+            'departamento' => 'required|max:15',
+            'giro' => 'required|max:180',
+            'nombre_empresa' => 'required|max:34',
+            'website' => 'required|max:34',
+            'telefono' => 'required|string|min:9|max:9'
         ]);
 
         //almacenar datos
@@ -45,16 +54,20 @@ class PerfilController extends Controller
             $user->imagen_perfil_src = '/assets/img/perfil-user/' . $file->getClientOriginalName();
         }
         $user->name = $request->get('name');
-        $user->email = $request->get('email');
-        $user->telefono = $request->get('telefono');
+        //$user->email = $request->get('email');
+        $user->dui = $request->get('dui');
+        $user->whatsapp = $request->get('whatsapp');
+        $user->nrc = $request->get('nrc');
+        $user->nit = $request->get('nit');
+        $user->razon_social = $request->get('razon_social');
         $user->direccion = $request->get('direccion');
         $user->municipio = $request->get('municipio');
         $user->departamento = $request->get('departamento');
+        $user->giro = $request->get('giro');
         $user->nombre_empresa = $request->get('nombre_empresa');
         $user->website = $request->get('website');
-        $user->nit = $request->get('nit');
-        $user->nrc = $request->get('nrc');
-        $user->whatsapp = $request->get('whatsapp');
+        $user->telefono = $request->get('telefono');
+        
         $user->update();
 
         //redireccionar
@@ -83,28 +96,43 @@ class PerfilController extends Controller
         
         //validar los datos
         $request->validate([
-            'nit' => 'unique:users,nit,' . $user->id,
-            'nrc' => 'unique:users,nrc,' . $user->id,
+            'dui' => 'required|unique:users,dui|min:10|max:10' . $user->id,
+            'whatsapp' => 'required|min:9|max:9',
+            'nrc' => 'required|unique:users,nrc|min:8|max:10' . $user->id,
+            'nit' => 'required|unique:users,nit|min:17|max:17' . $user->id,
+            'razon_social' => 'required|max:34',
+            'direccion' => 'required|max:75',
+            'municipio' => 'required|max:25',
+            'departamento' => 'required|max:15',
+            'giro' => 'required|max:180',
+            'nombre_empresa' => 'required|max:34',
+            'website' => 'required|max:34',
+            'telefono' => 'required|min:9|max:9'     
         ]);
-        
+
         //almacenar datos
         if ($request->hasFile('imagen_perfil_src')) {
             $file = $request->file('imagen_perfil_src');
             $file->move(public_path() . '/assets/img/perfil-user/', $file->getClientOriginalName());
             $user->imagen_perfil_src = '/assets/img/perfil-user/' . $file->getClientOriginalName();
         }
-        
+
         $user->form_status = 'sent'; //uso de emergencia como bandera
 
-        $user->telefono = $request->get('telefono');
+        //$user->name = $request->get('name');
+        //$user->email = $request->get('email');
+        $user->dui = $request->get('dui');
+        $user->whatsapp = $request->get('whatsapp');
+        $user->nrc = $request->get('nrc');
+        $user->nit = $request->get('nit');
+        $user->razon_social = $request->get('razon_social');
         $user->direccion = $request->get('direccion');
         $user->municipio = $request->get('municipio');
         $user->departamento = $request->get('departamento');
+        $user->giro = $request->get('giro');
         $user->nombre_empresa = $request->get('nombre_empresa');
         $user->website = $request->get('website');
-        $user->nit = $request->get('nit');
-        $user->nrc = $request->get('nrc');
-        $user->whatsapp = $request->get('whatsapp');
+        $user->telefono = $request->get('telefono');
         
         $user->update();
 

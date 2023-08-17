@@ -84,7 +84,7 @@
                         <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu">
                             
                                 <li>
-                                    <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}"><h5 class="rt-color-3 font-weight-bold">🖥 Dashboard (15%)</h5></a>
+                                    <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}"><h5 class="rt-color-3 font-weight-bold">🖥 Dashboard (40%)</h5></a>
                                 </li>
 
                                 <li><hr/></li>
@@ -115,6 +115,12 @@
                                 </li>
 
                                 <li class="ps-4">
+                                    <a href="{{ url('/dashboard/compra-masiva') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}">
+                                        <i class="fas fa-box-open"></i> <span class="ms-1 d-none d-sm-inline">Compra Masiva</span>
+                                    </a>
+                                </li>
+
+                                <li class="ps-4">
                                     <a href="{{ url('/dashboard/productos') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/productos') !== false ? 'active-menu' : '' }}">
                                         <i class="fa-solid fa-newspaper"></i> <span class="ms-1 d-none d-sm-inline">Gestión de Productos</span>
                                     </a>
@@ -133,7 +139,7 @@
                                 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/ordenes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-folder-open"></i> <span class="ms-1 d-none d-sm-inline">Ordenes de Compra</span></a>
+                                        <i class="fas fa-folder-open"></i> <span class="ms-1 d-none d-sm-inline">Ordenes de Compra <sup class="cantnoti">3</sup></span></a>
                                 </li>
 
                                 <li><hr/></li>
@@ -142,7 +148,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/aspirantes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/aspirantes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-users-cog"></i> <span class="ms-1 d-none d-sm-inline">Aspirantes</span></a>
+                                        <i class="fas fa-users-cog"></i> <span class="ms-1 d-none d-sm-inline">Aspirantes <sup class="cantnoti">2</sup></span></a>
                                 </li>
 
                                 <li class="ps-4">
@@ -151,8 +157,13 @@
                                 </li>
 
                                 <li class="ps-4">
+                                    <a href="{{ url('/dashboard/permisos') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/permisos') !== false ? 'active-menu' : '' }}">
+                                        <i class="fas fa-lock-open"></i> <span class="ms-1 d-none d-sm-inline">Autorizar Marcas</span></a>
+                                </li>
+
+                                <li class="ps-4">
                                     <a href="{{ url('/dashboard/contactos') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/contactos') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-user-plus"></i> <span class="ms-1 d-none d-sm-inline">Contactos</span></a>
+                                        <i class="fas fa-user-plus"></i> <span class="ms-1 d-none d-sm-inline">Contactos <sup class="cantnoti">2</sup></span></a>
                                 </li>
 
                                 <li><hr/></li>
@@ -167,7 +178,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/estadisticas') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/estadisticas') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-chart-pie"></i> <span class="ms-1 d-none d-sm-inline">Estadísticas (10%)</span>
+                                        <i class="fas fa-chart-pie"></i> <span class="ms-1 d-none d-sm-inline">Estadísticas (35%)</span>
                                     </a>
                                 </li>
 

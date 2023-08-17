@@ -76,6 +76,7 @@ class ProductoController extends Controller
             'precio_distribuidor' => 'required',
             'precio_taller' => 'required',
         ]);
+
         //almacenar datos
         $reg = new Producto();
         $reg->nombre = $request->get('nombre');
@@ -215,12 +216,10 @@ class ProductoController extends Controller
             'categoria_id' => 'required',
             'garantia' => 'required',
             'unidad_por_caja' => 'required',
-            'volumen' => 'required|numeric',
-            'unidad_volumen' => 'required',
-            'peso' => 'required|numeric',
-            'unidad_peso' => 'required',
-            'precio_distribuidor' => 'required',
-            'precio_taller' => 'required',
+            //'volumen' => 'numeric',
+            //'peso' => 'numeric',
+            'precio_distribuidor' => 'required|numeric',
+            'precio_taller' => 'required|numeric',
         ]);
 
         //almacenar datos
