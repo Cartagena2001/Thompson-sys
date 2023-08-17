@@ -9,9 +9,8 @@
     <div class="card-body position-relative mt-4">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="text-center">🛒 Carro de Compras 🛒</h1>
-                <p class="mt-4 mb-4 text-center">Aquí podrás los productos que has agregado a
-                    tu carrito de compras, podras editar la cantidad de cada producto antes de finalizar la compra.
+                <h1 class="text-center">📑 Detalle de Órden de Compra 📑</h1>
+                <p class="mt-4 mb-4 text-center">Aquí podrás ver el detalle de tu órden de compra y el monto total a pagar antes del despacho.
                 </p>
             </div>
         </div>
@@ -28,10 +27,10 @@
                 <tr>
                     <th class="text-center">ID</th>
                     <th>Producto</th>
-                    <th class="text-center"># Cajas</th>
-                    <th class="text-center">Precio Caja</th>
-                    <th class="text-center">Precio Producto/Unidad</th>
-                    <th class="text-center">Subtotal</th>
+                    <th class="text-center"># Cajas 📦</th>
+                    <th class="text-center">Precio 📦</th>
+                    <th class="text-center">Precio Unitario</th>
+                    <th class="text-center">Subtotal Parcial</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,12 +45,41 @@
                     </tr>
                 @endforeach
                 @php
+                    $subtotal = 0;
+                    $iva = 0.13;
                     $total = 0;
+
                     $cart = session('cart', []);
                     foreach ($cart as $item) {
-                        $total += $item['precio_f'] * $item['cantidad'] * $item['unidad_caja'];
+                        $subtotal += $item['precio_f'] * $item['cantidad'] * $item['unidad_caja'];
                     }
+
+                    $total = $subtotal + ($subtotal * $iva);
                 @endphp
+                    <tr class="mt-3" style="border-top: solid 2px #ff161f;">
+                        <td class="text-center"></td>
+                        <td></td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td> 
+                        <td class="text-start" style="font-weight: 600;">Subtotal:</td> 
+                        <td class="text-end">{{ number_format($subtotal, 2, '.', ',');  }} $</td> 
+                    </tr>
+                    <tr>
+                        <td class="text-center"></td>
+                        <td></td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td> 
+                        <td class="text-start" style="font-weight: 600;">IVA (13%):</td> 
+                        <td class="text-end">{{ number_format(($subtotal * $iva), 2, '.', ',');  }} $</td> 
+                    </tr>
+                    <tr>
+                        <td class="text-center"></td>
+                        <td></td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td> 
+                        <td class="text-start" style="font-weight: 600;">Total:</td> 
+                        <td class="text-end">{{ number_format($total, 2, '.', ',');  }} $</td> 
+                    </tr>
             </tbody>
         </table>
 
@@ -62,18 +90,20 @@
 
     <div class="d-flex justify-content-between">
 
+        {{-- 
         <div class="col-2">
             <div class="col-12">
                 <h4>Total: ${{ $total }}</h4>
             </div>
         </div>
+        --}}
 
-        <div class="col-2">
+        <div class="col-2 offset-10">
             <form action="{{ route('orden.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="total" value="{{ $total }}">
                 <button type="submit" class="btn btn-sm btn-primary">
-                    <i class="fas fa-check"></i> Finalizar Orden
+                    <i class="fas fa-check"></i> Finalizar Órden
                 </button>
             </form>
         </div>
