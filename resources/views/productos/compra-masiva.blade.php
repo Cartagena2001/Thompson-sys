@@ -16,7 +16,7 @@
     <div class="card-body position-relative mt-4">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="text-center">📦 Catálogo para compra masiva de productos 📦</h1>
+                <h1 class="text-center">📦 Catálogo para compra masiva 📦</h1>
                 <p class="mt-4 mb-4 text-center">Puedes realizar la compra de productos en lista de forma masiva en esta sección y agregarlos a tu carrito de compras para completar la órden más adelante.</p>
             </div>
         </div>

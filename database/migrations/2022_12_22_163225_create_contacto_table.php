@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('mensaje', 350);
             $table->boolean('boletin');
             $table->dateTime('fecha_hora_form');
+            $table->string('visto', 18); //nuevo, visto
             $table->timestamps();
         });
     }

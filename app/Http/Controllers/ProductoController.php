@@ -313,15 +313,21 @@ class ProductoController extends Controller
         // $filename = public_path() . $producto->ficha_tecnica_herf;
         // File::delete($filename);
         $producto = Producto::findOrfail($id);
+
         $path = 'assets/pdf/productos/'.$producto->hoja_seguridad;
+        
         if (File::exists($path)) {
             File::delete($path);
         }
+
         $path = 'assets/pdf/productos/'.$producto->ficha_tecnica_href;
+        
         if (File::exists($path)) {
             File::delete($path);
         }
+        
         $producto->delete();
+
         return redirect()->route('productos.index')->with('success', 'Producto eliminado exitosamente');
     }
 }

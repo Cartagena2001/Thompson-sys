@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 @section('title', 'Carrito de compras')
 
 {{-- Titulo --}}
@@ -88,25 +89,46 @@
     <br/>
     <br/>
 
-    <div class="d-flex justify-content-between">
+    <div>
 
-        {{-- 
-        <div class="col-2">
-            <div class="col-12">
-                <h4>Total: ${{ $total }}</h4>
-            </div>
-        </div>
-        --}}
+        @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
 
-        <div class="col-2 offset-10">
             <form action="{{ route('orden.store') }}" method="POST">
                 @csrf
-                <input type="hidden" name="total" value="{{ $total }}">
-                <button type="submit" class="btn btn-sm btn-primary">
-                    <i class="fas fa-check"></i> Finalizar Órden
-                </button>
-            </form>
-        </div>
+                <div class="row">
+                    <div class="col-7"> 
+                        <label for="cliente_id_compra">Asignar compra:</label>
+                        <select class="form-control" id="cliente_id_compra" name="cliente_id_compra">
+                            @foreach($usuarios as $usuario)
+                              <option value="{{$usuario->id}}">{{$usuario->id}} - {{$usuario->nombre_empresa}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-5" style="display: flex; align-items: end; justify-content: center;">
+                        <div style="display: contents;">
+                        <input type="hidden" name="total" value="{{ $total }}">
+                        <button style="width: 100%; height: 38px;" type="submit" class="btn btn-sm btn-primary"><i class="fas fa-check"></i> Finalizar Órden</button>
+                        </div>
+                    </div>
+                </div>
+
+             </form>
+        
+        @else
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <form action="{{ route('orden.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="total" value="{{ $total }}">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <i class="fas fa-check"></i> Finalizar Órden
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        @endif
 
     </div>
 

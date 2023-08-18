@@ -72,8 +72,8 @@
                                 <td class="flex-center">
                                     <div class="text-start">
                                 @foreach ($marcas as $marca)
-                                    <label for="marca-{{ $marca->nombre }}">
-                                        <input id="marca-{{ $marca->nombre }}" type="checkbox" value="{{ $marca->id }}" /> {{ $marca->nombre }}
+                                    <label for="{{ $marca->nombre }}-{{ $cliente->id }}">
+                                        <input id="{{ $marca->nombre }}-{{ $cliente->id }}" type="checkbox" value="{{ $marca->id }}," onclick="asignarMarca (this.id)" /> {{ $marca->nombre }}
                                     </label>
                                     <br/>
                                 @endforeach
@@ -113,4 +113,35 @@
         });
     </script>
 
+
+    <script type="text/javascript">
+
+        function asignarMarca(check_id) {
+            //e.preventDefault();
+
+            let b_id = $('#'+check_id).val();
+            let c_id = check_id;
+
+            //alert(marca_id);
+/*
+            $.ajax({
+                url: "/dashboard/permisos",
+                type:"POST",
+                data:{
+                    "_token": "{{ csrf_token() }}",
+                    marca:b_id,
+                    cliente:c_id,
+                },
+                success:function(response){
+                    $('#successMsg').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#nameErrorMsg').text(response.responseJSON.errors.name);
+                },
+            });
+  */          
+        }
+       
+      </script>
 @endsection

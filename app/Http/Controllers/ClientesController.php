@@ -103,6 +103,26 @@ Class ClientesController extends Controller{
     }
 
 
+    public function updateMarcas(Request $request){
+
+/*
+        $request->validate([
+            'marca'          => 'required',
+            'cliente'         => 'required|email',
+            //'mobile'        => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+
+        ]);
+*/
+
+        $clienteUptM = User::find('estatus', 'aprobado');
+
+        $clientes = User::where('estatus', 'aprobado')->paginate();
+        $marcas = Marca::all();
+
+        return view('clientes.marcasAdm', compact('clientes', 'marcas'));
+    }
+
+
 
 
 

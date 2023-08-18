@@ -43,6 +43,7 @@ return new class extends Migration
             $table->string('marcas', 300)->nullable();
             $table->string('notas', 300)->nullable();
             $table->string('estatus', 15)->nullable();
+            $table->string('visto', 18); //nuevo, visto
 
             $table->rememberToken();
             $table->timestamps();

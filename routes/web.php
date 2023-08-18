@@ -57,6 +57,8 @@ Route::put('/dashboard/ordenes/enProceso/{id}', [App\Http\Controllers\OrdenesCon
 Route::put('/dashboard/ordenes/finalizada/{id}', [App\Http\Controllers\OrdenesController::class, 'finalizada'])->name('ordenes.finalizada')->middleware('auth');
 Route::put('/dashboard/ordenes/cancelada/{id}', [App\Http\Controllers\OrdenesController::class, 'cancelada'])->name('ordenes.cancelada')->middleware('auth');
 
+Route::put('/dashboard/ordenes/uploadCif/{id}', [App\Http\Controllers\OrdenesController::class, 'upload'])->name('ordenecif.upload')->middleware('auth');
+
 //Rutas para aspirantes
 Route::get('/dashboard/aspirantes', [App\Http\Controllers\AspirantesController::class, 'index'])->name('aspirantes.index')->middleware('auth');
 Route::get('/dashboard/aspirantes/{id}', [App\Http\Controllers\AspirantesController::class, 'show'])->name('aspirantes.show')->middleware('auth');
@@ -83,8 +85,13 @@ Route::put('/dashboard/clientes/diamante/{id}', [App\Http\Controllers\ClientesCo
 Route::put('/dashboard/clientes/taller/{id}', [App\Http\Controllers\ClientesController::class, 'taller'])->name('clientes.taller')->middleware('auth');
 Route::put('/dashboard/clientes/distribucion/{id}', [App\Http\Controllers\ClientesController::class, 'distribucion'])->name('clientes.distribucion')->middleware('auth');
 
-
 Route::get('/dashboard/permisos', [App\Http\Controllers\ClientesController::class, 'admPermMarca'])->name('clientes.marcasasoc')->middleware('auth');
+
+Route::post('/dashboard/permisos', [App\Http\Controllers\ClientesController::class, 'updateMarcas'])->name('clientes.marcaUpdate')->middleware('auth');
+
+
+
+
 
 //Rutas para tienda
 Route::get('/dashboard/tienda', [App\Http\Controllers\TiendaController::class, 'index'])->name('tienda.index');

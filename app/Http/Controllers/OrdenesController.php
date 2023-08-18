@@ -13,18 +13,63 @@ class OrdenesController extends Controller
     {
         $ordenes = Orden::Paginate();
         $users = User::all();
+
         return view('ordenes.index' , compact('ordenes' , 'users'));
     }
 
     
     public function show($id){
+
         $orden = Orden::find($id);
-        //buscar el deatalle de la orden
+
+        //buscar el detalle de la orden
         $detalle = OrdenDetalle::where('orden_id' , $id)->get();
+
+        $orden->visto = 'visto';
+        $orden->save();
+        
         //ahora buscar el producto de cada detalle
         foreach($detalle as $item){
             $item->producto = $item->Producto;
         }
+
+        return view('ordenes.show' , compact('orden', 'detalle'));
+    }
+
+    public function upload(Request $request, $id){
+
+        //validar los datos
+        $request->validate([
+
+            'cif' => 'string|min:1|max:24',
+            'notas' => 'string|max:250'
+
+        ]);
+
+        $orden = Orden::find($id);
+
+        //almacenar datos
+        if ($request->hasFile('factura_href')) {
+            $file = $request->file('factura_href');
+            $file->move(public_path() . '/assets/img/cifs/', $file->getClientOriginalName());
+            $orden->factura_href = '/assets/img/cifs/' . $file->getClientOriginalName();
+        }
+
+        $orden->cif = $request->get('cif');
+        $orden->notas = $request->get('notas');
+        
+        $orden->update();
+
+        //buscar el detalle de la orden
+        $detalle = OrdenDetalle::where('orden_id' , $id)->get();
+
+        //$orden->save();
+        
+        //ahora buscar el producto de cada detalle
+        foreach($detalle as $item){
+            $item->producto = $item->Producto;
+        }
+
         return view('ordenes.show' , compact('orden', 'detalle'));
     }
 

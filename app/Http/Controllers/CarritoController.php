@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class CarritoController extends Controller
@@ -24,8 +25,9 @@ class CarritoController extends Controller
         $cart = session()->get('cart', []);
 
         //validar que clasificacion tiene el cliente para poner un precio u otro
-        if ($product->precio_oferta != null) {
+        if ($product->precio_oferta != null || $product->precio_oferta != 0 ) {
             $precio = $product->precio_oferta;
+            //echo '<script> console.log("precio: '. $precio.' "); </script>';
         } elseif (Auth::user()->clasificacion == 'Cobre') {
             $precio = $product->precio_1;
         } elseif (Auth::user()->clasificacion == 'Plata') {
@@ -35,7 +37,7 @@ class CarritoController extends Controller
         } elseif (Auth::user()->clasificacion == 'Platino') {
             $precio = $product->precio_3;
         } elseif (Auth::user()->clasificacion == 'Diamante') {
-            $precio = $product->precio_oferta;
+            $precio = $product->precio_3;
         } else if (Auth::user()->clasificacion == 'Taller') {
             $precio = $product->precio_taller;
         } else if (Auth::user()->clasificacion == 'Reparto') {
@@ -86,7 +88,7 @@ class CarritoController extends Controller
         } elseif (Auth::user()->clasificacion == 'Platino') {
             $precio = $product->precio_3;
         } elseif (Auth::user()->clasificacion == 'Diamante') {
-            $precio = $product->precio_oferta;
+            $precio = $product->precio_3;
         } else if (Auth::user()->clasificacion == 'Taller') {
             $precio = $product->precio_taller;
         } else if (Auth::user()->clasificacion == 'Reparto') {
@@ -139,10 +141,12 @@ class CarritoController extends Controller
     {
         $cart = session()->get('cart', []);
 
+        $usuarios = User::where('estatus', '=', 'aprobado')->orWhere('estatus', '=', 'otro')->get();
+
         if (count($cart) == 0) {
             return redirect()->route('carrito.index')->with('info', 'No hay productos en el carrito de compras');
         }
 
-        return view('orden.index');
+        return view('orden.index', compact('usuarios'));
     }
 }

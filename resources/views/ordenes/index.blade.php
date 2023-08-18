@@ -124,11 +124,11 @@
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Fecha de registro</th>
+                            <th scope="col">Fecha/Hora de Registro</th>
                             <th scope="col">Cliente</th>
                             <th scope="col">Estado</th>
-                            <th scope="col">Fecha envio</th>
-                            <th scope="col">Fecha Entrega</th>
+                            <th scope="col">Fecha Envío</th>
+                            <th scope="col">Fecha Despacho</th>
                             <th scope="col">Total</th>
                             <th class="text-end" scope="col">Acciones</th>
                         </tr>
@@ -137,8 +137,8 @@
                         @foreach ($ordenes as $orden)
                             <tr>
                                 <td>{{ $orden->id }}</td>
-                                <td>{{ $orden->fecha_registro }}</td>
-                                <td>{{ $orden->user->name }}</td>
+                                <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->format('d/m/Y, h:m:s a') }}</td>
+                                <td>{{ $orden->user->nombre_empresa }}</td>
                                 @if ($orden->estado == 'Pendiente')
                                     <td class="text-warning">{{ $orden->estado }}</td>
                                 @elseif($orden->estado == 'En proceso')
@@ -148,13 +148,13 @@
                                 @else
                                     <td class="text-danger">{{ $orden->estado }}</td>
                                 @endif
-                                <td>{{ $orden->fecha_envio }}</td>
-                                <td>{{ $orden->fecha_entrega }}</td>
+                                <td>{{ \Carbon\Carbon::parse($orden->fecha_envio)->format('d/m/Y, h:m:s a') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($orden->fecha_entrega)->format('d/m/Y, h:m:s a') }}</td>
                                 <td>${{ $orden->total }}</td>
                                 <td class="text-end">
                                     <form action="{{ route('productos.destroy', $orden->id) }}" method="POST">
                                         <a href="{{ route('ordenes.show', $orden->id) }}">
-                                            <button class="btn p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="text-500 fas fa-eye"></span> Ver Orden</button>
+                                            <button class="btn p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Ir a"><span class="text-500 fas fa-eye"></span> Ver Órden</button>
                                         </a>
                                         @csrf
                                     </form>

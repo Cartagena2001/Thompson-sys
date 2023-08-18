@@ -23,6 +23,7 @@ class ContactoProductoSeeder extends Seeder
             'mensaje' => 'esto es una prueba', 
             'boletin' => '1',
             'fecha_hora_form' => '2023-01-05 10:14:43',
+            'visto' => 'nuevo',
         ]);
 
     }

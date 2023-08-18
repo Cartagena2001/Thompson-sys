@@ -19,9 +19,13 @@ return new class extends Migration
             //relacionar con la tabla usuario
             $table->integer('user_id')->unsigned();
             $table->string('estado', 10);
-            $table->date('fecha_envio');
-            $table->date('fecha_entrega');
+            $table->dateTime('fecha_envio');
+            $table->dateTime('fecha_entrega');
             $table->double('total', 7, 2);
+            $table->string('notas', 255);
+            $table->string('visto', 18); //nuevo, visto
+            $table->string('cif', 25); //# factura
+            $table->string('factura_href', 200); //# factura
             $table->timestamps();
         });
     }

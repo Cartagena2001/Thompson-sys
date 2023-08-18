@@ -42,6 +42,7 @@ class UsuarioSeeder extends Seeder
                       'imagen_perfil_src' => '/assets/img/perfil-user/pedro-img-profile.png', 
                       'notas' => '-', 
                       'estatus' => 'otro',
+                      'visto' => 'otro',
                     ]);
 
         User::create(['cliente_id_interno' => '-',
@@ -70,6 +71,7 @@ class UsuarioSeeder extends Seeder
                       'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png', 
                       'notas' => '-', 
                       'estatus' => 'otro',
+                      'visto' => 'otro',
                     ]);
 
         User::create(['cliente_id_interno' => '-',
@@ -98,6 +100,7 @@ class UsuarioSeeder extends Seeder
                       'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png', 
                       'notas' => '-', 
                       'estatus' => 'otro',
+                      'visto' => 'otro',
                     ]);
         
         //Bódega
@@ -127,6 +130,7 @@ class UsuarioSeeder extends Seeder
                       'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png', 
                       'notas' => '-', 
                       'estatus' => 'otro',
+                      'visto' => 'otro',
                     ]);
 
 
@@ -157,6 +161,7 @@ class UsuarioSeeder extends Seeder
                       'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png', 
                       'notas' => '-', 
                       'estatus' => 'aprobado',
+                      'visto' => 'otro',
                     ]);
 
 
@@ -187,6 +192,7 @@ class UsuarioSeeder extends Seeder
                       'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png', 
                       'notas' => '-', 
                       'estatus' => 'aspirante',
+                      'visto' => 'nuevo',
                     ]);
 
         User::create(['cliente_id_interno' => '-',
@@ -215,6 +221,7 @@ class UsuarioSeeder extends Seeder
                       'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png', 
                       'notas' => '-', 
                       'estatus' => 'aspirante',
+                      'visto' => 'nuevo',
                     ]);
 
     }

@@ -201,7 +201,7 @@
 
                             <div class="col-12">
                                 <label for="giro">Giro ó actividad económica: </label>
-                                <textarea class="form-control" type="text" name="giro" id="giro" value="{{ $user->giro }}" rows="4" cols="50" maxlength="180" placeholder="-" required></textarea>
+                                <textarea class="form-control" type="text" name="giro" id="giro" rows="4" cols="50" maxlength="180" placeholder="-" required>{{ $user->giro }}</textarea>
                                 @error('giro')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror

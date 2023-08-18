@@ -139,7 +139,19 @@
                                 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/ordenes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-folder-open"></i> <span class="ms-1 d-none d-sm-inline">Ordenes de Compra <sup class="cantnoti">3</sup></span></a>
+                                        <i class="fas fa-folder-open"></i> 
+                                        <span class="ms-1 d-none d-sm-inline">Órdenes de Compra 
+                                        <?php
+                                            $ordenesSinVer = DB::table('orden')
+                                                ->where('visto', 'nuevo')
+                                                ->get();
+                                            if (count($ordenesSinVer) != 0) {
+                                                echo '<sup class="cantnoti">'.count($ordenesSinVer).'</sup>';
+                                            }
+                                            
+                                        ?>    
+                                        </span>
+                                    </a>
                                 </li>
 
                                 <li><hr/></li>
@@ -148,7 +160,20 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/aspirantes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/aspirantes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-users-cog"></i> <span class="ms-1 d-none d-sm-inline">Aspirantes <sup class="cantnoti">2</sup></span></a>
+                                        <i class="fas fa-users-cog"></i> 
+                                        <span class="ms-1 d-none d-sm-inline">Aspirantes 
+                                        <?php
+                                            $aspitanresNew = DB::table('users')
+                                                ->where('visto', 'nuevo')
+                                                ->where('estatus', 'aspirante')
+                                                ->get();
+                                            if (count($aspitanresNew) != 0) {
+                                                echo '<sup class="cantnoti">'.count($aspitanresNew).'</sup>';
+                                            }
+                                            
+                                        ?>
+                                        </span>
+                                    </a>
                                 </li>
 
                                 <li class="ps-4">
@@ -163,7 +188,18 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/contactos') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/contactos') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-user-plus"></i> <span class="ms-1 d-none d-sm-inline">Contactos <sup class="cantnoti">2</sup></span></a>
+                                        <i class="fas fa-user-plus"></i> 
+                                        <span class="ms-1 d-none d-sm-inline">Contactos 
+                                        <?php
+                                            $msjNew = DB::table('contacto')
+                                                ->where('visto', 'nuevo')
+                                                ->get();
+                                            if (count($msjNew) != 0) {
+                                                echo '<sup class="cantnoti">'.count($msjNew).'</sup>';
+                                            }
+                                            
+                                        ?>
+                                        </span></a>
                                 </li>
 
                                 <li><hr/></li>
@@ -205,7 +241,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/perfil/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/ordenes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-truck-loading"></i> <span class="ms-1 d-none d-sm-inline">Mis Ordenes (65%)</span></a>
+                                        <i class="fas fa-truck-loading"></i> <span class="ms-1 d-none d-sm-inline">Mis Órdenes (85%)</span></a>
                                 </li>
 
                                 <li><hr/></li>

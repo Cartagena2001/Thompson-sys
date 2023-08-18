@@ -16,7 +16,7 @@
         <div class="card-body position-relative mt-4">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="text-center">📥 Órdenes de Compra 📥</h1>
+                    <h1 class="text-center">📥 Resumen Órden de Compra 📥</h1>
                     <p class="mt-4 mb-4 text-center">Administración de órdenes de compra de productos en venta en la Tienda <b>rtelsalvador.</b> <br/>Aquí podrás encontrar todas las órdenes de compra de tus clientes y podrás gestionarlas.</p>
                 </div>
                 <div class="text-center mb-4">
@@ -29,7 +29,7 @@
     {{-- Cards de informacion --}}
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
 
-        <button id="imprimir_btn" class="btn btn-sm btn-primary" type="button"><i class="fas fa-print"></i> Imprimir detalle de la orden</button>
+        <button id="imprimir_btn" class="btn btn-sm btn-primary" type="button"><i class="fas fa-print"></i> Imprimir detalle de la órden</button>
 
         <div class="card-body">
 
@@ -37,18 +37,22 @@
 
                 <div class="mt-3">
                     <h2>Cliente: <span class="rt-color-1">{{ $orden->user->name }}</span></h2>
-                    <hr/>
                     <span class="rt-color-2">Categoría:</span> <span class="">{{ $orden->user->clasificacion }}</span><br>
-                    <span class="rt-color-2">Empresa:</span> <span class="">{{ $orden->user->nombre_empresa }}</span><br>
-                    <span class="rt-color-2">NIT:</span> <span class="">{{ $orden->user->nit }}</span><br>
-                    <span class="rt-color-2">NRC:</span> <span class="">{{ $orden->user->nrc }}</span>
+                    <hr/>
+                    <span class="rt-color-2">NRC:</span> <span class="">{{ $orden->user->nrc }}</span> &nbsp;|&nbsp; <span class="rt-color-2">NIT:</span> <span class="">{{ $orden->user->nit }}</span> &nbsp;|&nbsp; <span class="rt-color-2">DUI:</span> <span class="">{{ $orden->user->dui }}</span> <br>
+                    <span class="rt-color-2">Nombre/Razón ó denominación social:</span> <span class="">{{ $orden->user->razon_social }}</span><br> 
+                    <span class="rt-color-2">Nombre Comercial:</span> <span class="">{{ $orden->user->nombre_empresa }}</span><br> 
+                    <span class="rt-color-2">Dirección:</span> <span class="">{{ $orden->user->direccion }}, {{ $orden->user->departamento }}, {{ $orden->user->municipio }} </span><br> 
+                    <span class="rt-color-2">Teléfono:</span> <span class="">+503 {{ $orden->user->telefono }}</span> 
                 </div>
                 
                 <hr/>
                 
                 <div>
                     <span class="rt-color-2">Orden ID: #</span> <span class="">{{ $orden->id }}</span><br>
-                    <span class="rt-color-2">Fecha:</span> <span class="">{{ $orden->created_at }}</span><br>
+                    <span class="rt-color-2">CIF:</span> <span class="">{{ $orden->cif }}</span><br>
+                    <span class="rt-color-2">Fecha/Hora:</span> <span class="">{{ \Carbon\Carbon::parse($orden->created_at)->format('d/m/Y, h:m:s a') }}</span><br>
+                    <span class="rt-color-2">Notas:</span> <span>{{ $orden->notas }}</span><br>
                     <span class="rt-color-2">Estado:</span> <span class="text-warning">{{ $orden->estado }}</span>
                 </div>
 
@@ -61,33 +65,112 @@
                                 <th class="text-start">Producto</th>
                                 <th class="text-center">Cantidad (caja)</th>
                                 <th class="text-center">Precio (caja)</th>
-                                <th class="text-center">Subtotal</th>
+                                <th class="text-center">Subtotal Parcial</th>
                             </tr>
                         </thead>
                         <tbody>
+
                             @foreach ($detalle as $detalles)
-                                <tr>
+                                <tr class="pb-5">
                                     <td class="text-start">{{ $detalles->producto->nombre }}</td>
                                     <td class="text-center">{{ $detalles->cantidad }}</td>
-                                    <td class="text-center">$ {{ $detalles->producto->precio_1 }}</td>
-                                    <td class="text-center">$ {{ $detalles->cantidad * $detalles->producto->precio_1 }}</td>
+                                    <td class="text-center">{{ number_format(($detalles->precio), 2, '.', ','); }} $</td>
+
+                                    <td class="text-center">{{ number_format(($detalles->cantidad * $detalles->precio), 2, '.', ','); }} $</td>
                                 </tr>
                             @endforeach
+
                             @php
+                                $subtotal = 0;
+                                $iva = 0.13;
                                 $total = 0;
+
                                 foreach ($detalle as $detalles) {
-                                    $total += $detalles->cantidad * $detalles->producto->precio_1 * $detalles->producto->unidad_por_caja;
+                                    $subtotal += $detalles->cantidad * $detalles->precio;
                                 }
+
+                                $total = $subtotal + ($subtotal * $iva);
                             @endphp
-                            <tr>
-                                <td class="text-start" colspan="3"><strong>Total:</strong></td>
-                                <td class="text-center">$ {{ $total }}</td>
-                            </tr>
+                            
+                                <tr class="pt-5" style="border-top: solid 4px #979797;">
+                                    <td></td>
+                                    <td></td> 
+                                    <td class="text-start" style="font-weight: 600;">Subtotal:</td> 
+                                    <td class="text-end">{{ number_format($subtotal, 2, '.', ',');  }} $</td> 
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td> 
+                                    <td class="text-start" style="font-weight: 600;">IVA (13%):</td> 
+                                    <td class="text-end">{{ number_format(($subtotal * $iva), 2, '.', ',');  }} $</td> 
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-start" style="font-weight: 600;">Total:</td> 
+                                    <td class="text-end">{{ number_format($total, 2, '.', ',');  }} $</td> 
+                                </tr>
                         </tbody>
                     </table>
                 </div>
 
             </div>
+
+
+
+
+            @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
+
+            <form method="POST" action="{{ route('ordenecif.upload', $orden->id) }}" role="form" enctype="multipart/form-data">
+                {{ method_field('PUT') }}
+                @csrf
+
+                <div class="mt-3 col-auto text-center col-4 mx-auto">
+                    <label for="factura_href">Adjuntar Factura/Crédito Fiscal: </label>
+                    <br/>
+                    <img class="rounded mt-2" src="{{ $orden->factura_href }}" alt="cif-img" width="200">
+                    <br/>
+                    <br/>
+                    <input class="form-control" type="file" name="factura_href" id="factura_href" value="{{ $orden->factura_href }}">  
+                    <br/>
+                    @error('factura_href')
+                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="row mb-2">  
+
+                    <div class="col-12">
+                        <label for="cif">CIF: </label>
+                        <input class="form-control" type="text" name="cif" id="cif" value="{{ $orden->cif }}" maxlength="24" placeholder="-">
+                        @error('cif')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                </div>
+
+               <div class="row mb-2">
+
+                    <div class="col-12">
+                        <label for="notas">Notas: </label>
+                        <textarea class="form-control" type="text" name="notas" id="notas" rows="4" cols="50" maxlength="250" placeholder="-">{{ $orden->notas }}</textarea>
+                        @error('notas')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                </div>
+
+                <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">
+                    <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Adjuntar información</button>
+                </div>
+
+            </form>
+
+            @endif
+
+
 
             <div class="row mb-4">
             @if ($orden->estado == 'Finalizada' || $orden->estado == 'Cancelada')
