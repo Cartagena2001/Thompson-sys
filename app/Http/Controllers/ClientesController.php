@@ -114,15 +114,32 @@ Class ClientesController extends Controller{
         ]);
 */
 
-        $clienteUptM = User::find('estatus', 'aprobado');
 
-        $clientes = User::where('estatus', 'aprobado')->paginate();
-        $marcas = Marca::all();
+        $clienteID = trim(strstr( $request->cliente, "_" ), "_");
+        $clienteUptM = User::find($clienteID);
 
-        return view('clientes.marcasAdm', compact('clientes', 'marcas'));
+        $marcasUDT = ""; 
+
+        if ( str_contains($clienteUptM->marcas, $request->marca) ) {
+
+           $marcasUDT = strstr( $clienteUptM->marcas, $request->marca, true);
+
+            $clienteUptM->marcas = $marcasUDT;
+
+            $clienteUptM->save();
+
+           return response()->json($clienteUptM->marcas);
+
+        } else {
+
+            $clienteUptM->marcas = $clienteUptM->marcas.$request->marca;
+
+            $clienteUptM->save();
+
+            return response()->json($clienteUptM->marcas);
+        }
+
     }
-
-
 
 
 

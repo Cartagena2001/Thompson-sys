@@ -56,13 +56,17 @@
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Cliente</th>s
+                            <th scope="col">Cliente</th>
                             <th scope="col">Empresa/Negocio</th>
                             <th scope="col">Lista/Precio</th>
                             <th class="text-center" scope="col">Marcas Autorizadas</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <div class="alert alert-success" role="alert" id="successMsg" style="display: none" >
+                            Marcas autorizadas con éxito! 
+                        </div>
+
                         @foreach ($clientes as $cliente)
                             <tr>
                                 <td>{{ $cliente->id }}</td>
@@ -72,10 +76,13 @@
                                 <td class="flex-center">
                                     <div class="text-start">
                                 @foreach ($marcas as $marca)
-                                    <label for="{{ $marca->nombre }}-{{ $cliente->id }}">
-                                        <input id="{{ $marca->nombre }}-{{ $cliente->id }}" type="checkbox" value="{{ $marca->id }}," onclick="asignarMarca (this.id)" /> {{ $marca->nombre }}
+                                    <label for="marca_{{ $marca->id }}">
+                                        <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}" type="checkbox" name="marks" value="{{ $marca->id }}," onclick="asignarMarca (this.id)" @if ( str_contains( $cliente->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
+
                                     </label>
                                     <br/>
+                                    <span class="text-danger" id="ErrorMsg1"></span>
+                                    <span class="text-danger" id="ErrorMsg2"></span>    
                                 @endforeach
                                     </div>
                                 </td>
@@ -117,30 +124,29 @@
     <script type="text/javascript">
 
         function asignarMarca(check_id) {
-            //e.preventDefault();
 
-            let b_id = $('#'+check_id).val();
-            let c_id = check_id;
+            var marca = $('#'+check_id).val();
+            var clienteid = check_id;
 
-            //alert(marca_id);
-/*
+            //console.log("marca id: "+marca+" cliente id: "+clienteid);
+            
+
             $.ajax({
-                url: "/dashboard/permisos",
-                type:"POST",
-                data:{
-                    "_token": "{{ csrf_token() }}",
-                    marca:b_id,
-                    cliente:c_id,
-                },
-                success:function(response){
+                url: "{{ route('clientes.marcaUpdate') }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&marca=" + marca + "&cliente=" + clienteid,
+
+                success: function(response){
                     $('#successMsg').show();
                     console.log(response);
                 },
                 error: function(response) {
-                    $('#nameErrorMsg').text(response.responseJSON.errors.name);
+                    $('#ErrorMsg1').text(response.responseJSON.errors.marca);
+                    $('#ErrorMsg2').text(response.responseJSON.errors.cliente);
                 },
             });
-  */          
+            
         }
        
       </script>
