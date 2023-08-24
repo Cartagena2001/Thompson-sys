@@ -42,7 +42,11 @@ class OrdenesController extends Controller
         $request->validate([
 
             'cif' => 'string|min:1|max:24',
-            'notas' => 'string|max:250'
+            'notas' => 'string|max:250',
+            'notas_bodega' => 'string|max:250',
+            'bulto' => 'string|max:9',
+            'paleta' => 'string|max:9',
+            'ubicacion' => 'string|max:19'
 
         ]);
 
@@ -57,6 +61,10 @@ class OrdenesController extends Controller
 
         $orden->cif = $request->get('cif');
         $orden->notas = $request->get('notas');
+        $orden->notas_bodega = $request->get('notas_bodega');
+        $orden->bulto = $request->get('bulto');
+        $orden->paleta = $request->get('paleta');
+        $orden->ubicacion = $request->get('ubicacion');
         
         $orden->update();
 

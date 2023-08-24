@@ -52,15 +52,26 @@
                                 @method('PUT')
                                 <div class="row">
                                     <div class="input-group" data-quantity="data-quantity">
-                                        <input type="hidden" name="producto_id" value="{{ $item['producto_id'] }}">
+                                        <input type="hidden" id="{{ $item['producto_id'] }}" name="producto_id" value="{{ $item['producto_id'] }}">
                                         <div class="input-group-append">
+                                            
                                             <button class="btn btn-outline-secondary btn-menos" type="button">-</button>
-                                            <input class="btn btn-outline-secondary cantidad" type="number" name="cantidad" value="{{ $item['cantidad'] }}" min="1" max="{{ $item['existencia'] }}" readonly>
+                                            
+                                            <input id="cantidad_{{ $item['producto_id'] }}" class="btn btn-outline-secondary cantidad" type="number" name="cantidad" value="{{ $item['cantidad'] }}" min="1" max="{{ $item['existencia'] }}" {{-- onchange="udpCarrito(this.id)" --}} readonly>
+                                            
                                             <button class="btn btn-outline-secondary btn-mas" type="button">+</button>
+                                            
+                                             
                                             <button type="submit" class="btn btn-sm btn-primary">
                                                 <i class="fas fa-sync-alt"></i> Actualizar cantidad
                                             </button>
+                                            
+
                                         </div>
+                                        <br/>
+                                        @error('cantidad')
+                                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </form>
@@ -72,7 +83,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="producto_id" value="{{ $item['producto_id'] }}">
-                                <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i> Eliminar producto</button>
+                                <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i> Quitar producto</button>
                             </form>
                         </td>
                     </tr>
@@ -87,7 +98,7 @@
 
         <div class="col-2">
             <div class="col-auto px-2 px-md-3 mt-3">
-                <a class="btn btn-primary" href="{{ url('/dashboard/tienda') }}" style="width: 160px;">
+                <a class="btn btn-primary" href="javascript:history.back()" style="width: 160px;">
                     <span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block">Seguir comprando</span>
                 </a>
             </div>
@@ -124,6 +135,7 @@
 
 
     <script>
+
         var btnMas = document.querySelectorAll('.btn-mas');
         var btnMenos = document.querySelectorAll('.btn-menos');
         var inputCantidad = document.querySelectorAll('.cantidad');
@@ -145,6 +157,33 @@
                 }
             });
         }
+
+
+        function updtCarrito(cant_id) {
+
+            var qty = $('#'+cant_id).val();
+            var prodid = cant_id.slice(cant_id.indexOf('_') + 1);
+            
+            console.log(prodid);
+
+            $.ajax({
+                url: "{{ route('carrito.update',"+prodid+") }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&cantidad=" + qty + "&producto_id=" + prodid,
+
+                success: function(response){
+                    $('#successMsg').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg1').text(response.responseJSON.errors.qty);
+                    $('#ErrorMsg2').text(response.responseJSON.errors.prodid);
+                },
+            });
+            
+        }
+
     </script>
 </div>
 

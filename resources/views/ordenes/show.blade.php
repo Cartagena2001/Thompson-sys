@@ -35,25 +35,32 @@
 
             <div id="contenido-imprimir">
 
-                <div class="mt-3">
-                    <h2>Cliente: <span class="rt-color-1">{{ $orden->user->name }}</span></h2>
-                    <span class="rt-color-2">Categoría:</span> <span class="">{{ $orden->user->clasificacion }}</span><br>
-                    <hr/>
-                    <span class="rt-color-2">NRC:</span> <span class="">{{ $orden->user->nrc }}</span> &nbsp;|&nbsp; <span class="rt-color-2">NIT:</span> <span class="">{{ $orden->user->nit }}</span> &nbsp;|&nbsp; <span class="rt-color-2">DUI:</span> <span class="">{{ $orden->user->dui }}</span> <br>
-                    <span class="rt-color-2">Nombre/Razón ó denominación social:</span> <span class="">{{ $orden->user->razon_social }}</span><br> 
-                    <span class="rt-color-2">Nombre Comercial:</span> <span class="">{{ $orden->user->nombre_empresa }}</span><br> 
-                    <span class="rt-color-2">Dirección:</span> <span class="">{{ $orden->user->direccion }}, {{ $orden->user->departamento }}, {{ $orden->user->municipio }} </span><br> 
-                    <span class="rt-color-2">Teléfono:</span> <span class="">+503 {{ $orden->user->telefono }}</span> 
-                </div>
+                <div class="row">
+
+                    <div class="col-12 mt-3">
+                        <h2>Cliente: <span class="rt-color-1">{{ $orden->user->name }}</span></h2>
+                        @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
+                        <span class="rt-color-2">Categoría:</span> <span class="">{{ $orden->user->clasificacion }}</span><br>
+                        @endif
+                        <hr/>
+                    </div>
+
+                    <div class="col-6 mt-3">
+                        <span class="rt-color-2">NRC:</span> <span class="">{{ $orden->user->nrc }}</span> &nbsp;|&nbsp; <span class="rt-color-2">NIT:</span> <span class="">{{ $orden->user->nit }}</span> &nbsp;|&nbsp; <span class="rt-color-2">DUI:</span> <span class="">{{ $orden->user->dui }}</span> <br>
+                        <span class="rt-color-2">Nombre/Razón ó denominación social:</span> <span class="">{{ $orden->user->razon_social }}</span><br> 
+                        <span class="rt-color-2">Nombre Comercial:</span> <span class="">{{ $orden->user->nombre_empresa }}</span><br> 
+                        <span class="rt-color-2">Dirección:</span> <span class="">{{ $orden->user->direccion }}, {{ $orden->user->departamento }}, {{ $orden->user->municipio }} </span><br> 
+                        <span class="rt-color-2">Teléfono:</span> <span class="">+503 {{ $orden->user->telefono }}</span> 
+                    </div>
                 
-                <hr/>
-                
-                <div>
-                    <span class="rt-color-2">Orden ID: #</span> <span class="">{{ $orden->id }}</span><br>
-                    <span class="rt-color-2">CIF:</span> <span class="">{{ $orden->cif }}</span><br>
-                    <span class="rt-color-2">Fecha/Hora:</span> <span class="">{{ \Carbon\Carbon::parse($orden->created_at)->format('d/m/Y, h:m:s a') }}</span><br>
-                    <span class="rt-color-2">Notas:</span> <span>{{ $orden->notas }}</span><br>
-                    <span class="rt-color-2">Estado:</span> <span class="text-warning">{{ $orden->estado }}</span>
+                    <div class="col-6 mt-3">
+                        <span class="rt-color-2">Orden ID: #</span> <span class="">{{ $orden->id }}</span><br>
+                        <span class="rt-color-2"># Factura:</span> <span class="">{{ $orden->cif }}</span><br>
+                        <span class="rt-color-2">Fecha/Hora:</span> <span class="">{{ \Carbon\Carbon::parse($orden->created_at)->format('d/m/Y, h:m:s a') }}</span><br>
+                        <span class="rt-color-2">Notas:</span> <span>{{ $orden->notas }}</span><br>
+                        <span class="rt-color-2">Estado:</span> <span class="text-warning">{{ $orden->estado }}</span>
+                    </div>
+                    
                 </div>
 
                 <hr/>
@@ -117,8 +124,6 @@
             </div>
 
 
-
-
             @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
 
             <form method="POST" action="{{ route('ordenecif.upload', $orden->id) }}" role="form" enctype="multipart/form-data">
@@ -128,7 +133,7 @@
                 <div class="mt-3 col-auto text-center col-4 mx-auto">
                     <label for="factura_href">Adjuntar Factura/Crédito Fiscal: </label>
                     <br/>
-                    <img class="rounded mt-2" src="{{ $orden->factura_href }}" alt="cif-img" width="200">
+                    <img class="rounded mt-2" src="{{ $orden->factura_href }}" alt="factura-img" width="200">
                     <br/>
                     <br/>
                     <input class="form-control" type="file" name="factura_href" id="factura_href" value="{{ $orden->factura_href }}">  
@@ -140,10 +145,18 @@
 
                 <div class="row mb-2">  
 
-                    <div class="col-12">
-                        <label for="cif">CIF: </label>
+                    <div class="col-6">
+                        <label for="cif"># de Factura: </label>
                         <input class="form-control" type="text" name="cif" id="cif" value="{{ $orden->cif }}" maxlength="24" placeholder="-">
                         @error('cif')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-6">
+                        <label for="ubicacion">Ubicación: </label>
+                        <input class="form-control" type="text" name="ubicacion" id="ubicacion" value="{{ $orden->ubicacion }}" maxlength="7" placeholder="A-00-00">
+                        @error('ubicacion')
                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                         @enderror
                     </div>
@@ -153,7 +166,7 @@
                <div class="row mb-2">
 
                     <div class="col-12">
-                        <label for="notas">Notas: </label>
+                        <label for="notas">Notas (Oficina): </label>
                         <textarea class="form-control" type="text" name="notas" id="notas" rows="4" cols="50" maxlength="250" placeholder="-">{{ $orden->notas }}</textarea>
                         @error('notas')
                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -167,6 +180,54 @@
                 </div>
 
             </form>
+
+            @elseif ( Auth::user()->rol_id == 3 )
+
+            <form method="POST" action="{{ route('ordenecif.upload', $orden->id) }}" role="form" enctype="multipart/form-data">
+                {{ method_field('PUT') }}
+                @csrf
+
+                <div class="row mb-2">  
+
+                    <div class="col-6">
+                        <label for="bulto"># bulto: </label>
+                        <input class="form-control" type="text" name="bulto" id="bulto" value="{{ $orden->bulto }}" maxlength="9" placeholder="-">
+                        @error('bulto')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-6">
+                        <label for="paleta"># paleta: </label>
+                        <input class="form-control" type="text" name="paleta" id="paleta" value="{{ $orden->paleta }}" maxlength="9" placeholder="-">
+                        @error('paleta')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                </div>
+
+               <div class="row mb-2">
+
+                    <div class="col-12">
+                        <label for="notas_bodega">Notas (Bodega): </label>
+                        <textarea class="form-control" type="text" name="notas_bodega" id="notas_bodega" rows="4" cols="50" maxlength="250" placeholder="-">{{ $orden->notas_bodega }}</textarea>
+                        @error('notas_bodega')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                </div>
+
+                <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">
+                    <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Guardar</button>
+                </div>
+
+            </form>
+
+            @else
+            
+            {{-- CLIENTE --}}
 
             @endif
 

@@ -19,8 +19,18 @@ class CarritoController extends Controller
 
     public function add(Request $request)
     {
-        $product = Producto::find($request->input('producto_id'));
-        $cantidad = $request->input('cantidad');
+        if ( $request->input('producto_id') != null ) {
+            $product = Producto::find($request->input('producto_id'));
+        } else {
+            $product = Producto::find($request->producto_id);
+        }
+
+        if ( $request->input('cantidad') != null ) {
+           $cantidad = $request->input('cantidad');
+        } else {
+            $cantidad = $request->cantidad;
+        }
+         
 
         $cart = session()->get('cart', []);
 
@@ -76,42 +86,55 @@ class CarritoController extends Controller
 
         $cart = session()->get('cart', []);
 
-        //validar que clasificacion tiene el cliente para poner un precio u otro
-        if ($product->precio_oferta != null) {
-            $precio = $product->precio_oferta;
-        } elseif (Auth::user()->clasificacion == 'Cobre') {
-            $precio = $product->precio_1;
-        } elseif (Auth::user()->clasificacion == 'Plata') {
-            $precio = $product->precio_1;
-        } elseif (Auth::user()->clasificacion == 'Oro') {
-            $precio = $product->precio_2;
-        } elseif (Auth::user()->clasificacion == 'Platino') {
-            $precio = $product->precio_3;
-        } elseif (Auth::user()->clasificacion == 'Diamante') {
-            $precio = $product->precio_3;
-        } else if (Auth::user()->clasificacion == 'Taller') {
-            $precio = $product->precio_taller;
-        } else if (Auth::user()->clasificacion == 'Reparto') {
-            $precio = $product->precio_distribuidor;
-        }
 
-        if (isset($cart[$product->id])) {
-            $cart[$product->id]['cantidad'] = $cantidad;
+        if ($cantidad > $product->existencia) {
+
+            $cart[$product->id]['cantidad'] = $product->existencia;
+      
+            session()->put('cart', $cart);
+
+            return redirect()->route('carrito.index')->with('toast_success', 'La cantidad requerida de ' . $product->nombre . 'no puede suplirse.');
         } else {
-            $cart[$product->id] = [
-                'producto_id' => $product->id,
-                'nombre' => $product->nombre,
-                'precio_f' => $precio,
-                'cantidad' => $cantidad,
-                'existencia' => $product->existencia,
-                'unidad_caja' => $product->unidad_por_caja,
-            ];
+
+            //validar que clasificacion tiene el cliente para poner un precio u otro
+            if ($product->precio_oferta != null) {
+                $precio = $product->precio_oferta;
+            } elseif (Auth::user()->clasificacion == 'Cobre') {
+                $precio = $product->precio_1;
+            } elseif (Auth::user()->clasificacion == 'Plata') {
+                $precio = $product->precio_1;
+            } elseif (Auth::user()->clasificacion == 'Oro') {
+                $precio = $product->precio_2;
+            } elseif (Auth::user()->clasificacion == 'Platino') {
+                $precio = $product->precio_3;
+            } elseif (Auth::user()->clasificacion == 'Diamante') {
+                $precio = $product->precio_3;
+            } else if (Auth::user()->clasificacion == 'Taller') {
+                $precio = $product->precio_taller;
+            } else if (Auth::user()->clasificacion == 'Reparto') {
+                $precio = $product->precio_distribuidor;
+            }
+
+            if (isset($cart[$product->id])) {
+                $cart[$product->id]['cantidad'] = $cantidad;
+            } else {
+                $cart[$product->id] = [
+                    'producto_id' => $product->id,
+                    'nombre' => $product->nombre,
+                    'precio_f' => $precio,
+                    'cantidad' => $cantidad,
+                    'existencia' => $product->existencia,
+                    'unidad_caja' => $product->unidad_por_caja,
+                ];
+            }
+
+            session()->put('cart', $cart);
+
+            return redirect()->route('carrito.index')->with('toast_success', 'Se actualizó la cantidad del producto ' . $product->nombre . '');
+
         }
-
-        session()->put('cart', $cart);
-
-        return redirect()->route('carrito.index')->with('toast_success', 'Se actualizó la cantidad del producto ' . $product->nombre . '');
     }
+
 
     //funcion para vaciar el carrito de compras
     public function clear()
@@ -140,13 +163,40 @@ class CarritoController extends Controller
     public function validar(Request $request)
     {
         $cart = session()->get('cart', []);
-
         $usuarios = User::where('estatus', '=', 'aprobado')->orWhere('estatus', '=', 'otro')->get();
 
+/*
+        $request->validate([
+            'marca'          => 'required',
+            'cliente'         => 'required|email',
+            //'mobile'        => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+
+        ]);
+*/
         if (count($cart) == 0) {
             return redirect()->route('carrito.index')->with('info', 'No hay productos en el carrito de compras');
-        }
+        } else {
 
-        return view('orden.index', compact('usuarios'));
+            //validar cantidades de producto requeridas respecto de la existencia
+            foreach ($cart as $producto) {
+                
+                $producto_id = $producto['producto_id'];
+                $cantidad = $producto['cantidad']; //cantidad de cajas de X producto ordenada
+                $precio = $producto['precio_f'] * $producto['unidad_caja']; //precio por caja
+                $descuento = 0; //registro de algùn descuento aplicado
+
+                //Verifica si cantidad seleccionada puede cubrirse con existencia
+                $productostock = Producto::find($producto['producto_id']);
+                $existencia = $productostock->existencia;
+
+                if ( $cantidad > $existencia) {
+                    return redirect()->route('carrito.index')->with('info', 'No hay existencias suficientes para cubrir tu órden.');
+                } 
+
+            }
+
+            return view('orden.index', compact('usuarios'));
+        }
     }
+
 }

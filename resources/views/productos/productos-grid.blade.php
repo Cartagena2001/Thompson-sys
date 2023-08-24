@@ -62,6 +62,72 @@
     </div>
 </div>
 
+
+{{-- Marcas --}}
+<div class="card mb-3">
+    <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
+    <div class="card-body position-relative mt-4">
+        <div class="row">
+            <div class="col-lg-8 flex-center">
+                @foreach ($marcas as $marca)
+                    
+                    <img src="{{ $marca->logo_src }}" alt="img-{{ $marca->nombre }}" class="img-fluid" style="max-width: 150px; margin: 0 auto;" /> 
+
+                @endforeach
+            </div>
+
+            {{-- Detalle --}}
+            <div class="col-lg-4 flex-center">
+                <table id="table_detalle" class="table display">
+                    <thead>
+                        <tr>
+                            <th class="text-start">Marca</th>
+                            <th class="text-center">Cantidad 📦</th>
+                            <th class="text-center">Subtotal Parcial</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr class="pb-5">
+                            <td class="text-start">CTI</td>
+                            <td class="text-center">0</td>
+                            <td class="text-center">00.00 $</td>
+                        </tr>
+
+                        <tr class="pb-5">
+                            <td class="text-start">TEMCO</td>
+                            <td class="text-center">0</td>
+                            <td class="text-center">00.00 $</td>
+                        </tr>
+
+                        <tr class="pb-5">
+                            <td class="text-start">ECOM</td>
+                            <td class="text-center">0</td>
+                            <td class="text-center">00.00 $</td>
+                        </tr>
+ 
+
+                        @php
+                            $subtotal = 0;
+                            $iva = 0.13;
+                            $total = 0;
+                            /*
+                            foreach ($detalle as $detalles) {
+                                $subtotal += $detalles->cantidad * $detalles->precio;
+                            }
+
+                            $total = $subtotal + ($subtotal * $iva);
+                            */
+                        @endphp
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {{-- Tienda --}}
 <div class="card mb-3" style="border: ridge 1px #ff1620;">
 
@@ -174,6 +240,7 @@
                                     data-bs-placement="top" title="Ver producto"><i class="fa-regular fa-eye"></i>
                                     Ver Producto
                                 </a>
+                                
                                 <form method="post" action="{{ route('carrito.add') }}">
                                     @csrf
                                     <input type="hidden" name="producto_id" value="{{ $producto->id }}">
@@ -184,6 +251,7 @@
                                         title="Agregar al carrito"><span class="fas fa-cart-plus"></span>
                                     </button>
                                 </form>
+
                             </div>
                         </div>
                     </div>
