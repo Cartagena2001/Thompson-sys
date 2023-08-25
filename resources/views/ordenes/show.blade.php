@@ -133,7 +133,7 @@
                 <div class="mt-3 col-auto text-center col-4 mx-auto">
                     <label for="factura_href">Adjuntar Factura/Crédito Fiscal: </label>
                     <br/>
-                    <img class="rounded mt-2" src="{{ $orden->factura_href }}" alt="factura-img" width="200">
+                    <a href="{{ $orden->factura_href }}" title="Ver Factura" target="_blank"><img class="rounded mt-2" src="{{ $orden->factura_href }}" alt="factura-img" width="400"></a>
                     <br/>
                     <br/>
                     <input class="form-control" type="file" name="factura_href" id="factura_href" value="{{ $orden->factura_href }}">  

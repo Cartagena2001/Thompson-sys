@@ -10,6 +10,7 @@ use App\Models\Categoria;
 use App\Models\Marca;
 use App\Models\EstadoProducto;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Imports\ProductoImport;
 
 class ProductoController extends Controller
@@ -166,7 +167,9 @@ class ProductoController extends Controller
         ]);
     
         $file = $request->file('import_file');
+
         Excel::import(new ProductoImport, $file);
+
         return redirect()->route('productos.index')->with('success', 'Productos importados exitosamente');
     }
 

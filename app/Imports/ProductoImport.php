@@ -6,6 +6,7 @@ use App\Models\Marca;
 use App\Models\Categoria;
 use App\Models\Producto;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
@@ -49,6 +50,7 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'ref_2' => $row['ref2'],
             'ref_3' => $row['ref3'],
             'existencia' => $row['existencia'],
+            'existencia_limite' => $row['existencia_limite'],
             'garantia' => $row['garantia'],
             'unidad_por_caja' => $row['unidad_por_caja'],
             'volumen' => $row['volumen'],
@@ -68,8 +70,9 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'imagen_3_src' => $row['imagen3'],
             'imagen_4_src' => $row['imagen4'],
             //campos que no estan en el excel
-            'fecha_ingreso' => now(),
+            'fecha_ingreso' => \Carbon\Carbon::now(),
             'etiqueta_destacado' => 0,
+            'sku' => '-',
             'slug' => $this->generateSlug($row['nombre']),
             'precio_1' => $row['precio_distribuidor'],
             'existencia' => $row['unidad_por_caja'],
@@ -83,7 +86,6 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             '*.nombre' => 'required',
             '*.descripcion' => 'required',
             '*.marca' => 'required',
-            '*.origen' => 'required',
             '*.categoria' => 'required',
         ];
     }
@@ -97,11 +99,11 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
 
     public function batchSize(): int
     {
-        return 4000;
+        return 1000;
     }
 
     public function chunkSize(): int
     {
-        return 4000;
+        return 1000;
     }
 }

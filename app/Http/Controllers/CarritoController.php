@@ -190,7 +190,11 @@ class CarritoController extends Controller
                 $existencia = $productostock->existencia;
 
                 if ( $cantidad > $existencia) {
-                    return redirect()->route('carrito.index')->with('info', 'No hay existencias suficientes para cubrir tu órden.');
+
+                    $cart[$producto_id]['cantidad'] = $existencia;
+                    session()->put('cart', $cart);
+
+                    return redirect()->route('carrito.index')->with('info', 'No hay existencias suficientes para cubrir tu órden de: '.'<br/><br/>'.$producto['nombre']);
                 } 
 
             }
