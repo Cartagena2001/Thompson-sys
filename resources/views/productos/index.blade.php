@@ -122,13 +122,33 @@
 
     <div class="card-header">
         <div class="row flex-between-end">
-            {{--
-            <div class="col-auto align-self-center">
-                <h5 class="mb-0" data-anchor="data-anchor">Tabla de Productos</h5>
+
+            <div class="col-8 text-start" >
+                <label>Filtrar por marca:
+                    <select id="brandfilter" class="" onchange="filtertable()">
+                            <option value="todas">Todas</option>
+                        @foreach ($marcas as $marca)      
+                            <option value="{{ $marca->nombre }}">{{ $marca->nombre}}</option> 
+                        @endforeach
+                    </select>
+                </label>
+
+                <br/>
+
+                <label>Filtrar por categoría:
+                    <select id="catfilter" class="" onchange="filtertable()">
+                            <option value="todas">Todas</option>
+                        @foreach ($categorias as $categoria)      
+                            <option value="{{ $categoria->nombre }}">{{ $categoria->nombre}}</option> 
+                        @endforeach
+                    </select>
+                </label>
             </div>
-            --}}
+
         </div>
     </div>
+
+    <hr/>
 
     <div class="card-body pt-0">
         <div class="table-responsive scrollbar">
@@ -182,12 +202,62 @@
 </div>
 
 <script>
+
     $(document).ready(function() {
         $('#table_productos').DataTable({
             language: {
                 url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
             }
         });
+
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) { //'data' contiene los datos de la fila
+                
+                //En la columna 3 estamos mostrando la marca del producto
+                let productoMarca = data[3] || 0;
+                let productoCat = data[5] || 0;
+
+                if (!filterByBrand(productoMarca)) {
+                    return false;
+                } else if (!filterByCat(productoCat)) {
+                    return false;      
+                } else
+                return true;
+            }
+        );
+
     });
+
+
+    function filtertable() {
+        $('#table_productos').DataTable().draw();
+    }
+
+    function filterByBrand(productoMarca) {
+
+        let marcaSeleccionada = $('#brandfilter').val();
+
+        //Si la opción seleccionada es 'TODAS', devolvemos 'true' para que pinte la fila
+        if (marcaSeleccionada === 'todas') {
+            return true;
+        }
+
+        //La fila sólo se va a pintar si el valor de la columna coincide con el del filtro seleccionado
+        return productoMarca === marcaSeleccionada;
+    }
+
+    function filterByCat(productoCat) {
+
+        let catSeleccionada = $('#catfilter').val();
+
+        //Si la opción seleccionada es 'TODAS', devolvemos 'true' para que pinte la fila
+        if (catSeleccionada === 'todas') {
+            return true;
+        }
+
+        //La fila sólo se va a pintar si el valor de la columna coincide con el del filtro seleccionado
+        return productoCat === catSeleccionada;
+    }
+
 </script>
 @endsection
