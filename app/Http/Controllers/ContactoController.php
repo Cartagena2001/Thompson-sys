@@ -122,12 +122,12 @@ class ContactoController extends Controller
             // Email server settings
             $mail->SMTPDebug = 0;
             $mail->isSMTP();
-            $mail->Host = 'mail.rtelsalvador.com';             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
+            $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
             $mail->SMTPAuth = true;
-            $mail->Username = 'notificaciones@rtelsalvador.com';   //  sender username
-            $mail->Password = '24fm2l$PX_5(';       // sender password
+            $mail->Username = env('SMTP_USERNAME', "");   //  sender username
+            $mail->Password = env('SMTP_PASS', "");       // sender password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
-            $mail->Port = 465;                          // port - 587/465
+            $mail->Port = env('SMTP_PORT', "");                          // port - 587/465
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
 
