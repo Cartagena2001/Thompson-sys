@@ -44,10 +44,10 @@ class PHPMailerController extends Controller {
             // Email server settings
             $mail->SMTPDebug = 0;
             $mail->isSMTP();
-            $mail->Host = 'p3plmcpnl492651.prod.phx3.secureserver.net';             //  smtp host
+            $mail->Host = '';             //  smtp host
             $mail->SMTPAuth = true;
-            $mail->Username = 'notificaciones@rtelsalvador.com';   //  sender username
-            $mail->Password = '24fm2l$PX_5(';       // sender password
+            $mail->Username = '';   //  sender username
+            $mail->Password = '';       // sender password
             $mail->SMTPSecure = 'tls';                  // encryption - ssl/tls
             $mail->Port = 465;                          // port - 587/465
             $mail->CharSet = 'UTF-8';
