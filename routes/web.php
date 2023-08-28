@@ -85,18 +85,14 @@ Route::put('/dashboard/clientes/diamante/{id}', [App\Http\Controllers\ClientesCo
 Route::put('/dashboard/clientes/taller/{id}', [App\Http\Controllers\ClientesController::class, 'taller'])->name('clientes.taller')->middleware('auth');
 Route::put('/dashboard/clientes/distribucion/{id}', [App\Http\Controllers\ClientesController::class, 'distribucion'])->name('clientes.distribucion')->middleware('auth');
 
+//Marcas autorizadas
 Route::get('/dashboard/permisos', [App\Http\Controllers\ClientesController::class, 'admPermMarca'])->name('clientes.marcasasoc')->middleware('auth');
-
 Route::post('/dashboard/permisos', [App\Http\Controllers\ClientesController::class, 'updateMarcas'])->name('clientes.marcaUpdate')->middleware('auth');
 
-
-
-
-
 //Rutas para tienda
-Route::get('/dashboard/tienda', [App\Http\Controllers\TiendaController::class, 'index'])->name('tienda.index');
-Route::get('/dashboard/tienda/{producto:slug}', [App\Http\Controllers\TiendaController::class, 'show'])->name('tienda.show');
-Route::get('/dashboard/compra-masiva', [App\Http\Controllers\TiendaController::class, 'showCat'])->name('compra.masiva.index');
+Route::get('/dashboard/tienda', [App\Http\Controllers\TiendaController::class, 'index'])->name('tienda.index')->middleware('auth');
+Route::get('/dashboard/tienda/{producto:slug}', [App\Http\Controllers\TiendaController::class, 'show'])->name('tienda.show')->middleware('auth');
+Route::get('/dashboard/compra-masiva', [App\Http\Controllers\TiendaController::class, 'showCat'])->name('compra.masiva.index')->middleware('auth');
 
 //Rutas para el carrito
 Route::get('/carrito', [App\Http\Controllers\CarritoController::class, 'index'])->name('carrito.index')->middleware('verified');
@@ -115,6 +111,7 @@ Route::post('/carrito/validar', [App\Http\Controllers\CarritoController::class, 
 Route::get('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'index'])->name('perfil.index')->middleware('verified');
 Route::patch('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'update'])->name('perfil.update')->middleware('verified');
 
+//Ordenes
 Route::get('/perfil/ordenes', [App\Http\Controllers\PerfilController::class, 'ordenes'])->name('perfil.ordenes')->middleware('verified');
 Route::get('/perfil/ordenes/detalle/{id}', [App\Http\Controllers\PerfilController::class, 'ordenes_detalle'])->name('perfil.orden.detalle')->middleware('verified');
 
@@ -126,11 +123,14 @@ Route::get('/dashboard/reportes/marcas', [App\Http\Controllers\ReportesControlle
 Route::get('/dashboard/reportes/categorias', [App\Http\Controllers\ReportesController::class, 'categorias'])->name('reportes.categorias')->middleware('auth');
 Route::get('/dashboard/reportes/ordenes', [App\Http\Controllers\ReportesController::class, 'ordenes'])->name('reportes.ordenes')->middleware('auth');
 
-
 //Config CMS
 Route::get('/configuracion/cms', [App\Http\Controllers\CMSController::class, 'index'])->name('cms.index')->middleware('verified');
 Route::patch('/configuracion/cms', [App\Http\Controllers\CMSController::class, 'update'])->name('cms.update')->middleware('verified');
 
+//Config Usuarios (SuperAdmin)
+Route::get('/configuracion/users', [App\Http\Controllers\ClientesController::class, 'showUsers'])->name('users.show')->middleware('auth');
+Route::get('/configuracion/users/create', [App\Http\Controllers\ClientesController::class, 'create'])->name('users.create')->middleware('auth');
+Route::post('/configuracion/users/create', [App\Http\Controllers\ClientesController::class, 'store'])->name('users.store')->middleware('auth');
 
 //Envío de Correos (Notificaciones)
 //Route::get("email", [PHPMailerController::class, "email"])->name("email");

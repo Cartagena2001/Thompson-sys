@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\Controller;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use Illuminate\Support\Collection;
@@ -18,7 +19,21 @@ class PHPMailerController extends Controller {
 
 
     // ========== [ Compose Email ] ================
-    public function sendEmailNotif(Collection $message) {
+    public function sendEmailNotif($emailRecipient, $emailSubject, $emailBody) {
+
+        //validar los datos
+       /*
+        $request->validate([
+
+            'cif' => 'string|min:1|max:24',
+            'notas' => 'string|max:250',
+            'notas_bodega' => 'string|max:250',
+            'bulto' => 'string|max:9',
+            'paleta' => 'string|max:9',
+            'ubicacion' => 'string|max:19'
+
+        ]);
+        /*/
 
         require base_path("vendor/autoload.php");
 
@@ -39,7 +54,7 @@ class PHPMailerController extends Controller {
             $mail->Encoding = 'base64';
 
             $mail->setFrom('notificaciones@rtelsalvador.com', 'Representaciones Thompson');
-            $mail->addAddress($message->get('emailRecipient')); /* NOTA: mandar a llamar email según config en la BD*/
+            $mail->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
             //$mail->addCC($request->emailCc);
             //$mail->addBCC($request->emailBcc);
 
@@ -55,8 +70,8 @@ class PHPMailerController extends Controller {
 
             $mail->isHTML(true);                // Set email content format to HTML
 
-            $mail->Subject = $message->get('emailSubject');
-            $mail->Body    = $message->get('emailBody');
+            $mail->Subject = $emailSubject;
+            $mail->Body    = $emailBody;
 
             // $mail->AltBody = plain text version of email body;
 

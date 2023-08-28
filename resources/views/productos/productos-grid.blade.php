@@ -12,11 +12,15 @@
                     <h6 class="btn btn-sm btn-primary"><i class="fa-solid fa-cart-shopping"></i> Ver Carrito
                         <?php
                         $carrito = session('cart', []);
+                        $cart = session()->get('cart', []);
+
                         $cantidad = 0;
+                        
                         foreach ($carrito as $item) {
                             $cantidad += $item['cantidad'];
                         }
                         ?>
+                        
                         <span class=""> - ({{ $cantidad }})</span>
                     </h6>
                 </a>
@@ -161,7 +165,7 @@
                         <div class="overflow-hidden">
 
                             <div class="position-relative rounded-top overflow-hidden div-tienda" style="position: relative;">
-                                <a class="d-block" href="{{ route('tienda.show', $producto->slug) }}"><img class="rounded-top" src="{{ $imagen }}" alt="img-producto-thumbnail" /></a>
+                                <a tabindex="-1" class="d-block" href="{{ route('tienda.show', $producto->slug) }}"><img class="rounded-top" src="{{ $imagen }}" alt="img-producto-thumbnail" /></a>
                                 @if ($producto->etiqueta_destacado == 1) 
                                     <image src="{{url('assets/img/imgs/destacado.svg')}}" alt="destacado-seal-img-thumb" class="producto-destacado-thumb" />
                                 @endif
@@ -173,59 +177,74 @@
 
                             <div class="p-3">
 
-                                <h5 style="min-height: 55px;" class="fs--1 text-start"><a class="text-dark" href="{{ route('tienda.show', $producto->slug) }}">{{ $producto->nombre }}</a></h5>
+                                <h5 style="min-height: 55px;" class="fs--1 text-start"><a tabindex="-1" class="text-dark" href="{{ route('tienda.show', $producto->slug) }}">{{ $producto->nombre }}</a></h5>
 
                                 <span class="rt-color-2 font-weight-bold">OEM: </span>{{ $producto->OEM }}
 
                                 <p class="fs--1 mt-2 mb-2"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
                                 
-                                <h5 class="fs-md-2 text-dark d-flex align-items-center mb-2">
+                                <div class="row">
 
-                                    @if ($producto->precio_oferta != null)                        
-                                        $ {{ $producto->precio_oferta }}
+                                    <div class="col-6">
+                                
+                                        <h5 class="fs-md-2 text-dark d-flex align-items-center mb-2">
 
-                                    @elseif (Auth::user()->clasificacion == "Cobre")
-                                        $ {{ $producto->precio_1 }}
-                                    @elseif (Auth::user()->clasificacion == "Plata")
-                                        $ {{ $producto->precio_1 }}
-                                    @elseif (Auth::user()->clasificacion == "Oro")
-                                        $ {{ $producto->precio_2 }}
-                                    @elseif (Auth::user()->clasificacion == "Platino")
-                                        $ {{ $producto->precio_3 }}
-                                    @elseif (Auth::user()->clasificacion == "Diamante")
-                                        $ {{ $producto->precio_oferta }}
-                                    @elseif (Auth::user()->clasificacion == "Taller")
-                                        $ {{ $producto->precio_taller }}
-                                    @elseif (Auth::user()->clasificacion == "Reparto")
-                                        $ {{ $producto->precio_distribuidor }}
-                                    @endif
+                                            @if ($producto->precio_oferta != null)                        
+                                                $ {{ $producto->precio_oferta }}
 
-                                    {{-- Precio antes de descuento --}}
-                                    <del class="ms-2 fs--1 text-500">
-                                    <?php if ($producto->precio_oferta != null) { ?>
-                                    
-                                       
-                                        @if (Auth::user()->clasificacion == "Cobre")
-                                            $ {{ $producto->precio_1 }}
-                                        @elseif (Auth::user()->clasificacion == "Plata")
-                                            $ {{ $producto->precio_1 }}
-                                        @elseif (Auth::user()->clasificacion == "Oro")
-                                            $ {{ $producto->precio_2 }}
-                                        @elseif (Auth::user()->clasificacion == "Platino")
-                                            $ {{ $producto->precio_3 }}
-                                        @elseif (Auth::user()->clasificacion == "Diamante")
-                                            $ {{ $producto->precio_oferta }}
-                                        @elseif (Auth::user()->clasificacion == "Taller")
-                                            $ {{ $producto->precio_taller }}
-                                        @elseif (Auth::user()->clasificacion == "Reparto")
-                                            $ {{ $producto->precio_distribuidor }}
-                                        @endif
+                                            @elseif (Auth::user()->clasificacion == "Cobre")
+                                                $ {{ $producto->precio_1 }}
+                                            @elseif (Auth::user()->clasificacion == "Plata")
+                                                $ {{ $producto->precio_1 }}
+                                            @elseif (Auth::user()->clasificacion == "Oro")
+                                                $ {{ $producto->precio_2 }}
+                                            @elseif (Auth::user()->clasificacion == "Platino")
+                                                $ {{ $producto->precio_3 }}
+                                            @elseif (Auth::user()->clasificacion == "Diamante")
+                                                $ {{ $producto->precio_oferta }}
+                                            @elseif (Auth::user()->clasificacion == "Taller")
+                                                $ {{ $producto->precio_taller }}
+                                            @elseif (Auth::user()->clasificacion == "Reparto")
+                                                $ {{ $producto->precio_distribuidor }}
+                                            @endif
 
-                                     <?php } ?>
-                                    
-                                    </del>
+                                            {{-- Precio antes de descuento --}}
+                                            <del class="ms-2 fs--1 text-500">
+                                            <?php if ($producto->precio_oferta != null) { ?>
+                                            
+                                               
+                                                @if (Auth::user()->clasificacion == "Cobre")
+                                                    $ {{ $producto->precio_1 }}
+                                                @elseif (Auth::user()->clasificacion == "Plata")
+                                                    $ {{ $producto->precio_1 }}
+                                                @elseif (Auth::user()->clasificacion == "Oro")
+                                                    $ {{ $producto->precio_2 }}
+                                                @elseif (Auth::user()->clasificacion == "Platino")
+                                                    $ {{ $producto->precio_3 }}
+                                                @elseif (Auth::user()->clasificacion == "Diamante")
+                                                    $ {{ $producto->precio_oferta }}
+                                                @elseif (Auth::user()->clasificacion == "Taller")
+                                                    $ {{ $producto->precio_taller }}
+                                                @elseif (Auth::user()->clasificacion == "Reparto")
+                                                    $ {{ $producto->precio_distribuidor }}
+                                                @endif
 
-                                </h5>
+                                             <?php } ?>
+                                            
+                                            </del>  
+                                        </h5>
+                                    </div>
+
+                                    <div class="col-6 text-end">
+                                        <input class="prod-grid-qty" type="number" id="{{ $producto->id }}" name="cantidad" value="{{ isset($cart[$producto->id]['cantidad']) ? $cart[$producto->id]['cantidad'] : 0 }}" min="1" max="{{ $producto->existencia }}" placeholder="0" onchange="agregarCarrito(this.id)"/>
+                                        <br/>
+                                        <span class="text-danger" id="ErrorMsg1"></span>
+                                        <span class="text-danger" id="ErrorMsg2"></span>
+                                    </div>
+
+                                </div>
+
+                                
 
                                 <p class="fs--1 mb-2">Estado: <strong class="text-success">{{ $producto->estadoProducto->estado }}</strong></p>
 
@@ -235,23 +254,25 @@
 
                         <div class="d-flex flex-between-center px-2 flex-center">
                             <div class="d-flex">
-                                <a class="btn btn-x btn-primary me-2"
+                                <a tabindex="-1" class="btn btn-x btn-primary me-2"
                                     href="{{ route('tienda.show', $producto->slug) }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Ver producto"><i class="fa-regular fa-eye"></i>
                                     Ver Producto
                                 </a>
                                 
+                                {{--
                                 <form method="post" action="{{ route('carrito.add') }}">
                                     @csrf
                                     <input type="hidden" name="producto_id" value="{{ $producto->id }}">
                                     <input type="hidden" class="form-control" type="text" name="cantidad"
                                         value="1">
-                                    <button type="submit" class="btn btn-x btn-falcon-default" href="#!"
+                                    <button tabindex="-1" type="submit" class="btn btn-x btn-falcon-default" href="#!"
                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                         title="Agregar al carrito"><span class="fas fa-cart-plus"></span>
                                     </button>
                                 </form>
-
+                                --}}
+                                
                             </div>
                         </div>
                     </div>
@@ -269,4 +290,32 @@
         </div>
     @endif
 </div>
+
+<script type="text/javascript">
+
+    function agregarCarrito(prod_id) {
+
+        var qty = $('#'+prod_id).val();
+        var prodid = prod_id;
+
+        $.ajax({
+            url: "{{ route('carrito.add') }}",
+            type: "POST",
+            data:
+                "_token=" + "{{ csrf_token() }}" + "&cantidad=" + qty + "&producto_id=" + prodid,
+
+            success: function(response){
+                $('#successMsg').show();
+                console.log(response);
+            },
+            error: function(response) {
+                $('#ErrorMsg1').text(response.responseJSON.errors.qty);
+                $('#ErrorMsg2').text(response.responseJSON.errors.prodid);
+            },
+        });
+        
+    }
+
+</script>
+
 @endsection

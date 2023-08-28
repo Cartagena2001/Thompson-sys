@@ -195,7 +195,7 @@
             </table>
         </div>
     </div>
-
+    {{-- $productos->links() --}}
 </div>
 
 <script>
@@ -206,7 +206,7 @@
             language: {
                 url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
             },
-            "paging": false
+            
         });
 
         $.fn.dataTable.ext.search.push(

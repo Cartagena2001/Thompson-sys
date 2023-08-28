@@ -20,17 +20,17 @@ class ProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
         //paginate
-        $productos = Producto::paginate(10000);
+        $productos = Producto::paginate(1000000000);
 
         $categorias = Categoria::all();
         $marcas = Marca::all();
         $estadoProductos = EstadoProducto::all();
 
-        return view('productos.index', compact('productos', 'categorias', 'marcas', 'estadoProductos'))
-        ->with('i', (request()->input('page', 1) - 1) * $productos->perPage());
+        return view('productos.index', compact('productos', 'categorias', 'marcas', 'estadoProductos'));
             
     }
 
@@ -42,12 +42,16 @@ class ProductoController extends Controller
     public function create()
     {
         $producto = new Producto();
+
         //relacionar con el modelo de categoria
         $categorias = Categoria::pluck('nombre', 'id');
+
         //relaciomar con el modelo de marca
         $marcas = Marca::pluck('nombre', 'id');
+
         //relacionar con el modelo de estado producto
         $estadoProductos = EstadoProducto::pluck('estado', 'id');
+        
         return view('productos.create', compact('producto', 'categorias', 'marcas', 'estadoProductos'));
     }
 

@@ -20,13 +20,13 @@ class TiendaController extends Controller
     {
         $productos = Producto::whereHas('marca', function($query){
             $query->where('estado', "Activo");
-        })->paginate(12);
+        })->paginate(1000000000);
 
         //if ver si esta selecionado el filtro de categoria
         if($request->has('categoria')){
             $categoria_id = $request->input('categoria');
             
-            $productos = Producto::where('categoria_id', $categoria_id)->paginate(12);
+            $productos = Producto::where('categoria_id', $categoria_id)->paginate(1000000000);
         }
 
         $categoriaActual = $request->input('categoria');
@@ -140,14 +140,14 @@ class TiendaController extends Controller
     public function showCat(Request $request)
     {
         $productos = Producto::whereHas('marca', function($query){
-            $query->where('estado', "Activo");
-        })->paginate(100);
+            $query->where('estado', "activo");
+        })->paginate(1000000000);
 
         //if ver si esta selecionado el filtro de categoria
         if($request->has('categoria')){
             $categoria_id = $request->input('categoria');
             
-            $productos = Producto::where('categoria_id', $categoria_id)->paginate(12);
+            $productos = Producto::where('categoria_id', $categoria_id)->paginate(1000000000);
         }
 
         $categoriaActual = $request->input('categoria');

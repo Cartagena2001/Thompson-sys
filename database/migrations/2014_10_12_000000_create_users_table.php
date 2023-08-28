@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -17,7 +18,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-
             $table->string('cliente_id_interno', 10)->nullable();
             $table->string('form_status', 15)->nullable();
             $table->string('direccion', 80)->nullable();
@@ -32,9 +32,11 @@ return new class extends Migration
             $table->string('nit', 18)->nullable()->unique();
             $table->string('dui', 10)->nullable()->unique();
             $table->string('nrc', 10)->nullable()->unique();
+            
             //relacionar con la tabla rol
             $table->integer('rol_id')->unsigned()->nullable();
             $table->foreign('rol_id')->references('id')->on('rol')->nullable();
+
             $table->string('estado', 10)->nullable();
             $table->string('clasificacion', 10)->nullable();
             $table->boolean('boletin')->nullable();

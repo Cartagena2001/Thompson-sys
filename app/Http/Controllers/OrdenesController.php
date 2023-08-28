@@ -11,7 +11,7 @@ class OrdenesController extends Controller
 {
     public function index()
     {
-        $ordenes = Orden::Paginate();
+        $ordenes = Orden::Paginate(1000000000);
         $users = User::all();
 
         return view('ordenes.index' , compact('ordenes' , 'users'));

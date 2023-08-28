@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@section('title', 'Productos')
+@section('title', 'Gestión de Productos')
 
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.css" />
@@ -17,8 +17,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="text-center">🏷️ Productos 🏷️</h1>
-                <p class="mt-4 mb-4 text-center">Administración de productos para Tienda <b>rtelsalvador.</b> Aquí podrás encontrar todos los
-                    productos disponibles y gestionar las existencias, editar, agregar y desactivar productos.
+                <p class="mt-4 mb-4 text-center">Administración de productos para Tienda <b>rtelsalvador.</b> Aquí podrás encontrar todos los productos disponibles y gestionar las existencias, editar, agregar y desactivar productos.
                 </p>
             </div>
         </div>
@@ -38,7 +37,7 @@
                     {{-- contar los productos activos de la base de datos --}}
                     <?php
                     $productosActivos = DB::table('producto')
-                        ->where('estado_producto_id', '1')
+                        ->where('estado_producto_id', 1)
                         ->get();
                     echo count($productosActivos);
                     ?>
@@ -58,7 +57,7 @@
                     {{-- contar los productos activos de la base de datos --}}
                     <?php
                     $productosInactivos = DB::table('producto')
-                        ->where('estado_producto_id', '2')
+                        ->where('estado_producto_id', 2)
                         ->get();
                     echo count($productosInactivos);
                     ?> </div>
@@ -93,6 +92,7 @@
         <a href="{{ route('productos.create') }}">
             <button class="btn btn-primary me-1 mb-1" type="button"><i class="fas fa-plus"></i> Agregar nuevo producto</button>
         </a>
+        
         {{-- Importar productos desde la funciona del controlador import --}}
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -142,7 +142,7 @@
                         <th scope="col">OEM</th>
                         <th scope="col">Categoría</th>
                         <th scope="col">Precio</th>
-                        <th scope="col">Unidades</th>
+                        <th scope="col">Unidades 📦</th>
                         <th scope="col">Fecha Ingreso</th>
                         <th class="text-center" scope="col">Acciones</th>
                     </tr>
@@ -177,6 +177,7 @@
             </table>
         </div>
     </div>
+    {{ $productos->links() }}
 
 </div>
 

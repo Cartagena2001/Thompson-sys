@@ -308,6 +308,17 @@ nav.navbar.navbar-standard.navbar-expand-lg.fixed-top.navbar-dark {
     color: #fff;
 }
 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+.prod-grid-qty {
+    border-radius: 10px;
+    text-align: center;
+    max-width: 60px;
+    font-size: 16px;
+}
 
 
 

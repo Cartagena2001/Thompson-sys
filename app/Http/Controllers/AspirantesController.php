@@ -11,7 +11,7 @@ class AspirantesController extends Controller
 {
     public function index()
     {
-        $aspirantes = User::where('estatus', 'aspirante')->orWhere('estatus', 'rechazado')->paginate();
+        $aspirantes = User::where('estatus', 'aspirante')->orWhere('estatus', 'rechazado')->paginate(1000000000);
         
         return view('aspirantes.index', compact('aspirantes'));
     }

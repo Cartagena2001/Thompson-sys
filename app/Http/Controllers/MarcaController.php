@@ -17,7 +17,7 @@ class MarcaController extends Controller
     public function index()
     {
         //paginate
-        $marcas = Marca::paginate(10);
+        $marcas = Marca::paginate(1000000000);
 
         return view('marcas.index', compact('marcas'));
     }

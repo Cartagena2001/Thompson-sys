@@ -23,13 +23,16 @@ return new class extends Migration
             $table->string('lote', 20)->nullable();
             $table->string('nombre', 250)->nullable();
             $table->string('descripcion', 5000)->nullable();  
+            
             //relacionar con la tabla marca
             $table->integer('marca_id')->unsigned()->nullable();
             $table->foreign('marca_id')->references('id')->on('marca');
+
             $table->string('origen', 100)->nullable();
             //relacionar con la tabla categoria
             $table->integer('categoria_id')->unsigned()->nullable();
             $table->foreign('categoria_id')->references('id')->on('categoria');
+
             $table->string('ref_1', 20)->nullable();
             $table->string('ref_2', 20)->nullable();
             $table->string('ref_3', 20)->nullable();
@@ -54,9 +57,11 @@ return new class extends Migration
             $table->string('imagen_2_src', 250)->nullable();
             $table->string('imagen_3_src', 250)->nullable();
             $table->string('imagen_4_src', 250)->nullable();
+            
             //relacionar con la tabla estado_producto
             $table->integer('estado_producto_id')->unsigned()->nullable()->default(1);;
             $table->foreign('estado_producto_id')->references('id')->on('estado_producto');
+            
             $table->boolean('etiqueta_destacado')->nullable();
             $table->date('fecha_ingreso')->nullable();
             $table->timestamps();

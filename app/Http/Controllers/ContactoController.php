@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use PHPMailer\PHPMailer\PHPMailer;
+
 use App\Http\Controllers\PHPMailerController;
 use Illuminate\Http\Request;
 use App\Models\Contacto;
@@ -18,7 +20,7 @@ class ContactoController extends Controller
      */
     public function index()
     {
-        $contactos = Contacto::paginate(10);
+        $contactos = Contacto::paginate(1000000000);
         
         return view('contactos.index', compact('contactos'));
     }
@@ -81,7 +83,10 @@ class ContactoController extends Controller
 
         $contact->save();
 
-        $messageBody = " 
+        $emailRecipient = $request->get('emailC');
+        $emailSubject = 'Formulario de Contacto - RTElSalvador';
+
+        $emailBody = " 
                         <div style='display: flex; justify-content: center;' >
                             <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png'>
                         </div>
@@ -107,17 +112,62 @@ class ContactoController extends Controller
                         
                         <p>Pronto nos pondremos en contacto.</p>
                         ";
+                    
+        require base_path("vendor/autoload.php");
 
-        $message = collect(['emailRecipient'=>$contact->correo, 
-                            'emailSubject'=>'Formulario de Contacto - RTElSalvador',
-                            'emailBody'=>$messageBody]);
+        $mail = new PHPMailer(true);     // Passing `true` enables exceptions
 
-        $otherController = new PHPMailerController();
-        $otherController->sendEmailNotif($message);
+        try {
 
-        echo '<script> console.log("working... 3"); </script>';
-      
-        //redireccionar
+            // Email server settings
+            $mail->SMTPDebug = 0;
+            $mail->isSMTP();
+            $mail->Host = 'mail.rtelsalvador.com';             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
+            $mail->SMTPAuth = true;
+            $mail->Username = 'notificaciones@rtelsalvador.com';   //  sender username
+            $mail->Password = '24fm2l$PX_5(';       // sender password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
+            $mail->Port = 465;                          // port - 587/465
+            $mail->CharSet = 'UTF-8';
+            $mail->Encoding = 'base64';
+
+            $mail->setFrom('notificaciones@rtelsalvador.com', 'Representaciones Thompson');
+            $mail->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
+            //$mail->addCC($request->emailCc);
+            //$mail->addBCC($request->emailBcc);
+
+            $mail->addReplyTo('oficina@rtelsalvador.com', 'Oficinas RT El Salvador');
+
+            /*
+            if(isset($_FILES['emailAttachments'])) {
+                for ($i=0; $i < count($_FILES['emailAttachments']['tmp_name']); $i++) {
+                    $mail->addAttachment($_FILES['emailAttachments']['tmp_name'][$i], $_FILES['emailAttachments']['name'][$i]);
+                }
+            }
+            */
+
+            $mail->isHTML(true);                // Set email content format to HTML
+
+            $mail->Subject = $emailSubject;
+            $mail->Body    = $emailBody;
+
+            // $mail->AltBody = plain text version of email body;
+
+            echo '<script> console.log("working... 2"); </script>';
+
+            if( $mail->send() == null ) {
+
+                return redirect()->route('inicio')->with("failed", "Email not sent.")->withErrors($mail->ErrorInfo);
+            } 
+            else {
+
+                return redirect()->route('inicio')->with("success", "Email has been sent.");
+            }
+
+        } catch (Exception $e) {
+             return redirect()->route('inicio')->with('error','Message could not be sent.');
+        }    
+
         return redirect()->route('inicio')->with('success', 'Tu mensaje ha sido enviado con éxito');
     }
 

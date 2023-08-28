@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Rol;
 use App\Models\Marca;
 use Illuminate\Support\Facades\Auth;
 
-Class ClientesController extends Controller{
+Class ClientesController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
 
     public function index(){
 
-        $clientes = User::where('estatus', 'aprobado')->paginate();
+        $clientes = User::where('estatus', 'aprobado')->paginate(1000000000);
 
         return view('clientes.index', compact('clientes'));
     }
@@ -96,7 +104,7 @@ Class ClientesController extends Controller{
 
     public function admPermMarca(){
 
-        $clientes = User::where('estatus', 'aprobado')->paginate();
+        $clientes = User::where('estatus', 'aprobado')->paginate(1000000000);
         $marcas = Marca::all();
 
         return view('clientes.marcasAdm', compact('clientes', 'marcas'));
@@ -139,6 +147,34 @@ Class ClientesController extends Controller{
             return response()->json($clienteUptM->marcas);
         }
 
+    }
+
+
+    public function showUsers() {
+
+        $usuarios = User::whereNot('rol_id', 0)->paginate(1000000000);
+        $roles = Rol::all();
+
+        return view('config.usuarios', compact('usuarios', 'roles'));
+    }
+
+    /**
+     * Show the form for creating a new user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $usuario = new User();
+
+        //relacionar con el modelo de rol
+        $rol = Rol::pluck('nombre', 'id');
+
+        //relaciomar con el modelo de marca
+        $marcas = Marca::pluck('nombre', 'id');
+
+        
+        return view('config.create', compact('usuario', 'rol', 'marcas'));
     }
 
 

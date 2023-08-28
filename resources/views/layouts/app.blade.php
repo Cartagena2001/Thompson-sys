@@ -89,8 +89,8 @@
 
                                 <li><hr/></li>
 
-                            @if ( Auth::user()->rol_id == 1 )
-                                {{-- MENU ADMIN  --}}
+                            @if ( Auth::user()->rol_id == 1 || Auth::user()->rol_id == 0)
+                                {{-- MENU ADMIN y SUPERADMIN --}}
 
                                 <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">⚒️ Configuraciones</h5></div>
 
@@ -103,6 +103,17 @@
                                     <a href="{{ url('/configuracion/cms') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/cms') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-brush"></i> <span class="ms-1 d-none d-sm-inline">CMS</span></a>
                                 </li>
+
+                                @if ( Auth::user()->rol_id == 0)
+
+                                    {{-- MENU SUPERADMIN --}}
+
+                                    <li class="ps-4">
+                                        <a href="{{ url('/configuracion/users') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/users') !== false ? 'active-menu' : '' }}">
+                                            <i class="fas fa-users-cog"></i> <span class="ms-1 d-none d-sm-inline">Usuarios</span></a>
+                                    </li>
+
+                                @endif
 
                                 <li><hr/></li>
 
