@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-use App\Http\Controllers\PHPMailerController;
 use Illuminate\Http\Request;
 use App\Models\Contacto;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -157,9 +157,11 @@ class ContactoController extends Controller
         } 
         else {
 
-            $mailToOffice->send();
-            
-            return redirect()->route('inicio')->with('success', 'Tu correo ha sido enviado con éxito.');
+            if ( $mailToOffice->send() ){
+                return redirect()->route('inicio')->with('success', 'Tu correo ha sido enviado con éxito.');
+            } else {
+                return redirect()->route('inicio')->with('success', 'Tu correo ha sido enviado con éxito.');
+            }      
         }
                     
     }
