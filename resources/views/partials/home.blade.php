@@ -191,7 +191,7 @@
                   </div>
                 </div>
 
-                @if ($success)
+                @if (isset($success))
                     <div class="col-sm-12">
                         <div class="alert  alert-danger alert-dismissible fade show" role="alert">
                           $success
@@ -200,7 +200,7 @@
                                 </button>
                         </div>
                     </div>
-                @elseif ($error)
+                @elseif ((isset($error))
                     <div class="col-sm-12">
                         <div class="alert  alert-danger alert-dismissible fade show" role="alert">
                           $error
