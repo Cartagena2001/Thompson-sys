@@ -108,6 +108,76 @@ class ContactoController extends Controller
 
     }
 
+
+private function sendMailOficina(PHPMailer $mail, $emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName ) 
+    {
+
+        require base_path("vendor/autoload.php");
+
+        //$mail = new PHPMailer(true);     // Passing `true` enables exceptions
+
+        try {
+
+            // Email server settings
+            $mail->SMTPDebug = 3;
+            $mail->isSMTP();
+            $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
+            $mail->SMTPAuth = true;
+            $mail->Username = env('SMTP_USERNAME', "");   //  sender username
+            $mail->Password = env('SMTP_PASS', "");       // sender password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
+            $mail->Port = env('SMTP_PORT', "");                          // port - 587/465
+            $mail->CharSet = 'UTF-8';
+            $mail->Encoding = 'base64';
+
+            $mail->setFrom('notificaciones@rtelsalvador.com', 'Representaciones Thompson');
+            $mail->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
+            //$mail->addCC($request->emailCc);
+            //$mail->addBCC($request->emailBcc);
+
+            $mail->addReplyTo($replyToEmail, $replyToName);
+
+            /*
+            if(isset($_FILES['emailAttachments'])) {
+                for ($i=0; $i < count($_FILES['emailAttachments']['tmp_name']); $i++) {
+                    $mail->addAttachment($_FILES['emailAttachments']['tmp_name'][$i], $_FILES['emailAttachments']['name'][$i]);
+                }
+            }
+            */
+
+            $mail->isHTML(true);                // Set email content format to HTML
+
+            $mail->Subject = $emailSubject;
+            $mail->Body    = $emailBody;
+
+            // $mail->AltBody = plain text version of email body;
+
+            /* Se envia el mensaje, si no ha habido problemas la variable $exito tendra el valor true */
+            $exito = $mail->Send();
+            /* 
+            Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
+            enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
+            funcion sleep
+            */  
+            $intentos=1; 
+            
+            while ((!$exito) && ($intentos < 5)) {
+                sleep(5);
+                /*echo $mail->ErrorInfo;*/
+                $exito = $mail->Send();
+                $intentos=$intentos+1;  
+            }
+
+            $mail->clearAddresses();
+
+            return $exito;
+        
+        } catch (Exception $e) {
+             return redirect()->route('inicio')->with('error','Ha ocurrido algún error al enviar.');
+        } 
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -217,7 +287,7 @@ class ContactoController extends Controller
         $replyToEmailOffice = $contact->correo;
         $replyToNameOffice = $contact->nombre;
 
-        $estado2 = $this->sendMail($mailToOffice, $emailRecipientOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
+        $estado2 = $this->sendMailOficina($mailToOffice, $emailRecipientOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
 
 
         if( !$estado1 && !$estado2 ) {
