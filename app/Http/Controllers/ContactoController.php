@@ -98,7 +98,9 @@ class ContactoController extends Controller
                 $intentos=$intentos+1;  
             }
 
-            return $mail;
+            $mail->clearAddresses();s
+
+            return $exito;
         
         } catch (Exception $e) {
              return redirect()->route('inicio')->with('error','Ha ocurrido algún error al enviar.');
