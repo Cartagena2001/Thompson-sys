@@ -124,18 +124,18 @@ class OrdenController extends Controller
                                     <th class='text-cente'>Subtotal Parcial</th>
                                 </tr>
                             </thead>
-                            <tbody>".
+                            <tbody>";
 
-                        foreach ($detalleAUx as $detalles)
-                                "<tr class='pb-5'>
+                        foreach ($detalleAUx as $detalles) { 
+                $emailBodyOff .= "<tr class='pb-5'>
                                     <td class='text-start'>".$detalles->producto->nombre ."</td>
                                     <td class='text-center'>".$detalles->cantidad."</td>
                                     <td class='text-center'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
                                     <td class='text-center'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
-                                </tr>".
-                        endforeach
+                                </tr>"
+                        }
 
-                                ."<tr class='pt-5' style='border-top: solid 4px #979797;'>
+              $emailBodyOff .= "<tr class='pt-5' style='border-top: solid 4px #979797;'>
                                     <td></td>
                                     <td></td> 
                                     <td class='text-start' style='font-weight: 600;'>Subtotal:</td> 
