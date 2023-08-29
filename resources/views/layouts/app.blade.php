@@ -77,9 +77,9 @@
 
             <div class="row flex-nowrap">
 
-                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 py-5 px-4 nav-thompson">
+                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 py-5 px-2 nav-thompson">
 
-                    <div class="d-flex flex-column align-items-center align-items-sm-start px-5 pt-2 text-white min-vh-100">
+                    <div class="d-flex flex-column align-items-center align-items-sm-start px-2 pt-2 text-white min-vh-100">
                         
                         <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu">
                             
@@ -292,7 +292,7 @@
 
                 </div>
 
-                <div class="col-12 col-sm-9 col-md-9 col-lg-9 col-xl-9 py-5 px-4">
+                <div class="col-12 col-sm-9 col-md-9 col-lg-9 col-xl-9 py-5 px-2">
                     @yield('content')
                 </div>
 

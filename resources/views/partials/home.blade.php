@@ -220,14 +220,6 @@
                     </div>
                 @endif
 
-                @foreach ($errors->all() as $error)
-
-                  <div>{{ $error }}</div>
-
-                @endforeach
-
-
-
                 <div class="col-12">
                   <div style="display: flex; justify-content: center;">
                     <button class="btn btn-primary" type="submit">Enviar</button>

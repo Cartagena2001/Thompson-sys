@@ -54,8 +54,6 @@ class ContactoController extends Controller
             'numWC' => 'required',
         ]);
 
-        echo '<script> console.log("working... ¿?"); </script>';
-
         //almacenar datos
         $contact = new Contacto();
         $contact->nombre = $request->get('nomC');
@@ -64,13 +62,11 @@ class ContactoController extends Controller
         $contact->numero_whatsapp = $request->get('numWC');
         $contact->mensaje = $request->get('msjC');
         $contact->fecha_hora_form = \Carbon\Carbon::now()->toDateTimeString();
-        echo '<script> console.log("fecha/hora: '.$contact->fecha_hora_form.' "); </script>';
-
+        $contact->visto = 'nuevo';
+        
+        //echo '<script> console.log("fecha/hora: '.$contact->fecha_hora_form.' "); </script>';
         //echo '<script> console.log("boletin value: '.$request->get('boletin').' "); </script>';
-         $boletinC = "";
-
-
-        echo '<script> console.log("working... 1"); </script>';
+        $boletinC = "";
 
         if ($request->get('boletin') == 'on') {
             
@@ -83,12 +79,14 @@ class ContactoController extends Controller
 
         $contact->save();
 
+
+        //Envio de notificación por correo
         $emailRecipient = $request->get('emailC');
         $emailSubject = 'Formulario de Contacto - RTElSalvador';
 
         $emailBody = " 
-                        <div style='display: flex; justify-content: center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png'>
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
                         </div>
 
                         <br/>
@@ -112,7 +110,25 @@ class ContactoController extends Controller
                         
                         <p>Pronto nos pondremos en contacto.</p>
                         ";
+                        
+        $replyToEmail = "oficina@rtelsalvador.com";
+
+        $replyToName = "Representaciones Thompson";
+
+        $mail = $this->sendMail($emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName);
+
+        if( $mail->send() == null ) {
+            return redirect()->route('inicio')->with("failed", "Tu mensaje no ha podido ser enviado.")->withErrors($mail->ErrorInfo);
+        } 
+        else {
+            return redirect()->route('inicio')->with("success", "Tu correo ha sido enviado con éxito.");
+        }
                     
+    }
+
+    private function sendMail($emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName ) 
+    {
+
         require base_path("vendor/autoload.php");
 
         $mail = new PHPMailer(true);     // Passing `true` enables exceptions
@@ -136,7 +152,7 @@ class ContactoController extends Controller
             //$mail->addCC($request->emailCc);
             //$mail->addBCC($request->emailBcc);
 
-            $mail->addReplyTo('oficina@rtelsalvador.com', 'Oficinas RT El Salvador');
+            $mail->addReplyTo($replyToEmail, $replyToName);
 
             /*
             if(isset($_FILES['emailAttachments'])) {
@@ -153,25 +169,16 @@ class ContactoController extends Controller
 
             // $mail->AltBody = plain text version of email body;
 
-            echo '<script> console.log("working... 2"); </script>';
-
-            if( $mail->send() == null ) {
-
-                return redirect()->route('inicio')->with("failed", "Email not sent.")->withErrors($mail->ErrorInfo);
-            } 
-            else {
-
-                return redirect()->route('inicio')->with("success", "Email has been sent.");
-            }
-
+            return $mail;
+        
         } catch (Exception $e) {
-             return redirect()->route('inicio')->with('error','Message could not be sent.');
-        }    
+             return redirect()->route('inicio')->with('error','Ha ocurrido algún error al enviar.');
+        } 
 
-        return redirect()->route('inicio')->with('success', 'Tu mensaje ha sido enviado con éxito');
     }
 
     /**
+     * 
      * Display the specified resource.
      *
      * @param  int  $id

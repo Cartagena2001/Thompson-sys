@@ -175,19 +175,30 @@
                                 @endif
                             </div>
 
-                            <div class="p-3">
+                            <div class="p-2">
 
                                 <h5 style="min-height: 55px;" class="fs--1 text-start"><a tabindex="-1" class="text-dark" href="{{ route('tienda.show', $producto->slug) }}">{{ $producto->nombre }}</a></h5>
 
-                                <span class="rt-color-2 font-weight-bold">OEM: </span>{{ $producto->OEM }}
+                                <span class="rt-color-2 font-weight-bold" style="font-size: 14px;">OEM: </span><span style="font-size: 14px;">{{ $producto->OEM }}</span>
 
-                                <p class="fs--1 mt-2 mb-2"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
+                                <div class="row">
+
+                                    <div class="col-7">
+                                        <p class="fs--1 mt-2 mb-2"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
+                                    </div>
+
+                                    <div class="col-5">
+                                        <p class="text-center"># 📦</p>
+                                    </div>
+
+                                </div>
+
                                 
                                 <div class="row">
 
-                                    <div class="col-6">
+                                    <div class="col-7">
                                 
-                                        <h5 class="fs-md-2 text-dark d-flex align-items-center mb-2">
+                                        <h5 class="fs-md-1 text-dark d-flex align-items-center mb-2">
 
                                             @if ($producto->precio_oferta != null)                        
                                                 $ {{ $producto->precio_oferta }}
@@ -235,7 +246,7 @@
                                         </h5>
                                     </div>
 
-                                    <div class="col-6 text-end">
+                                    <div class="col-5 text-end">
                                         <input class="prod-grid-qty" type="number" id="{{ $producto->id }}" name="cantidad" value="{{ isset($cart[$producto->id]['cantidad']) ? $cart[$producto->id]['cantidad'] : 0 }}" min="1" max="{{ $producto->existencia }}" placeholder="0" onchange="agregarCarrito(this.id)"/>
                                         <br/>
                                         <span class="text-danger" id="ErrorMsg1"></span>

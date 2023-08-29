@@ -154,7 +154,7 @@
         <div class="table-responsive scrollbar">
             <table id="table_productos" class="table display">
                 <thead>
-                    <tr>
+                    <tr class="tbl-p">
                         <th scope="col">ID</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Descripción</th>
@@ -169,7 +169,7 @@
                 </thead>
                 <tbody>
                     @foreach ($productos as $producto)
-                        <tr>
+                        <tr class="tbl-p">
                             <td>{{ $producto->id }}</td>
                             <td>{{ $producto->nombre }}</td>
                             <td>{{ Str::limit($producto->descripcion, 100, '...') }}</td>
