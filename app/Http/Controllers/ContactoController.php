@@ -202,7 +202,7 @@ class ContactoController extends Controller
         $replyToEmailOffice = "oficina@rtelsalvador.com";
         $replyToNameOffice = "Representaciones Thompson";
 
-        $mailToOffice = $this->sendMail($mailToOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
+        $mailToOffice = $this->sendMail($mailToOffice, $emailRecipientOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
 
 
         if( $mailToOffice->send() == null ) {
