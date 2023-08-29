@@ -98,7 +98,7 @@ class ContactoController extends Controller
                 $intentos=$intentos+1;  
             }
 
-            $mail->clearAddresses();s
+            $mail->clearAddresses();
 
             return $exito;
         
