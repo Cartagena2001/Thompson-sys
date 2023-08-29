@@ -80,11 +80,10 @@ class ContactoController extends Controller
         $contact->save();
 
 
-        //Envio de notificación por correo
-        $emailRecipient = $request->get('emailC');
-        $emailSubject = 'Formulario de Contacto - RTElSalvador';
-
-        $emailBody = " 
+        //Envio de notificación por correo al cliente
+        $emailRecipientClient = $request->get('emailC');
+        $emailSubjectClient = 'Formulario de Contacto - RTElSalvador';
+        $emailBodyClient = " 
                         <div style='display:flex;justify-content:center;' >
                             <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
                         </div>
@@ -111,13 +110,48 @@ class ContactoController extends Controller
                         <p>Pronto nos pondremos en contacto.</p>
                         ";
                         
-        $replyToEmail = "oficina@rtelsalvador.com";
+        $replyToEmailClient = "oficina@rtelsalvador.com";
+        $replyToNameClient = "Representaciones Thompson";
 
-        $replyToName = "Representaciones Thompson";
+        $mailToClient = $this->sendMail($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
 
-        $mail = $this->sendMail($emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName);
+        //Envio de notificación por correo a oficina
+        $emailRecipientOffice = "oficina@rtelsalvador.com";
+        $emailSubjectOffice = 'Formulario de Contacto - RTElSalvador';
+        $emailBodyOffice = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                        </div>
 
-        if( $mail->send() == null ) {
+                        <br/>
+                        <br/>
+
+                        <p><b>¡TU MENSAJE HA SIDO RECIBIDO!</b></p>
+                        
+                        <br/>
+
+                        <p><b>RESUMEN</b>:</p>
+                        <p><b>Nombre</b>: ".$contact->nombre." <br/>
+                           <b>Correo electrónico</b>: ".$contact->correo." <br/>
+                           <b>Nombre Empresa/Negocio</b>: ".$contact->nombre_empresa." <br/>
+                           <b>WhatsApp</b>: ".$contact->numero_whatsapp." <br/>
+                           <b>Mensaje</b>: ".$contact->mensaje." <br/>
+                           <b>Fecha/Hora</b>: ".$contact->fecha_hora_form." <br/>
+                           <b>Suscrito a Boletín: ".$boletinC."
+                        </p>
+
+                        <br/>
+                        
+                        <p>Pronto nos pondremos en contacto.</p>
+                        ";
+                        
+        $replyToEmailOffice = "oficina@rtelsalvador.com";
+        $replyToNameOffice = "Representaciones Thompson";
+
+        $mailToOffice = $this->sendMail($emailRecipientOffice ,$emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
+
+
+        if( $mailToClient->send() == null ) {
             return redirect()->route('inicio')->with("failed", "Tu mensaje no ha podido ser enviado.")->withErrors($mail->ErrorInfo);
         } 
         else {
