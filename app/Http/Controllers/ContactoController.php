@@ -130,6 +130,9 @@ class ContactoController extends Controller
 
         $contact->save();
 
+        $mailToClient = new PHPMailer(true);     // Passing `true` enables exceptions
+        $mailToOffice = new PHPMailer(true);     // Passing `true` enables exceptions
+
 
         //Envio de notificación por correo al cliente
         $emailRecipientClient = $request->get('emailC');
