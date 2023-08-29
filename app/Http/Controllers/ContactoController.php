@@ -55,7 +55,7 @@ class ContactoController extends Controller
             $mail->SMTPAuth = true;
             $mail->Username = env('SMTP_USERNAME', "");   //  sender username
             $mail->Password = env('SMTP_PASS', "");       // sender password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;                  // encryption - ssl/tls
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
             $mail->Port = env('SMTP_PORT', "");                          // port - 587/465
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
@@ -81,6 +81,22 @@ class ContactoController extends Controller
             $mail->Body    = $emailBody;
 
             // $mail->AltBody = plain text version of email body;
+
+            /* Se envia el mensaje, si no ha habido problemas la variable $exito tendra el valor true */
+            $exito = $mail->Send();
+            /* 
+            Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
+            enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
+            funcion sleep
+            */  
+            $intentos=1; 
+            
+            while ((!$exito) && ($intentos < 5)) {
+                sleep(5);
+                /*echo $mail->ErrorInfo;*/
+                $exito = $mail->Send();
+                $intentos=$intentos+1;  
+            }
 
             return $mail;
         
@@ -168,7 +184,7 @@ class ContactoController extends Controller
         $replyToEmailClient = "oficina@rtelsalvador.com";
         $replyToNameClient = "Representaciones Thompson";
 
-        $mailToClient = $this->sendMail($mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
+        $estado1 = $this->sendMail($mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
 
         //Envio de notificación por correo a oficina
         $emailRecipientOffice = "oficina@rtelsalvador.com";
@@ -199,22 +215,16 @@ class ContactoController extends Controller
         $replyToEmailOffice = $contact->correo;
         $replyToNameOffice = $contact->nombre;
 
-        $mailToOffice = $this->sendMail($mailToOffice, $emailRecipientOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
+        $estado2 = $this->sendMail($mailToOffice, $emailRecipientOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
 
 
-        if( $mailToOffice->send() == null ) {
+        if( !$estado1 && !$estado2 ) {
 
             return redirect()->route('inicio')->with('failed', 'Tu mensaje no ha podido ser enviado.');
         } 
         else {
             
-            $mailToOffice->clearAddresses();
-
-            if ( $mailToClient->send() ){
-                return redirect()->route('inicio')->with('success', 'Tu correo ha sido enviado con éxito.');
-            } else {
-                return redirect()->route('inicio')->with('success', 'Tu correo ha sido enviado con éxito.');
-            }      
+            return redirect()->route('inicio')->with('success', 'Tu correo ha sido enviado con éxito.');
         }
                     
     }
