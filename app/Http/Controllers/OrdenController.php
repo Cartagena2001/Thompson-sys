@@ -132,7 +132,7 @@ class OrdenController extends Controller
                                     <td class='text-center'>".$detalles->cantidad."</td>
                                     <td class='text-center'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
                                     <td class='text-center'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
-                                </tr>"
+                                </tr>";
                         }
 
               $emailBodyOff .= "<tr class='pt-5' style='border-top: solid 4px #979797;'>
