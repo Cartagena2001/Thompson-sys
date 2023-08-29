@@ -38,12 +38,12 @@ class ContactoController extends Controller
         return view('contacto.create', compact('contacto'));
     }
 
-    private function sendMail($emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName ) 
+    private function sendMail(PHPMailer $mail, $emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName ) 
     {
 
         require base_path("vendor/autoload.php");
 
-        $mail = new PHPMailer(true);     // Passing `true` enables exceptions
+        //$mail = new PHPMailer(true);     // Passing `true` enables exceptions
 
         try {
 
@@ -167,7 +167,7 @@ class ContactoController extends Controller
         $replyToEmailClient = "oficina@rtelsalvador.com";
         $replyToNameClient = "Representaciones Thompson";
 
-        $mailToClient = $this->sendMail(PHPMailer $mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
+        $mailToClient = $this->sendMail($mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
 
         //Envio de notificación por correo a oficina
         $emailRecipientOffice = "oficina@rtelsalvador.com";
@@ -202,7 +202,7 @@ class ContactoController extends Controller
         $replyToEmailOffice = "oficina@rtelsalvador.com";
         $replyToNameOffice = "Representaciones Thompson";
 
-        $mailToOffice = $this->sendMail(PHPMailer $mailToOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
+        $mailToOffice = $this->sendMail($mailToOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
 
 
         if( $mailToOffice->send() == null ) {
