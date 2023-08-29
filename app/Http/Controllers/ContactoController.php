@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 
 use Illuminate\Http\Request;
 use App\Models\Contacto;
@@ -48,7 +49,7 @@ class ContactoController extends Controller
         try {
 
             // Email server settings
-            $mail->SMTPDebug = 0;
+            $mail->SMTPDebug = 3;
             $mail->isSMTP();
             $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
             $mail->SMTPAuth = true;
@@ -171,7 +172,7 @@ class ContactoController extends Controller
 
         //Envio de notificación por correo a oficina
         $emailRecipientOffice = "oficina@rtelsalvador.com";
-        $emailSubjectOffice = 'Formulario de Contacto - RTElSalvador';
+        $emailSubjectOffice = 'Nueva Consulta - Formulario de Contacto - RTElSalvador';
         $emailBodyOffice = " 
                         <div style='display:flex;justify-content:center;' >
                             <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
@@ -180,7 +181,7 @@ class ContactoController extends Controller
                         <br/>
                         <br/>
 
-                        <p><b>¡TU MENSAJE HA SIDO RECIBIDO!</b></p>
+                        <p><b>HAY UNA NUEVA CONSULTA - FORMULARIO DE CONTACTO</b></p>
                         
                         <br/>
 
@@ -193,14 +194,10 @@ class ContactoController extends Controller
                            <b>Fecha/Hora</b>: ".$contact->fecha_hora_form." <br/>
                            <b>Suscrito a Boletín: ".$boletinC."
                         </p>
-
-                        <br/>
-                        
-                        <p>Pronto nos pondremos en contacto.</p>
                         ";
                         
-        $replyToEmailOffice = "oficina@rtelsalvador.com";
-        $replyToNameOffice = "Representaciones Thompson";
+        $replyToEmailOffice = $contact->correo;
+        $replyToNameOffice = $contact->nombre;
 
         $mailToOffice = $this->sendMail($mailToOffice, $emailRecipientOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
 
@@ -210,6 +207,8 @@ class ContactoController extends Controller
             return redirect()->route('inicio')->with('failed', 'Tu mensaje no ha podido ser enviado.');
         } 
         else {
+            
+            $mailToOffice->clearAddresses();
 
             if ( $mailToClient->send() ){
                 return redirect()->route('inicio')->with('success', 'Tu correo ha sido enviado con éxito.');
