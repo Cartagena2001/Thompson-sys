@@ -70,6 +70,7 @@
                         <thead>
                             <tr>
                                 <th class="text-start">Producto</th>
+                                <th class="text-start">Ubicación (Bodega)</th>
                                 <th class="text-center">Cantidad (caja)</th>
                                 <th class="text-center">Precio (caja)</th>
                                 <th class="text-center">Subtotal Parcial</th>
@@ -80,6 +81,7 @@
                             @foreach ($detalle as $detalles)
                                 <tr class="pb-5">
                                     <td class="text-start">{{ $detalles->producto->nombre }}</td>
+                                    <th class="text-start"><input type="text" value="" placeholder="A-00-00" /></th>
                                     <td class="text-center">{{ $detalles->cantidad }}</td>
                                     <td class="text-center">{{ number_format(($detalles->precio), 2, '.', ','); }} $</td>
 
@@ -154,8 +156,15 @@
                     </div>
 
                     <div class="col-6">
-                        <label for="ubicacion">Ubicación: </label>
-                        <input class="form-control" type="text" name="ubicacion" id="ubicacion" value="{{ $orden->ubicacion }}" maxlength="7" placeholder="A-00-00">
+                        <label for="ubicacion">Ubicación (Despacho): </label>
+                        
+                        <select name="ubicacion" id="ubicacion" class="">
+                                <option value="Oficina">Oficina</option>
+                                <option value="Bodega">Bodega</option> 
+                        </select>
+
+                        {{-- <input class="form-control" type="text" name="ubicacion" id="ubicacion" value="{{ $orden->ubicacion }}" maxlength="7" placeholder="-"> --}}
+                        
                         @error('ubicacion')
                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                         @enderror
