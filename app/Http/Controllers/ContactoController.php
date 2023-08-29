@@ -285,8 +285,8 @@ private function sendMailOficina(PHPMailer $mail, $emailRecipient ,$emailSubject
                         </p>
                         ";
                         
-        $replyToEmailOffice = "$contact->correo";
-        $replyToNameOffice = "$contact->nombre";
+        $replyToEmailOffice = $contact->correo;
+        $replyToNameOffice = $contact->nombre;
 
         $estado2 = $this->sendMailOficina($mailToOffice, $emailRecipientOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
 
