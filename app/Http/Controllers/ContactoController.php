@@ -167,7 +167,7 @@ class ContactoController extends Controller
         $replyToEmailClient = "oficina@rtelsalvador.com";
         $replyToNameClient = "Representaciones Thompson";
 
-        $mailToClient = $this->sendMail($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
+        $mailToClient = $this->sendMail(PHPMailer $mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
 
         //Envio de notificación por correo a oficina
         $emailRecipientOffice = "oficina@rtelsalvador.com";
@@ -202,7 +202,7 @@ class ContactoController extends Controller
         $replyToEmailOffice = "oficina@rtelsalvador.com";
         $replyToNameOffice = "Representaciones Thompson";
 
-        $mailToOffice = $this->sendMail($emailRecipientOffice ,$emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
+        $mailToOffice = $this->sendMail(PHPMailer $mailToOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
 
 
         if( $mailToOffice->send() == null ) {
