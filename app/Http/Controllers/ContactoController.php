@@ -55,7 +55,7 @@ class ContactoController extends Controller
             $mail->SMTPAuth = true;
             $mail->Username = env('SMTP_USERNAME', "");   //  sender username
             $mail->Password = env('SMTP_PASS', "");       // sender password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;                  // encryption - ssl/tls
             $mail->Port = env('SMTP_PORT', "");                          // port - 587/465
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
