@@ -202,13 +202,13 @@ class ContactoController extends Controller
         $mailToOffice = $this->sendMail($emailRecipientOffice ,$emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
 
 
-        if( $mailToClient->send() == null ) {
+        if( $mailToOffice->send() == null ) {
 
             return redirect()->route('inicio')->with('failed', 'Tu mensaje no ha podido ser enviado.');
         } 
         else {
 
-            if ( $mailToOffice->send() ){
+            if ( $mailToClient->send() ){
                 return redirect()->route('inicio')->with('success', 'Tu correo ha sido enviado con éxito.');
             } else {
                 return redirect()->route('inicio')->with('success', 'Tu correo ha sido enviado con éxito.');
