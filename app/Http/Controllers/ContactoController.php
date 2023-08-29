@@ -152,7 +152,7 @@ class ContactoController extends Controller
 
 
         if( $mailToClient->send() == null ) {
-            return redirect()->route('inicio')->with('failed', 'Tu mensaje no ha podido ser enviado.')->withErrors($mail->ErrorInfo);
+            return redirect()->route('inicio')->with('failed', 'Tu mensaje no ha podido ser enviado.');
         } 
         else {
             return redirect()->route('inicio')->with('success', 'Tu correo ha sido enviado con éxito.');

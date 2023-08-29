@@ -132,9 +132,7 @@ Route::get('/configuracion/users', [App\Http\Controllers\ClientesController::cla
 Route::get('/configuracion/users/create', [App\Http\Controllers\ClientesController::class, 'create'])->name('users.create')->middleware('auth');
 Route::post('/configuracion/users/create', [App\Http\Controllers\ClientesController::class, 'store'])->name('users.store')->middleware('auth');
 
-//Envío de Correos (Notificaciones)
-//Route::get("email", [PHPMailerController::class, "email"])->name("email");
-Route::post("send-email", [PHPMailerController::class, "composeEmail"])->name("send-email");
+
 
 
 
