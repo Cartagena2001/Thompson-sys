@@ -98,6 +98,7 @@ class ContactoController extends Controller
                 $intentos=$intentos+1;  
             }
 
+            $mail->getSMTPInstance()->reset();
             $mail->clearAddresses();
 
             return $exito;
@@ -119,7 +120,7 @@ private function sendMailOficina(PHPMailer $mail, $emailRecipient ,$emailSubject
         try {
 
             // Email server settings
-            $mail->SMTPDebug = 3;
+            //$mail->SMTPDebug = 3;
             $mail->isSMTP();
             $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
             $mail->SMTPAuth = true;
@@ -284,8 +285,8 @@ private function sendMailOficina(PHPMailer $mail, $emailRecipient ,$emailSubject
                         </p>
                         ";
                         
-        $replyToEmailOffice = $contact->correo;
-        $replyToNameOffice = $contact->nombre;
+        $replyToEmailOffice = "$contact->correo";
+        $replyToNameOffice = "$contact->nombre";
 
         $estado2 = $this->sendMailOficina($mailToOffice, $emailRecipientOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
 
