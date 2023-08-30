@@ -299,6 +299,44 @@ class ProductoController extends Controller
         return redirect()->route('productos.index')->with('success', 'Producto actualizado exitosamente');
     }
 
+    public function updateUbiBO(Request $request)
+    {
+        request()->validate([
+            'ubicacionBod'   => 'required|string',
+            'producto_id' => 'required|string',
+        ]);
+
+        $productoID = trim(strstr( $request->producto_id, "_" ), "_");
+        
+        $producto = Producto::find($productoID);
+
+        //almacenar datos
+        $producto->ubicacion_bodega = $request->ubicacionBod;
+
+        $producto->update();
+
+        //return view('ordenes.show')->with('success');
+    }
+
+    public function updateUbiOF(Request $request)
+    {
+        request()->validate([
+            'ubicacionOf'   => 'required|string',
+            'producto_id' => 'required|string',
+        ]);
+
+        $productoID = trim(strstr( $request->producto_id, "_" ), "_");
+
+        $producto = Producto::find($productoID);
+
+        //almacenar datos
+        $producto->ubicacion_oficina = $request->ubicacionOf;
+
+        $producto->update();
+
+        //return view('ordenes.show')->with('success');
+    }
+
     /**
      * Remove the specified resource from storage.
      *

@@ -82,12 +82,18 @@
                             @foreach ($detalle as $detalles)
                                 <tr class="pb-5">
                                     <td class="text-start">{{ $detalles->producto->nombre }}</td>
-                                    <th class="text-start"><input type="text" value="" placeholder="A-00-00" /></th>
-                                    <th class="text-start"><input type="text" value="" placeholder="OF-00" /></th>
+
+                                    <td class="text-start">@if (Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1) <input id="ubbo_{{ $detalles->producto->id }}" name="ubbo" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_bodega }}" placeholder="A-00-00" onchange="updateUbiBo(this.id)" /> @else {{ $detalles->producto->ubicacion_bodega }}  @endif <br> <div class="alert alert-success" role="alert" id="successMsg1" style="display: none" >
+                            Ubicación actualizada con éxito. 
+                        </div></td>
+
+
+                                    <td class="text-start">@if (Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1) <input id="ubof_{{ $detalles->producto->id }}" name="ubof" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_oficina }}" placeholder="OF-00" onchange="updateUbiOf(this.id)" /> @else {{ $detalles->producto->ubicacion_oficina }} @endif <br> <div class="alert alert-success" role="alert" id="successMsg2" style="display: none" >
+                            Ubicación actualizada con éxito.</td>
+
                                     <td class="text-center">{{ $detalles->cantidad }}</td>
                                     <td class="text-center">{{ number_format(($detalles->precio), 2, '.', ','); }} $</td>
-
-                                    <td class="text-center">{{ number_format(($detalles->cantidad * $detalles->precio), 2, '.', ','); }} $</td>
+                                    <td class="text-center">{{ number_format(($detalles->cantidad * $detalles->precio), 2, '.', ','); }} $</td> 
                                 </tr>
                             @endforeach
 
@@ -105,21 +111,27 @@
                             
                                 <tr class="pt-5" style="border-top: solid 4px #979797;">
                                     <td></td>
-                                    <td></td> 
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td class="text-start" style="font-weight: 600;">Subtotal:</td> 
                                     <td class="text-end">{{ number_format($subtotal, 2, '.', ',');  }} $</td> 
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td></td> 
+                                    <td></td>
+                                    <td></td>
                                     <td class="text-start" style="font-weight: 600;">IVA (13%):</td> 
                                     <td class="text-end">{{ number_format(($subtotal * $iva), 2, '.', ',');  }} $</td> 
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td class="text-start" style="font-weight: 600;">Total:</td> 
-                                    <td class="text-end">{{ number_format($total, 2, '.', ',');  }} $</td> 
+                                    <td class="text-end">{{ number_format($total, 2, '.', ',');  }} $</td>
                                 </tr>
                         </tbody>
                     </table>
@@ -160,7 +172,7 @@
                     <div class="col-6">
                         <label for="ubicacion">Ubicación (Despacho): </label>
                         
-                        <select name="ubicacion" id="ubicacion" class="">
+                        <select name="ubicacion" id="ubicacion" class="form-control">
                             <option value="Ambas">Ambas</option>
                             <option value="Oficina">Oficina</option>
                             <option value="Bodega">Bodega</option> 
@@ -195,9 +207,22 @@
 
             @elseif ( Auth::user()->rol_id == 3 )
 
-            <form method="POST" action="{{ route('ordenecif.upload', $orden->id) }}" role="form" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('ordenehoj.upload', $orden->id) }}" role="form" enctype="multipart/form-data">
                 {{ method_field('PUT') }}
                 @csrf
+
+                <div class="mt-3 col-auto text-center col-4 mx-auto">
+                    <label for="hoja_salida_href">Adjuntar Hoja de Salida: </label>
+                    <br/>
+                    <a href="{{ $orden->hoja_salida_href }}" title="Ver Hoja de Salida" target="_blank"><img class="rounded mt-2" src="{{ $orden->hoja_salida_href }}" alt="hoja-salida-img" width="400"></a>
+                    <br/>
+                    <br/>
+                    <input class="form-control" type="file" name="hoja_salida_href" id="hoja_salida_href" value="{{ $orden->hoja_salida_href }}">  
+                    <br/>
+                    @error('hoja_salida_href')
+                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                    @enderror
+                </div>
 
                 <div class="row mb-2">  
 
@@ -294,6 +319,51 @@
             ventanaImpresion.print();
             ventanaImpresion.close();
         });
+
+
+        function updateUbiBo(prod_id) {
+
+            var ubiBod = $('#'+prod_id).val();
+            
+            $.ajax({
+                url: "{{ route('producto.updateUbiBO') }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&ubicacionBod=" + ubiBod + "&producto_id=" + prod_id,
+
+                success: function(response){
+                    $('#successMsg1').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg1').text(response.responseJSON.errors.ubiBod);
+                    $('#ErrorMsg2').text(response.responseJSON.errors.prod_id);
+                },
+            });
+            
+        }
+
+        function updateUbiOf(prod_id) {
+
+            var ubiOf = $('#'+prod_id).val();
+
+            $.ajax({
+                url: "{{ route('producto.updateUbiOF') }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&ubicacionOf=" + ubiOf + "&producto_id=" + prod_id,
+
+                success: function(response){
+                    $('#successMsg2').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg1').text(response.responseJSON.errors.ubiOf);
+                    $('#ErrorMsg2').text(response.responseJSON.errors.prod_id);
+                },
+            });
+            
+        }
     </script>
 
 @endsection

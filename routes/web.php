@@ -46,6 +46,11 @@ Route::patch('/home', [App\Http\Controllers\PerfilController::class, 'loadInfo']
 //Rutas para el dashboard
 Route::resource('/dashboard/marcas', App\Http\Controllers\MarcaController::class)->middleware('auth');
 Route::resource('/dashboard/categorias', App\Http\Controllers\CategoriaController::class)->middleware('auth');
+
+Route::post('producto.updateUbiBO', [App\Http\Controllers\ProductoController::class, 'updateUbiBO'])->name('producto.updateUbiBO')->middleware('auth');
+Route::post('producto.updateUbiOF', [App\Http\Controllers\ProductoController::class, 'updateUbiOF'])->name('producto.updateUbiOF')->middleware('auth');
+
+
 Route::resource('/dashboard/productos', App\Http\Controllers\ProductoController::class)->middleware('auth');
 
 //Ruta para importar los productos
@@ -58,6 +63,8 @@ Route::put('/dashboard/ordenes/finalizada/{id}', [App\Http\Controllers\OrdenesCo
 Route::put('/dashboard/ordenes/cancelada/{id}', [App\Http\Controllers\OrdenesController::class, 'cancelada'])->name('ordenes.cancelada')->middleware('auth');
 
 Route::put('/dashboard/ordenes/uploadCif/{id}', [App\Http\Controllers\OrdenesController::class, 'upload'])->name('ordenecif.upload')->middleware('auth');
+
+Route::put('/dashboard/ordenes/uploadHoj/{id}', [App\Http\Controllers\OrdenesController::class, 'uploadBod'])->name('ordenehoj.upload')->middleware('auth');
 
 //Rutas para aspirantes
 Route::get('/dashboard/aspirantes', [App\Http\Controllers\AspirantesController::class, 'index'])->name('aspirantes.index')->middleware('auth');
@@ -95,7 +102,7 @@ Route::get('/dashboard/tienda/{producto:slug}', [App\Http\Controllers\TiendaCont
 Route::get('/dashboard/compra-masiva', [App\Http\Controllers\TiendaController::class, 'showCat'])->name('compra.masiva.index')->middleware('auth');
 
 //Rutas para el carrito
-Route::get('/carrito', [App\Http\Controllers\CarritoController::class, 'index'])->name('carrito.index')->middleware('verified');
+Route::get('/carrito', [App\Http\Controllers\CarritoController::class, 'index'])->name('carrito.index')->middleware('auth');
 Route::post('/carrito/add', [App\Http\Controllers\CarritoController::class, 'add'])->name('carrito.add')->middleware('verified');
 Route::put('/carrito/update/{id}', [App\Http\Controllers\CarritoController::class, 'update'])->name('carrito.update')->middleware('verified');
 Route::delete('/carrito/delete/{id}', [App\Http\Controllers\CarritoController::class, 'delete'])->name('carrito.delete')->middleware('verified');

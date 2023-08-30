@@ -39,6 +39,8 @@ return new class extends Migration
             $table->integer('existencia')->unsigned()->nullable();
             $table->integer('existencia_limite')->unsigned()->nullable();
             $table->string('garantia', 100)->nullable();
+            $table->string('ubicacion_bodega', 255)->nullable();
+            $table->string('ubicacion_oficina', 255)->nullable();
             $table->string('unidad_por_caja', 10)->nullable();
             //Campos para control el volumen y peso del producto
             $table->decimal('volumen', 8,4)->nullable();

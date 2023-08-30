@@ -11,7 +11,18 @@ class Orden extends Model
   protected $table='orden';
 
   protected $fillable = [
-      'fecha_registro', 'user_id', 'estado', 'fecha_envio', 'fecha_entrega', 'total', 'notas', 'notas_bodega', 'visto', 'cif', 'ubicacion', 'bulto', 'paleta', 'factura_href'
+      'fecha_registro', 
+      'user_id', 'estado', 
+      'fecha_envio', 
+      'fecha_entrega', 
+      'total', 'notas', 
+      'notas_bodega', 
+      'visto', 'cif', 
+      'ubicacion', 
+      'bulto', 
+      'paleta', 
+      'factura_href',
+      'hoja_salida_href'
   ];
 
   public function User(){  return $this->belongsTo('App\Models\User', 'user_id'); }

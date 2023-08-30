@@ -43,9 +43,6 @@ class OrdenesController extends Controller
 
             'cif' => 'string|min:1|max:24',
             'notas' => 'string|max:250',
-            'notas_bodega' => 'string|max:250',
-            'bulto' => 'string|max:9',
-            'paleta' => 'string|max:9',
             'ubicacion' => 'string|max:19'
 
         ]);
@@ -61,10 +58,46 @@ class OrdenesController extends Controller
 
         $orden->cif = $request->get('cif');
         $orden->notas = $request->get('notas');
+        $orden->ubicacion = $request->get('ubicacion');
+        
+        $orden->update();
+
+        //buscar el detalle de la orden
+        $detalle = OrdenDetalle::where('orden_id' , $id)->get();
+
+        //$orden->save();
+        
+        //ahora buscar el producto de cada detalle
+        foreach($detalle as $item){
+            $item->producto = $item->Producto;
+        }
+
+        return view('ordenes.show' , compact('orden', 'detalle'));
+    }
+
+    public function uploadBod(Request $request, $id){
+
+        //validar los datos
+        $request->validate([
+
+            'notas_bodega' => 'string|max:250',
+            'bulto' => 'string|max:9',
+            'paleta' => 'string|max:9',
+
+        ]);
+
+        $orden = Orden::find($id);
+
+        //almacenar datos
+        if ($request->hasFile('hoja_salida_href')) {
+            $file = $request->file('hoja_salida_href');
+            $file->move(public_path() . '/assets/img/hojas_sal/', $file->getClientOriginalName());
+            $orden->hoja_salida_href = '/assets/img/hojas_sal/' . $file->getClientOriginalName();
+        }
+
         $orden->notas_bodega = $request->get('notas_bodega');
         $orden->bulto = $request->get('bulto');
         $orden->paleta = $request->get('paleta');
-        $orden->ubicacion = $request->get('ubicacion');
         
         $orden->update();
 

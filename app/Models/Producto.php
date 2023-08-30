@@ -26,6 +26,8 @@ class Producto extends Model
         'existencia',
         'existencia_limite',
         'garantia',
+        'ubicacion_bodega',
+        'ubicacion_oficina',
         'unidad_por_caja',
         'volumen',
         'unidad_volumen',
