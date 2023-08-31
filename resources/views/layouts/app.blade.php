@@ -39,16 +39,15 @@
 <body class="test">
 
     <header>
-        <div class="row g-0" style="background-color: #000; border-bottom: 2px ridge #ff1620;">
+        <div class="row g-0 pb-3" style="background-color: #000; border-bottom: 2px ridge #ff1620;">
 
-            <div class="col-lg-12 text-center pt-3 me-md-auto">
-                <a href="/" class="text-decoration-none"><img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="" width="200"></a>
-                <hr/>
+            <div class="col-12 col-lg-6 text-start pt-3 ps-5 me-md-auto">
+                <a href="/" class="text-decoration-none"><img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="rt-logo" width="200"></a>     
             </div>
 
-            <div class="col-lg-12 text-center pt-2 mb-4">
-                <div class="dropdown flex-center">
-                    <a href="" class="d-flex align-items-center text-decoration-none dropdown-toggle"
+            <div class="col-12 col-lg-6 text-end pt-3 pe-5 me-md-auto">
+                <div class="dropdown my-4" style="float: right;">
+                    <a href="" class="d-block text-decoration-none dropdown-toggle"
                         id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" style="border: ridge 1px #ff1620; border-radius: 20px; padding: 1px 1px;">
                         <img src={{ Auth::user()->imagen_perfil_src }} alt="img-perfil" width="30" height="30" class="rounded-circle" />
                         <span class="d-none d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>

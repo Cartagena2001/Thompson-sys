@@ -12,7 +12,11 @@ class OrdenDetalle extends Model
     protected $table='orden_detalle';
 
     protected $fillable = [
-        'orden_id', 'producto_id', 'cantidad', 'precio'
+        'orden_id', 
+        'producto_id', 
+        'cantidad', 
+        'cantidad_despachada', 
+        'precio'
     ];
 
     public function Orden(){  return $this->belongsTo('App\Models\Orden', 'orden_id'); }

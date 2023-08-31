@@ -18,32 +18,65 @@ class TiendaController extends Controller
      */
     public function index(Request $request)
     {
+
+        // Busca y ordena productos al entrar desde el menú
         $productos = Producto::whereHas('marca', function($query){
             $query->where('estado', "Activo");
         })->paginate(1000000000);
 
+       
+
+
         //if ver si esta selecionado el filtro de categoria
         if($request->has('categoria')){
             $categoria_id = $request->input('categoria');
+
+            $categorias = Categoria::all();
             
+            //devuelve los productos según la categoria seleccionada en filtro   
             $productos = Producto::where('categoria_id', $categoria_id)->paginate(1000000000);
         }
 
+        //asigna el ID de la categoria seleccionada en filtro como actual
         $categoriaActual = $request->input('categoria');
         $categoriaActualname = null;
-        //obtener el nombre de la categoria actual para mostrarlo en el titulo de la pagina
         
+        //obtener el nombre de la categoria actual para seleccionarlo en el select del filtro
         if($categoriaActual != null){
             $categoriaActualname = Categoria::find($categoriaActual);
         }else{
             $categoriaActualname = "Todas";
         }
 
+
+
+        //if ver si esta selecionado el filtro de marca
+        if($request->has('marca')){
+            $marca_id = $request->input('marca');
+
+            $categoriasP = Producto::where('marca_id', $marca_id);
+            
+            //devuelve los productos según la marca seleccionada en filtro  
+            $productos = Producto::where('marca_id', $marca_id)->paginate(1000000000);
+        }
+
+        $marcaActual = $request->input('marca');
+        $marcaActualname = null;
+        
+        if($marcaActual != null){
+            $marcaActualname = Marca::find($marcaActual);
+        }else{
+            $marcaActualname = "Todas";
+        }
+
+
+
+        $categoriasP = "";
         $categorias = Categoria::all();
         $marcas = Marca::all();
         $estadoProductos = EstadoProducto::all();
 
-        return view('productos.productos-grid', compact('productos', 'categorias', 'marcas', 'estadoProductos', 'categoriaActual', 'categoriaActualname'));
+        return view('productos.productos-grid', compact('productos', 'categorias', 'categoriasP', 'marcas', 'marcaActual', 'estadoProductos', 'categoriaActual', 'categoriaActualname'));
     }
 
     public function showByCategoria(Request $request)

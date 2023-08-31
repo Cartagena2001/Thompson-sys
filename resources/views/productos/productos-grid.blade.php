@@ -3,67 +3,36 @@
 @section('content')
 
 @section('title', 'Tienda')
-<div class="card mb-3" style="border: ridge 1px #ff1620;">
-    <div class="card-body">
-        <div class="row flex-between-center">
+
+<div>            
+    <a style="float: right; z-index: 1000000; position: fixed; right: 50px; bottom: 200px;" href="{{ url('/carrito') }}">
+
+        <h6 class="btn btn-sm btn-primary p-2">
             
-            <div class="col-sm-auto mb-2 mb-sm-0">
-                <a href="{{ url('/carrito') }}">
-                    <h6 class="btn btn-sm btn-primary"><i class="fa-solid fa-cart-shopping"></i> Ver Carrito
-                        <?php
-                        $carrito = session('cart', []);
-                        $cart = session()->get('cart', []);
+            <?php
+                $carrito = session('cart', []);
+                $cart = session()->get('cart', []);
 
-                        $cantidad = 0;
-                        
-                        foreach ($carrito as $item) {
-                            $cantidad += $item['cantidad'];
-                        }
-                        ?>
-                        
-                        <span class=""> - ({{ $cantidad }})</span>
-                    </h6>
-                </a>
-                <?php
-                $productosDisponibles = DB::table('producto')
-                    ->where('estado_producto_id', '1')
-                    ->get();
-                ?>
-                <h6 class="mb-0">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }} productos</h6>
+                $cantidad = 0;
+                
+                foreach ($carrito as $item) {
+                    $cantidad += $item['cantidad'];
+                }
+            ?>
 
-            </div>
+            <i style="font-size: 50px;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; top: 3px; right: 8px; font-size: 25px;">{{ $cantidad }}</span>
+            <br/>
+            <br/>
+            Procesar Órden 
+        </h6>
 
-            {{-- Filtros --}}
-            <div class="col-sm-auto">
-                <div class="row gx-2 align-items-center">
-                    <div class="col-auto">
-                        
-                        <form class="row gx-2">
-                            <div class="col-auto"><small>Ordenar por categoría:</small></div>
-                            <div class="col-auto">
-                                <form action="{{ route('productos.index') }}" method="get">
-                                    <select name="categoria" id="categoria" class="form-select form-select-sm" aria-label="Bulk actions">
-                                        <option value="0">Todas</option>
-                                        @foreach ($categorias as $categoria)
-                                            <option value="{{ $categoria->id }}"
-                                                @if ($categoria->id == $categoriaActual) selected @endif>
-                                                {{ $categoria->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="mt-2">
-                                        <button class="btn btn-sm btn-primary" type="submit"><i class="fas fa-filter"></i> Aplicar filtro</button>
-                                        <a href="{{ url('/dashboard/tienda') }}" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-trash-alt"></i> Limpiar filtro</a>
-                                    </div>
-                                </form>
-                            </div>
-                        </form>
+    </a>
 
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
+    <?php
+    $productosDisponibles = DB::table('producto')
+        ->where('estado_producto_id', '1')
+        ->get();
+    ?>
 </div>
 
 
@@ -92,24 +61,21 @@
                     </thead>
                     <tbody>
 
-                        <tr class="pb-5">
-                            <td class="text-start">CTI</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">00.00 $</td>
-                        </tr>
+                        @foreach ($marcas as $marca)
 
-                        <tr class="pb-5">
-                            <td class="text-start">TEMCO</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">00.00 $</td>
-                        </tr>
+                            <tr class="pb-5">
+                                <td class="text-start" id="{{ $marca->id }}">{{ $marca->nombre }}</td>
+                                <td class="text-center" id="{{ $marca->id }}-qty">0</td>
+                                <td class="text-center" id="{{ $marca->nombre }}-st">00.00 $</td>
+                            </tr>
 
-                        <tr class="pb-5">
-                            <td class="text-start">ECOM</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">00.00 $</td>
-                        </tr>
- 
+                        @endforeach
+
+                            <tr class="pb-5">
+                                <td class="text-start"></td>
+                                <td class="text-center">Subtotal:</td>
+                                <td class="text-center" id="st-brands">00.00 $</td>
+                            </tr>
 
                         @php
                             $subtotal = 0;
@@ -135,8 +101,62 @@
 {{-- Tienda --}}
 <div class="card mb-3" style="border: ridge 1px #ff1620;">
 
-    <h6 class="card-body">Categoría:
-        {{ $categoriaActual == 0 ? 'Todas' : $categoriaActualname->nombre }}</h6>
+    {{-- Filtros --}}
+    <div class="col-sm-auto ps-3 pt-4">    
+        <div class="row gx-2 align-items-center">
+
+            <div class="col-auto">
+            
+                <form class="row gx-2">
+                    <div class="col-auto"><h6>Ordenar por marca:</h6></div>
+                    <div class="col-auto">
+                        <form action="{{ route('productos.index') }}" method="get">
+                            <select name="marca" id="marca" class="form-select form-select-sm" aria-label="Bulk actions">
+                                <option value="0">Todas</option>
+                                @foreach ($marcas as $marca)
+                                    <option value="{{ $marca->id }}"
+                                        @if ($marca->id == $marcaActual) selected @endif>
+                                        {{ $marca->nombre }}</option>
+                                @endforeach
+                            </select>
+                            <div class="mt-2">
+                                <button class="btn btn-sm btn-primary" type="submit"><i class="fas fa-filter"></i> Aplicar filtro</button>
+                                <a href="{{ url('/dashboard/tienda') }}" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-trash-alt"></i> Limpiar filtro</a>
+                            </div>
+                        </form>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="col-auto">
+            
+                <form class="row gx-2">
+                    <div class="col-auto"><h6>Ordenar por categoría:</h6></div>
+                    <div class="col-auto">
+                        <form action="{{ route('productos.index') }}" method="get">
+                            <select name="categoria" id="categoria" class="form-select form-select-sm" aria-label="Bulk actions">
+                                <option value="0">Todas</option>
+                                @foreach ($categorias as $categoria)
+                                    <option value="{{ $categoria->categoria_id }}"
+                                        @if ($categoria->categoria_id == $categoriaActual) selected @endif>
+                                        {{ $categoria->nombre }}</option>
+                                @endforeach
+                            </select>
+                            <div class="mt-2">
+                                <button class="btn btn-sm btn-primary" type="submit"><i class="fas fa-filter"></i> Aplicar filtro</button>
+                                <a href="{{ url('/dashboard/tienda') }}" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-trash-alt"></i> Limpiar filtro</a>
+                            </div>
+                        </form>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+    <h6 class="card-body">Categoría: {{ $categoriaActual == 0 ? 'Todas' : $categoriaActualname->nombre }}</h6>
     <div>
         @if ($productos->count() == 0)
             <div class="card-body text-center">
@@ -144,6 +164,7 @@
             </div>
         @endif
     </div>
+    <h6 class="mb-0">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }} productos</h6>
 
     <div class="card-body">
 
@@ -251,6 +272,10 @@
                                         <br/>
                                         <span class="text-danger" id="ErrorMsg1"></span>
                                         <span class="text-danger" id="ErrorMsg2"></span>
+
+                                        <input type="hidden" id="{{ $producto->id }}-brand" value="{{ $producto->marca_id }}">
+                                        <input type="hidden" id="{{ $producto->id }}-ex" value="{{ $producto->existencia }}">
+                                        <input type="hidden" id="{{ $producto->existencia }}-uc" value="{{ $producto->unidad_por_caja }}">
                                     </div>
 
                                 </div>
@@ -324,6 +349,11 @@
                 $('#ErrorMsg2').text(response.responseJSON.errors.prodid);
             },
         });
+
+
+        var marca_id = $('#'+prod_id+'-brand').val();
+
+        $('#'+marca_id+'-qty').text(qty);
         
     }
 

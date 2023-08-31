@@ -137,7 +137,7 @@
                         @foreach ($ordenes as $orden)
                             <tr>
                                 <td>{{ $orden->id }}</td>
-                                <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->format('d/m/Y, h:m:s a') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
                                 <td>{{ $orden->user->nombre_empresa }}</td>
                                 @if ($orden->estado == 'Pendiente')
                                     <td class="text-warning">{{ $orden->estado }}</td>
@@ -148,8 +148,8 @@
                                 @else
                                     <td class="text-danger">{{ $orden->estado }}</td>
                                 @endif
-                                <td>{{ \Carbon\Carbon::parse($orden->fecha_envio)->format('d/m/Y, h:m:s a') }}</td>
-                                <td>{{ \Carbon\Carbon::parse($orden->fecha_entrega)->format('d/m/Y, h:m:s a') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($orden->fecha_envio)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($orden->fecha_entrega)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
                                 <td>${{ $orden->total }}</td>
                                 <td class="text-end">
                                     <form action="{{ route('productos.destroy', $orden->id) }}" method="POST">

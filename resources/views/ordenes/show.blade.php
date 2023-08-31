@@ -69,10 +69,12 @@
                     <table id="table_detalle" class="table display">
                         <thead>
                             <tr>
+                                <th class="text-start">OEM</th>
                                 <th class="text-start">Producto</th>
-                                <th class="text-start">Ubicación (Bodega)</th>
-                                <th class="text-start">Ubicación (Oficina)</th>
-                                <th class="text-center">Cantidad (caja)</th>
+                                <th class="text-center">Ubicación (Bodega)</th>
+                                <th class="text-center">Ubicación (Oficina)</th>
+                                <th class="text-center">Cantidad (Solicitada)</th>
+                                <th class="text-center">Cantidad (Despachada)</th>
                                 <th class="text-center">Precio (caja)</th>
                                 <th class="text-center">Subtotal Parcial</th>
                             </tr>
@@ -81,17 +83,20 @@
 
                             @foreach ($detalle as $detalles)
                                 <tr class="pb-5">
+                                    <td class="text-start">{{ $detalles->producto->OEM }}</td>
                                     <td class="text-start">{{ $detalles->producto->nombre }}</td>
 
-                                    <td class="text-start">@if (Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1) <input id="ubbo_{{ $detalles->producto->id }}" name="ubbo" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_bodega }}" placeholder="A-00-00" onchange="updateUbiBo(this.id)" /> @else {{ $detalles->producto->ubicacion_bodega }}  @endif <br> <div class="alert alert-success" role="alert" id="successMsg1" style="display: none" >
-                            Ubicación actualizada con éxito. 
-                        </div></td>
+                                    <td class="text-start">@if (Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1) <input id="ubbo_{{ $detalles->producto->id }}" name="ubbo" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_bodega }}" placeholder="A-00-00" onchange="updateUbiBo(this.id)" /> @else {{ $detalles->producto->ubicacion_bodega }}  @endif 
+                                        <br> <div class="alert alert-success" role="alert" id="successMsg1" style="display: none" >Ubicación actualizada con éxito.</div>
+                                    </td>
 
 
-                                    <td class="text-start">@if (Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1) <input id="ubof_{{ $detalles->producto->id }}" name="ubof" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_oficina }}" placeholder="OF-00" onchange="updateUbiOf(this.id)" /> @else {{ $detalles->producto->ubicacion_oficina }} @endif <br> <div class="alert alert-success" role="alert" id="successMsg2" style="display: none" >
-                            Ubicación actualizada con éxito.</td>
+                                    <td class="text-start">@if (Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1) <input id="ubof_{{ $detalles->producto->id }}" name="ubof" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_oficina }}" placeholder="OF-00" onchange="updateUbiOf(this.id)" /> @else {{ $detalles->producto->ubicacion_oficina }} @endif 
+                                        <br> <div class="alert alert-success" role="alert" id="successMsg2" style="display: none" > Ubicación actualizada con éxito.
+                                    </td>
 
-                                    <td class="text-center">{{ $detalles->cantidad }}</td>
+                                    <td class="text-center">{{ $detalles->cantidad * $detalles->producto->unidad_por_caja }}</td>
+                                    <td class="text-center">{{ $detalles->cantidad_despachada }}</td>
                                     <td class="text-center">{{ number_format(($detalles->precio), 2, '.', ','); }} $</td>
                                     <td class="text-center">{{ number_format(($detalles->cantidad * $detalles->precio), 2, '.', ','); }} $</td> 
                                 </tr>
@@ -114,6 +119,8 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td class="text-start" style="font-weight: 600;">Subtotal:</td> 
                                     <td class="text-end">{{ number_format($subtotal, 2, '.', ',');  }} $</td> 
                                 </tr>
@@ -122,10 +129,14 @@
                                     <td></td> 
                                     <td></td>
                                     <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td class="text-start" style="font-weight: 600;">IVA (13%):</td> 
                                     <td class="text-end">{{ number_format(($subtotal * $iva), 2, '.', ',');  }} $</td> 
                                 </tr>
                                 <tr>
+                                    <td></td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
