@@ -34,27 +34,31 @@
     <!-- tailwind CSS Style 
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     -->
+    {!! htmlScriptTagJsApi(['lang' => 'es']) !!}
 </head>
 
 <body class="test">
 
-    <header>
-        <div class="row g-0 pb-3" style="background-color: #000; border-bottom: 2px ridge #ff1620;">
+    <header class="sticky-menu">
+        <div class="row g-0 pb-2 pt-2" style="background-color: #000; border-bottom: 2px ridge #ff1620;">
 
-            <div class="col-12 col-lg-6 text-start pt-3 ps-5 me-md-auto">
-                <a href="/" class="text-decoration-none"><img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="rt-logo" width="200"></a>     
+            <div class="col-12 col-lg-6 text-start pt-2 ps-5 me-md-auto">
+                <a href="/" class="text-decoration-none" title="Ir a Inicio"><img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="rt-logo" width="200"></a>     
             </div>
 
-            <div class="col-12 col-lg-6 text-end pt-3 pe-5 me-md-auto">
+            <div class="col-11 col-lg-5 text-end pt-2 pe-5 me-md-auto">
+                
                 <div class="dropdown my-4" style="float: right;">
+
                     <a href="" class="d-block text-decoration-none dropdown-toggle"
-                        id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" style="border: ridge 1px #ff1620; border-radius: 20px; padding: 1px 1px;">
+                        id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" style="border: ridge 2px #ff1620; border-radius: 20px; padding: 1px 1px;">
                         <img src={{ Auth::user()->imagen_perfil_src }} alt="img-perfil" width="30" height="30" class="rounded-circle" />
                         <span class="d-none d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
                         @if ( Auth::user()->nombre_empresa != null)
                         <span class="d-none d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">({{ Auth::user()->nombre_empresa }})</span>
                         @endif
                     </a>
+
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow py-1">
                         <li><a class="dropdown-item text-center" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
@@ -64,14 +68,39 @@
                         </form>
                         </li>
                     </ul>
-                </div>                
+
+                </div> 
+                
+            </div>
+
+            <div class="col-1 col-lg-1 pt-2 text-center me-md-auto">
+
+                <a class="btn btn-sm btn-primary py-2 px-3 my-4" style="position: relative;" href="{{ url('/carrito') }}" title="Procesar Órden ->">
+                        <?php
+                            $carrito = session('cart', []);
+                            $cart = session()->get('cart', []);
+
+                            $cantidad = 0;
+                            
+                            foreach ($carrito as $item) {
+                                $cantidad += $item['cantidad'];
+                            }
+                        ?>
+                        <i style="font-size: 20px;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; bottom: 20px; left: 42px;">{{ $cantidad }}</span>
+                </a>
+
+                <?php
+                $productosDisponibles = DB::table('producto')
+                    ->where('estado_producto_id', '1')
+                    ->get();
+                ?>
             </div>
 
         </div>
     </header>
     
 
-    <div class="pb-6" id="app">
+    <div class="pb-6 pt-8" id="app">
         <div class="container-fluid">
 
             <div class="row flex-nowrap">
@@ -89,6 +118,7 @@
                                 <li><hr/></li>
 
                             @if ( Auth::user()->rol_id == 1 || Auth::user()->rol_id == 0)
+                                
                                 {{-- MENU ADMIN y SUPERADMIN --}}
 
                                 <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">⚒️ Configuraciones</h5></div>
@@ -98,18 +128,23 @@
                                         <i class="fas fa-user-edit"></i> <span class="ms-1 d-none d-sm-inline">Perfil de Usuario</span></a>
                                 </li>
 
-                                <li class="ps-4">
-                                    <a href="{{ url('/configuracion/cms') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/cms') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-brush"></i> <span class="ms-1 d-none d-sm-inline">CMS</span></a>
-                                </li>
-
                                 @if ( Auth::user()->rol_id == 0)
 
                                     {{-- MENU SUPERADMIN --}}
 
                                     <li class="ps-4">
+                                        <a href="{{ url('/configuracion/cms') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/cms') !== false ? 'active-menu' : '' }}">
+                                            <i class="fas fa-brush"></i> <span class="ms-1 d-none d-sm-inline">CMS</span></a>
+                                    </li>
+
+                                    <li class="ps-4">
                                         <a href="{{ url('/configuracion/users') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/users') !== false ? 'active-menu' : '' }}">
                                             <i class="fas fa-users-cog"></i> <span class="ms-1 d-none d-sm-inline">Usuarios</span></a>
+                                    </li>
+
+                                    <li class="ps-4">
+                                        <a href="{{ url('/configuracion/bitacora') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/bitacora') !== false ? 'active-menu' : '' }}">
+                                            <i class="fab fa-readme"></i> <span class="ms-1 d-none d-sm-inline">Bitácora</span> (25%)</a>
                                     </li>
 
                                 @endif

@@ -99,7 +99,7 @@
         });
     </script>
 
-    {{-- {!! htmlScriptTagJsApi(['lang' => 'es']) !!} --}}
+    {!! htmlScriptTagJsApi(['lang' => 'es']) !!}
   </head>
 
   <body>

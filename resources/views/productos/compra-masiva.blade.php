@@ -10,7 +10,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.js"></script>
 
-{{-- Titulo --}}
+{{-- Titulo 
 <div class="card mb-3">
     <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
     <div class="card-body position-relative mt-4">
@@ -22,13 +22,16 @@
         </div>
     </div>
 </div>
+--}}
 
 {{-- Marcas --}}
-<div class="card mb-3">
+<div class="card mb-3" id="summary">
+
     <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
-    <div class="card-body position-relative mt-4">
+    
+    <div class="card-body position-relative">
         <div class="row">
-            <div class="col-lg-8 flex-center">
+            <div id="brand-list" class="col-lg-8 flex-center">
                 @foreach ($marcas as $marca)
                     
                     <img src="{{ $marca->logo_src }}" alt="img-{{ $marca->nombre }}" class="img-fluid" style="max-width: 150px; margin: 0 auto;" /> 
@@ -37,35 +40,32 @@
             </div>
 
             {{-- Detalle --}}
-            <div class="col-lg-4 flex-center">
-                <table id="table_detalle" class="table display">
+            <div id="summ-detail" class="col-lg-4 flex-center">
+                <table id="table_detalle" class="table display mb-0">
                     <thead>
                         <tr>
-                            <th class="text-start">Marca</th>
-                            <th class="text-center">Cantidad 📦</th>
-                            <th class="text-center">Subtotal Parcial</th>
+                            <th class="text-start p-1">Marca</th>
+                            <th class="text-center p-1">Cantidad 📦</th>
+                            <th class="text-center p-1">Subtotal Parcial</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                        <tr class="pb-5">
-                            <td class="text-start">CTI</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">00.00 $</td>
-                        </tr>
+                        @foreach ($marcas as $marca)
 
-                        <tr class="pb-5">
-                            <td class="text-start">TEMCO</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">00.00 $</td>
-                        </tr>
+                            <tr>
+                                <td class="text-start p-1" id="{{ $marca->id }}">{{ $marca->nombre }}</td>
+                                <td class="text-center p-1" id="{{ $marca->id }}-qty">0</td>
+                                <td class="text-center p-1" id="{{ $marca->nombre }}-st">00.00 $</td>
+                            </tr>
 
-                        <tr class="pb-5">
-                            <td class="text-start">ECOM</td>
-                            <td class="text-center">0</td>
-                            <td class="text-center">00.00 $</td>
-                        </tr>
- 
+                        @endforeach
+
+                            <tr>
+                                <td class="text-start p-1"></td>
+                                <td class="text-center p-1">Subtotal:</td>
+                                <td class="text-center p-1" id="st-brands">00.00 $</td>
+                            </tr>
 
                         @php
                             $subtotal = 0;
@@ -117,6 +117,7 @@
                 </label>
             </div>
 
+{{--
             <div class="col-4 text-end">
                 <a href="{{ url('/carrito') }}" title="Ver Carrito">
                     <h6 class="btn btn-sm btn-primary">
@@ -136,6 +137,7 @@
                     </h6>
                 </a>
             </div>
+--}}
 
         </div>
     </div>
@@ -281,4 +283,28 @@
     }
 
 </script>
+
+<script>
+window.onscroll = function() {myFunction()};
+
+var header = document.getElementById("summary");
+var brandsl = document.getElementById("brand-list");
+var sumdet = document.getElementById("summ-detail");
+var sticky = header.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset > sticky) {
+    header.classList.add("sticky-pos");
+    brandsl.classList.add("no-show");
+    sumdet.classList.remove("col-lg-4");
+    sumdet.classList.add("col-lg-12");
+  } else {
+    header.classList.remove("sticky-pos");
+    brandsl.classList.remove("no-show");
+    sumdet.classList.remove("col-lg-12");
+    sumdet.classList.add("col-lg-4");
+  }
+}
+</script>
+
 @endsection

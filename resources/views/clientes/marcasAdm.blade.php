@@ -64,7 +64,7 @@
                     </thead>
                     <tbody>
                         <div class="alert alert-success" role="alert" id="successMsg" style="display: none" >
-                            Marcas autorizadas con éxito! 
+                            Marca/s autorizada/s con éxito! 
                         </div>
 
                         @foreach ($clientes as $cliente)

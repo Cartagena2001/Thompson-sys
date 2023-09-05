@@ -35,6 +35,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Producto</th>
+                    <th>Marca</th>
                     <th class="text-center"># Cajas 📦</th>
                     <th class="text-center">Precio 📦</th>
                     <th class="text-center">Subtotal Parcial</th>
@@ -46,7 +47,8 @@
                     <tr>
                         <td>{{ $item['producto_id'] }}</td>
                         <td>{{ $item['nombre'] }}</td>
-                        <td>
+                        <td>{{ $item['marca'] }}</td>
+                        <td class="text-center">
                             <form action="{{ route('carrito.update', $item['producto_id']) }}" method="POST">
                                 @csrf
                                 @method('PUT')

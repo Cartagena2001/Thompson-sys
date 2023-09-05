@@ -124,7 +124,7 @@
 
                 <div class="col-12 col-lg-4">
                     <label for="filtro_rol">Filtrar por Rol:
-                    <select class="form-select" id="filtro_rol">
+                    <select class="form-select" id="filtro_rol" style="font-size: 12px;">
                         <option value="">Todos</option>
                         <option value="Administrador">Administrador</option>
                         <option value="Bodega">Bodega</option>
@@ -132,30 +132,30 @@
                         <option value="Aspirante">Aspirante</option>
                     </select>
                     </label>
-                    <button style="height: 38px; position: relative; bottom: 2px;" class="btn btn-primary" id="limpiar_filtro">Limpiar Filtro</button>
+                    <button style="height: 32px; position: relative; bottom: 2px;" class="btn btn-primary" id="limpiar_filtro">Limpiar</button>
                 </div>
 
                 <div class="col-12 col-lg-4">
                     <label for="filtro_emp">Filtrar por Empresa:
-                    <select class="form-select" id="filtro_emp">
+                    <select class="form-select" id="filtro_emp" style="font-size: 12px;">
                         <option value="">Todos</option>
                         @foreach ($usuarios as $empresas)
                         <option value="{{ $empresas->nombre_empresa }}">{{ $empresas->nombre_empresa }}</option>
                         @endforeach
                     </select>
                     </label>
-                    <button style="height: 38px; position: relative; bottom: 2px;" class="btn btn-primary" id="limpiar_filtro">Limpiar Filtro</button>
+                    <button style="height: 32px; position: relative; bottom: 2px;" class="btn btn-primary" id="limpiar_filtro">Limpiar</button>
                 </div>
 
                 <div class="col-12 col-lg-4">
                     <label for="filtro_est">Filtrar por Estado:
-                    <select class="form-select" id="filtro_est">
+                    <select class="form-select" id="filtro_est" style="font-size: 12px;">
                         <option value="">Todos</option>
                         <option value="activo">Activo</option>
                         <option value="inactivo">Inactivo</option>
                     </select>
                     </label>
-                    <button style="height: 38px; position: relative; bottom: 2px;" class="btn btn-primary" id="limpiar_filtro">Limpiar Filtro</button>
+                    <button style="height: 32px; position: relative; bottom: 2px;" class="btn btn-primary" id="limpiar_filtro">Limpiar</button>
                 </div>
 
             </div>
@@ -164,11 +164,12 @@
 
         <hr/>
 
+        {{-- Tabla de usuarios --}}
         <div class="card-body">
             <div class="table-responsive scrollbar">
                 <table id="table_usuarios" class="table display">
                     <thead>
-                        <tr>
+                        <tr class="tbl-p">
                             <th scope="col">ID</th>
                             <th scope="col">Rol</th>
                             <th scope="col">Nombre</th>
@@ -182,17 +183,17 @@
                     </thead>
                     <tbody>
                         @foreach ($usuarios as $usuario)
-                            <tr>
+                            <tr class="tbl-p">
                                 <td>{{ $usuario->id }}</td>
                                 <td>{{ ($usuario->estatus == 'aspirante') ? 'Aspirante' : $usuario->rol->nombre }}</td>
                                 <td>{{ $usuario->name }}</td>
                                 <td>{{ $usuario->email }}</td>
                                 <td>{{ $usuario->nombre_empresa }}</td>
                                 <td>{{ $usuario->estado }}</td>
-                                <td>{{ $usuario->fecha_registro }}</td>
+                                <td>{{ \Carbon\Carbon::parse($usuario->fecha_registro)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
                                 <td class="text-success">{{ $usuario->notas }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('users.show', $usuario->id) }}">
+                                    <a href="{{ route('users.edit', $usuario->id) }}">
                                         <button class="btn p-0" type="button" data-bs-toggle="tooltip"
                                             data-bs-placement="top" title="Ir a">
                                             <span class="text-500 fas fa-pencil"></span>

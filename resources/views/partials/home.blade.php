@@ -155,12 +155,16 @@
               <p class="fs-3 fs-sm-4 text-white text-center">¿Estás interesado en nuestros servicios?</p>
 
               {{-- formuarlio contacto --}}
-              <form method="POST" class="row g-3 needs-validation" novalidate="" action="{{ route('contactos.store') }}" role="form" enctype="multipart/form-data">
+              <form id="contactForm" method="POST" class="row g-3 needs-validation" novalidate="" action="{{ route('contactos.store') }}" role="form" enctype="multipart/form-data">
                 @csrf
 
                 <div class="col-md-6">
                   {{ Form::label('nomC', 'Nombre Completo: *', ['class' => 'form-label text-white']) }}
                   {{ Form::text('nomC', $contacto->nombre, ['class' => 'form-control', 'placeholder' => '-', 'required']) }}
+
+                  @error('nomC')
+                      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                  @enderror
                 </div>
 
                 <div class="col-md-6">
@@ -219,6 +223,14 @@
                         </div>
                     </div>
                 @endif
+
+                
+
+                <div class="col-12">
+                  <div style="display: flex; justify-content: center;">
+                    {!! htmlFormSnippet() !!}
+                  </div>  
+                </div>
 
                 <div class="col-12">
                   <div style="display: flex; justify-content: center;">

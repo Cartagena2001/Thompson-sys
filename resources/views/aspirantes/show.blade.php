@@ -32,7 +32,7 @@
         <div class="card-body">
 
             <div class="mt-3 mb-4">
-                <h4 class="text-center">Nombre del contacto: <br/> <span style="color: #ff161f">{{ $aspirante->name }}</span> </h4>
+                <h4 class="text-center">Nombre del usuario: <br/> <span style="color: #ff161f">{{ $aspirante->name }}</span> </h4>
             </div>
 
             <hr/>
@@ -41,22 +41,20 @@
 
                 <div class="col-sm-6">
                     <p class="mt-4 mb-4 text-end" style="font-size: 18px;">
+                        <span class="font-weight-bold" style="color:#000;">ID Usuario:</span> <br>
                         <span class="font-weight-bold" style="color:#000;">Correo Electrónico:</span> <br>
                         <span class="font-weight-bold" style="color:#000;">Dirección:</span> <br>
-                        <span class="font-weight-bold" style="color:#000;">Municipio:</span> <br>
-                        <span class="font-weight-bold" style="color:#000;">Departamento:</span> <br>
                         <span class="font-weight-bold" style="color:#000;">Teléfono:</span> <br>
-                        <span class="font-weight-bold" style="color:#000;">WhatsApp:</span> <br>
-                        <span class="font-weight-bold" style="color:#000;">Sitio Web: </span>
+                        <span class="font-weight-bold" style="color:#000;">Celular/Núm. WhatsApp:</span> <br>
+                        <span class="font-weight-bold" style="color:#000;">WebSite: </span>
                     </p>
                 </div>
 
                 <div class="col-sm-6">
                     <p class="mt-4 mb-4 text-start" style="font-size: 18px;">
+                        {{ $aspirante->id }} <br>
                         <a href="mailto:{{ $aspirante->email }}" title="contactar" target="_blank">{{ $aspirante->email }}</a><br>
-                        {{ $aspirante->direccion }} <br>
-                        {{ $aspirante->municipio }} <br>
-                        {{ $aspirante->departamento }} <br>
+                        {{ $aspirante->direccion }}, {{ $aspirante->municipio }}, {{ $aspirante->departamento }}  <br>
                         {{ $aspirante->telefono }} <br>
                         {{ $aspirante->whatsapp }} <br>
                         <a href="http://{{ $aspirante->website }}" title="Ir a" target="_blank">{{ $aspirante->website }} <br></a>
@@ -71,17 +69,23 @@
 
                 <div class="col-sm-6">
                     <p class="mt-4 mb-4 text-end" style="font-size: 18px;">
-                        <span class="font-weight-bold" style="color:#000;">Empresa:</span> <br>
+                        <span class="font-weight-bold" style="color:#000;">N° de registro (NRC):</span> <br>
                         <span class="font-weight-bold" style="color:#000;">NIT:</span> <br>
-                        <span class="font-weight-bold" style="color:#000;">NRC:</span> <br>
+                        <span class="font-weight-bold" style="color:#000;">DUI:</span> <br>
+                        <span class="font-weight-bold" style="color:#000;">Nombre Comercial:</span> <br>
+                        <span class="font-weight-bold" style="color:#000;">Nombre/razón ó denominación social:</span> <br>
+                        <span class="font-weight-bold" style="color:#000;">Giro ó actividad económica:</span> <br>
                     </p>
                 </div>
 
                 <div class="col-sm-6">
                     <p class="mt-4 mb-4 text-start" style="font-size: 18px;">
-                        {{ $aspirante->nombre_empresa }} <br>
-                        {{ $aspirante->nit }} <br>
                         {{ $aspirante->nrc }} <br>
+                        {{ $aspirante->nit }} <br>
+                        {{ $aspirante->dui }} <br>
+                        {{ $aspirante->nombre_empresa }} <br>
+                        {{ $aspirante->razon_social }} <br>
+                        {{ $aspirante->giro }} <br> 
                     </p>
                 </div>
 
@@ -89,17 +93,34 @@
 
             <hr/>
 
+        @if ( $aspirante->form_status != 'none' )
+
             <div class="row mb-4">
 
                 <h4 class="text-center mb-4">Marcas disponibles:</h4>
 
-                <div class="col-sm-12">
-                    <div class="text-center">
-                @foreach ($marcas as $marca)
-                    <label for="marca-{{ $marca->nombre }}"><input id="marca-{{ $marca->nombre }}" type="checkbox" value="{{ $marca->id }}" /> {{ $marca->nombre }}</label>
+                <div class="col-sm-12 flex-center">
+                    <div class="text-start">
+                        <label for="marca-t">
+                            <input id="marca-t" name="marca[]" type="checkbox" value="0" onclick="asignarMarca (this.id)" @if ( str_contains( $aspirante->marcas, '0' ) ) checked @endif /> TODAS
+                        </label>
+                        <br/>
+                    @foreach ($marcas as $marca)
+                        <label for="marca-{{ $marca->nombre }}">
+                            <input id="marca-{{ $marca->nombre }}" name="marca[]" type="checkbox" value="{{ $marca->id }}" onclick="asignarMarca (this.id)" @if ( str_contains( $aspirante->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
+                        </label>
+                        <br/>
+                    @endforeach
+                    <input type="hidden" id="aspid" name="aspid" value="{{ $aspirante->id }}">
+                    
                     <br/>
-                @endforeach
+                    <div class="alert alert-success" role="alert" id="successMsg" style="display: none" >
+                        Marca/s autorizada/s con éxito! 
                     </div>
+                    <br/>
+                    <span class="text-danger" id="ErrorMsg1"></span>
+                    <span class="text-danger" id="ErrorMsg2"></span>
+                    </div> 
                 </div>
 
             </div>        
@@ -135,7 +156,44 @@
                 </div>
             </div>
 
+        @else
+
+            <h4 class="text-center mt-5 mb-4">A la espera que el aspirante complete el formulario de inscripción.</h4>
+
+        @endif
+
+
         </div>
     </div>
+
+
+    <script type="text/javascript">
+
+        function asignarMarca(check_id) {
+
+            var marcaid = $('#'+check_id).val();
+            var clienteid = $('#aspid').val();
+
+            console.log("marca id: "+marcaid+" cliente id: "+clienteid);
+            
+            $.ajax({
+                url: "{{ route('aspirante.updmarcas', $aspirante->id) }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&marcaid=" + marcaid + "&clienteid=" + clienteid,
+
+                success: function(response){
+                    $('#successMsg').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg1').text(response.responseJSON.errors.marcaid);
+                    $('#ErrorMsg2').text(response.responseJSON.errors.clienteid);
+                },
+            });
+            
+        }
+       
+      </script>
 
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@section('title', 'Pefil de Usuario')
+@section('title', 'Perfil de Usuario')
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.css" />
@@ -38,8 +38,8 @@
                     {{ method_field('PATCH') }}
                     @csrf
 
-                    <div class="mt-3 col-auto text-center col-4 mx-auto">
-                        <label for="imagen_perfil_src">Imagen de perfil: </label>
+                    <div class="mt-3 col-auto text-center col-6 mx-auto">
+                        <label for="imagen_perfil_src">Imagen de perfil/Logo empresa (200x200px | .png, .jpg, .jpeg): </label>
                         <br/>
                         <img class="rounded mt-2" src="{{ $user->imagen_perfil_src }}" alt="per" width="200">
                         <br/>

@@ -27,7 +27,7 @@
 {{-- Cards de informacion --}}
 <div class="row g-3 mb-3">
 
-    <div class="col-sm-4 col-md-4">
+    <div class="col-sm-3 col-md-3">
         <div class="card overflow-hidden" style="min-width: 12rem">
             <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
             <!--/.bg-holder-->
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div class="col-sm-4 col-md-4">
+    <div class="col-sm-3 col-md-3">
         <div class="card overflow-hidden" style="min-width: 12rem">
             <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
             <!--/.bg-holder-->
@@ -65,7 +65,7 @@
         </div>
     </div>
 
-    <div class="col-sm-4 col-md-4">
+    <div class="col-sm-3 col-md-3">
         <div class="card overflow-hidden" style="min-width: 12rem">
             <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
             <!--/.bg-holder-->
@@ -84,9 +84,29 @@
         </div>
     </div>
 
+    <div class="col-sm-3 col-md-3">
+        <div class="card overflow-hidden" style="min-width: 12rem">
+            <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
+            <!--/.bg-holder-->
+            <div class="card-body position-relative">
+                <h6># Productos Agotados</h6>
+                <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info"
+                    data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
+                    {{-- contar los productos agotados de la base de datos --}}
+                    <?php
+                    $productosAgotados = DB::table('producto')
+                        ->where('existencia', '=', 0)
+                        ->orWhere('existencia', '=', null)
+                        ->get();
+                    echo count($productosAgotados);
+                    ?> </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-{{-- Tabla de productos --}}
+
 <div class="row mb-3 justify-content-md-center">
     <div class="col">
         <a href="{{ route('productos.create') }}">
@@ -150,6 +170,7 @@
 
     <hr/>
 
+    {{-- Tabla de productos --}}
     <div class="card-body pt-0">
         <div class="table-responsive scrollbar">
             <table id="table_productos" class="table display">
