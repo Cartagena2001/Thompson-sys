@@ -160,6 +160,7 @@ class ProductoController extends Controller
         $reg->garantia = $request->get('garantia');
 
         $reg->save();
+        
         return redirect()->route('productos.index')->with('success', 'Producto creado exitosamente');
     }
 

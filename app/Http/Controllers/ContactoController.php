@@ -193,6 +193,7 @@ private function sendMailOficina(PHPMailer $mail, $emailRecipient ,$emailSubject
             'emailC' => 'required',
             'nomEC' => 'required',
             'numWC' => 'required',
+            'g-recaptcha-response' => 'recaptcha',
         ]);
 
         //almacenar datos
@@ -293,11 +294,11 @@ private function sendMailOficina(PHPMailer $mail, $emailRecipient ,$emailSubject
 
         if( !$estado1 && !$estado2 ) {
 
-            return redirect()->route('inicio')->with('failed', 'Tu mensaje no ha podido ser enviado.');
+            return redirect('#contactForm')->with('toast_success', 'Tu mensaje no ha podido ser enviado.');
         } 
         else {
             
-            return redirect()->route('inicio')->with('success', 'Tu correo ha sido enviado con éxito.');
+            return redirect('/#contactForm')->with('toast_success', 'Tu mensaje ha sido enviado con éxito.');
         }
                     
     }

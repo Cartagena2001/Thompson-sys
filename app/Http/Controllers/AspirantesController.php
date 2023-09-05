@@ -44,4 +44,53 @@ class AspirantesController extends Controller
 
         return redirect('/dashboard/aspirantes')->with('toast_success', 'Se actualizó el estado del aspirante a Rechazado');
     }
+
+    public function updateMarcas(Request $request, $id){
+
+        $request->validate([
+            'marcaid' => 'required|string',
+            'clienteid' => 'required|numeric',
+        ]);
+
+        $marcaID = $request->marcaid;
+        $clienteID = $request->clienteid;            0,1,2,3
+
+        $clienteUptM = User::find($id);
+
+        $marcasUDT = "";
+
+        if( $marcaID == '0'){
+
+            if ( str_contains($clienteUptM->marcas, '0,') ) {
+                $marcasUDT = strstr( $clienteUptM->marcas, '0,', true);
+            }
+            
+            $clienteUptM->marcas = $marcasUDT;
+
+            $clienteUptM->update();
+
+            return response()->json(['success'=>'Successfully']);
+
+        } elseif ( str_contains($clienteUptM->marcas, $marcaID) ) 
+        {
+            $marcasUDT = strstr( $clienteUptM->marcas, $marcaID, true);    
+
+            $clienteUptM->marcas = $marcasUDT.",";  
+
+            $clienteUptM->update();
+
+            return response()->json(['success'=>'Successfully']);
+        } else {
+
+            $clienteUptM->marcas = $clienteUptM->marcas.",".$marcaID;
+
+            $clienteUptM->update();
+
+            return response()->json(['success'=>'Successfully']);
+        }
+
+    }
+
 }
+
+

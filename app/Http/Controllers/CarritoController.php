@@ -66,6 +66,8 @@ class CarritoController extends Controller
             $cart[$product->id] = [
                 'producto_id' => $product->id,
                 'nombre' => $product->nombre,
+                'marca_id' => $product->marca->id,
+                'marca' => $product->marca->nombre,
                 'cantidad' => $cantidad,
                 'precio_f' => $precio,
                 'existencia' => $product->existencia,
@@ -121,6 +123,8 @@ class CarritoController extends Controller
                 $cart[$product->id] = [
                     'producto_id' => $product->id,
                     'nombre' => $product->nombre,
+                    'marca_id' => $product->marca->id,
+                    'marca' => $product->marca->nombre,
                     'precio_f' => $precio,
                     'cantidad' => $cantidad,
                     'existencia' => $product->existencia,

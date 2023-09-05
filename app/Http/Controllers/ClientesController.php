@@ -149,34 +149,4 @@ Class ClientesController extends Controller
 
     }
 
-
-    public function showUsers() {
-
-        $usuarios = User::whereNot('rol_id', 0)->paginate(1000000000);
-        $roles = Rol::all();
-
-        return view('config.usuarios', compact('usuarios', 'roles'));
-    }
-
-    /**
-     * Show the form for creating a new user.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $usuario = new User();
-
-        //relacionar con el modelo de rol
-        $rol = Rol::pluck('nombre', 'id');
-
-        //relaciomar con el modelo de marca
-        $marcas = Marca::pluck('nombre', 'id');
-
-        
-        return view('config.create', compact('usuario', 'rol', 'marcas'));
-    }
-
-
-
 }

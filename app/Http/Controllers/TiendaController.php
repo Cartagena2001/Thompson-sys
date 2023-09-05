@@ -21,7 +21,7 @@ class TiendaController extends Controller
 
         // Busca y ordena productos al entrar desde el menú
         $productos = Producto::whereHas('marca', function($query){
-            $query->where('estado', "Activo");
+            $query->where('estado', "Activo")->where('existencia', '>', 0);
         })->paginate(1000000000);
 
        

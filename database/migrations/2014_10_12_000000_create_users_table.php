@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('cliente_id_interno', 10)->nullable();
-            $table->string('form_status', 15)->nullable();
+            $table->string('form_status', 15)->nullable(); // none, sent, pending
             $table->string('direccion', 80)->nullable();
             $table->string('nombre_empresa', 35)->nullable();
             $table->string('razon_social', 35)->nullable();
@@ -34,18 +34,18 @@ return new class extends Migration
             $table->string('nrc', 10)->nullable()->unique();
             
             //relacionar con la tabla rol
-            $table->integer('rol_id')->unsigned()->nullable();
+            $table->integer('rol_id')->unsigned()->nullable(); // 0,1,2,3
             $table->foreign('rol_id')->references('id')->on('rol')->nullable();
 
-            $table->string('estado', 10)->nullable();
-            $table->string('clasificacion', 10)->nullable();
-            $table->boolean('boletin')->nullable();
+            $table->string('estado', 10)->nullable(); // activo, inactivo
+            $table->string('clasificacion', 22)->nullable();
+            $table->boolean('boletin')->nullable(); // 0,1
             $table->dateTime('fecha_registro')->nullable();
             $table->string('imagen_perfil_src', 60)->nullable();
             $table->string('marcas', 300)->nullable();
             $table->string('notas', 300)->nullable();
-            $table->string('estatus', 15)->nullable();
-            $table->string('visto', 18); //nuevo, visto
+            $table->string('estatus', 15)->nullable(); // otro, aspirante, aprobado, rechazado
+            $table->string('visto', 18); // nuevo, visto
 
             $table->rememberToken();
             $table->timestamps();
