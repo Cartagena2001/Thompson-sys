@@ -66,54 +66,87 @@
                         </tr>
                     </thead>
                     <tbody>
+                    
+                    @php
+                        
+                        $ths = ['marca','cantidad','subtotal'];
+                        $vals = ['-',0,0];
 
-                        @foreach ($carrito as $item)
+                        $sumatoria_aux = array_combine($ths, $vals);
+                        
+                        //var_dump($carrito);
 
-                            @if ( $item['marca'] == 'ECOM' )
-                            <tr>
-                                <td class="text-start p-1" id="{{ $item['marca_id'] }}">{{ $item['marca'] }}</td>           
-                                <td class="text-center p-1" id="{{ $item['marca_id'] }}-qty">
-                                @php 
+                        $detalle = array(); //arreglo que contiene las sumatorias a detalle
+                        $auxArray_brandsid = array(); //arreglo auxiliar 
+                        $auxArray_brands = array(); //arreglo auxiliar 
+                        $auxArray2 = array(); //arreglo auxiliar
 
-                                    $CantMarca = 0;
+                        $subt_cart = 0;         //subtotal 
+                        $i = 0;
+                       
 
-                                    $CantMarca += $item['cantidad'];
-                                    
-                                    echo $CantMarca;
+                        foreach($carrito as $productoss)
+                        {
+                            foreach($productoss as $atributo=>$valor)
+                            {
+                                if ($atributo == 'marca_id') {
 
-                                @endphp
-                                </td>
-                                <td class="text-center p-1" id="{{ $item['marca'] }}-st">
-                                @php
-                                
-                                    $totalMarca = 0;
-                                    
-                                    $totalMarca += number_format(($item['precio_f'] * $item['cantidad'] * $item['unidad_caja']), 2, '.', ',');
-                                    
-                                    echo $totalMarca;
+                                    if ( !in_array( $valor, $auxArray_brandsid ) ) {
+                                       
+                                       //$detalle[] = $auxArray2;
+                                       $auxArray_brandsid[] = $valor;
+                                    }  
 
-                                @endphp
-                                $</td>
-                            </tr>
-                            @endif
-                        @endforeach
+                                } elseif ($atributo == 'marca') {
 
-                            <tr>
-                                <td class="text-start p-1"></td>
-                                <td class="text-center p-1">Subtotal:</td>
-                                @php
+                                    if ( !in_array( $valor, $auxArray_brands ) ) {
+                                       
+                                       $detalle[][$i] = $valor;
+                                       $auxArray_brands[] = $valor;
 
-                                    $total = 0;
-                                    $cart = session('cart', []);
-                                    
-                                    foreach ($cart as $item) {
-                                        $total += $item['precio_f'] * $item['cantidad'] * $item['unidad_caja'];
+                                       $i++;
                                     }
 
-                                    echo '<td class="text-center p-1" id="st-brands">' . number_format($total, 2, '.', ',') . ' $</td>';
-                               
-                                @endphp
-                            </tr>
+                                } elseif ($atributo == 'cantidad') {
+
+                                       $k = 0;
+                                       $j = 0;
+
+                                       $detalle[$k][$j] = $valor;
+                                       $j++;
+                                       $i++;
+                                    
+                                }
+                            }
+                              
+
+                        }
+
+                        var_dump($detalle);
+
+                       // echo "<script> console.log($valor); </script>";
+
+                                   
+                    @endphp
+
+
+
+                        <tr>
+                            <td class="text-start p-1"></td>
+                            <td class="text-center p-1">Subtotal:</td>
+                            @php
+
+                                $total = 0;
+                                $cart = session('cart', []);
+                                
+                                foreach ($cart as $item) {
+                                    $total += $item['precio_f'] * $item['cantidad'] * $item['unidad_caja'];
+                                }
+
+                                echo '<td class="text-center p-1" id="st-brands">' . number_format($total, 2, '.', ',') . ' $</td>';
+                           
+                            @endphp
+                        </tr>
 
                         @php
                             $subtotal = 0;
@@ -194,6 +227,8 @@
         </div>
     </div>
 
+    <hr/>
+
     <h6 class="card-body">Categoría: {{ $categoriaActual == 0 ? 'Todas' : $categoriaActualname->nombre }}</h6>
     <div>
         @if ($productos->count() == 0)
@@ -202,7 +237,8 @@
             </div>
         @endif
     </div>
-    <h6 class="mb-0">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }} productos</h6>
+
+    <h6 class="card-body mb-0">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }} productos</h6>
 
     <div class="card-body">
 

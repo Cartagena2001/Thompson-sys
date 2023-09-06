@@ -1,4 +1,14 @@
 <div class="row mt-1">
+
+    @if ($errors->any())
+        <div class="alert alert-danger´text-center">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     
     <p class="mt-4 text-start rt-color-1">📝 Información del Producto:</p>
     <hr/>
@@ -47,17 +57,7 @@
             <div class="row">
                 <div class="col-3">
                     {{ Form::label('volumen', 'Ingrese volumen del producto: ', ['class' => 'form-label']) }}
-                    {{ Form::text('volumen', $producto->volumen, ['class' => 'form-control', 'placeholder' => '0.00']) }}
-                    {{-- validar que el dato sea un numero con el validate del controlador --}}
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    {{ Form::text('volumen', $producto->volumen, ['class' => 'form-control', 'placeholder' => '0.00']) }}    
                 </div>
                 <div class="col-3">
                     {{ Form::label('unidad_volumen', 'Ingrese unidad de volumen: ', ['class' => 'form-label']) }}
@@ -66,15 +66,6 @@
                 <div class="col-3">
                     {{ Form::label('peso', 'Ingrese peso del producto: ', ['class' => 'form-label']) }}
                     {{ Form::text('peso', $producto->peso, ['class' => 'form-control', 'placeholder' => '0.0']) }}
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                 </div>
                 <div class="col-3">
                     {{ Form::label('unidad_peso', 'Ingrese unidad del peso: ', ['class' => 'form-label']) }}
