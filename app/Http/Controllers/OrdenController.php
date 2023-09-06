@@ -259,7 +259,6 @@ class OrdenController extends Controller
             return view('orden.gracias');
         }
 
-
     }
 
 
@@ -330,6 +329,7 @@ class OrdenController extends Controller
         } catch (Exception $e) {
              return redirect()->route('inicio')->with('error','Ha ocurrido algún error al enviar.');
         } 
+    } 
 
 
     private function sendMailCliente($emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName ) 
