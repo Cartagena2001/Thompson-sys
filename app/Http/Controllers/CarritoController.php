@@ -22,13 +22,13 @@ class CarritoController extends Controller
         if ( $request->input('producto_id') != null ) {
             $product = Producto::find($request->input('producto_id'));
         } else {
-            $product = Producto::find($request->producto_id);
+            $product = Producto::find($request->producto_id); //viene de compra masiva
         }
 
         if ( $request->input('cantidad') != null ) {
            $cantidad = $request->input('cantidad');
         } else {
-            $cantidad = $request->cantidad;
+           $cantidad = $request->cantidad; //viene de compra masiva
         }
          
 

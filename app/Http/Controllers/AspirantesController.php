@@ -53,7 +53,7 @@ class AspirantesController extends Controller
         ]);
 
         $marcaID = $request->marcaid;
-        $clienteID = $request->clienteid;            0,1,2,3
+        $clienteID = $request->clienteid; //0,1,2,3
 
         $clienteUptM = User::find($id);
 

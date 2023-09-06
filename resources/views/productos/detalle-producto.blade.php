@@ -131,7 +131,7 @@ if ($producto->imagen_1_src != null) {
 
                 <div class="mt-3 mb-3 d-block">
                     <span class="rt-color-2 font-weight-bold">Descripción: </span>
-                    <p class="text-justify mb-4 line-height: 28px;" style="margin-right: 25px;">{{ $producto->descripcion }}</p>
+                    <p class="text-justify mb-4 line-height: 28px;" style="white-space: pre-wrap; margin-right: 25px;">{{ $producto->descripcion }}</p>
                 </div>
 
                 @if ( $producto->caracteristicas != null && $producto->caracteristicas != ' ' )

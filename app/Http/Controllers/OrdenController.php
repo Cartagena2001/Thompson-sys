@@ -161,13 +161,82 @@ class OrdenController extends Controller
                         <p>Pronto nos pondremos en contacto.</p>
                         ";
 
+        //Envio de notificación por correo a Cliente
+        $emailRecipientClient = $ordenAux->user->email;
+        $emailSubjectClient = 'Tu órden de compra # '.$orden->id;
 
+        $emailBodyOff = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                        </div>
 
+                        <br/>
+                        <br/>
 
+                        <p><b>NUEVA ÓRDEN DE COMPRA # ".$orden->id."</b></p>
+                        
+                        <br/>
 
+                        <p><b>DATOS</b>:</p>
+                        <p><b>Cliente</b>: ".$ordenAux->user->name." <br/>
+                           <b>Empresa</b>: ".$ordenAux->user->nombre_empresa." <br/>
+                           <b>Correo electrónico</b>: ".$ordenAux->user->email." <br/>
+                           <b>WhatsApp</b>: ".$ordenAux->user->numero_whatsapp." <br/>
+                           <b>Teléfono</b>: ".$ordenAux->user->telefono." <br/>
+                           <b>Dirección</b>: ".$ordenAux->user->direccion.", ".$ordenAux->user->municipio.", ".$ordenAux->user->departamento."<br/>  
+                           <b>Fecha/Hora</b>: ".$ordenFechaH." <br/>
+                           <b>Estado: ".$ordenAux->estado."
+                        </p>
 
+                        <br/>
 
+                        <p><b>RESUMEN PEDIDO</b>:</p>
+                        <br/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class='text-start'>Producto</th>
+                                    <th class='text-center'>Cantidad (caja)</th>
+                                    <th class='text-center'>Precio (caja)</th>
+                                    <th class='text-cente'>Subtotal Parcial</th>
+                                </tr>
+                            </thead>
+                            <tbody>";
 
+                        foreach ($detalleAUx as $detalles) { 
+                $emailBodyOff .= "<tr class='pb-5'>
+                                    <td class='text-start'>".$detalles->producto->nombre ."</td>
+                                    <td class='text-center'>".$detalles->cantidad."</td>
+                                    <td class='text-center'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
+                                    <td class='text-center'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                </tr>";
+                        }
+
+              $emailBodyOff .= "<tr class='pt-5' style='border-top: solid 4px #979797;'>
+                                    <td></td>
+                                    <td></td> 
+                                    <td class='text-start' style='font-weight: 600;'>Subtotal:</td> 
+                                    <td class='text-end'>".number_format($subtotal, 2, '.', ',')." $</td> 
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td> 
+                                    <td class='text-start' style='font-weight: 600;'>IVA (13%):</td> 
+                                    <td class='text-end'>".number_format(($subtotal * $iva), 2, '.', ',')." $</td> 
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class='text-start' style='font-weight: 600;'>Total:</td> 
+                                    <td class='text-end'>".number_format($total, 2, '.', ',')." $</td> 
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <br/>
+                        
+                        <p>Pronto nos pondremos en contacto.</p>
+                        ";
 
                         
         $replyToEmailOff = "notificaciones@rtelsalvador.com";
@@ -175,7 +244,9 @@ class OrdenController extends Controller
 
         $estado1 = $this->sendMailOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
 
-        if( !$estado1 ) {
+        $estado2 = $this->sendMailCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
+
+        if( !$estado1 && !$estado2 ) {
 
             session()->forget('cart');
 
@@ -260,11 +331,76 @@ class OrdenController extends Controller
              return redirect()->route('inicio')->with('error','Ha ocurrido algún error al enviar.');
         } 
 
+
+    private function sendMailCliente($emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName ) 
+    {
+
+        require base_path("vendor/autoload.php");
+
+        $mail = new PHPMailer(true);     // Passing `true` enables exceptions
+
+        try {
+
+            // Email server settings
+            $mail->SMTPDebug = 3;
+            $mail->isSMTP();
+            $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
+            $mail->SMTPAuth = true;
+            $mail->Username = env('SMTP_USERNAME', "");   //  sender username
+            $mail->Password = env('SMTP_PASS', "");       // sender password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
+            $mail->Port = env('SMTP_PORT', "");                          // port - 587/465
+            $mail->CharSet = 'UTF-8';
+            $mail->Encoding = 'base64';
+
+            $mail->setFrom('notificaciones@rtelsalvador.com', 'Representaciones Thompson');
+            $mail->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
+            //$mail->addCC($request->emailCc);
+            //$mail->addBCC($request->emailBcc);
+
+            $mail->addReplyTo($replyToEmail, $replyToName);
+
+            /*
+            if(isset($_FILES['emailAttachments'])) {
+                for ($i=0; $i < count($_FILES['emailAttachments']['tmp_name']); $i++) {
+                    $mail->addAttachment($_FILES['emailAttachments']['tmp_name'][$i], $_FILES['emailAttachments']['name'][$i]);
+                }
+            }
+            */
+
+            $mail->isHTML(true);                // Set email content format to HTML
+
+            $mail->Subject = $emailSubject;
+            $mail->Body    = $emailBody;
+
+            // $mail->AltBody = plain text version of email body;
+
+            /* Se envia el mensaje, si no ha habido problemas la variable $exito tendra el valor true */
+            $exito = $mail->Send();
+            /* 
+            Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
+            enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
+            funcion sleep
+            */  
+            $intentos=1; 
+            
+            while ((!$exito) && ($intentos < 5)) {
+                sleep(5);
+                /*echo $mail->ErrorInfo;*/
+                $exito = $mail->Send();
+                $intentos=$intentos+1;  
+            }
+
+            $mail->getSMTPInstance()->reset();
+            $mail->clearAddresses();
+
+            return $exito;
+        
+        } catch (Exception $e) {
+             return redirect()->route('inicio')->with('error','Ha ocurrido algún error al enviar.');
+        } 
+
     }
-
-
-
-
 
 
 
