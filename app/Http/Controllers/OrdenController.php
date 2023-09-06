@@ -24,7 +24,7 @@ class OrdenController extends Controller
         $cart = session()->get('cart', []);
         $orden = new Orden();
 
-        if ( $request->get('cliente_id_compra') != " " ) { 
+        if ( $request->get('cliente_id_compra') != null ) { 
 
             $orden->user_id = $request->get('cliente_id_compra');  //se asigna la orden al usuario seleccionado por el admin
         } else {
