@@ -89,6 +89,7 @@ class ProductoController extends Controller
         $reg->categoria_id = $request->get('categoria_id');
         $reg->sku = $request->get('sku');
         $reg->descripcion = $request->get('descripcion');
+        $reg->caracteristicas = $request->get('caracteristicas');
         $reg->marca_id = $request->get('marca_id');
         $reg->OEM = $request->get('OEM');
         $reg->precio_1 = $request->get('precio_1');
@@ -235,6 +236,7 @@ class ProductoController extends Controller
         $producto->categoria_id = $request->get('categoria_id');
         $producto->sku = $request->get('sku');
         $producto->descripcion = $request->get('descripcion');
+        $producto->caracteristicas = $request->get('caracteristicas');
         $producto->marca_id = $request->get('marca_id');
         $producto->OEM = $request->get('OEM');
         $producto->precio_1 = $request->get('precio_1');

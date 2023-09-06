@@ -122,7 +122,7 @@
 
                         }
 
-                        var_dump($detalle);
+                        //var_dump($detalle);
 
                        // echo "<script> console.log($valor); </script>";
 

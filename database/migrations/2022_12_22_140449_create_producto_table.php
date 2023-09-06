@@ -22,7 +22,8 @@ return new class extends Migration
             $table->string ('OEM', 50)->nullable();
             $table->string('lote', 20)->nullable();
             $table->string('nombre', 250)->nullable();
-            $table->string('descripcion', 5000)->nullable();  
+            $table->string('descripcion', 5000)->nullable(); 
+            $table->string('caracteristicas', 2000)->nullable();  
             
             //relacionar con la tabla marca
             $table->integer('marca_id')->unsigned()->nullable();

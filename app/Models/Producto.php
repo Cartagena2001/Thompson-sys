@@ -17,6 +17,7 @@ class Producto extends Model
         'lote',
         'nombre',
         'descripcion',
+        'caracteristicas',
         'marca_id',
         'origen',
         'categoria_id',

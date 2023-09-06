@@ -134,6 +134,13 @@ if ($producto->imagen_1_src != null) {
                     <p class="text-justify mb-4 line-height: 28px;" style="margin-right: 25px;">{{ $producto->descripcion }}</p>
                 </div>
 
+                @if ( $producto->caracteristicas != null && $producto->caracteristicas != ' ' )
+                <div class="mt-3 mb-3 d-block">
+                    <span class="rt-color-2 font-weight-bold">Características: </span>
+                    <p class="text-justify mb-4 line-height: 28px;" style="white-space: pre-wrap; margin-right: 25px;">{{ $producto->caracteristicas }}</p>
+                </div>
+                @endif
+
                 <div class="mt-3 mb-4 d-block">
                     @if( $producto->ficha_tecnica_href != null )
                         <span class="rt-color-2 font-weight-bold">🧾️ Ficha Técnica: <a href="{{ $producto->ficha_tecnica_href }}" title="Leer" target="_blank">ver pdf</a></span>
