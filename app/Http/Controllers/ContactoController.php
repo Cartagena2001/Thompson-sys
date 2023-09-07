@@ -57,6 +57,7 @@ class ContactoController extends Controller
             $mail->Password = env('SMTP_PASS', "");       // sender password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
             $mail->Port = env('SMTP_PORT', "");                          // port - 587/465
+            $mail->SMTPKeepAlive = true;
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
 
@@ -100,6 +101,7 @@ class ContactoController extends Controller
 
             $mail->getSMTPInstance()->reset();
             $mail->clearAddresses();
+            $mail->smtpClose();
 
             return $exito;
         
@@ -224,6 +226,7 @@ class ContactoController extends Controller
         $replyToNameOffice = $contact->nombre;
 
         $estado2 = $this->sendMail($mailToOffice, $emailRecipientOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
+
 
 
         if( !$estado1 && !$estado2 ) {
