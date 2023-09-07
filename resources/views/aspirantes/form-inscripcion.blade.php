@@ -80,7 +80,7 @@
                         {{ method_field('PATCH') }}
                         @csrf
 
-                        <div class="mt-3 col-auto text-center col-4 mx-auto">
+                        <div class="mt-3 col-auto text-center col-6 mx-auto">
                             <label for="imagen_perfil_src">Imagen de perfil/Logo empresa (200x200px | .png, .jpg, .jpeg): </label>
                             <br/>
                             <img class="rounded mt-2" src="{{ $user->imagen_perfil_src }}" alt="img-perfil" width="200">

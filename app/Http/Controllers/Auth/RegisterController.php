@@ -102,9 +102,9 @@ class RegisterController extends Controller
 
         $mailToOffice = new PHPMailer(true);     // Passing `true` enables exceptions
 
-        //Envio de notificación por correo al cliente
-        $emailRecipientOff = $request->get('emailC');
-        $emailSubjectOff = 'Registro de Usuario - RTElSalvador';
+        //Envio de notificación por correo a oficina
+        $emailRecipientOff = "oficina@rtelsalvador.com";
+        $emailSubjectOff = 'Registro de nuevo Usuario - RTElSalvador';
         $emailBodyOff = " 
                         <div style='display:flex;justify-content:center;' >
                             <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
@@ -113,7 +113,7 @@ class RegisterController extends Controller
                         <br/>
                         <br/>
 
-                        <p><b>¡BIENVENIDO!</b></p>
+                        <p><b>HAY UN NUEVO USUARIO REGISTRADO.</b></p>
                         
                         <br/>
 
@@ -122,7 +122,7 @@ class RegisterController extends Controller
 
                         <br/>
                         
-                        <p>Porfavor completa el proceso de registro, llenando el formulario con tus datos.</p>
+                        <p>Recuerda que por el momento es solo un aspirantes, deberás autorizarle o no acceso desde el sistema RT.</p>
                         ";
                         
         $replyToEmailOff = $data['email'];
@@ -142,7 +142,8 @@ class RegisterController extends Controller
             'marcas' => '0,',
             'form_status' => 'none',
             'fecha_registro' => \Carbon\Carbon::now()->toDateTimeString(),
-            'boletin' => 1
+            'boletin' => 1,
+            'visto' => 'nuevo'
         ]);
     }
 
