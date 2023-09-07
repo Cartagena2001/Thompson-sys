@@ -41,7 +41,7 @@ class OrdenesController extends Controller
         //validar los datos
         $request->validate([
 
-            'cif' => 'string|min:1|max:24',
+            'corr' => 'string|min:1|max:24',
             'notas' => 'string|max:250',
             'ubicacion' => 'string|max:19'
 
@@ -56,7 +56,7 @@ class OrdenesController extends Controller
             $orden->factura_href = '/assets/img/cifs/' . $file->getClientOriginalName();
         }
 
-        $orden->cif = $request->get('cif');
+        $orden->corr = $request->get('corr');
         $orden->notas = $request->get('notas');
         $orden->ubicacion = $request->get('ubicacion');
         

@@ -10,41 +10,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.js"></script>
 
-    <script type="text/javascript">
-
-        $('#brandscheck').on('submit',function(e){
-        e.preventDefault();
-
-        let name = $('#InputName').val();
-        let email = $('#InputEmail').val();
-        let mobile = $('#InputMobile').val();
-        let message = $('#InputMessage').val();
-
-        $.ajax({
-          url: "/submit-form",
-          type:"POST",
-          data:{
-            "_token": "{{ csrf_token() }}",
-            name:name,
-            email:email,
-            mobile:mobile,
-            message:message,
-          },
-          success:function(response){
-            $('#successMsg').show();
-            console.log(response);
-          },
-          error: function(response) {
-            $('#nameErrorMsg').text(response.responseJSON.errors.name);
-            $('#emailErrorMsg').text(response.responseJSON.errors.email);
-            $('#mobileErrorMsg').text(response.responseJSON.errors.mobile);
-            $('#messageErrorMsg').text(response.responseJSON.errors.message);
-          },
-          });
-        });
-
-      </script>
-
     {{-- Titulo --}}
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
         <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png);"></div>

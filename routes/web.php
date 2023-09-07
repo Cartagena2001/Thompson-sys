@@ -142,6 +142,9 @@ Route::get('/dashboard/reportes/ordenes', [App\Http\Controllers\ReportesControll
 Route::get('/configuracion/cms', [App\Http\Controllers\CMSController::class, 'index'])->name('cms.index')->middleware('auth');
 Route::patch('/configuracion/cms', [App\Http\Controllers\CMSController::class, 'update'])->name('cms.update')->middleware('auth');
 
+//Bitácora
+Route::get('/configuracion/bitacora', [App\Http\Controllers\BitacoraController::class, 'index'])->name('bitacora')->middleware('auth');
+Route::get('/configuracion/bitacora/evento/{id}', [App\Http\Controllers\BitacoraController::class, 'show'])->name('bitacora.evento.detalle')->middleware('auth');
 
 //Config Usuarios (SuperAdmin)
 Route::get('/configuracion/users', [App\Http\Controllers\UsersController::class, 'index'])->name('users.index')->middleware('auth');

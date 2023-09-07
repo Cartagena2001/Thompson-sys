@@ -16,7 +16,9 @@ class OrdenDetalle extends Model
         'producto_id', 
         'cantidad', 
         'cantidad_despachada', 
-        'precio'
+        'n_bulto',
+        'precio',
+        'descuento'
     ];
 
     public function Orden(){  return $this->belongsTo('App\Models\Orden', 'orden_id'); }

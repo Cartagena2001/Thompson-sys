@@ -73,6 +73,9 @@
                 
             </div>
 
+            @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 2)
+                                
+            {{-- CART ADMIN, SUPERADMIN y CLIENTE --}}
             <div class="col-1 col-lg-1 pt-2 text-center me-md-auto">
 
                 <a class="btn btn-sm btn-primary py-2 px-3 my-4" style="position: relative;" href="{{ url('/carrito') }}" title="Procesar Órden ->">
@@ -96,6 +99,8 @@
                 ?>
             </div>
 
+            @endif
+
         </div>
     </header>
     
@@ -112,7 +117,7 @@
                         <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu">
                             
                                 <li>
-                                    <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}"><h5 class="rt-color-3 font-weight-bold">🖥 Dashboard (40%)</h5></a>
+                                    <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}"><h5 class="rt-color-3 font-weight-bold">🖥 Dashboard (50%)</h5></a>
                                 </li>
 
                                 <li><hr/></li>
@@ -144,7 +149,7 @@
 
                                     <li class="ps-4">
                                         <a href="{{ url('/configuracion/bitacora') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/bitacora') !== false ? 'active-menu' : '' }}">
-                                            <i class="fab fa-readme"></i> <span class="ms-1 d-none d-sm-inline">Bitácora</span> (25%)</a>
+                                            <i class="fab fa-readme"></i> <span class="ms-1 d-none d-sm-inline">Bitácora</span> (75%)</a>
                                     </li>
 
                                 @endif
@@ -277,7 +282,7 @@
                             @elseif ( Auth::user()->rol_id == 2 )
                                 {{-- MENU CLIENTE --}}
 
-                                <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">👤 Configuración de Cuenta</h5></div>
+                                <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">👤 Mi Cuenta</h5></div>
 
                                 <li class="ps-4">
                                     <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
@@ -286,7 +291,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/perfil/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/ordenes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-truck-loading"></i> <span class="ms-1 d-none d-sm-inline">Mis Órdenes (85%)</span></a>
+                                        <i class="fas fa-truck-loading"></i> <span class="ms-1 d-none d-sm-inline">Mis Órdenes</span></a>
                                 </li>
 
                                 <li><hr/></li>
@@ -295,7 +300,23 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Catálogo</span>
+                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Compra por Catálogo</span>
+                                    </a>
+                                </li>
+
+                                <li class="ps-4">
+                                    <a href="{{ url('/dashboard/compra-masiva') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}">
+                                        <i class="fas fa-box-open"></i> <span class="ms-1 d-none d-sm-inline">Compra Masiva</span>
+                                    </a>
+                                </li>
+
+                                <li><hr/></li>
+
+                                <div class="divider"><h5 class="rt-color-3 font-weight-bold">📕 Documentación</h5></div>
+
+                                <li class="ps-4">
+                                    <a href="{{ url('/dashboard/manuales') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/manuales') !== false ? 'active-menu' : '' }}">
+                                        <i class="fas fa-file-pdf"></i> <span class="ms-1 d-none d-sm-inline">Manuales</span>
                                     </a>
                                 </li>
                                  

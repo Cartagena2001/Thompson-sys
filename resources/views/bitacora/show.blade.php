@@ -55,7 +55,7 @@
                 
                     <div class="col-6 mt-3">
                         <span class="rt-color-2">Orden ID: #</span> <span class="">{{ $orden->id }}</span><br>
-                        <span class="rt-color-2"># Factura:</span> <span class="">{{ $orden->corr }}</span><br>
+                        <span class="rt-color-2"># Factura:</span> <span class="">{{ $orden->cif }}</span><br>
                         <span class="rt-color-2">Fecha/Hora:</span> <span class="">{{ \Carbon\Carbon::parse($orden->created_at)->format('d/m/Y, h:m:s a') }}</span><br>
                         <span class="rt-color-2">Notas:</span> <span>{{ $orden->notas }}</span><br>
                         <span class="rt-color-2">Estado:</span> <span class="text-warning">{{ $orden->estado }}</span>
@@ -75,7 +75,6 @@
                                 <th class="text-center">Ubicación (Oficina)</th>
                                 <th class="text-center">Cantidad (Solicitada)</th>
                                 <th class="text-center">Cantidad (Despachada)</th>
-                                <th class="text-center"># Bultos</th>
                                 <th class="text-center">Precio (caja)</th>
                                 <th class="text-center">Subtotal Parcial</th>
                             </tr>
@@ -87,25 +86,17 @@
                                     <td class="text-start">{{ $detalles->producto->OEM }}</td>
                                     <td class="text-start">{{ $detalles->producto->nombre }}</td>
 
-                                    <td class="text-start">
-                                        @if (Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1) 
-                                            <input id="ubbo_{{ $detalles->producto->id }}" name="ubbo" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_bodega }}" placeholder="A-00-00" onchange="updateUbiBo(this.id)" /> 
-                                        @else 
-                                            {{ $detalles->producto->ubicacion_bodega }}  
-                                        @endif 
-                                        <br> 
-                                        <div class="alert alert-success" role="alert" id="successMsg1" style="display: none" >Ubicación actualizada con éxito.</div>
+                                    <td class="text-start">@if (Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1) <input id="ubbo_{{ $detalles->producto->id }}" name="ubbo" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_bodega }}" placeholder="A-00-00" onchange="updateUbiBo(this.id)" /> @else {{ $detalles->producto->ubicacion_bodega }}  @endif 
+                                        <br> <div class="alert alert-success" role="alert" id="successMsg1" style="display: none" >Ubicación actualizada con éxito.</div>
                                     </td>
+
 
                                     <td class="text-start">@if (Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1) <input id="ubof_{{ $detalles->producto->id }}" name="ubof" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_oficina }}" placeholder="OF-00" onchange="updateUbiOf(this.id)" /> @else {{ $detalles->producto->ubicacion_oficina }} @endif 
                                         <br> <div class="alert alert-success" role="alert" id="successMsg2" style="display: none" > Ubicación actualizada con éxito.
                                     </td>
 
                                     <td class="text-center">{{ $detalles->cantidad * $detalles->producto->unidad_por_caja }}</td>
-                                    
                                     <td class="text-center">{{ $detalles->cantidad_despachada }}</td>
-                                    <td class="text-center">{{ $detalles->n_bulto }}</td>
-
                                     <td class="text-center">{{ number_format(($detalles->precio), 2, '.', ','); }} $</td>
                                     <td class="text-center">{{ number_format(($detalles->cantidad * $detalles->precio), 2, '.', ','); }} $</td> 
                                 </tr>
@@ -182,9 +173,9 @@
                 <div class="row mb-2">  
 
                     <div class="col-6">
-                        <label for="corr"># de Factura: </label>
-                        <input class="form-control" type="text" name="corr" id="corr" value="{{ $orden->corr }}" maxlength="24" placeholder="-">
-                        @error('corr')
+                        <label for="cif"># de Factura: </label>
+                        <input class="form-control" type="text" name="cif" id="cif" value="{{ $orden->cif }}" maxlength="24" placeholder="-">
+                        @error('cif')
                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                         @enderror
                     </div>

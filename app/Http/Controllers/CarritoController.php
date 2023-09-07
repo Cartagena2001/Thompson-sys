@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
+use App\Models\Marca;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,17 +23,21 @@ class CarritoController extends Controller
         if ( $request->input('producto_id') != null ) {
             $product = Producto::find($request->input('producto_id'));
         } else {
-            $product = Producto::find($request->producto_id); //viene de compra masiva
+            $product = Producto::find($request->producto_id); //viene de compra masiva y cat img
         }
 
         if ( $request->input('cantidad') != null ) {
            $cantidad = $request->input('cantidad');
         } else {
-           $cantidad = $request->cantidad; //viene de compra masiva
+           $cantidad = $request->cantidad; //viene de compra masiva y cat img
         }
          
 
         $cart = session()->get('cart', []);
+
+        $detalleFloat = session()->get('detalle', []); //creamos array para el detalle
+
+        $brandsAvail = Marca::all(); //extraer marcas disponibles
 
         //validar que clasificacion tiene el cliente para poner un precio u otro
         if ($product->precio_oferta != null || $product->precio_oferta != 0 ) {
@@ -50,34 +55,109 @@ class CarritoController extends Controller
             $precio = $product->precio_3;
         } else if (Auth::user()->clasificacion == 'Taller') {
             $precio = $product->precio_taller;
-        } else if (Auth::user()->clasificacion == 'Reparto') {
+        } else if (Auth::user()->clasificacion == 'Distribuidor') {
             $precio = $product->precio_distribuidor;
         }
 
-        
+        //asignamos el ID de la marca
+        $marcaid = $product->marca->id;
+
         //validar si hay existencia del producto
         if ($product->existencia < $cantidad) {
-            return redirect()->route('carrito.index')->with('toast_error', 'No hay existencia del producto ' . $product->nombre . '');
-        }
 
-        if (isset($cart[$product->id])) {
-            $cart[$product->id]['cantidad'] += $cantidad;
+            //si no hay suficiente lo agrega igualmente al carrito pero modifica cantidad requerida según existencias
+            $cantidad = $product->existencia;
+            $montopm = $precio * $cantidad * $product->unidad_por_caja;
+
+
+            foreach ( $brandsAvail as $brandA ) {
+
+                if ( $product->marca->nombre == $brandA->nombre ) {
+                    
+                    if (isset($detalleFloat[$marcaid])) {
+                         $detalleFloat[$marcaid]['cantidad'] += $cantidad;
+                         $detalleFloat[$marcaid]['monto'] += $montopm;
+                    } else {
+                        $detalleFloat[$marcaid] = [
+                            'marca_id' => $product->marca->id,
+                            'nombre' => $product->marca->nombre,
+                            'cantidad' => $cantidad,
+                            'monto' => $montopm,
+
+                        ];
+                    }
+                }
+
+            }//end foreach
+
+            if (isset($cart[$product->id])) {
+                $cart[$product->id]['cantidad'] += $cantidad;
+            } else {
+                $cart[$product->id] = [
+                    'producto_id' => $product->id,
+                    'nombre' => $product->nombre,
+                    'marca_id' => $product->marca->id,
+                    'marca' => $product->marca->nombre,
+                    'cantidad' => $cantidad,
+                    'precio_f' => $precio,
+                    'existencia' => $product->existencia,
+                    'unidad_caja' => $product->unidad_por_caja,
+                ];
+            }
+
+            session()->put('cart', $cart);
+            session()->put('detalle', $detalleFloat);
+
+            return redirect()->route('carrito.index')->with('toast_error', 'No hay existencia suficiente del producto: ' . $product->nombre . '');
+
         } else {
-            $cart[$product->id] = [
-                'producto_id' => $product->id,
-                'nombre' => $product->nombre,
-                'marca_id' => $product->marca->id,
-                'marca' => $product->marca->nombre,
-                'cantidad' => $cantidad,
-                'precio_f' => $precio,
-                'existencia' => $product->existencia,
-                'unidad_caja' => $product->unidad_por_caja,
-            ];
+
+            //si hay suficiente lo agrega al carrito
+            $montopm = $precio * $cantidad * $product->unidad_por_caja;
+
+            if (isset($cart[$product->id])) {
+                $cart[$product->id]['cantidad'] += $cantidad;
+            } else {
+                $cart[$product->id] = [
+                    'producto_id' => $product->id,
+                    'nombre' => $product->nombre,
+                    'marca_id' => $product->marca->id,
+                    'marca' => $product->marca->nombre,
+                    'cantidad' => $cantidad,
+                    'precio_f' => $precio,
+                    'existencia' => $product->existencia,
+                    'unidad_caja' => $product->unidad_por_caja,
+                ];
+            }
+
+            foreach ( $brandsAvail as $brandA ) {
+
+                if ( $product->marca->nombre == $brandA->nombre ) {
+                    
+                    
+                    if (isset($detalleFloat[$marcaid])) {
+                         $detalleFloat[$marcaid]['cantidad'] += $cantidad;
+                         $detalleFloat[$marcaid]['monto'] += $montopm;
+                    } else {
+                        $detalleFloat[$marcaid] = [
+                            'marca_id' => $product->marca->id,
+                            'nombre' => $product->marca->nombre,
+                            'cantidad' => $cantidad,
+                            'monto' => $montopm,
+
+                        ];
+                    }
+                    
+               }
+
+            }//end foreach
+
+            session()->put('cart', $cart);
+            session()->put('detalle', $detalleFloat);
+
+            return redirect()->route('carrito.index')->with('toast_success', 'Se agregó el producto: ' . $product->nombre . '');
         }
-
-        session()->put('cart', $cart);
-
-        return redirect()->route('carrito.index')->with('toast_success', 'Se agregó el producto ' . $product->nombre . '');
+  
     }
 
     //funciona para actualizar la cantidad de productos en el carrito de compras sin cambiar de vista
@@ -113,7 +193,7 @@ class CarritoController extends Controller
                 $precio = $product->precio_3;
             } else if (Auth::user()->clasificacion == 'Taller') {
                 $precio = $product->precio_taller;
-            } else if (Auth::user()->clasificacion == 'Reparto') {
+            } else if (Auth::user()->clasificacion == 'Distribuidor') {
                 $precio = $product->precio_distribuidor;
             }
 
@@ -144,8 +224,11 @@ class CarritoController extends Controller
     public function clear()
     {
         session()->forget('cart');
+        session()->forget('detalle');
+
         return view('carrito.index');
     }
+
 
     //funciona para eliminar un producto del carrito de compras sin cambiar de vista
     public function delete(Request $request)
@@ -162,6 +245,7 @@ class CarritoController extends Controller
 
         return redirect()->route('carrito.index')->with('toast_error', 'Se eliminó el producto ' . $product->nombre . '');
     }
+
 
     //funcion para validar el carrito de compras
     public function validar(Request $request)

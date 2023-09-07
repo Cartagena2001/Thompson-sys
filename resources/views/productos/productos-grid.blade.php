@@ -14,6 +14,8 @@
                 $carrito = session('cart', []);
                 $cart = session()->get('cart', []);
 
+                $detallesSUM = session('detalle', []);
+
                 $cantidad = 0;
                 
                 foreach ($carrito as $item) {
@@ -48,9 +50,9 @@
     <div class="card-body position-relative">
         <div class="row">
             <div id="brand-list" class="col-lg-8 flex-center">
-                @foreach ($marcas as $marca)
+                @foreach ($marcas as $brand)
                     
-                    <img src="{{ $marca->logo_src }}" alt="img-{{ $marca->nombre }}" class="img-fluid" style="max-width: 150px; margin: 0 auto;" /> 
+                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid" style="max-width: 150px; margin: 0 auto;" /> 
 
                 @endforeach
             </div>
@@ -62,74 +64,18 @@
                         <tr>
                             <th class="text-start p-1">Marca</th>
                             <th class="text-center p-1">Cantidad 📦</th>
-                            <th class="text-center p-1">Subtotal Parcial</th>
+                            <th class="text-center p-1">Subtotal Parcial</th>   
                         </tr>
                     </thead>
                     <tbody>
-                    
-                    @php
-                        
-                        $ths = ['marca','cantidad','subtotal'];
-                        $vals = ['-',0,0];
-
-                        $sumatoria_aux = array_combine($ths, $vals);
-                        
-                        //var_dump($carrito);
-
-                        $detalle = array(); //arreglo que contiene las sumatorias a detalle
-                        $auxArray_brandsid = array(); //arreglo auxiliar 
-                        $auxArray_brands = array(); //arreglo auxiliar 
-                        $auxArray2 = array(); //arreglo auxiliar
-
-                        $subt_cart = 0;         //subtotal 
-                        $i = 0;
-                       
-
-                        foreach($carrito as $productoss)
-                        {
-                            foreach($productoss as $atributo=>$valor)
-                            {
-                                if ($atributo == 'marca_id') {
-
-                                    if ( !in_array( $valor, $auxArray_brandsid ) ) {
-                                       
-                                       //$detalle[] = $auxArray2;
-                                       $auxArray_brandsid[] = $valor;
-                                    }  
-
-                                } elseif ($atributo == 'marca') {
-
-                                    if ( !in_array( $valor, $auxArray_brands ) ) {
-                                       
-                                       $detalle[][$i] = $valor;
-                                       $auxArray_brands[] = $valor;
-
-                                       $i++;
-                                    }
-
-                                } elseif ($atributo == 'cantidad') {
-
-                                       $k = 0;
-                                       $j = 0;
-
-                                       $detalle[$k][$j] = $valor;
-                                       $j++;
-                                       $i++;
-                                    
-                                }
-                            }
-                              
-
-                        }
-
-                        //var_dump($detalle);
-
-                       // echo "<script> console.log($valor); </script>";
-
-                                   
-                    @endphp
-
-
+                   
+                    @foreach ($detallesSUM as $marcaDetalle)
+                        <tr>
+                            <td class="text-start p-1">{{ $marcaDetalle['nombre'] }}</td>
+                            <td class="text-center p-1">{{ $marcaDetalle['cantidad'] }}</td>
+                            <td class="text-center p-1">{{ $marcaDetalle['monto'] }}</td>
+                        </tr>  
+                    @endforeach
 
                         <tr>
                             <td class="text-start p-1"></td>
@@ -137,7 +83,7 @@
                             @php
 
                                 $total = 0;
-                                $cart = session('cart', []);
+                                //$cart = session('cart', []);
                                 
                                 foreach ($cart as $item) {
                                     $total += $item['precio_f'] * $item['cantidad'] * $item['unidad_caja'];
@@ -181,13 +127,12 @@
                 <form class="row gx-2">
                     <div class="col-auto"><h6>Ordenar por marca:</h6></div>
                     <div class="col-auto">
+                        
                         <form action="{{ route('productos.index') }}" method="get">
                             <select name="marca" id="marca" class="form-select form-select-sm" aria-label="Bulk actions">
                                 <option value="0">Todas</option>
                                 @foreach ($marcas as $marca)
-                                    <option value="{{ $marca->id }}"
-                                        @if ($marca->id == $marcaActual) selected @endif>
-                                        {{ $marca->nombre }}</option>
+                                    <option value="{{ $marca->id }}" @if ($marca->id == $marcaActual) selected @endif >{{ $marca->nombre }}</option>
                                 @endforeach
                             </select>
                             <div class="mt-2">
@@ -195,11 +140,12 @@
                                 <a href="{{ url('/dashboard/tienda') }}" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-trash-alt"></i> Limpiar filtro</a>
                             </div>
                         </form>
+
                     </div>
                 </form>
 
             </div>
-
+{{-- 
             <div class="col-auto">
             
                 <form class="row gx-2">
@@ -223,13 +169,15 @@
                 </form>
 
             </div>
+--}}
+
 
         </div>
     </div>
 
     <hr/>
 
-    <h6 class="card-body">Categoría: {{ $categoriaActual == 0 ? 'Todas' : $categoriaActualname->nombre }}</h6>
+    <h6 class="card-body mb-0 py-1">Categoría: {{ $categoriaActual == 0 ? 'Todas' : $categoriaActualname->nombre }}</h6>
     <div>
         @if ($productos->count() == 0)
             <div class="card-body text-center">
@@ -238,13 +186,14 @@
         @endif
     </div>
 
-    <h6 class="card-body mb-0">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }} productos</h6>
+    <h6 class="card-body mb-0 py-1">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }} productos</h6>
 
     <div class="card-body">
 
         <div class="row">
 
             @foreach ($productos as $producto)
+
                 <?php
                 //hacer un if para ver si el producto tiene imagen o no
                 if ($producto->imagen_1_src != null) {
@@ -274,6 +223,8 @@
 
                                 <h5 style="min-height: 55px;" class="fs--1 text-start"><a tabindex="-1" class="text-dark" href="{{ route('tienda.show', $producto->slug) }}">{{ $producto->nombre }}</a></h5>
 
+                                <span class="rt-color-2 font-weight-bold" style="font-size: 12px;">MARCA: </span><span style="font-size: 12px;">{{ $producto->marca->nombre }}</span>
+                                <br/>
                                 <span class="rt-color-2 font-weight-bold" style="font-size: 14px;">OEM: </span><span style="font-size: 14px;">{{ $producto->OEM }}</span>
 
                                 <div class="row">
@@ -310,7 +261,7 @@
                                                 $ {{ $producto->precio_oferta }}
                                             @elseif (Auth::user()->clasificacion == "Taller")
                                                 $ {{ $producto->precio_taller }}
-                                            @elseif (Auth::user()->clasificacion == "Reparto")
+                                            @elseif (Auth::user()->clasificacion == "Distribuidor")
                                                 $ {{ $producto->precio_distribuidor }}
                                             @endif
 
@@ -331,7 +282,7 @@
                                                     $ {{ $producto->precio_oferta }}
                                                 @elseif (Auth::user()->clasificacion == "Taller")
                                                     $ {{ $producto->precio_taller }}
-                                                @elseif (Auth::user()->clasificacion == "Reparto")
+                                                @elseif (Auth::user()->clasificacion == "Distribuidor")
                                                     $ {{ $producto->precio_distribuidor }}
                                                 @endif
 
@@ -362,13 +313,39 @@
 
                         </div>
 
-                        <div class="d-flex flex-between-center px-2 flex-center">
+
+
+                        <div class="row px-0 mx-1">
+
+                            <div class="col-6 col-md-6 px-1 flex-center">
+
+                                <a tabindex="-1" class="btn btn-x btn-primary me-0 px-2"
+                                    href="{{ route('tienda.show', $producto->slug) }}" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" title="Ir a">Ver Más <i class="fas fa-search-plus"></i>
+                                </a>
+ 
+                            </div>
+
+                            <div class="col-6 col-md-6 px-1">
+
+                                <p class="me-0 mb-0 text-center"><span style="font-size: 14px;">Subtotal:</span> <br/> <span style="font-weight: bold; font-size: 20px;">{{ isset($cart[$producto->id]['cantidad']) ? number_format(($cart[$producto->id]['precio_f'] * $cart[$producto->id]['cantidad'] * $cart[$producto->id]['unidad_caja']), 2, '.', ',') : number_format(0, 2, '.', ',') }} $</span></p> 
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="d-flex flex-between-center px-2 " style="display: none !important;">
+
                             <div class="d-flex">
+
                                 <a tabindex="-1" class="btn btn-x btn-primary me-2"
                                     href="{{ route('tienda.show', $producto->slug) }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Ver producto"><i class="fa-regular fa-eye"></i>
                                     Ver Producto
                                 </a>
+
+                                <p>Sbt.:  $</p>
                                 
                                 {{--
                                 <form method="post" action="{{ route('carrito.add') }}">
@@ -384,7 +361,9 @@
                                 --}}
                                 
                             </div>
+
                         </div>
+
                     </div>
 
                 </div>
@@ -435,29 +414,28 @@
         
     }
 
-</script>
 
-<script>
-window.onscroll = function() {myFunction()};
+    window.onscroll = function() {myFunction()};
 
-var header = document.getElementById("summary");
-var brandsl = document.getElementById("brand-list");
-var sumdet = document.getElementById("summ-detail");
-var sticky = header.offsetTop;
+    var header = document.getElementById("summary");
+    var brandsl = document.getElementById("brand-list");
+    var sumdet = document.getElementById("summ-detail");
+    var sticky = header.offsetTop;
 
-function myFunction() {
-  if (window.pageYOffset > sticky) {
-    header.classList.add("sticky-pos");
-    brandsl.classList.add("no-show");
-    sumdet.classList.remove("col-lg-4");
-    sumdet.classList.add("col-lg-12");
-  } else {
-    header.classList.remove("sticky-pos");
-    brandsl.classList.remove("no-show");
-    sumdet.classList.remove("col-lg-12");
-    sumdet.classList.add("col-lg-4");
-  }
-}
+    function myFunction() {
+      if (window.pageYOffset > sticky) {
+        header.classList.add("sticky-pos");
+        brandsl.classList.add("no-show");
+        sumdet.classList.remove("col-lg-4");
+        sumdet.classList.add("col-lg-12");
+      } else {
+        header.classList.remove("sticky-pos");
+        brandsl.classList.remove("no-show");
+        sumdet.classList.remove("col-lg-12");
+        sumdet.classList.add("col-lg-4");
+      }
+    }
+
 </script>
 
 @endsection

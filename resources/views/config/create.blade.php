@@ -57,9 +57,9 @@
                         <div class="col-4">
                             <label for="rol">Rol: *</label>
                             <select class="form-select" id="rol" name="rol" required>
-                                <option value="">Selecione un rol</option>
-                                @foreach($roles as $rol)
-                                <option value="{{ $rol->id }}">{{ $rol->nombre}}</option>
+                                <option value="">Selecione un Rol</option>
+                                @foreach($roles as $role)
+                                <option value="{{ $role->id }}" {{ old('rol') == $role->id ? 'selected' : '' }} >{{ $role->nombre}}</option>
                                 @endforeach
                             </select>
                             @error('rol')
@@ -70,9 +70,9 @@
                         <div class="col-4">
                             <label for="estado">Estado: *</label>
                             <select class="form-select" id="estado" name="estado" required>
-                                <option value="">Selecione un estado</option>
-                                <option value="activo">Activo</option>
-                                <option value="inactivo">Inactivo</option>
+                                <option value="">Selecione un Estado</option>
+                                <option value="activo" {{ old('estado') == 'activo' ? 'selected' : '' }} >Activo</option>
+                                <option value="inactivo" {{ old('estado') == 'inactivo' ? 'selected' : '' }} >Inactivo</option>
                             </select>
                             @error('estado')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -87,9 +87,10 @@
                             <label for="clasificacion">Lista de Precios (Clasificación): *</label>
                             <select class="form-select" id="clasificacion" name="clasificacion" required>
                                 <option value="">Selecione una lista/clasificación</option>
-                                <option value="Taller">Taller</option>
-                                <option value="Distribuidor">Distribuidor</option>
-                                <option value="PrecioCosto">Precio Costo</option>
+                                <option value="Cobre" {{ old('clasificacion') == 'Cobre' ? 'selected' : '' }} >Cobre</option>
+                                <option value="Taller" {{ old('clasificacion') == 'Taller' ? 'selected' : '' }} >Taller</option>
+                                <option value="Distribuidor" {{ old('clasificacion') == 'Distribuidor' ? 'selected' : '' }} >Distribuidor</option>
+                                <option value="PrecioCosto" {{ old('clasificacion') == 'PrecioCosto' ? 'selected' : '' }} >Precio Costo</option>
                             </select>
                             @error('clasificacion')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -99,8 +100,8 @@
                         <div class="col-4">
                             <label for="boletin">Suscrito a boletín: </label>
                             <select class="form-select" id="boletin" name="boletin">
-                                <option value="1">Si</option>
-                                <option value="0">No</option>
+                                <option value="1" {{ old('boletin') == 1 ? 'selected' : '' }} >Si</option>
+                                <option value="0" {{ old('boletin') == 0 ? 'selected' : '' }} >No</option>
                             </select>
                             @error('boletin')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -111,9 +112,10 @@
                             <label for="estatus">Estatus: *</label>
                             <select class="form-select" id="estatus" name="estatus" required>
                                 <option value="">Selecione un estatus</option>
-                                <option value="otro">Otro</option>
-                                <option value="aprobado">Aprobado</option>
-                                <option value="aspirante">Aspirante</option>
+                                <option value="otro" {{ old('estatus') == 'otro' ? 'selected' : '' }} >Otro</option>
+                                <option value="aprobado" {{ old('estatus') == 'aprobado' ? 'selected' : '' }} >Aprobado</option>
+                                <option value="aspirante" {{ old('estatus') == 'aspirante' ? 'selected' : '' }} >Aspirante</option>
+                                <option value="rechazado" {{ old('estatus') == 'rechazado' ? 'selected' : '' }} >Rechazado</option>
                             </select>
                             @error('estatus')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -294,18 +296,18 @@
                             <label for="marcas">Marcas Autorizadas: </label>
                             <br>
                             <label for="marca-t">
-                                <input id="marca-t" type="checkbox" value="0" name="marcas[]" checked /> TODAS
+                                <input id="marca-t" type="checkbox" value="0" name="marcas[]" {{ (is_array(old('marcas')) and in_array(0, old('marcas'))) ? ' checked' : '' }} /> TODAS
                             </label>
                             <br/>
                             @foreach ($marcas as $marca)
                                 <label for="{{ $marca->nombre }}">
-                                    <input id="{{ $marca->nombre }}" type="checkbox" name="marcas[]" value="{{ $marca->id }}" /> {{ $marca->nombre }}
+                                    <input id="{{ $marca->nombre }}" type="checkbox" name="marcas[]" value="{{ $marca->id }}" {{ (is_array(old('marcas')) and in_array($marca->id, old('marcas'))) ? ' checked' : '' }} /> {{ $marca->nombre }}
                                 </label>
                                 <br/>
                             @endforeach
 
 
-                            @error('website')
+                            @error('marcas')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror
                         </div>
@@ -327,7 +329,7 @@
                         @enderror
 
                         <label for="password_confirmation">Confirmar Contraseña: </label>
-                        <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" value="{{ old('password', request()->input('password'))}}" maxlength="12" autocomplete="current-password" required>
+                        <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" value="{{ old('password_confirmation', request()->input('password_confirmation'))}}" maxlength="12" autocomplete="current-password" required>
 
                         </div>
                     </div>

@@ -23,9 +23,17 @@ return new class extends Migration
             $table->dateTime('fecha_entrega');
             $table->double('total', 7, 2);
             $table->string('notas', 255);
+            $table->string('notas_bodega', 255);
             $table->string('visto', 18); //nuevo, visto
-            $table->string('cif', 25); //# factura
-            $table->string('factura_href', 200); //# factura
+            $table->string('corr', 25); //# factura
+            $table->string('ubicacion', 20);
+            $table->string('bulto', 10);
+            $table->string('paleta', 10);
+            $table->string('factura_href', 200); //factura
+            $table->string('hoja_salida_href', 200); //hoja de salida
+            $table->string('comprobante_pago_href', 250); //comprobante de pago
+
+            comprobante_pago_href
             $table->timestamps();
         });
     }

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreign('producto_id')->references('id')->on('producto');
             $table->integer('cantidad')->unsigned();
             $table->integer('cantidad_despachada')->unsigned()->nullable();
+            $table->integer('n_bulto')->unsigned();
             $table->double('precio', 5, 2);
             $table->double('descuento', 2, 2);
             $table->timestamps();

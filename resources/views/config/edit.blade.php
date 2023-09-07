@@ -90,6 +90,7 @@
                             <label for="clasificacion">Lista de Precios (Clasificación): *</label>
                             <select class="form-select" id="clasificacion" name="clasificacion" required>
                                 <option value="">Selecione una lista/clasificación</option>
+                                <option value="Cobre" @if ( $usuario->clasificacion == 'Cobre' ) selected @endif >Taller</option>
                                 <option value="Taller" @if ( $usuario->clasificacion == 'Taller' ) selected @endif >Taller</option>
                                 <option value="Distribuidor" @if ( $usuario->clasificacion == 'Distribuidor' ) selected @endif >Distribuidor</option>
                                 <option value="PrecioCosto" @if ( $usuario->clasificacion == 'PrecioCosto' ) selected @endif >Precio Costo</option>
@@ -117,6 +118,7 @@
                                 <option value="otro" @if ( $usuario->estatus == 'otro' ) selected @endif >Otro</option>
                                 <option value="aprobado" @if ( $usuario->estatus == 'aprobado' ) selected @endif >Aprobado</option>
                                 <option value="aspirante" @if ( $usuario->estatus == 'aspirante' ) selected @endif >Aspirante</option>
+                                <option value="rechazado" @if ( $usuario->estatus == 'rechazado' ) selected @endif >Rechazado</option>
                             </select>
                             @error('estatus')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>

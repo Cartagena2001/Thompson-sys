@@ -2,15 +2,25 @@
   {{-- Logos marcas --}}
 
   @if ( Auth::user()->rol_id == 2 )
-  <div class="row g-3 mb-3">
 
-    <div class="col-md-12 text-center">
-      <img src="{{ URL('assets/img/logos/cti.jpg') }}" alt="brand-logo-1" style="width:100%; max-width: 150px;" />
-      <img src="{{ URL('assets/img/logos/ecom.jpg') }}" alt="brand-logo-2"style="width:100%; max-width: 150px;" />
-      <img src="{{ URL('assets/img/logos/temco-logo.jpeg') }}" alt="brand-logo-3" style="width:100%; max-width: 150px;" /> 
+    <div class="card mb-3" id="summary">
+
+        <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
+        
+        <div class="card-body position-relative">
+            <div class="row">
+                <div id="brand-list" class="col-lg-12 flex-center">
+                    @foreach ($marcas as $brand)
+                        
+                        <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid" style="max-width: 150px; margin: 0 auto;" /> 
+
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
     </div>
 
-  </div>
   @endif
 
 

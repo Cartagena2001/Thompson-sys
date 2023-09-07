@@ -45,10 +45,10 @@
             <tbody>
                 @foreach (session('cart', []) as $item)
                     <tr>
-                        <td>{{ $item['producto_id'] }}</td>
-                        <td>{{ $item['nombre'] }}</td>
-                        <td>{{ $item['marca'] }}</td>
-                        <td class="text-center">
+                        <td style="font-size: 13px">{{ $item['producto_id'] }}</td>
+                        <td style="font-size: 13px">{{ $item['nombre'] }}</td>
+                        <td style="font-size: 13px">{{ $item['marca'] }}</td>
+                        <td style="font-size: 13px" class="text-center">
                             <form action="{{ route('carrito.update', $item['producto_id']) }}" method="POST">
                                 @csrf
                                 @method('PUT')
@@ -59,7 +59,7 @@
                                             
                                             <button class="btn btn-outline-secondary btn-menos" type="button">-</button>
                                             
-                                            <input id="cantidad_{{ $item['producto_id'] }}" class="btn btn-outline-secondary cantidad" type="number" name="cantidad" value="{{ $item['cantidad'] }}" min="1" max="{{ $item['existencia'] }}" {{-- onchange="udpCarrito(this.id)" --}} readonly>
+                                            <input id="cantidad_{{ $item['producto_id'] }}" class="btn btn-outline-secondary cantidad px-2" type="number" name="cantidad" value="{{ $item['cantidad'] }}" min="1" max="{{ $item['existencia'] }}" {{-- onchange="udpCarrito(this.id)" --}} readonly>
                                             
                                             <button class="btn btn-outline-secondary btn-mas" type="button">+</button>
                                             
@@ -78,9 +78,9 @@
                                 </div>
                             </form>
                         </td>
-                        <td class="text-center">{{ number_format(($item['precio_f'] * $item['unidad_caja']), 2, '.', ','); }} $</td>
-                        <td class="text-center">{{ number_format(($item['precio_f'] * $item['cantidad'] * $item['unidad_caja']), 2, '.', ','); }} $</td>
-                        <td class="text-center">
+                        <td style="font-size: 13px" class="text-center">{{ number_format(($item['precio_f'] * $item['unidad_caja']), 2, '.', ','); }} $</td>
+                        <td style="font-size: 13px" class="text-center">{{ number_format(($item['precio_f'] * $item['cantidad'] * $item['unidad_caja']), 2, '.', ','); }} $</td>
+                        <td style="font-size: 13px" class="text-center">
                             <form action="{{ route('carrito.delete', $item['producto_id']) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
@@ -120,7 +120,7 @@
                     foreach ($cart as $item) {
                         $total += $item['precio_f'] * $item['cantidad'] * $item['unidad_caja'];
                     }
-                    echo '<h3 class="text-center">Subtotal: ' . number_format($total, 2, '.', ',') . ' $</h3>';
+                    echo '<h3 class="text-center" style="font-size: 22px;">Subtotal: ' . number_format($total, 2, '.', ',') . ' $</h3>';
                 @endphp
                 <div class="col-auto px-2 px-md-3 mt-3 text-center">
                     <form action="{{ route('carrito.validar') }}" method="POST">

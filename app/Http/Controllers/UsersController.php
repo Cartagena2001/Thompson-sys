@@ -103,10 +103,10 @@ Class UsersController extends Controller
             $user->rol_id = 2;
         }
         
-        if ( $request->get('estado') == 'Activo' || $request->get('estado') == 'Inactivo' ) {
+        if ( $request->get('estado') == 'activo' || $request->get('estado') == 'inactivo' ) {
             $user->estado = $request->get('estado');
         } else {
-            $user->estado = 'Inactivo';
+            $user->estado = 'inactivo';
         }
         
         if ( $request->get('clasificacion') == 'Taller' || $request->get('clasificacion') == 'Distribuidor' || $request->get('clasificacion') == 'PrecioCosto') 
@@ -210,7 +210,7 @@ Class UsersController extends Controller
             'cliente_id_interno' => 'string|max:10',
             'rol' => 'required|numeric',
             'estado' => 'required|string|min:6|max:8',
-            'clasificacion' => 'required|string|max:20',
+            'clasificacion' => 'required|string|max:20', 
             'boletin' => 'required|numeric|max:1',
             'estatus' => 'required|string|max:14',
             'name' => 'required|max:100',
@@ -247,10 +247,10 @@ Class UsersController extends Controller
             $user->rol_id = 2;
         }
         
-        if ( $request->get('estado') == 'Activo' || $request->get('estado') == 'Inactivo' ) {
+        if ( $request->get('estado') == 'activo' || $request->get('estado') == 'inactivo' ) {
             $user->estado = $request->get('estado');
         } else {
-            $user->estado = 'Inactivo';
+            $user->estado = 'inactivo';
         }
         
         if ( $request->get('clasificacion') == 'Taller' || $request->get('clasificacion') == 'Distribuidor' || $request->get('clasificacion') == 'PrecioCosto') 

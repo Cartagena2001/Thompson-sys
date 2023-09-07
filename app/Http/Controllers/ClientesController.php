@@ -96,10 +96,10 @@ Class ClientesController extends Controller
     public function distribucion($id){
 
         $cliente = User::find($id);
-        $cliente->clasificacion = 'Reparto';
+        $cliente->clasificacion = 'Distribuidor';
         $cliente->save();
 
-        return redirect('/dashboard/clientes')->with('toast_success', 'Se actualizo el estado del cliente a Reparto');
+        return redirect('/dashboard/clientes')->with('toast_success', 'Se actualizo el estado del cliente a Distribuidor');
     }
 
     public function admPermMarca(){
