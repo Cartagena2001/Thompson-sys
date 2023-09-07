@@ -70,6 +70,8 @@ class RegisterController extends Controller
     { 
 
         $mailToClient = new PHPMailer(true);     // Passing `true` enables exceptions
+
+        $mailToOffice = new PHPMailer(true);     // Passing `true` enables exceptions
         
         //Envio de notificación por correo al cliente
         $emailRecipientClient = $data['email'];
@@ -98,9 +100,6 @@ class RegisterController extends Controller
         $replyToNameClient = "Representaciones Thompson";
 
         $estado1 = $this->sendMail($mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
-
-
-        $mailToOffice = new PHPMailer(true);     // Passing `true` enables exceptions
 
         //Envio de notificación por correo a oficina
         $emailRecipientOff = "oficina@rtelsalvador.com";

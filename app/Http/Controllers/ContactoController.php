@@ -231,7 +231,7 @@ class ContactoController extends Controller
 
         if( !$estado1 && !$estado2 ) {
 
-            return redirect('#contactForm')->with('toast_success', 'Tu mensaje no ha podido ser enviado.');
+            return redirect('/#contactForm')->with('toast_success', 'Tu mensaje no ha podido ser enviado.');
         } 
         else {
             

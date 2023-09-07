@@ -8,6 +8,10 @@ use App\Models\Orden;
 use App\Models\OrdenDetalle;
 use App\Models\User;
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
 class PerfilController extends Controller
 {
 
@@ -136,8 +140,99 @@ class PerfilController extends Controller
         
         $user->update();
 
+        $mailToClient = new PHPMailer(true);     // Passing `true` enables exceptions
+        
+        $mailToOffice = new PHPMailer(true);     // Passing `true` enables exceptions
+
+
+        //Envio de notificación por correo al cliente
+        $emailRecipientClient = $request->get('email');
+        $emailSubjectClient = 'Formulario de Registro de Usuario - RTElSalvador';
+        $emailBodyClient = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                        </div>
+
+                        <br/>
+                        <br/>
+
+                        <p><b>¡TUS DATOS HAN SIDO ENVIADOS CON EXITO!</b></p>
+                        
+                        <br/>
+
+                        <p><b>RESUMEN</b>:</p>
+                        <p><b>Nombre</b>: ".$request->get('name')." <br/>
+                           <b>Correo electrónico</b>: ".$request->get('email')." <br/>
+                           <b>DUI</b>: ".$request->get('dui'). ", <b>NRC:</b> ".$request->get('nrc'). ", <b>NIT:</b> ".$request->get('nit')." <br/>
+                           <b>Nombre/Razón o denominación social</b>: ".$request->get('razon_social')." <br/>
+                           <b>Dirección</b>: ".$request->get('direccion').", ".$request->get('municipio').", ".$request->get('departamento')." <br/>
+                           <b>Giro ó actividad económica</b>: ".$request->get('giro')." <br/>
+                           <b>Nombre Comercial</b>: ".$request->get('nombre_empresa')." <br/>
+                           <b>WebSite</b>: ".$request->get('website')."
+                           <b>Teléfono</b>: ".$request->get('telefono')."
+                        </p>
+
+                        <br/>
+                        
+                        <p>Pronto nos pondremos en contacto contigo.</p>
+                        ";
+                        
+        $replyToEmailClient = "oficina@rtelsalvador.com";
+        $replyToNameClient = "Representaciones Thompson";
+
+        $estado1 = $this->sendMail($mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
+
+        //Envio de notificación por correo a oficina
+        $emailRecipientOffice = "oficina@rtelsalvador.com";
+        $emailSubjectOffice = 'Nuevo Aspirante - Formulario de Registro - RTElSalvador';
+        $emailBodyOffice = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                        </div>
+
+                        <br/>
+                        <br/>
+
+                        <p><b>Un aspirante ha completado el formulario de registro, estos son sus datos:</b></p>
+                        
+                        <br/>
+
+                        <p><b>RESUMEN</b>:</p>
+                        <p><b>Nombre</b>: ".$request->get('name')." <br/>
+                           <b>Correo electrónico</b>: ".$request->get('email')." <br/>
+                           <b>DUI</b>: ".$request->get('dui'). ", <b>NRC:</b> ".$request->get('nrc'). ", <b>NIT:</b> ".$request->get('nit')." <br/>
+                           <b>Nombre/Razón o denominación social</b>: ".$request->get('razon_social')." <br/>
+                           <b>Dirección</b>: ".$request->get('direccion').", ".$request->get('municipio').", ".$request->get('departamento')." <br/>
+                           <b>Giro ó actividad económica</b>: ".$request->get('giro')." <br/>
+                           <b>Nombre Comercial</b>: ".$request->get('nombre_empresa')." <br/>
+                           <b>WebSite</b>: ".$request->get('website')."
+                           <b>Teléfono</b>: ".$request->get('telefono')."
+                        </p>
+
+                        <br/>
+                        
+                        <p>Revisa el sistema RT para tomar acciones.</p>
+                        ";
+                        
+        $replyToEmailOffice = $request->get('email');
+        $replyToNameOffice = $request->get('name');
+
+        $estado2 = $this->sendMail($mailToOffice, $emailRecipientOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
+
+
+
+        if( !$estado1 && !$estado2 ) {
+
+            return redirect()->route('info.enviada')->with('toast_success', '¡Información enviada con éxito!');
+        } 
+        else {
+            
+            return redirect()->route('info.enviada')->with('toast_success', '¡Información enviada con éxito!');
+        }
+
+
         //redireccionar
-        return redirect()->route('info.enviada')->with('toast_success', '¡Información enviada con éxito!');
+        //return redirect()->route('info.enviada')->with('toast_success', '¡Información enviada con éxito!');
     }
 
     public function ordenes()
@@ -166,4 +261,79 @@ class PerfilController extends Controller
         }
         return view('perfil.ordenes.detalle', compact('orden', 'detalle'));
     }
+
+
+    private function sendMail(PHPMailer $mail, $emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName ) 
+    {
+
+        require base_path("vendor/autoload.php");
+
+        //$mail = new PHPMailer(true);     // Passing `true` enables exceptions
+
+        try {
+
+            // Email server settings
+            $mail->SMTPDebug = 3;
+            $mail->isSMTP();
+            $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
+            $mail->SMTPAuth = true;
+            $mail->Username = env('SMTP_USERNAME', "");   //  sender username
+            $mail->Password = env('SMTP_PASS', "");       // sender password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
+            $mail->Port = env('SMTP_PORT', "");                          // port - 587/465
+            $mail->SMTPKeepAlive = true;
+            $mail->CharSet = 'UTF-8';
+            $mail->Encoding = 'base64';
+
+            $mail->setFrom('notificaciones@rtelsalvador.com', 'Representaciones Thompson');
+            $mail->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
+            //$mail->addCC($request->emailCc);
+            //$mail->addBCC($request->emailBcc);
+
+            $mail->addReplyTo($replyToEmail, $replyToName);
+
+            /*
+            if(isset($_FILES['emailAttachments'])) {
+                for ($i=0; $i < count($_FILES['emailAttachments']['tmp_name']); $i++) {
+                    $mail->addAttachment($_FILES['emailAttachments']['tmp_name'][$i], $_FILES['emailAttachments']['name'][$i]);
+                }
+            }
+            */
+
+            $mail->isHTML(true);                // Set email content format to HTML
+
+            $mail->Subject = $emailSubject;
+            $mail->Body    = $emailBody;
+
+            // $mail->AltBody = plain text version of email body;
+
+            /* Se envia el mensaje, si no ha habido problemas la variable $exito tendra el valor true */
+            $exito = $mail->Send();
+            /* 
+            Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
+            enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
+            funcion sleep
+            */  
+            $intentos=1; 
+            
+            while ((!$exito) && ($intentos < 5)) {
+                sleep(5);
+                /*echo $mail->ErrorInfo;*/
+                $exito = $mail->Send();
+                $intentos=$intentos+1;  
+            }
+
+            $mail->getSMTPInstance()->reset();
+            $mail->clearAddresses();
+            $mail->smtpClose();
+
+            return $exito;
+        
+        } catch (Exception $e) {
+             return redirect()->route('inicio')->with('error','Ha ocurrido algún error al enviar.');
+        } 
+
+    }
+
+
 }
