@@ -9,6 +9,8 @@ use App\Models\Categoria;
 use App\Models\Marca;
 use App\Models\EstadoProducto;
 
+use App\Models\CMS;
+
 class TiendaController extends Controller
 {
     /**
@@ -18,6 +20,11 @@ class TiendaController extends Controller
      */
     public function index(Request $request)
     {
+
+        $cmsVars = CMS::get()->toArray();
+
+        $cat_mod = $cmsVars[12]['parametro']; //modo catalogo
+        $mant_mod = $cmsVars[13]['parametro']; //modo mantenimiento
 
         // Busca y ordena productos al entrar desde el menú
         $productos = Producto::whereHas('marca', function($query){
@@ -51,16 +58,21 @@ class TiendaController extends Controller
 
 
         //if ver si esta selecionado el filtro de marca
-        if($request->has('marca')){
+        if( $request->input('marca') ){
+
             $marca_id = $request->input('marca');
 
-            $categoriasP = Producto::where('marca_id', $marca_id);
+            //$categoriasP = Producto::where('marca_id', $marca_id);
             
             //devuelve los productos según la marca seleccionada en filtro  
-            $productos = Producto::where('marca_id', $marca_id)->paginate(1000000000);
+            $productos = Producto::where('marca_id', $marca_id)
+                                 ->where('estado_producto_id', 1)
+                                 ->whereNot('existencia', 0)
+                                 ->paginate(1000000000);
         }
 
         $marcaActual = $request->input('marca');
+;
         $marcaActualname = null;
         
         if($marcaActual != null){
@@ -70,13 +82,12 @@ class TiendaController extends Controller
         }
 
 
-
         $categoriasP = "";
         $categorias = Categoria::all();
         $marcas = Marca::all();
         $estadoProductos = EstadoProducto::all();
 
-        return view('productos.productos-grid', compact('productos', 'categorias', 'categoriasP', 'marcas', 'marcaActual', 'estadoProductos', 'categoriaActual', 'categoriaActualname'));
+        return view('productos.productos-grid', compact('productos', 'categorias', 'categoriasP', 'marcas', 'marcaActual', 'estadoProductos', 'categoriaActual', 'categoriaActualname', 'cat_mod', 'mant_mod'));
     }
 
     public function showByCategoria(Request $request)
@@ -132,8 +143,13 @@ class TiendaController extends Controller
     {
         // $producto = Producto::find($id);
         $producto = Producto::where('slug', $slug)->firstOrFail();
+        $cmsVars = CMS::get()->toArray();
 
-        return view('productos.detalle-producto', compact('producto'));
+        $cat_mod = $cmsVars[12]['parametro']; //modo catalogo
+        $mant_mod = $cmsVars[13]['parametro']; //modo mantenimiento
+        
+
+        return view('productos.detalle-producto', compact('producto', 'cat_mod', 'mant_mod'));
     }
 
     /**
@@ -199,5 +215,41 @@ class TiendaController extends Controller
 
         return view('productos.compra-masiva', compact('productos', 'categorias', 'marcas', 'estadoProductos', 'categoriaActual', 'categoriaActualname'));
     }
+
+
+
+    public function filtroMarca(Request $request)
+    {
+
+
+        //if ver si esta selecionado el filtro de marca
+        if( isset($request->marca) ){
+            $marca_id = $request->marca;
+
+            $categoriasP = Producto::where('marca_id', $marca_id);
+            
+            //devuelve los productos según la marca seleccionada en filtro  
+            $productos = Producto::where('marca_id', $marca_id)->paginate(1000000000);
+
+            return response()->json($productos);
+
+        } else {
+
+            $marcaActual = $request->marca;
+            $marcaActualname = null;
+            
+            if($marcaActual != null){
+                $marcaActualname = Marca::find($marcaActual);
+            }else{
+                $marcaActualname = "Todas";
+            }
+
+            return response()->json($productos, $marcaActualname);
+        }
+    }
+
+
+
+
 
 }

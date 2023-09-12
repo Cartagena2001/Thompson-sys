@@ -71,7 +71,17 @@ class CMSSeeder extends Seeder
 
         CMS::create([
             'variable' => 'corrOrden',
-            'parametro' => 'ventas@rtelsalvador.com, admin@rtelsalvador',
+            'parametro' => 'oficina@rtelsalvador.com, alerta@rtelsalvador',
+        ]);
+
+        CMS::create([
+            'variable' => 'catalog_mod',
+            'parametro' => 0,
+        ]);
+
+        CMS::create([
+            'variable' => 'mant_mod',
+            'parametro' => 0,
         ]);
 
     }

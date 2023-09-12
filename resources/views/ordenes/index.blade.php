@@ -55,7 +55,7 @@
                         {{-- contar los productos activos de la base de datos --}}
                         <?php
                         $ordenesProceso = DB::table('orden')
-                            ->where('estado', 'En proceso')
+                            ->where('estado', 'Proceso')
                             ->get();
                         echo count($ordenesProceso);
                         ?> 
@@ -135,13 +135,15 @@
                     </thead>
                     <tbody>
                         @foreach ($ordenes as $orden)
+
+                            @if ( Auth::user()->rol_id == 3 && $orden->estado != 'Pendiente')
                             <tr>
                                 <td>{{ $orden->id }}</td>
                                 <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
                                 <td>{{ $orden->user->nombre_empresa }}</td>
                                 @if ($orden->estado == 'Pendiente')
                                     <td class="text-warning">{{ $orden->estado }}</td>
-                                @elseif($orden->estado == 'En proceso')
+                                @elseif($orden->estado == 'Proceso')
                                     <td class="text-success">{{ $orden->estado }}</td>
                                 @elseif($orden->estado == 'Finalizada')
                                     <td class="text-success">{{ $orden->estado }}</td>
@@ -160,6 +162,33 @@
                                     </form>
                                 </td>
                             </tr>
+                            @elseif ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
+                                <tr>
+                                    <td>{{ $orden->id }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                    <td>{{ $orden->user->nombre_empresa }}</td>
+                                    @if ($orden->estado == 'Pendiente')
+                                        <td class="text-warning">{{ $orden->estado }}</td>
+                                    @elseif($orden->estado == 'Proceso')
+                                        <td class="text-success">{{ $orden->estado }}</td>
+                                    @elseif($orden->estado == 'Finalizada')
+                                        <td class="text-success">{{ $orden->estado }}</td>
+                                    @else
+                                        <td class="text-danger">{{ $orden->estado }}</td>
+                                    @endif
+                                    <td>{{ \Carbon\Carbon::parse($orden->fecha_envio)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($orden->fecha_entrega)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                    <td>${{ $orden->total }}</td>
+                                    <td class="text-end">
+                                        <form action="{{ route('productos.destroy', $orden->id) }}" method="POST">
+                                            <a href="{{ route('ordenes.show', $orden->id) }}">
+                                                <button class="btn p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Ir a"><span class="text-500 fas fa-eye"></span> Ver Órden</button>
+                                            </a>
+                                            @csrf
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>

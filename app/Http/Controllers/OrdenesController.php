@@ -116,10 +116,40 @@ class OrdenesController extends Controller
 
     //crear una funcion para actualizar el estado de la orden a en proceso
     public function enProceso($id){
+
         $orden = Orden::find($id);
-        $orden->estado = 'En proceso';
+        $orden->estado = 'Proceso';
         $orden->save();
-        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizó la orden a En proceso');
+
+        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizó el estado de la órden a En Proceso');
+    }
+
+    //crear una funcion para actualizar el estado de la orden a preparada
+    public function preparada($id){
+        
+        $orden = Orden::find($id);
+        $orden->estado = 'Preparada';
+        $orden->save();
+
+        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizó el estado de la órden a Preparada');
+    }
+
+    //crear una funcion para actualizar el estado de la orden a en espera
+    public function enEspera($id){
+        
+        $orden = Orden::find($id);
+        $orden->estado = 'Espera';
+        $orden->save();
+
+        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizó el estado de la órden a En Espera');
+    }
+
+    //crear una funcion para actualizar el estado de la orden a pagada
+    public function pagada($id){
+        $orden = Orden::find($id);
+        $orden->estado = 'Pagada';
+        $orden->save();
+        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizó el estado de la órden a Pagada');
     }
 
     //crear una funcion para actualizar el estado de la orden a finalizada
@@ -127,7 +157,7 @@ class OrdenesController extends Controller
         $orden = Orden::find($id);
         $orden->estado = 'Finalizada';
         $orden->save();
-        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizó la orden a Finalizada');
+        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizó el estado de la órden a Finalizada');
     }
 
     //crear una funcion para actualizar el estado de la orden a cancelada
@@ -135,7 +165,7 @@ class OrdenesController extends Controller
         $orden = Orden::find($id);
         $orden->estado = 'Cancelada';
         $orden->save();
-        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizó la orden a Cancelada');
+        return redirect('/dashboard/ordenes')->with('toast_success', 'Se actualizó el estado de la orden a Cancelada');
     }
 
 }

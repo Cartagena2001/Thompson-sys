@@ -8,6 +8,8 @@ use App\Models\Orden;
 use App\Models\OrdenDetalle;
 use App\Models\User;
 
+use App\Models\CMS;
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -24,8 +26,12 @@ class PerfilController extends Controller
     {
         //capturar la informacion del usuario logeado
         $user = auth()->User();
+        $cmsVars = CMS::get()->toArray();
 
-        return view('perfil.configuracion.index', compact('user'));
+        $cat_mod = $cmsVars[12]['parametro']; //modo catalogo
+        $mant_mod = $cmsVars[13]['parametro']; //modo mantenimiento
+
+        return view('perfil.configuracion.index', compact('user', 'cat_mod', 'mant_mod'));
     }
 
     // funcion para actualizar la informacion del usuario

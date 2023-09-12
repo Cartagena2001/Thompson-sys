@@ -74,10 +74,25 @@
                                 <th class="text-center">Ubicación (Bodega)</th>
                                 <th class="text-center">Ubicación (Oficina)</th>
                                 <th class="text-center">Cantidad (Solicitada)</th>
-                                <th class="text-center">Cantidad (Despachada)</th>
-                                <th class="text-center"># Bultos</th>
+
+                                @if ( Auth::user()->rol_id == 0 && $orden->estado != 'Pendiente' || Auth::user()->rol_id == 1 && $orden->estado != 'Pendiente' )
+                                    <th class="text-center">Cantidad (Despachada)</th>
+                                    <th class="text-center"># Bultos</th>
+                                @endif
+
+                                @if ( Auth::user()->rol_id == 3 && $orden->estado == 'Proceso' )
+                                    <th class="text-center">Cantidad (Despachada)</th>
+                                    <th class="text-center"># Bultos</th>
+                                @endif
+
+
+
                                 <th class="text-center">Precio (caja)</th>
+                                
+                                @if ( Auth::user()->rol_id != 3 )
                                 <th class="text-center">Subtotal Parcial</th>
+                                @endif
+
                             </tr>
                         </thead>
                         <tbody>
@@ -103,11 +118,28 @@
 
                                     <td class="text-center">{{ $detalles->cantidad * $detalles->producto->unidad_por_caja }}</td>
                                     
-                                    <td class="text-center">{{ $detalles->cantidad_despachada }}</td>
-                                    <td class="text-center">{{ $detalles->n_bulto }}</td>
+                                    @if ( Auth::user()->rol_id == 0 && $orden->estado != 'Pendiente' || Auth::user()->rol_id == 1 && $orden->estado != 'Pendiente' )
+                                        <td class="text-center">{{ $detalles->cantidad_despachada }}</td>
+                                        <td class="text-center">{{ $detalles->n_bulto }}</td>
+                                    @endif
 
+                                    @if ( Auth::user()->rol_id == 3 && $orden->estado == 'Proceso' )
+                                        <td class="flex-center">
+                                            <input id="nbulto_{{ $detalles->producto->id }}" name="nbulto" class="form-control text-center" type="text" value="{{ $detalles->n_bulto }}" placeholder="0" onchange="updateNb(this.id)" style="max-width: 80px;" />
+                                        </td>
+                                    @endif
+
+                                    @if ( Auth::user()->rol_id == 3 && $orden->estado == 'Proceso' )
+                                        <td class="flex-center">
+                                            <input id="cantd_{{ $detalles->producto->id }}" name="cantd" class="form-control text-center" type="text" value="{{ $detalles->cantidad_despachada }}" placeholder="0" onchange="updateCantD(this.id)" style="max-width: 80px;" />
+                                        </td>
+                                    @endif
+
+                                    
                                     <td class="text-center">{{ number_format(($detalles->precio), 2, '.', ','); }} $</td>
-                                    <td class="text-center">{{ number_format(($detalles->cantidad * $detalles->precio), 2, '.', ','); }} $</td> 
+                                    @if ( Auth::user()->rol_id != 3 )
+                                        <td class="text-center">{{ number_format(($detalles->cantidad * $detalles->precio), 2, '.', ','); }} $</td>
+                                    @endif 
                                 </tr>
                             @endforeach
 
@@ -123,13 +155,17 @@
                                 $total = $subtotal + ($subtotal * $iva);
                             @endphp
                             
+                            @if ( Auth::user()->rol_id != 3 )
                                 <tr class="pt-5" style="border-top: solid 4px #979797;">
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    @if ( Auth::user()->rol_id == 0 && $orden->estado != 'Pendiente' || Auth::user()->rol_id == 1 && $orden->estado != 'Pendiente' )
                                     <td></td>
+                                    <td></td>
+                                    @endif
                                     <td class="text-start" style="font-weight: 600;">Subtotal:</td> 
                                     <td class="text-end">{{ number_format($subtotal, 2, '.', ',');  }} $</td> 
                                 </tr>
@@ -139,7 +175,10 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    @if ( Auth::user()->rol_id == 0 && $orden->estado != 'Pendiente' || Auth::user()->rol_id == 1 && $orden->estado != 'Pendiente' )
                                     <td></td>
+                                    <td></td>
+                                    @endif
                                     <td class="text-start" style="font-weight: 600;">IVA (13%):</td> 
                                     <td class="text-end">{{ number_format(($subtotal * $iva), 2, '.', ',');  }} $</td> 
                                 </tr>
@@ -149,10 +188,14 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    @if ( Auth::user()->rol_id == 0 && $orden->estado != 'Pendiente' || Auth::user()->rol_id == 1 && $orden->estado != 'Pendiente' )
                                     <td></td>
+                                    <td></td>
+                                    @endif
                                     <td class="text-start" style="font-weight: 600;">Total:</td> 
                                     <td class="text-end">{{ number_format($total, 2, '.', ',');  }} $</td>
                                 </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -166,29 +209,33 @@
                 {{ method_field('PUT') }}
                 @csrf
 
-                <div class="mt-3 col-auto text-center col-4 mx-auto">
-                    <label for="factura_href">Adjuntar Factura/Crédito Fiscal: </label>
-                    <br/>
-                    <a href="{{ $orden->factura_href }}" title="Ver Factura" target="_blank"><img class="rounded mt-2" src="{{ $orden->factura_href }}" alt="factura-img" width="400"></a>
-                    <br/>
-                    <br/>
-                    <input class="form-control" type="file" name="factura_href" id="factura_href" value="{{ $orden->factura_href }}">  
-                    <br/>
-                    @error('factura_href')
-                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="row mb-2">  
-
-                    <div class="col-6">
-                        <label for="corr"># de Factura: </label>
-                        <input class="form-control" type="text" name="corr" id="corr" value="{{ $orden->corr }}" maxlength="24" placeholder="-">
-                        @error('corr')
+                @if ( !$orden->estado == 'Pendiente' || !$orden->estado == 'Proceso' )
+                    <div class="mt-3 col-auto text-center col-4 mx-auto">
+                        <label for="factura_href">Adjuntar Factura/Crédito Fiscal: </label>
+                        <br/>
+                        <a href="{{ $orden->factura_href }}" title="Ver Factura" target="_blank"><img class="rounded mt-2" src="{{ $orden->factura_href }}" alt="factura-img" width="400"></a>
+                        <br/>
+                        <br/>
+                        <input class="form-control" type="file" name="factura_href" id="factura_href" value="{{ $orden->factura_href }}">  
+                        <br/>
+                        @error('factura_href')
                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                         @enderror
                     </div>
+                @endif
 
+                <div class="row mb-2">  
+
+                    @if ( !$orden->estado == 'Pendiente' || !$orden->estado == 'Proceso' )
+                        <div class="col-6">
+                            <label for="corr"># de Factura: </label>
+                            <input class="form-control" type="text" name="corr" id="corr" value="{{ $orden->corr }}" maxlength="24" placeholder="-">
+                            @error('corr')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    @endif
+                    
                     <div class="col-6">
                         <label for="ubicacion">Ubicación (Despacho): </label>
                         
@@ -220,7 +267,7 @@
                 </div>
 
                 <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">
-                    <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Adjuntar información</button>
+                    <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Guardar</button>
                 </div>
 
             </form>
@@ -231,18 +278,20 @@
                 {{ method_field('PUT') }}
                 @csrf
 
-                <div class="mt-3 col-auto text-center col-4 mx-auto">
-                    <label for="hoja_salida_href">Adjuntar Hoja de Salida: </label>
-                    <br/>
-                    <a href="{{ $orden->hoja_salida_href }}" title="Ver Hoja de Salida" target="_blank"><img class="rounded mt-2" src="{{ $orden->hoja_salida_href }}" alt="hoja-salida-img" width="400"></a>
-                    <br/>
-                    <br/>
-                    <input class="form-control" type="file" name="hoja_salida_href" id="hoja_salida_href" value="{{ $orden->hoja_salida_href }}">  
-                    <br/>
-                    @error('hoja_salida_href')
-                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                    @enderror
-                </div>
+                @if ( $orden->estado == 'Pagada' )
+                    <div class="mt-3 col-auto text-center col-4 mx-auto">
+                        <label for="hoja_salida_href">Adjuntar Hoja de Salida: </label>
+                        <br/>
+                        <a href="{{ $orden->hoja_salida_href }}" title="Ver Hoja de Salida" target="_blank"><img class="rounded mt-2" src="{{ $orden->hoja_salida_href }}" alt="hoja-salida-img" width="400"></a>
+                        <br/>
+                        <br/>
+                        <input class="form-control" type="file" name="hoja_salida_href" id="hoja_salida_href" value="{{ $orden->hoja_salida_href }}">  
+                        <br/>
+                        @error('hoja_salida_href')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                @endif
 
                 <div class="row mb-2">  
 
@@ -282,10 +331,6 @@
 
             </form>
 
-            @else
-            
-            {{-- CLIENTE --}}
-
             @endif
 
 
@@ -293,6 +338,7 @@
             <div class="row mb-4">
             @if ($orden->estado == 'Finalizada' || $orden->estado == 'Cancelada')
                 <h4 class="text-center mb-4">La orden ha sido Finalizada.</h4>
+                
                 @else
                     <div class="row mt-4">
                         <h4 class="text-center mb-4">Actualizar estado de la Orden:</h4>
@@ -304,7 +350,25 @@
                                     @method('PUT')
                                     <button class="btn btn-info p-3 w-100" type="submit">Actualizar a: En Proceso</button>
                                 </form>
-                            @elseif($orden->estado == 'En proceso')
+                            @elseif($orden->estado == 'Proceso')
+                                <form action="{{ route('ordenes.preparada', $orden->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button class="btn btn-info p-3 w-100" type="submit">Actualizar a: Preparada</button>
+                                </form>
+                             @elseif($orden->estado == 'Preparada')
+                                <form action="{{ route('ordenes.espera', $orden->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button class="btn btn-info p-3 w-100" type="submit">Actualizar a: En Espera</button>
+                                </form>
+                            @elseif($orden->estado == 'Espera')
+                                <form action="{{ route('ordenes.pagada', $orden->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button class="btn btn-info p-3 w-100" type="submit">Actualizar a: Pagada</button>
+                                </form>
+                            @elseif($orden->estado == 'Pagada')
                                 <form action="{{ route('ordenes.finalizada', $orden->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
@@ -313,6 +377,7 @@
                             @endif
                         </div>
             @endif
+
             @if ($orden->estado != 'Cancelada' && $orden->estado != 'Finalizada')
                 <div class="col-md-6 text-start">
                     <form action="{{ route('ordenes.cancelada', $orden->id) }}" method="POST">

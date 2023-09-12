@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Marca;
+use App\Models\CMS;
 
 class HomeController extends Controller
 {
@@ -29,6 +30,10 @@ class HomeController extends Controller
         //capturar la informacion del usuario logeado
         $user = auth()->User();
         $marcas = Marca::all();
+        $cmsVars = CMS::get()->toArray();
+
+        $cat_mod = $cmsVars[12]['parametro']; //modo catalogo
+        $mant_mod = $cmsVars[13]['parametro']; //modo mantenimiento
 
         if($user->estatus == "aspirante" || $user->estatus == "rechazado"){
 
@@ -36,7 +41,7 @@ class HomeController extends Controller
 
         }else{
             //estatus = aprobado
-            return view('home',  compact('marcas'));
+            return view('home',  compact('marcas', 'cat_mod', 'mant_mod') );
         }
              
     }

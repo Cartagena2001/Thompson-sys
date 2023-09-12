@@ -37,6 +37,11 @@ class OrdenController extends Controller
         $orden->fecha_registro = \Carbon\Carbon::now()->toDateTimeString();
         $orden->estado = 'Pendiente'; //1er estado por defecto
         $orden->visto = 'nuevo'; //1er estado, antes de ser vista en el menú
+        $orden->corr = '-'; //#factura
+        $orden->notas = '-'; //notas
+        $orden->notas_bodega = '-'; //notas bodega
+        $orden->bulto = '-'; //total bultos
+        $orden->paletas = '-'; //total paletas
         $orden->fecha_envio = \Carbon\Carbon::now()->addDays(1)->toDateTimeString();
         $orden->fecha_entrega = \Carbon\Carbon::now()->addDays(4)->toDateTimeString();
         $orden->total = 0;

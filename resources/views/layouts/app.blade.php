@@ -37,6 +37,17 @@
     {!! htmlScriptTagJsApi(['lang' => 'es']) !!}
 </head>
 
+<?php
+    
+    $catalog_mode = 0;
+
+    if ( isset($cat_mod) ) {
+        $catalog_mode = $cat_mod;
+    }
+
+    
+?>
+
 <body class="test">
 
     <header class="sticky-menu">
@@ -73,7 +84,7 @@
                 
             </div>
 
-            @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 2)
+            @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
                                 
             {{-- CART ADMIN, SUPERADMIN y CLIENTE --}}
             <div class="col-1 col-lg-1 pt-2 text-center me-md-auto">
@@ -99,9 +110,37 @@
                 ?>
             </div>
 
+            @elseif ( Auth::user()->rol_id == 2 && $catalog_mode == 0)
+
+            {{-- CART CLIENTE --}}
+            <div class="col-1 col-lg-1 pt-2 text-center me-md-auto">
+
+                <a class="btn btn-sm btn-primary py-2 px-3 my-4" style="position: relative;" href="{{ url('/carrito') }}" title="Procesar Órden ->">
+                        <?php
+                            $carrito = session('cart', []);
+                            $cart = session()->get('cart', []);
+
+                            $cantidad = 0;
+                            
+                            foreach ($carrito as $item) {
+                                $cantidad += $item['cantidad'];
+                            }
+                        ?>
+                        <i style="font-size: 20px;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; bottom: 20px; left: 42px;">{{ $cantidad }}</span>
+                </a>
+
+                <?php
+                $productosDisponibles = DB::table('producto')
+                    ->where('estado_producto_id', '1')
+                    ->get();
+                ?>
+            </div>        
+
             @endif
 
         </div>
+
+        <div id="modMsg" style="text-align: center; background-color: black; color: #fff; padding: 5px 0px;"> 🔧 VERSIÓN DE PRUEBA - TIENDA EN DESARROLLO 🔨</div>
     </header>
     
 
@@ -117,7 +156,7 @@
                         <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu">
                             
                                 <li>
-                                    <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}"><h5 class="rt-color-3 font-weight-bold">🖥 Dashboard (50%)</h5></a>
+                                    <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}"><h5 class="rt-color-3 font-weight-bold">🖥 Dashboard  @if ( Auth::user()->rol_id == 1 || Auth::user()->rol_id == 0) (50%) @endif</h5></a>
                                 </li>
 
                                 <li><hr/></li>
@@ -160,13 +199,13 @@
                                 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Comprar</span>
+                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Catálogo</span>
                                     </a>
                                 </li>
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/compra-masiva') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-box-open"></i> <span class="ms-1 d-none d-sm-inline">Compra Masiva</span>
+                                        <i class="fas fa-box-open"></i> <span class="ms-1 d-none d-sm-inline">Compra Rápida</span>
                                     </a>
                                 </li>
 
@@ -289,10 +328,14 @@
                                         <i class="fas fa-user-edit"></i> <span class="ms-1 d-none d-sm-inline">Mi Perfil</span></a>
                                 </li>
 
+                                @if ( $catalog_mode == 0 )
+
                                 <li class="ps-4">
                                     <a href="{{ url('/perfil/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/ordenes') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-truck-loading"></i> <span class="ms-1 d-none d-sm-inline">Mis Órdenes</span></a>
                                 </li>
+
+                                @endif
 
                                 <li><hr/></li>
                                 
@@ -300,15 +343,19 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Compra por Catálogo</span>
+                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Catálogo</span>
                                     </a>
                                 </li>
 
+                                @if ( $catalog_mode == 0 )
+
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/compra-masiva') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-box-open"></i> <span class="ms-1 d-none d-sm-inline">Compra Masiva</span>
+                                        <i class="fas fa-box-open"></i> <span class="ms-1 d-none d-sm-inline">Compra Rápida</span>
                                     </a>
                                 </li>
+
+                                @endif
 
                                 <li><hr/></li>
 

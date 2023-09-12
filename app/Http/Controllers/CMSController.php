@@ -49,7 +49,9 @@ class CMSController extends Controller
             'dirBod' => 'required',
             'horarioBod' => 'required',
             'corrContacto' => 'required',
-            'corrOrden' => 'required'
+            'corrOrden' => 'required',
+            'catalogMod' => 'required',
+            'mantMod' => 'required'
         ]);
 
         //guardar parametros CMS
@@ -101,6 +103,14 @@ class CMSController extends Controller
         $corrOrden = CMS::find(12);
         $corrOrden->parametro = $request->get('corrOrden');
         $corrOrden->update();
+
+        $catalogMod = CMS::find(13);
+        $catalogMod->parametro = $request->get('catalogMod');
+        $catalogMod->update();
+
+        $mantMod = CMS::find(14);
+        $mantMod->parametro = $request->get('mantMod');
+        $mantMod->update();
         
         //redireccionar
         return redirect()->route('cms.index')->with('toast_success', 'Configuración actualizada correctamente');

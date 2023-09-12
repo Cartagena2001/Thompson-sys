@@ -32,23 +32,103 @@
     </a>
 
 
-</div>
-
-
+</div>   
 
     <?php
     $productosDisponibles = DB::table('producto')
-        ->where('estado_producto_id', '1')
+        ->where('estado_producto_id', 1)
+        ->whereNot('existencia', 0)
         ->get();
     ?>
 
 {{-- Marcas --}}
-<div class="card mb-3" id="summary">
+<div class="card mb-3" 
+
+    @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 ) 
+
+        id="summary">
+
+    @elseif ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
+
+        id="summary">
+
+    @else
+
+        ><span style="display: none;"  id="summary"><spam id="brand-list"><spam id="summ-detail"></spam></spam></span>
+
+    @endif
 
     <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
     
     <div class="card-body position-relative">
         <div class="row">
+
+        @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
+
+            <div id="brand-list" class="col-lg-8 flex-center">
+                @foreach ($marcas as $brand)
+                    
+                    <img id="marca-img-{{ $brand->nombre }}" src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid" style="max-width: 150px; margin: 0 auto;" /> 
+
+                @endforeach
+            </div>
+
+            {{-- Detalle --}}
+            <div id="summ-detail" class="col-lg-4 flex-center">
+                <table id="table_detalle" class="table display mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-start p-1">Marca</th>
+                            <th class="text-center p-1">Cantidad 📦</th>
+                            <th class="text-center p-1">Subtotal Parcial</th>   
+                        </tr>
+                    </thead>
+                    <tbody>
+                   
+                    @foreach ($detallesSUM as $marcaDetalle)
+                        <tr>
+                            <td class="text-start p-1">{{ $marcaDetalle['nombre'] }}</td>
+                            <td class="text-center p-1">{{ $marcaDetalle['cantidad'] }}</td>
+                            <td class="text-center p-1">{{ $marcaDetalle['monto'] }}</td>
+                        </tr>  
+                    @endforeach
+
+                        <tr>
+                            <td class="text-start p-1"></td>
+                            <td class="text-center p-1">Subtotal:</td>
+                            @php
+
+                                $total = 0;
+                                //$cart = session('cart', []);
+                                
+                                foreach ($cart as $item) {
+                                    $total += $item['precio_f'] * $item['cantidad'] * $item['unidad_caja'];
+                                }
+
+                                echo '<td class="text-center p-1" id="st-brands">' . number_format($total, 2, '.', ',') . ' $</td>';
+                           
+                            @endphp
+                        </tr>
+
+                        @php
+                            $subtotal = 0;
+                            $iva = 0.13;
+                            $total = 0;
+                            /*
+                            foreach ($detalle as $detalles) {
+                                $subtotal += $detalles->cantidad * $detalles->precio;
+                            }
+
+                            $total = $subtotal + ($subtotal * $iva);
+                            */
+                        @endphp
+                        
+                    </tbody>
+                </table>
+            </div>
+
+        @elseif ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
+
             <div id="brand-list" class="col-lg-8 flex-center">
                 @foreach ($marcas as $brand)
                     
@@ -110,6 +190,20 @@
                     </tbody>
                 </table>
             </div>
+
+        @else
+
+            <div id="brand-list" class="col-lg-12 flex-center">
+                @foreach ($marcas as $brand)
+                    
+                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid" style="max-width: 150px; margin: 0 auto;" /> 
+
+                @endforeach
+            </div>
+
+        @endif
+
+
         </div>
     </div>
 </div>
@@ -125,20 +219,24 @@
             <div class="col-auto">
             
                 <form class="row gx-2">
-                    <div class="col-auto"><h6>Ordenar por marca:</h6></div>
+                    <div class="col-auto"><h6 class="my-1">Ordenar por marca:</h6></div>
                     <div class="col-auto">
                         
-                        <form action="{{ route('productos.index') }}" method="get">
-                            <select name="marca" id="marca" class="form-select form-select-sm" aria-label="Bulk actions">
+                       <form action="{{ route('productos.index') }}" method="get">
+
+                            <select id="marca-filter" name="marca" class="form-select form-select-sm" aria-label="Bulk actions" onchange="filterBrand(this.id)" >
                                 <option value="0">Todas</option>
                                 @foreach ($marcas as $marca)
                                     <option value="{{ $marca->id }}" @if ($marca->id == $marcaActual) selected @endif >{{ $marca->nombre }}</option>
                                 @endforeach
                             </select>
-                            <div class="mt-2">
-                                <button class="btn btn-sm btn-primary" type="submit"><i class="fas fa-filter"></i> Aplicar filtro</button>
-                                <a href="{{ url('/dashboard/tienda') }}" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-trash-alt"></i> Limpiar filtro</a>
+
+                            <div style="display: none;" class="mt-2">
+                                <button id="btn-filter-brand" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-filter"></i> Aplicar filtro</button>
+                                {{-- <a href="{{ url('/dashboard/tienda') }}" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-trash-alt"></i> Limpiar filtro</a> --}}
                             </div>
+
+
                         </form>
 
                     </div>
@@ -152,7 +250,8 @@
                     <div class="col-auto"><h6>Ordenar por categoría:</h6></div>
                     <div class="col-auto">
                         <form action="{{ route('productos.index') }}" method="get">
-                            <select name="categoria" id="categoria" class="form-select form-select-sm" aria-label="Bulk actions">
+
+                            <select name="categoria" id="categoria" class="form-select form-select-sm" aria-label="Bulk actions"  >
                                 <option value="0">Todas</option>
                                 @foreach ($categorias as $categoria)
                                     <option value="{{ $categoria->categoria_id }}"
@@ -160,10 +259,12 @@
                                         {{ $categoria->nombre }}</option>
                                 @endforeach
                             </select>
+
                             <div class="mt-2">
                                 <button class="btn btn-sm btn-primary" type="submit"><i class="fas fa-filter"></i> Aplicar filtro</button>
                                 <a href="{{ url('/dashboard/tienda') }}" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-trash-alt"></i> Limpiar filtro</a>
                             </div>
+
                         </form>
                     </div>
                 </form>
@@ -188,19 +289,19 @@
 
     <h6 class="card-body mb-0 py-1">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }} productos</h6>
 
-    <div class="card-body">
+    <div id="catalogo-grid" class="card-body">
 
         <div class="row">
 
             @foreach ($productos as $producto)
 
                 <?php
-                //hacer un if para ver si el producto tiene imagen o no
-                if ($producto->imagen_1_src != null) {
-                    $imagen = "{$producto->imagen_1_src}";
-                } else {
-                    $imagen = '../../../assets/img/products/demo-product-img.jpg';
-                }
+                    //hacer un if para ver si el producto tiene imagen o no
+                    if ($producto->imagen_1_src != null) {
+                        $imagen = "{$producto->imagen_1_src}";
+                    } else {
+                        $imagen = '../../../assets/img/products/demo-product-img.jpg';
+                    }
                 ?>
 
                 <div class="mb-4 col-md-12 col-lg-3">
@@ -229,6 +330,8 @@
 
                                 <div class="row">
 
+                                @if ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
+
                                     <div class="col-7">
                                         <p class="fs--1 mt-2 mb-2"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
                                     </div>
@@ -237,10 +340,30 @@
                                         <p class="text-center"># 📦</p>
                                     </div>
 
+                                @elseif ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
+
+                                    <div class="col-7">
+                                        <p class="fs--1 mt-2 mb-2"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
+                                    </div>
+
+                                    <div class="col-5">
+                                        <p class="text-center"># 📦</p>
+                                    </div>
+
+                                @else
+
+                                    <div class="col-12">
+                                        <p class="fs--1 mt-2 mb-2"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
+                                    </div>
+
+                                @endif
+
                                 </div>
 
                                 
                                 <div class="row">
+
+                                @if ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
 
                                     <div class="col-7">
                                 
@@ -303,6 +426,71 @@
                                         <input type="hidden" id="{{ $producto->existencia }}-uc" value="{{ $producto->unidad_por_caja }}">
                                     </div>
 
+                                @elseif ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
+
+                                    <div class="col-7">
+                                
+                                        <h5 class="fs-md-1 text-dark d-flex align-items-center mb-2">
+
+                                            @if ($producto->precio_oferta != null)                        
+                                                $ {{ $producto->precio_oferta }}
+
+                                            @elseif (Auth::user()->clasificacion == "Cobre")
+                                                $ {{ $producto->precio_1 }}
+                                            @elseif (Auth::user()->clasificacion == "Plata")
+                                                $ {{ $producto->precio_1 }}
+                                            @elseif (Auth::user()->clasificacion == "Oro")
+                                                $ {{ $producto->precio_2 }}
+                                            @elseif (Auth::user()->clasificacion == "Platino")
+                                                $ {{ $producto->precio_3 }}
+                                            @elseif (Auth::user()->clasificacion == "Diamante")
+                                                $ {{ $producto->precio_oferta }}
+                                            @elseif (Auth::user()->clasificacion == "Taller")
+                                                $ {{ $producto->precio_taller }}
+                                            @elseif (Auth::user()->clasificacion == "Distribuidor")
+                                                $ {{ $producto->precio_distribuidor }}
+                                            @endif
+
+                                            {{-- Precio antes de descuento --}}
+                                            <del class="ms-2 fs--1 text-500">
+                                            <?php if ($producto->precio_oferta != null) { ?>
+                                            
+                                               
+                                                @if (Auth::user()->clasificacion == "Cobre")
+                                                    $ {{ $producto->precio_1 }}
+                                                @elseif (Auth::user()->clasificacion == "Plata")
+                                                    $ {{ $producto->precio_1 }}
+                                                @elseif (Auth::user()->clasificacion == "Oro")
+                                                    $ {{ $producto->precio_2 }}
+                                                @elseif (Auth::user()->clasificacion == "Platino")
+                                                    $ {{ $producto->precio_3 }}
+                                                @elseif (Auth::user()->clasificacion == "Diamante")
+                                                    $ {{ $producto->precio_oferta }}
+                                                @elseif (Auth::user()->clasificacion == "Taller")
+                                                    $ {{ $producto->precio_taller }}
+                                                @elseif (Auth::user()->clasificacion == "Distribuidor")
+                                                    $ {{ $producto->precio_distribuidor }}
+                                                @endif
+
+                                             <?php } ?>
+                                            
+                                            </del>  
+                                        </h5>
+                                    </div>
+
+                                    <div class="col-5 text-end">
+                                        <input class="prod-grid-qty" type="number" id="{{ $producto->id }}" name="cantidad" value="{{ isset($cart[$producto->id]['cantidad']) ? $cart[$producto->id]['cantidad'] : 0 }}" min="1" max="{{ $producto->existencia }}" placeholder="0" onchange="agregarCarrito(this.id)"/>
+                                        <br/>
+                                        <span class="text-danger" id="ErrorMsg1"></span>
+                                        <span class="text-danger" id="ErrorMsg2"></span>
+
+                                        <input type="hidden" id="{{ $producto->id }}-brand" value="{{ $producto->marca_id }}">
+                                        <input type="hidden" id="{{ $producto->id }}-ex" value="{{ $producto->existencia }}">
+                                        <input type="hidden" id="{{ $producto->existencia }}-uc" value="{{ $producto->unidad_por_caja }}">
+                                    </div>   
+
+                                @endif
+
                                 </div>
 
                                 
@@ -316,6 +504,8 @@
 
 
                         <div class="row px-0 mx-1">
+
+                        @if ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
 
                             <div class="col-6 col-md-6 px-1 flex-center">
 
@@ -331,6 +521,36 @@
                                 <p class="me-0 mb-0 text-center"><span style="font-size: 14px;">Subtotal:</span> <br/> <span style="font-weight: bold; font-size: 20px;">{{ isset($cart[$producto->id]['cantidad']) ? number_format(($cart[$producto->id]['precio_f'] * $cart[$producto->id]['cantidad'] * $cart[$producto->id]['unidad_caja']), 2, '.', ',') : number_format(0, 2, '.', ',') }} $</span></p> 
 
                             </div>
+
+                        @elseif ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
+
+                            <div class="col-6 col-md-6 px-1 flex-center">
+
+                                <a tabindex="-1" class="btn btn-x btn-primary me-0 px-2"
+                                    href="{{ route('tienda.show', $producto->slug) }}" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" title="Ir a">Ver Más <i class="fas fa-search-plus"></i>
+                                </a>
+ 
+                            </div>
+
+                            <div class="col-6 col-md-6 px-1">
+
+                                <p class="me-0 mb-0 text-center"><span style="font-size: 14px;">Subtotal:</span> <br/> <span style="font-weight: bold; font-size: 20px;">{{ isset($cart[$producto->id]['cantidad']) ? number_format(($cart[$producto->id]['precio_f'] * $cart[$producto->id]['cantidad'] * $cart[$producto->id]['unidad_caja']), 2, '.', ',') : number_format(0, 2, '.', ',') }} $</span></p> 
+
+                            </div>
+
+                        @else
+
+                            <div class="col-12 col-md-12 px-1 flex-center">
+
+                                <a tabindex="-1" class="btn btn-x btn-primary me-0 px-2"
+                                    href="{{ route('tienda.show', $producto->slug) }}" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" title="Ir a">Ver Más <i class="fas fa-search-plus"></i>
+                                </a>
+ 
+                            </div>
+
+                        @endif
 
                         </div>
 
@@ -435,6 +655,16 @@
         sumdet.classList.add("col-lg-4");
       }
     }
+
+    function filterBrand(filterid) {
+
+        var brand = $('#'+filterid).find(":selected").val();
+
+        $('#btn-filter-brand').click();
+
+    }
+
+
 
 </script>
 

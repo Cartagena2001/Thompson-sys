@@ -98,6 +98,22 @@
                   <input class="form-control" id="corrOrden" name="corrOrden" type="text" placeholder="-" value=" {{ $cmsVars[11]['parametro'] }} " />
                 </div>
 
+                <hr class="my-4" style="border-style: dashed; padding: 2px 0px; background-color: #ff161f; border-radius: 10px;" />
+
+                <div class="my-3">
+                  <label class="form-label" for="catalogMod">Modo Catálogo: 
+                    <input type="radio" name="catalogMod" value="1" @if ( $cmsVars[12]['parametro'] == 1 ) checked @endif > <span style="color: green;">Activo</span>
+                    <input type="radio" name="catalogMod" value="0"  @if ( $cmsVars[12]['parametro'] == 0 ) checked @endif > <span style="color: red;">Inactivo</span>
+                    </label>
+                </div>
+
+                <div class="my-3">
+                  <label class="form-label" for="mantMod">Modo Mantenimiento: 
+                    <input type="radio" name="mantMod" value="1" @if ( $cmsVars[13]['parametro'] == 1 ) checked @endif > <span style="color: green;">Activo</span>
+                    <input type="radio" name="mantMod" value="0"  @if ( $cmsVars[13]['parametro'] == 0 ) checked @endif > <span style="color: red;">Inactivo</span>
+                  </label>
+                </div>
+
                 <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">
                     <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Guardar Configuración</button>
                 </div>

@@ -59,8 +59,12 @@ Route::post('/dashboard/productos/import', [App\Http\Controllers\ProductoControl
 //Rutas para ordenes
 Route::resource('/dashboard/ordenes', App\Http\Controllers\OrdenesController::class)->middleware('auth');
 Route::put('/dashboard/ordenes/enProceso/{id}', [App\Http\Controllers\OrdenesController::class, 'enProceso'])->name('ordenes.enProceso')->middleware('auth');
+Route::put('/dashboard/ordenes/preparada/{id}', [App\Http\Controllers\OrdenesController::class, 'preparada'])->name('ordenes.preparada')->middleware('auth');
+Route::put('/dashboard/ordenes/enEspera/{id}', [App\Http\Controllers\OrdenesController::class, 'enEspera'])->name('ordenes.espera')->middleware('auth');
+Route::put('/dashboard/ordenes/pagada/{id}', [App\Http\Controllers\OrdenesController::class, 'pagada'])->name('ordenes.pagada')->middleware('auth');
 Route::put('/dashboard/ordenes/finalizada/{id}', [App\Http\Controllers\OrdenesController::class, 'finalizada'])->name('ordenes.finalizada')->middleware('auth');
 Route::put('/dashboard/ordenes/cancelada/{id}', [App\Http\Controllers\OrdenesController::class, 'cancelada'])->name('ordenes.cancelada')->middleware('auth');
+
 Route::put('/dashboard/ordenes/uploadCif/{id}', [App\Http\Controllers\OrdenesController::class, 'upload'])->name('ordenecif.upload')->middleware('auth');
 Route::put('/dashboard/ordenes/uploadHoj/{id}', [App\Http\Controllers\OrdenesController::class, 'uploadBod'])->name('ordenehoj.upload')->middleware('auth');
 
@@ -105,6 +109,7 @@ Route::post('/dashboard/permisos', [App\Http\Controllers\ClientesController::cla
 Route::get('/dashboard/tienda', [App\Http\Controllers\TiendaController::class, 'index'])->name('tienda.index')->middleware('auth');
 Route::get('/dashboard/tienda/{producto:slug}', [App\Http\Controllers\TiendaController::class, 'show'])->name('tienda.show')->middleware('auth');
 Route::get('/dashboard/compra-masiva', [App\Http\Controllers\TiendaController::class, 'showCat'])->name('compra.masiva.index')->middleware('auth');
+
 
 //Rutas para el carrito
 Route::get('/carrito', [App\Http\Controllers\CarritoController::class, 'index'])->name('carrito.index')->middleware('auth');

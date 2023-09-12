@@ -152,69 +152,133 @@ if ($producto->imagen_1_src != null) {
                     @endif
                 </div>
 
+                @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
+
+                    <h3 class="d-flex align-items-center">
+                        <span style="color: #F3151E">
+
+                            @if ($producto->precio_oferta != null)                        
+                                $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
+
+                            @elseif (Auth::user()->clasificacion == 'Cobre')
+                                $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
+                            @elseif (Auth::user()->clasificacion == 'Plata')
+                                $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
+                            @elseif (Auth::user()->clasificacion == 'Oro')
+                                $ {{ $producto->precio_2 * $producto->unidad_por_caja }}
+                            @elseif (Auth::user()->clasificacion == 'Platino')
+                                $ {{ $producto->precio_3 * $producto->unidad_por_caja }}
+                            @elseif (Auth::user()->clasificacion == 'Diamante')
+                                $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
+                            @elseif (Auth::user()->clasificacion == 'Taller')
+                                $ {{ $producto->precio_taller * $producto->unidad_por_caja }}
+                            @elseif (Auth::user()->clasificacion == 'Reparto')
+                                $ {{ $producto->precio_distribuidor * $producto->unidad_por_caja }}
+                            @endif
+                            <span class="rt-color-2">c/caja</span>
+                        </span>
+                        <span class="me-1 fs--1 text-500"></span>
+                    </h3>
+
+                    <span class="d-flex align-items-center mb-4">
+                        <span style="color: #F3151E">
+
+                            @if ($producto->precio_oferta != null)                        
+                                $ {{ $producto->precio_oferta }}
+
+                            @elseif (Auth::user()->clasificacion == 'Cobre')
+                                $ {{ $producto->precio_1}}
+                            @elseif (Auth::user()->clasificacion == 'Plata')
+                                $ {{ $producto->precio_1 }}
+                            @elseif (Auth::user()->clasificacion == 'Oro')
+                                $ {{ $producto->precio_2}}
+                            @elseif (Auth::user()->clasificacion == 'Platino')
+                                $ {{ $producto->precio_3}}
+                            @elseif (Auth::user()->clasificacion == 'Diamante')
+                                $ {{ $producto->precio_oferta}}
+                            @elseif (Auth::user()->clasificacion == 'Taller')
+                                $ {{ $producto->precio_taller}}
+                            @elseif (Auth::user()->clasificacion == 'Reparto')
+                                $ {{ $producto->precio_distribuidor}}
+                            @endif
+                            <span class="rt-color-2">c/producto</span>
+                        </span>
+                        <span class="me-1 fs--1 text-500"></span>
+                    </span>
+
+                @elseif ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
+
                 <h3 class="d-flex align-items-center">
-                    <span style="color: #F3151E">
+                        <span style="color: #F3151E">
 
-                        @if ($producto->precio_oferta != null)                        
-                            $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
+                            @if ($producto->precio_oferta != null)                        
+                                $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
 
-                        @elseif (Auth::user()->clasificacion == 'Cobre')
-                            $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
-                        @elseif (Auth::user()->clasificacion == 'Plata')
-                            $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
-                        @elseif (Auth::user()->clasificacion == 'Oro')
-                            $ {{ $producto->precio_2 * $producto->unidad_por_caja }}
-                        @elseif (Auth::user()->clasificacion == 'Platino')
-                            $ {{ $producto->precio_3 * $producto->unidad_por_caja }}
-                        @elseif (Auth::user()->clasificacion == 'Diamante')
-                            $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
-                        @elseif (Auth::user()->clasificacion == 'Taller')
-                            $ {{ $producto->precio_taller * $producto->unidad_por_caja }}
-                        @elseif (Auth::user()->clasificacion == 'Reparto')
-                            $ {{ $producto->precio_distribuidor * $producto->unidad_por_caja }}
-                        @endif
-                        <span class="rt-color-2">c/caja</span>
+                            @elseif (Auth::user()->clasificacion == 'Cobre')
+                                $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
+                            @elseif (Auth::user()->clasificacion == 'Plata')
+                                $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
+                            @elseif (Auth::user()->clasificacion == 'Oro')
+                                $ {{ $producto->precio_2 * $producto->unidad_por_caja }}
+                            @elseif (Auth::user()->clasificacion == 'Platino')
+                                $ {{ $producto->precio_3 * $producto->unidad_por_caja }}
+                            @elseif (Auth::user()->clasificacion == 'Diamante')
+                                $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
+                            @elseif (Auth::user()->clasificacion == 'Taller')
+                                $ {{ $producto->precio_taller * $producto->unidad_por_caja }}
+                            @elseif (Auth::user()->clasificacion == 'Reparto')
+                                $ {{ $producto->precio_distribuidor * $producto->unidad_por_caja }}
+                            @endif
+                            <span class="rt-color-2">c/caja</span>
+                        </span>
+                        <span class="me-1 fs--1 text-500"></span>
+                    </h3>
+
+                    <span class="d-flex align-items-center mb-4">
+                        <span style="color: #F3151E">
+
+                            @if ($producto->precio_oferta != null)                        
+                                $ {{ $producto->precio_oferta }}
+
+                            @elseif (Auth::user()->clasificacion == 'Cobre')
+                                $ {{ $producto->precio_1}}
+                            @elseif (Auth::user()->clasificacion == 'Plata')
+                                $ {{ $producto->precio_1 }}
+                            @elseif (Auth::user()->clasificacion == 'Oro')
+                                $ {{ $producto->precio_2}}
+                            @elseif (Auth::user()->clasificacion == 'Platino')
+                                $ {{ $producto->precio_3}}
+                            @elseif (Auth::user()->clasificacion == 'Diamante')
+                                $ {{ $producto->precio_oferta}}
+                            @elseif (Auth::user()->clasificacion == 'Taller')
+                                $ {{ $producto->precio_taller}}
+                            @elseif (Auth::user()->clasificacion == 'Reparto')
+                                $ {{ $producto->precio_distribuidor}}
+                            @endif
+                            <span class="rt-color-2">c/producto</span>
+                        </span>
+                        <span class="me-1 fs--1 text-500"></span>
                     </span>
-                    <span class="me-1 fs--1 text-500"></span>
-                </h3>
-                <span class="d-flex align-items-center mb-4">
-                    <span style="color: #F3151E">
 
-                        @if ($producto->precio_oferta != null)                        
-                            $ {{ $producto->precio_oferta }}
+                @endif
 
-                        @elseif (Auth::user()->clasificacion == 'Cobre')
-                            $ {{ $producto->precio_1}}
-                        @elseif (Auth::user()->clasificacion == 'Plata')
-                            $ {{ $producto->precio_1 }}
-                        @elseif (Auth::user()->clasificacion == 'Oro')
-                            $ {{ $producto->precio_2}}
-                        @elseif (Auth::user()->clasificacion == 'Platino')
-                            $ {{ $producto->precio_3}}
-                        @elseif (Auth::user()->clasificacion == 'Diamante')
-                            $ {{ $producto->precio_oferta}}
-                        @elseif (Auth::user()->clasificacion == 'Taller')
-                            $ {{ $producto->precio_taller}}
-                        @elseif (Auth::user()->clasificacion == 'Reparto')
-                            $ {{ $producto->precio_distribuidor}}
-                        @endif
-                        <span class="rt-color-2">c/producto</span>
-                    </span>
-                    <span class="me-1 fs--1 text-500"></span>
-                </span>
+
 
                 @if ($producto->existencia == 0)
                     <h3 class="fs--1"><span style="color: #F3151E">Producto Agotado</span></h3>
                 @else
-                    <h3 class="fs--1"><span style="color: #F3151E">En Stock: {{ $producto->existencia }} Cajas 📦</span></h3>
+                    <h3 class="fs--1"><span style="color: #000">En Stock:</span> <span style="color: green;">Disponible</span></h3>
                 @endif
 
                 <span><b>• Unidades por caja:</b> {{ $producto->unidad_por_caja }}</span>
                 <br>
-                <span><b>• País de origen:</b> <span style="text-transform: capitalize;">{{ $producto->origen }}</span></span>
+                <span><b>• País de origen:</b> <span style="text-transform: capitalize;"> @if ( $producto->origen != null ) {{ $producto->origen }} @else - @endif</span></span>
                 <br>
                 <span><b>• Garantía:</b> {{ $producto->garantia }}</span>
                 <br>
+
+
+                @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 ) 
 
                 <div class="row">
                     
@@ -239,6 +303,36 @@ if ($producto->imagen_1_src != null) {
                     </form>
 
                 </div>
+
+                @elseif ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
+
+                <div class="row">
+                    
+                    <form method="post" action="{{ route('carrito.add') }}">
+                        @csrf
+                        <div class="mb-2 mt-4">
+                            <span class="fs--1 text-500">Cantidad de cajas a ordenar:</span>
+                            
+                            <div class="input-group" data-quantity="data-quantity">              
+                                <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="btn-menos">-</button>
+                                    <input class="btn btn-outline-secondary" type="number" name="cantidad" value="1" id="cantidad" min="1" max="{{ $producto->unidad_por_caja }}" readonly>
+                                    <button class="btn btn-outline-secondary" type="button" id="btn-mas">+</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <button class="btn btn-x btn-primary" type="submit"><span class="fas fa-cart-plus me-sm-2"></span>Agregar al Carrito</button>
+
+                    </form>
+
+                </div>
+
+                @endif
+
+
 
             </div>
         </div>
