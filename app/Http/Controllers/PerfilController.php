@@ -8,6 +8,9 @@ use App\Models\Orden;
 use App\Models\OrdenDetalle;
 use App\Models\User;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\CMS;
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -38,24 +41,62 @@ class PerfilController extends Controller
     public function update(Request $request, User $user)
     {
         //capturar la informacion del usuario logeado
-        $user = auth()->User();
+        $usuarioLogIn = auth()->User();
+
+        $user = User::find($usuarioLogIn->id);
         
-        //validar los datos
-        $request->validate([
-            'name' => 'required|max:100',
-            'dui' => 'required|unique:users,dui|min:10|max:10' . $user->id,
-            'whatsapp' => 'required|min:9|max:9',
-            'nrc' => 'required|unique:users,nrc|min:8|max:10' . $user->id,
-            'nit' => 'required|unique:users,nit|min:17|max:17' . $user->id,
-            'razon_social' => 'required|max:34',
-            'direccion' => 'required|max:75',
-            'municipio' => 'required|max:25',
-            'departamento' => 'required|max:15',
-            'giro' => 'required|max:180',
-            'nombre_empresa' => 'required|max:34',
-            'website' => 'required|max:34',
-            'telefono' => 'required|string|min:9|max:9'
-        ]);
+        if ( $user->rol_id == 2 || $user->rol_id == 3 ) {
+
+            //validar los datos si es cliente o bodega
+            $request->validate([
+                //'name' => 'required|max:100',
+                //'dui' => 'required|unique:users,dui,'.$user->id.'|min:10|max:10',
+                'whatsapp' => 'required|min:9|max:9',
+                //'nrc' => 'required|unique:users,nrc,'.$user->id.'|min:8|max:10',
+                //'nit' => 'required|unique:users,nit,'.$user->id.'|min:17|max:17',
+                //'razon_social' => 'required|max:34',
+                //'direccion' => 'required|max:75',
+                //'municipio' => 'required|max:25',
+                //'departamento' => 'required|max:15',
+                //'giro' => 'required|max:180',
+                //'nombre_empresa' => 'required|max:34',
+                'website' => 'required|max:34',
+                'telefono' => 'required|string|min:9|max:9'
+            ]);
+
+        } elseif ( $user->rol_id == 0 || $user->rol_id == 1 ) {
+
+            //validar los datos si es superAdmin o Admin
+            $request->validate([
+                'name' => 'required|max:100',
+                'dui' => 'required|unique:users,dui,'.$user->id.'|min:10|max:10',
+                'whatsapp' => 'required|min:9|max:9',
+                'nrc' => 'required|unique:users,nrc,'.$user->id.'|min:8|max:10',
+                'nit' => 'required|unique:users,nit,'.$user->id.'|min:17|max:17',
+                'razon_social' => 'required|max:34',
+                'direccion' => 'required|max:75',
+                'municipio' => 'required|max:25',
+                'departamento' => 'required|max:15',
+                'giro' => 'required|max:180',
+                'nombre_empresa' => 'required|max:34',
+                'website' => 'required|max:34',
+                'telefono' => 'required|string|min:9|max:9'
+            ]);
+
+            $user->name = $request->get('name');
+            //$user->email = $request->get('email');
+            $user->dui = $request->get('dui');
+            $user->nrc = $request->get('nrc');
+            $user->nit = $request->get('nit');
+            $user->razon_social = $request->get('razon_social');
+            $user->direccion = $request->get('direccion');
+            $user->municipio = $request->get('municipio');
+            $user->departamento = $request->get('departamento');
+            $user->giro = $request->get('giro');
+            $user->nombre_empresa = $request->get('nombre_empresa');
+
+        }
+
 
         //almacenar datos
         if ($request->hasFile('imagen_perfil_src')) {
@@ -63,26 +104,55 @@ class PerfilController extends Controller
             $file->move(public_path() . '/assets/img/perfil-user/', $file->getClientOriginalName());
             $user->imagen_perfil_src = '/assets/img/perfil-user/' . $file->getClientOriginalName();
         }
-        $user->name = $request->get('name');
+
         //$user->email = $request->get('email');
-        $user->dui = $request->get('dui');
         $user->whatsapp = $request->get('whatsapp');
-        $user->nrc = $request->get('nrc');
-        $user->nit = $request->get('nit');
-        $user->razon_social = $request->get('razon_social');
-        $user->direccion = $request->get('direccion');
-        $user->municipio = $request->get('municipio');
-        $user->departamento = $request->get('departamento');
-        $user->giro = $request->get('giro');
-        $user->nombre_empresa = $request->get('nombre_empresa');
         $user->website = $request->get('website');
         $user->telefono = $request->get('telefono');
-        
+
         $user->update();
 
         //redireccionar
         return redirect()->route('perfil.index')->with('toast_success', 'Información actualizada correctamente');
     }
+
+
+    // funcion para actualizar la contraseña del usuario
+    public function passwordUpdate(Request $request)
+    {
+
+        //validar los datos si es cliente o bodega
+        $this->validate($request, [
+            'password_actual' => 'required|string',
+            'password_nuevo' => 'required|confirmed|min:6|string'
+        ]);
+
+        //capturar la informacion del usuario logeado
+        $usuarioLogIn = auth()->User();
+        $user = User::find($usuarioLogIn->id);
+        
+        // La contraseña coincide
+        if ( !(Hash::check($request->get('password_actual'), $user->password)) ) {
+            
+            return redirect()->route('perfil.index')->with('error', '¡Contraseña actual es inválida!');
+        }
+
+        // La contraseña actual y nuevo son el mismo
+        if ( strcmp($request->get('password_actual'), $request->get('password_nuevo')) == 0 ) {
+            
+            return redirect()->route('perfil.index')->with('error', 'La nueva contraseña no puede ser igual a la actual.');
+        }
+ 
+        $user->password = bcrypt($request->get('password_nuevo'));
+        $user->save();
+
+        //$user->password = bcrypt($request->get('password'));
+        //$user->update();
+
+        //redireccionar
+        return redirect()->route('perfil.index')->with('toast_success', 'Información actualizada correctamente');
+    }
+
 
     public function indexInfoSent()
     {
@@ -97,6 +167,7 @@ class PerfilController extends Controller
         }
   
     }
+
 
     // método para cargar la información del aspirante a cliente
     public function loadInfo(Request $request, User $user)

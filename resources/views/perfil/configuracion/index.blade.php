@@ -53,6 +53,8 @@
 
                     <div class="row mb-2">
 
+                    @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
+
                         <div class="col-6">
                             <label for="name">Nombre: </label>
                             <input class="form-control" type="text" name="name" id="name" value="{{ $user->name }}" maxlength="100" placeholder="-" required>
@@ -61,14 +63,25 @@
                             @enderror
                         </div>
 
+                    @else ( Auth::user()->rol_id == 2 || Auth::user()->rol_id == 3 )
+
+                        <div class="col-6">
+                            <label for="name">Nombre: </label>
+                            <input class="form-control" type="text" id="name" value="{{ $user->name }}" readonly>
+                        </div>
+
+                    @endif
+
                         <div class="col-6">
                             <label for="email">Correo Electrónico: </label>
-                            <input class="form-control" type="text" id="email" value="{{ $user->email }}" maxlength="100" placeholder="tucorreo@email.com" readonly>
+                            <input class="form-control" type="text" id="email" value="{{ $user->email }}" readonly>
                         </div>
 
                     </div>
 
                     <div class="row mb-2">
+
+                    @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
 
                         <div class="col-6">
                             <label for="dui">DUI: </label>
@@ -76,7 +89,16 @@
                             @error('dui')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror
-                        </div>                      
+                        </div>
+
+                    @else ( Auth::user()->rol_id == 2 || Auth::user()->rol_id == 3 )
+
+                        <div class="col-6">
+                            <label for="dui">DUI: </label>
+                            <input class="form-control" type="text" name="dui" id="dui" value="{{ $user->dui }}" readonly>
+                        </div>
+
+                    @endif                      
 
                         <div class="col-6">
                             <label for="whatsapp">Celular/Núm. WhatsApp: </label>
@@ -93,6 +115,8 @@
                     </div>
 
                     <hr />
+
+                @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
 
                     <div class="row mb-2">
 
@@ -182,6 +206,74 @@
 
                     </div>
 
+                @else ( Auth::user()->rol_id == 2 || Auth::user()->rol_id == 3 )
+
+                    <div class="row mb-2">
+
+                        <div class="col-6">
+                            <label for="nrc">N° de registro (NRC): </label>
+                            <input class="form-control" type="text" id="nrc" value="{{ $user->nrc }}" readonly>
+                        </div>
+
+                        <div class="col-6">
+                            <label for="nit">NIT: </label>
+                            <input class="form-control" type="text" id="nit" value="{{ $user->nit }}" readonly>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col-12">
+                            <label for="razon_social">Nombre/razón ó denominación social: </label>
+                            <input class="form-control" type="text" id="razon_social" value="{{ $user->razon_social }}" readonly>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col-12">
+                            <label for="direccion">Dirección: </label>
+                            <input class="form-control" type="text" id="direccion" value="{{ $user->direccion }}" readonly>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">                      
+
+                        <div class="col-6">
+                            <label for="municipio">Municipio/Distrito: </label>
+                        <input class="form-control" type="text" id="municipio" value="{{ $user->municipio }}" readonly>
+                        </div>
+
+                        <div class="col-6">
+                            <label for="departamento">Departamento: </label>
+                            <input class="form-control" type="text" id="departamento" value="{{ $user->departamento }}" readonly>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+
+                        <div class="col-12">
+                            <label for="giro">Giro ó actividad económica: </label>
+                            <textarea class="form-control" type="text" id="giro" rows="4" cols="50">{{ $user->giro }}</textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">  
+
+                        <div class="col-12">
+                            <label for="nombre_empresa">Nombre Comercial: </label>
+                            <input class="form-control" type="text" id="nombre_empresa" value="{{ $user->nombre_empresa }}" readonly>
+                        </div>
+
+                    </div>
+
+                @endif
+
                     <div class="row mb-2"> 
 
                         <div class="col-6">
@@ -200,10 +292,50 @@
                             @enderror
                         </div>
 
-                    </div> 
+                    </div>
 
                     <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">
                         <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Actualizar información</button>
+                    </div>
+
+                </form>
+
+                <form method="POST" action="{{ route('perfil.password.update') }}" role="form" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="col-auto align-self-center mt-5 mb-3 text-center">
+                        <h4 class="mb-0" data-anchor="data-anchor">🔑 Credenciales:</h4>
+                    </div>
+
+                    <hr />
+
+                    <div class="col-12 flex-center">
+
+                        <div>
+                        <label for="password_actual">Contraseña Actual: </label>
+                        <input class="form-control" type="password" name="password" id="password_actual" value="" maxlength="12" required>
+                        
+                        @if ($errors->has('password_actual'))
+                            <div class="alert alert-danger mt-1 mb-1">{{ $errors->first('password_actual') }}</div>
+                        @endif
+
+                        <label for="password_nuevo">Nueva Contraseña: </label>
+                        <input class="form-control" type="password" name="password_nuevo" id="password_nuevo" value="" maxlength="12" required>
+
+                        @if ($errors->has('password_nuevo'))
+                            <div class="alert alert-danger mt-1 mb-1">{{ $errors->first('password_nuevo') }}</div>
+                        @endif
+
+                        <label for="password_confirmacion">Confirmar Contraseña: </label>
+                        <input class="form-control" type="password" name="password_confirmacion" id="password_confirmacion" value="" maxlength="12" required>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">
+                        <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Actualizar Contraseña</button>
                     </div>
 
                 </form>

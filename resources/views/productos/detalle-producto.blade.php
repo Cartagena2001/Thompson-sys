@@ -6,26 +6,104 @@
 {{-- Titulo --}}
 
 <?php
-//hacer un if para ver si el producto tiene imagen o no
-if ($producto->imagen_1_src != null) {
-    $imagen = "{$producto->imagen_1_src}";
-} else {
-    $imagen = '../../../assets/img/products/demo-product-img.jpg';
-}
 
+    //hacer un if para ver si el producto tiene imagen o no
+    if ($producto->imagen_1_src != null) {
+
+        $imagen = "{$producto->imagen_1_src}";
+
+    } elseif ($producto->marca->nombre == 'TEMCO') {
+
+        $imagen = '../../../assets/img/logos/temco-surplus-logo.png';
+    
+    } elseif ($producto->marca->nombre == 'CTI') {
+        
+        $imagen = '../../../assets/img/logos/cti.jpg';
+    
+    } elseif ($producto->marca->nombre == 'ECOM') { 
+        
+        $imagen = '../../../assets/img/logos/ecom.jpg';
+    
+    } else {
+
+        $imagen = '../../../assets/img/products/demo-product-img.jpg';
+
+    }  
 
 ?>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 
+    <style>
 
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .swiper-slide {
+      background-size: cover;
+      background-position: center;
+    }
+
+    .mySwiper2 {
+      height: 80%;
+      width: 100%;
+    }
+
+    .mySwiper {
+      height: 20%;
+      box-sizing: border-box;
+      padding: 10px 0;
+    }
+
+    .mySwiper .swiper-slide {
+      width: 25%;
+      height: 100%;
+      opacity: 0.4;
+    }
+
+    .mySwiper .swiper-slide-thumb-active {
+      opacity: 1;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    </style>
 
 <div class="card mb-3" style="border: ridge 1px #ff1620;">
 
 
     <div class="col-auto px-2 px-md-3 mt-3 text-center">
-        <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/tienda') }}"><span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block"> Volver Atrás</span></a>
+        <a class="btn btn-sm btn-primary" href="javascript:history.back()"><span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block"> Volver Atrás</span></a>
     </div>
 
     <hr/>
@@ -37,28 +115,50 @@ if ($producto->imagen_1_src != null) {
             <div class="col-lg-6">
 
                 <div class="row mb-4" style="position: relative;" id="galleryTop"> {{-- product-slider --}}
-                    <div class="swiper-slide">
+                    
+
                         <div style="position: relative;">
                             
-                            <div class="swiper mySwiper">
+                            <div class="swiper mySwiper2">
+
                                 <div class="swiper-wrapper">
 
-                                        <!--<a href="{{ $imagen }}" data-lightbox="image-1" data-title="p-img-1">--><img class="swiper-slide img-fluid" src="{{ $imagen }}" alt="{{ $producto->nombre }}-1"><!--</a>-->
+                                        <div class="swiper-slide">
+                                            <div class="swiper-zoom-container">
+                                                <img class="img-fluid" src="{{ $imagen }}" alt="{{ $producto->nombre }}-1">
+                                            </div>
+                                        </div>
+
                                     @if ($producto->imagen_2_src != null)
-                                        <!--<a href="{{ $producto->imagen_2_src }}" data-lightbox="image-2" data-title="p-img-2">--><img class="swiper-slide img-fluid" src="{{ $producto->imagen_2_src }}" alt="{{ $producto->nombre }}-2"><!--</a>-->
+                                        <div class="swiper-slide">
+                                            <div class="swiper-zoom-container">
+                                                <img class="img-fluid" src="{{ $producto->imagen_2_src }}" alt="{{ $producto->nombre }}-2">
+                                            </div>
+                                        </div>
                                     @endif
+
                                     @if ($producto->imagen_3_src != null)
-                                        <a href="{{ $producto->imagen_3_src }}" data-lightbox="image-3" data-title="p-img-3"><img class="swiper-slide img-fluid" src="{{ $producto->imagen_3_src }}" alt="{{ $producto->nombre }}-3"></a>
+                                        <div class="swiper-slide">
+                                            <div class="swiper-zoom-container">
+                                                <img class="img-fluid" src="{{ $producto->imagen_3_src }}" alt="{{ $producto->nombre }}-3">
+                                            </div>
+                                        </div>
                                     @endif
 
                                     @if ($producto->imagen_4_src != null)
-                                        <a href="{{ $producto->imagen_4_src }}" data-lightbox="image-4" data-title="p-img-4"><img class="swiper-slide img-fluid" src="{{ $producto->imagen_4_src }}" alt="{{ $producto->nombre }}-4"></a>
+                                        <div class="swiper-slide">
+                                            <div class="swiper-zoom-container">
+                                                <img class="img-fluid" src="{{ $producto->imagen_4_src }}" alt="{{ $producto->nombre }}-4">
+                                            </div>
+                                        </div>
                                     @endif
 
                                 </div>
+
                                 <div class="swiper-button-next"></div>
                                 <div class="swiper-button-prev"></div>
                                 <div class="swiper-pagination"></div>
+                            
                             </div>
 
                             @if ($producto->etiqueta_destacado == 1) 
@@ -67,48 +167,74 @@ if ($producto->imagen_1_src != null) {
 
                             @if ($producto->precio_oferta != null) 
                                 <image src="{{url('assets/img/imgs/oferta.svg')}}" alt="oferta-seal-img" class="producto-oferta" />
-                            @endif 
+                            @endif
 
-                        </div>
+                            <div thumbsSlider="" class="swiper mySwiper">
+                                <div class="swiper-wrapper">
+
+                                    <div class="swiper-slide">
+                                        <img src="{{ $imagen }}" alt="" />
+                                    </div>
+
+                                @if ($producto->imagen_2_src != null)
+                                    
+                                    <div class="swiper-slide">
+                                        <img src="{{ $producto->imagen_2_src }}" alt="" />
+                                    </div>
+
+                                @endif
+
+                                @if ($producto->imagen_3_src != null)
+
+                                    <div class="swiper-slide">
+                                        <img src="{{ $producto->imagen_3_src }}" alt="" />
+                                    </div>
+
+                                @endif
+
+                                @if ($producto->imagen_4_src != null)
+
+                                    <div class="swiper-slide">
+                                        <img src="{{ $producto->imagen_4_src }}" alt="" />
+                                    </div>
+
+                                @endif
+
+                                </div>
+                            </div> 
+
                     </div>
                 </div>
 
-                <div class="row">
-                    @if ($producto->imagen_2_src != null)
-                        <div class="col-4">
-                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100" src="{{ $producto->imagen_2_src }}" alt="" /></div>
-                        </div>
-                    @endif
-
-                    @if ($producto->imagen_3_src != null)
-                        <div class="col-4">
-                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100" src="{{ $producto->imagen_3_src }}" alt="" /></div>
-                        </div>
-                    @endif
-                    @if ($producto->imagen_4_src != null)
-                        <div class="col-4">
-                            <div class="swiper-slide h-100"><img class="rounded-1 fit-cover h-100 w-100" src="{{ $producto->imagen_4_src }}" alt="" /></div>
-                        </div>
-                    @endif
-                </div>
+                <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
                 <script>
+
                     var swiper = new Swiper(".mySwiper", {
+                      spaceBetween: 10,
+                      slidesPerView: 4,
+                      freeMode: true,
+                      watchSlidesProgress: true,
+                    });
+
+                    var swiper2 = new Swiper(".mySwiper2", {
                         loop: true,
+                        zoom: true,
                         pagination: {
                             el: ".swiper-pagination",
                             clickable: true,
                         },
+                        spaceBetween: 10,
                         grabCursor: true,
-                        autoplay: {
-                            delay: 2500,
-                            disableOnInteraction: false
-                        },
                         navigation: {
                             nextEl: ".swiper-button-next",
                             prevEl: ".swiper-button-prev",
                         },
+                        thumbs: {
+                            swiper: swiper,
+                        },
                     });
+
                 </script>
 
             </div>
@@ -339,24 +465,50 @@ if ($producto->imagen_1_src != null) {
     </div>
 </div>
 
-<script>
-    var btnMas = document.querySelector('#btn-mas');
-    var btnMenos = document.querySelector('#btn-menos');
-    var inputCantidad = document.querySelector('#cantidad');
+    @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 ) 
 
-    btnMas.addEventListener('click', function() {
-        var valorActual = parseInt(inputCantidad.value);
-        if (valorActual < parseInt(inputCantidad.max)) {
-            inputCantidad.value = valorActual + 1;
-        }
-    });
+        <script>
+            var btnMas = document.querySelector('#btn-mas');
+            var btnMenos = document.querySelector('#btn-menos');
+            var inputCantidad = document.querySelector('#cantidad');
 
-    btnMenos.addEventListener('click', function() {
-        var valorActual = parseInt(inputCantidad.value);
-        if (valorActual > parseInt(inputCantidad.min)) {
-            inputCantidad.value = valorActual - 1;
-        }
-    });
-</script>
+            btnMas.addEventListener('click', function() {
+                var valorActual = parseInt(inputCantidad.value);
+                if (valorActual < parseInt(inputCantidad.max)) {
+                    inputCantidad.value = valorActual + 1;
+                }
+            });
+
+            btnMenos.addEventListener('click', function() {
+                var valorActual = parseInt(inputCantidad.value);
+                if (valorActual > parseInt(inputCantidad.min)) {
+                    inputCantidad.value = valorActual - 1;
+                }
+            });
+        </script>
+
+    @elseif ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
+
+        <script>
+            var btnMas = document.querySelector('#btn-mas');
+            var btnMenos = document.querySelector('#btn-menos');
+            var inputCantidad = document.querySelector('#cantidad');
+
+            btnMas.addEventListener('click', function() {
+                var valorActual = parseInt(inputCantidad.value);
+                if (valorActual < parseInt(inputCantidad.max)) {
+                    inputCantidad.value = valorActual + 1;
+                }
+            });
+
+            btnMenos.addEventListener('click', function() {
+                var valorActual = parseInt(inputCantidad.value);
+                if (valorActual > parseInt(inputCantidad.min)) {
+                    inputCantidad.value = valorActual - 1;
+                }
+            });
+        </script>
+    
+    @endif
 
 @endsection

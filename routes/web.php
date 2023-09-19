@@ -126,6 +126,7 @@ Route::post('/carrito/validar', [App\Http\Controllers\CarritoController::class, 
 
 //Rutas para el perfil
 Route::get('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'index'])->name('perfil.index')->middleware('auth');
+Route::post('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'passwordUpdate'])->name('perfil.password.update')->middleware('auth');
 Route::patch('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'update'])->name('perfil.update')->middleware('auth');
 
 

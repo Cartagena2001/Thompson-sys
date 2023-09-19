@@ -68,7 +68,7 @@
             <div id="brand-list" class="col-lg-8 flex-center">
                 @foreach ($marcas as $brand)
                     
-                    <img id="marca-img-{{ $brand->nombre }}" src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid" style="max-width: 150px; margin: 0 auto;" /> 
+                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 150px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
 
                 @endforeach
             </div>
@@ -132,7 +132,7 @@
             <div id="brand-list" class="col-lg-8 flex-center">
                 @foreach ($marcas as $brand)
                     
-                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid" style="max-width: 150px; margin: 0 auto;" /> 
+                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 150px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
 
                 @endforeach
             </div>
@@ -196,7 +196,7 @@
             <div id="brand-list" class="col-lg-12 flex-center">
                 @foreach ($marcas as $brand)
                     
-                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid" style="max-width: 150px; margin: 0 auto;" /> 
+                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 150px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
 
                 @endforeach
             </div>
@@ -213,67 +213,84 @@
 <div class="card mb-3" style="border: ridge 1px #ff1620;">
 
     {{-- Filtros --}}
-    <div class="col-sm-auto ps-3 pt-4">    
-        <div class="row gx-2 align-items-center">
+    <div class="ps-3 pt-4 pb-2">
 
-            <div class="col-auto">
-            
-                <form class="row gx-2">
-                    <div class="col-auto"><h6 class="my-1">Ordenar por marca:</h6></div>
-                    <div class="col-auto">
+        <div class="row gx-2">
+
+            <div class="col-6 col-md-6">
+                   
+               <form action="" method="get">
+
+                    <label for="marca">Ordenar por marca:</label>
+                    <select style="height: 36px; border-radius: 5px;" id="marca-filter" name="marca" class="form-select form-select-sm" aria-label="Bulk actions" onchange="filterBrand(this.id)" >
+
+                        <option value="0"  @if ($marcaActual == 0) selected @endif >Todas</option>
+
+                        @foreach ($marcas as $marca)
+                            <option value="{{ $marca->id }}" @if ($marca->id == $marcaActual) selected @endif >{{ $marca->nombre }}</option>
+                        @endforeach
+
+                    </select>
+
+                    <br/>
+
+                    <label for="categoria">Ordenar por categoría:</label>
+                    <select style="height: 36px; border-radius: 5px;" id="categoria-filter" name="categoria" class="form-select form-select-sm" aria-label="Bulk actions" onchange="filterCat(this.id)" >
+
+                        <option value="0" @if ($categoriaActual == 0) selected @endif >Todas</option>
+
+                        @foreach ($categorias as $cat)
+
+                        @php
                         
-                       <form action="{{ route('productos.index') }}" method="get">
+                        var_dump($cat->pivot);
 
-                            <select id="marca-filter" name="marca" class="form-select form-select-sm" aria-label="Bulk actions" onchange="filterBrand(this.id)" >
-                                <option value="0">Todas</option>
-                                @foreach ($marcas as $marca)
-                                    <option value="{{ $marca->id }}" @if ($marca->id == $marcaActual) selected @endif >{{ $marca->nombre }}</option>
-                                @endforeach
-                            </select>
+                        @endphp
+                            <option style="text-transform: lowercase;" 
 
-                            <div style="display: none;" class="mt-2">
-                                <button id="btn-filter-brand" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-filter"></i> Aplicar filtro</button>
-                                {{-- <a href="{{ url('/dashboard/tienda') }}" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-trash-alt"></i> Limpiar filtro</a> --}}
-                            </div>
+                                    value="@if( isset($cat->pivot) ){{ $cat->pivot->categoria_id }}@else{{ $cat->id }}@endif"
 
 
-                        </form>
+                                    @if ( isset($cat->pivot) )
+                                        @if ( $cat->pivot->categoria_id == $categoriaActual ) 
+                                            selected
+                                        @endif 
+                                    @else
+                                        @if ( $cat->id == $categoriaActual ) 
+                                            selected
+                                        @endif
+                                    @endif >{{ $cat->nombre }}</option>
+                        @endforeach
 
+                    </select>
+
+                    <div style="display:none;" class="mt-2">
+                        <button id="btn-filter" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-filter"></i> Aplicar filtro</button>
                     </div>
+
                 </form>
 
             </div>
-{{-- 
-            <div class="col-auto">
-            
-                <form class="row gx-2">
-                    <div class="col-auto"><h6>Ordenar por categoría:</h6></div>
-                    <div class="col-auto">
-                        <form action="{{ route('productos.index') }}" method="get">
 
-                            <select name="categoria" id="categoria" class="form-select form-select-sm" aria-label="Bulk actions"  >
-                                <option value="0">Todas</option>
-                                @foreach ($categorias as $categoria)
-                                    <option value="{{ $categoria->categoria_id }}"
-                                        @if ($categoria->categoria_id == $categoriaActual) selected @endif>
-                                        {{ $categoria->nombre }}</option>
-                                @endforeach
-                            </select>
+            <div class="col-6 col-md-6">
 
-                            <div class="mt-2">
-                                <button class="btn btn-sm btn-primary" type="submit"><i class="fas fa-filter"></i> Aplicar filtro</button>
-                                <a href="{{ url('/dashboard/tienda') }}" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-trash-alt"></i> Limpiar filtro</a>
-                            </div>
+                <form action="" method="get">
 
-                        </form>
+                    <label for="busq">Búsqueda: </label>
+                    <input class="form-control" type="text" name="busq" id="busq" value="" maxlength="20" placeholder="Buscar por OEM...">
+                                                    
+                    <div style="display: none;" class="mt-2">
+                        <button id="btn-filter-brand" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-filter"></i> Aplicar filtro</button>
+                        {{-- <a href="{{ url('/dashboard/tienda') }}" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-trash-alt"></i> Limpiar filtro</a> --}}
                     </div>
+
+
                 </form>
 
             </div>
---}}
-
 
         </div>
+
     </div>
 
     <hr/>
@@ -296,12 +313,28 @@
             @foreach ($productos as $producto)
 
                 <?php
-                    //hacer un if para ver si el producto tiene imagen o no
-                    if ($producto->imagen_1_src != null) {
-                        $imagen = "{$producto->imagen_1_src}";
-                    } else {
-                        $imagen = '../../../assets/img/products/demo-product-img.jpg';
-                    }
+                        //hacer un if para ver si el producto tiene imagen o no
+                        if ($producto->imagen_1_src != null) {
+
+                            $imagen = "{$producto->imagen_1_src}";
+
+                        } elseif ($producto->marca->nombre == 'TEMCO') {
+
+                            $imagen = '../../../assets/img/logos/temco-surplus-logo.png';
+                        
+                        } elseif ($producto->marca->nombre == 'CTI') {
+                            
+                            $imagen = '../../../assets/img/logos/cti.jpg';
+                        
+                        } elseif ($producto->marca->nombre == 'ECOM') { 
+                            
+                            $imagen = '../../../assets/img/logos/ecom.jpg';
+                        
+                        } else {
+
+                            $imagen = '../../../assets/img/products/demo-product-img.jpg';
+
+                        }  
                 ?>
 
                 <div class="mb-4 col-md-12 col-lg-3">
@@ -310,7 +343,11 @@
                         <div class="overflow-hidden">
 
                             <div class="position-relative rounded-top overflow-hidden div-tienda" style="position: relative;">
-                                <a tabindex="-1" class="d-block" href="{{ route('tienda.show', $producto->slug) }}"><img class="rounded-top" src="{{ $imagen }}" alt="img-producto-thumbnail" /></a>
+                                
+                                <a tabindex="-1" class="d-block" href="{{ route('tienda.show', $producto->slug) }}">
+                                    <img class="rounded-top" src="{{ $imagen }}" alt="img-producto-thumbnail" />
+                                </a>
+
                                 @if ($producto->etiqueta_destacado == 1) 
                                     <image src="{{url('assets/img/imgs/destacado.svg')}}" alt="destacado-seal-img-thumb" class="producto-destacado-thumb" />
                                 @endif
@@ -318,6 +355,7 @@
                                 @if ($producto->precio_oferta != null) 
                                     <image src="{{url('assets/img/imgs/oferta.svg')}}" alt="oferta-seal-img-thumb" class="producto-oferta-thumb" />
                                 @endif
+
                             </div>
 
                             <div class="p-2">
@@ -327,6 +365,8 @@
                                 <span class="rt-color-2 font-weight-bold" style="font-size: 12px;">MARCA: </span><span style="font-size: 12px;">{{ $producto->marca->nombre }}</span>
                                 <br/>
                                 <span class="rt-color-2 font-weight-bold" style="font-size: 14px;">OEM: </span><span style="font-size: 14px;">{{ $producto->OEM }}</span>
+                                <br/>
+                                <span class="rt-color-2 font-weight-bold" style="font-size: 14px;">Unidades / 📦: </span><span style="font-size: 14px;">{{ $producto->unidad_por_caja }}</span>
 
                                 <div class="row">
 
@@ -660,7 +700,28 @@
 
         var brand = $('#'+filterid).find(":selected").val();
 
-        $('#btn-filter-brand').click();
+        $('#btn-filter').click();
+
+    }
+
+    function filterCat(filterid) {
+
+        var cat = $('#'+filterid).find(":selected").val();
+
+        $('#btn-filter').click();
+
+    }
+
+    function filterBrandPic(filteridpic) {
+
+        var brandID = filteridpic.substring(4, 10000); 
+
+        //obtener la opcion 
+        var $option = $('#marca-filter').children('option[value="'+ brandID +'"]');
+        //y ahora seteamos la opcion requerida
+        $option.attr('selected', true);
+
+        $('#btn-filter').click();
 
     }
 

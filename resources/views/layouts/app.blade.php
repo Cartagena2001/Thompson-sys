@@ -29,6 +29,10 @@
         src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.js">
     </script>
 
+<!--
+    <link href="{{url('assets/vendors/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+    <link href="{{url('assets/vendors/overlayscrollbars/OverlayScrollbars.min.css')}}" rel="stylesheet"> -->
+
     @vite(['resources/sass/app.scss', 'resources/css/theme-rtl.css', 'resources/css/theme.css', 'resources/css/user-rtl.css', 'resources/css/user.css', 'resources/js/app.js'])
     
     <!-- tailwind CSS Style 
@@ -54,7 +58,13 @@
         <div class="row g-0 pb-2 pt-2" style="background-color: #000; border-bottom: 2px ridge #ff1620;">
 
             <div class="col-12 col-lg-6 text-start pt-2 ps-5 me-md-auto">
-                <a href="/" class="text-decoration-none" title="Ir a Inicio"><img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="rt-logo" width="200"></a>     
+                <a href="/" class="text-decoration-none" title="Ir a Inicio">
+                    @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3 )
+                         <img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="rt-logo" width="200" />
+                    @else 
+                         <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" width="170" />
+                    @endif
+                </a>     
             </div>
 
             <div class="col-11 col-lg-5 text-end pt-2 pe-5 me-md-auto">
@@ -410,10 +420,12 @@
           <p class="mb-0 text-600"> &copy; 2023 <span class="d-none d-sm-inline-block">|</span> <br class="d-sm-none" /> Powered by <a class="opacity-85" href="https://markcoweb.com/" title="Ir a">MarkCoWeb</a></p>
         </div>
         <div class="col-12 col-sm-auto text-center">
-          <p class="mb-0 text-600 rt-color-3">v1.0.0</p>
+          <p class="mb-0 text-600 rt-color-3"><a class="opacity-85" href="#" title="">RT</a> | v1.0.0</p>
         </div>
       </div>
     </footer>
+
+
 
 </body>
 </html>

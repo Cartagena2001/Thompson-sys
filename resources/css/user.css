@@ -346,3 +346,10 @@ input[type=number]::-webkit-outer-spin-button {
     display: none;
 }
 
+.logo-hov {
+    transition: transform 0.3s;
+}
+
+.logo-hov:hover {
+   transform: scale(1.25) 
+}
