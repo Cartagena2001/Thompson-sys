@@ -76,8 +76,8 @@
                                 <td class="flex-center">
                                     <div class="text-start">
                                 @foreach ($marcas as $marca)
-                                    <label for="marca_{{ $marca->id }}">
-                                        <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}" type="checkbox" name="marks" value="{{ $marca->id }}," onclick="asignarMarca (this.id)" @if ( str_contains( $cliente->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
+                                    <label for="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}">
+                                        <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}" type="checkbox" name="marks[]" value="{{ $marca->id }}" onclick="asignarMarca (this.id)" @if ( str_contains( $cliente->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
 
                                     </label>
                                     <br/>

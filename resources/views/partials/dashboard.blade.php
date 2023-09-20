@@ -13,7 +13,7 @@
                 <div id="brand-list" class="col-lg-12 flex-center">
                     @foreach ($marcas as $brand)
                         
-                        <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid" style="max-width: 150px; margin: 0 auto;" /> 
+                        <a style="margin: 0 auto;" href="{{ url( '/dashboard/tienda?marca='.$brand->id.'&categoria=0') }}"><img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="max-width: 150px; margin: 0 auto;" /></a> 
 
                     @endforeach
                 </div>

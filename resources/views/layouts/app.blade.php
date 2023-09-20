@@ -62,33 +62,27 @@
                     @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3 )
                          <img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="rt-logo" width="200" />
                     @else 
-                         <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" width="170" />
+                         <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 175px; max-height: 75px;" />
                     @endif
                 </a>     
             </div>
 
-            <div class="col-11 col-lg-5 text-end pt-2 pe-5 me-md-auto">
+            <div class="col-11 col-lg-5 text-end pt-2 pe-1 me-md-auto">
                 
-                <div class="dropdown my-4" style="float: right;">
-
-                    <a href="" class="d-block text-decoration-none dropdown-toggle"
-                        id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" style="border: ridge 2px #ff1620; border-radius: 20px; padding: 1px 1px;">
-                        <img src={{ Auth::user()->imagen_perfil_src }} alt="img-perfil" width="30" height="30" class="rounded-circle" />
+                <div class="my-4">
+                    
+                    <p>
+                    <a href="" class="text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" title="En Línea">
+                        <i class="fas fa-circle" style="font-size: 12px; color: green;"></i>
                         <span class="d-none d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
                         @if ( Auth::user()->nombre_empresa != null)
-                        <span class="d-none d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">({{ Auth::user()->nombre_empresa }})</span>
+                            <span class="d-none d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">({{ Auth::user()->nombre_empresa }})</span>
                         @endif
+                    </a> | <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="Cerrar Sesión">
+                        <span class="d-none d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">SALIR</span> <i style="font-size: 12px;" class="fas fa-sign-out-alt"></i>
                     </a>
-
-                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow py-1">
-                        <li><a class="dropdown-item text-center" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                          document.getElementById('logout-form').submit();">❌ {{ __('Cerrar Sesión') }}</a>
-                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
-                        </li>
-                    </ul>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf </form>
+                    </p>
 
                 </div> 
                 
@@ -97,21 +91,23 @@
             @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
                                 
             {{-- CART ADMIN, SUPERADMIN y CLIENTE --}}
-            <div class="col-1 col-lg-1 pt-2 text-center me-md-auto">
+            <div class="col-1 col-lg-1 text-start pt-2 pe-2 me-md-auto">
+                
+                <div class="my-4 text-start" style="display: block;">
+                    <a style="position: relative;" href="{{ url('/carrito') }}" title="Procesar Órden...">
+                            <?php
+                                $carrito = session('cart', []);
+                                $cart = session()->get('cart', []);
 
-                <a class="btn btn-sm btn-primary py-2 px-3 my-4" style="position: relative;" href="{{ url('/carrito') }}" title="Procesar Órden ->">
-                        <?php
-                            $carrito = session('cart', []);
-                            $cart = session()->get('cart', []);
-
-                            $cantidad = 0;
-                            
-                            foreach ($carrito as $item) {
-                                $cantidad += $item['cantidad'];
-                            }
-                        ?>
-                        <i style="font-size: 20px;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; bottom: 20px; left: 42px;">{{ $cantidad }}</span>
-                </a>
+                                $cantidad = 0;
+                                
+                                foreach ($carrito as $item) {
+                                    $cantidad += $item['cantidad'];
+                                }
+                            ?>
+                            <i style="font-size: 21px; margin: 3px 20px; color: #fff;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; bottom: 15px; left: 50px;">{{ $cantidad }}</span>
+                    </a>
+                </div>
 
                 <?php
                 $productosDisponibles = DB::table('producto')
