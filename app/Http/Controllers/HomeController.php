@@ -29,7 +29,12 @@ class HomeController extends Controller
     {
         //capturar la informacion del usuario logeado
         $user = auth()->User();
-        $marcas = Marca::all();
+
+        $marcasAuto = $user->marcas;
+        $marcasAutorizadas = str_split($marcasAuto);
+
+        $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
+        
         $cmsVars = CMS::get()->toArray();
 
         $cat_mod = $cmsVars[12]['parametro']; //modo catalogo

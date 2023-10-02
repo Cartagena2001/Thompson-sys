@@ -205,7 +205,7 @@
                                 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Catálogo</span>
+                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Catálogo/Compra</span>
                                     </a>
                                 </li>
 
@@ -348,12 +348,18 @@
                                 <div class="divider"><h5 class="rt-color-3 font-weight-bold">👜 Tienda</h5></div>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/catalogo') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/catalogo') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Catálogo</span>
                                     </a>
                                 </li>
 
                                 @if ( $catalog_mode == 0 )
+
+                                <li class="ps-4">
+                                    <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
+                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Catálogo/Compra</span>
+                                    </a>
+                                </li>
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/compra-masiva') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}">

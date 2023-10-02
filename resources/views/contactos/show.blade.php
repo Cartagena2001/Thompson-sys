@@ -29,7 +29,7 @@
     {{-- Cards de informacion --}}
     <div class="card mb-3">
 
-        <div class="card-body">
+        <div class="card-body" style="border: ridge 1px #ff1620;">
 
             <div class="mt-3 mb-4">
                 <h4 class="text-center">Nombre del contacto: <br/> <span style="color: #ff161f">{{ $contacto->nombre }}</span> </h4>

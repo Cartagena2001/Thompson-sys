@@ -12,6 +12,7 @@ use App\Models\EstadoProducto;
 
 use App\Models\CMS;
 
+
 class TiendaController extends Controller
 {
 
@@ -118,6 +119,111 @@ class TiendaController extends Controller
     }
 
 
+/**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexCat(Request $request)
+    {
+        //verificar el usuario en sesión
+        $usr = auth()->User();
+
+        $marcasAuto = $usr->marcas;
+        $marcasAutorizadas = str_split($marcasAuto);
+
+        //Busca y ordena productos al entrar desde el menú
+        //pero 1ro valida si es un cliente
+        if ( $usr->rol_id == 2) {
+
+            $productos = Producto::whereHas('marca', function($query){
+                $query->where('estado', "Activo");
+            })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->paginate(1000000000);
+
+            $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
+            $categorias = Categoria::all();
+            //$categorias = Categoria::wherePivot('marca_id', 1)->get();
+
+        } else {
+
+            $productos = Producto::whereHas('marca', function($query){
+                $query->where('estado', "Activo");
+            })->paginate(1000000000);
+
+            $marcas = Marca::all();
+            $categorias = Categoria::all();
+
+        }
+
+        $cmsVars = CMS::get()->toArray();
+        $cat_mod = $cmsVars[12]['parametro']; //modo catalogo
+        $mant_mod = $cmsVars[13]['parametro']; //modo mantenimiento
+
+        $categoriaActual = 0;
+        $marcaActual = 0;
+
+        //if ver si esta selecionado el filtro de marca
+        if( $request->input('marca') > 0 && $request->input('categoria') == 0 ){
+
+            $marca_id = $request->input('marca'); //name devuelve el ID de la marca
+            
+            //devuelve los productos según la marca seleccionada en filtro  
+            $productos = Producto::where('marca_id', $marca_id)
+                                 ->where('estado_producto_id', 1)
+                                 ->whereNot('existencia', 0)
+                                 ->paginate(1000000000);
+            
+            $marca = Marca::find($marca_id);
+
+            //$categorias = $marca->Categoria()->get();
+
+            $marcaActual = $request->input('marca');
+
+            $categoriaActual = 0;
+
+        } //if ver si esta selecionado el filtro de categoria
+        elseif ( $request->input('categoria') > 0 && $request->input('marca') == 0 ){
+
+            $categoria_id = $request->input('categoria'); //name devuelve el ID de categoría
+            
+            //devuelve los productos según la categoria seleccionada en filtro   
+            $productos = Producto::where('categoria_id', $categoria_id)
+                                 ->where('estado_producto_id', 1)
+                                 ->whereNot('existencia', 0)
+                                 ->paginate(1000000000);
+
+            $categoria = Categoria::find($categoria_id);
+
+            //$marcas = $categoria->Marca()->get();
+
+            $marcaActual = 0;
+            $categoriaActual = $categoria_id; 
+
+        } elseif ( $request->input('categoria') == 0 && $request->input('marca') == 0) {
+            //$marcas = Marca::all();
+            //$categorias = Categoria::all();
+            $categoriaActual = 0;
+            $marcaActual = 0;  
+        }
+
+
+        $categoriaActualname = null;
+        //obtener el nombre de la categoria actual para mostrarlo en el titulo de la pagina
+        
+        if($categoriaActual != null){
+            $categoriaActualname = Categoria::find($categoriaActual);
+        }else{
+            $categoriaActualname = "Todas";
+        }
+          
+        $estadoProductos = EstadoProducto::all();
+
+        $productosDisponibles = $productos;
+
+        return view('productos.catalogo', compact('productos', 'productosDisponibles', 'categorias', 'marcas', 'marcaActual', 'estadoProductos', 'categoriaActual', 'categoriaActualname', 'cat_mod', 'mant_mod'));
+    }
+
+
     public function showByCategoria(Request $request)
     {
         $categoria_id = $request->input('categoria');
@@ -181,6 +287,25 @@ class TiendaController extends Controller
         
 
         return view('productos.detalle-producto', compact('producto', 'cat_mod', 'mant_mod'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showProd($slug)
+    {
+        // $producto = Producto::find($id);
+        $producto = Producto::where('slug', $slug)->firstOrFail();
+        $cmsVars = CMS::get()->toArray();
+
+        $cat_mod = $cmsVars[12]['parametro']; //modo catalogo
+        $mant_mod = $cmsVars[13]['parametro']; //modo mantenimiento
+        
+
+        return view('productos.detalle-producto-cat', compact('producto', 'cat_mod', 'mant_mod'));
     }
 
 

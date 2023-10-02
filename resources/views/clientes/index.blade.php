@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@section('title', 'Clasificación de los Clientes')
+@section('title', 'Clientes')
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.css" />
@@ -154,14 +154,6 @@
 
         <div class="card-header">
             
-            <div class="row flex-between-end">
-                {{--
-                <div class="col-auto align-self-center">
-                    <h5 class="mb-0" data-anchor="data-anchor">Tabla de clientes</h5>
-                </div>
-                --}}
-            </div>
-
             <div class="row mt-1">
                 <div class="col-6 col-lg-12">
                     <label for="filtro_rango">Filtrar por clasificación de cliente:
@@ -184,9 +176,10 @@
 
         <hr/>
 
-        <div class="card-body">
+        <div class="card-body pt-3">
             <div class="table-responsive scrollbar">
-                <table id="table_productos" class="table display">
+
+                <table id="table_clientes" class="table display pb-4 pt-4">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
@@ -205,6 +198,7 @@
                                 <td>{{ $cliente->nombre_empresa }}</td>
                                 <td>{{ $cliente->nrc }}</td>
                                 <td class="text-success">{{ $cliente->clasificacion }}</td>
+
                                 <td class="text-center">
                                     <a href="{{ route('clientes.show', $cliente->id) }}">
                                         <button class="btn p-0" type="button" data-bs-toggle="tooltip"
@@ -214,23 +208,26 @@
                                         </button>
                                     </a>
                                 </td>
+                                
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>
 
     <script>
+
         $(document).ready(function() {
-            var table = $('#table_productos').DataTable({
+            var table = $('#table_clientes').DataTable({
                 language: {
                     url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 }
             });
 
-            var filtroColumna = table.column(3);
+            var filtroColumna = table.column(5);
 
             $('#filtro_rango').on('change', function() {
                 var filtro = $(this).val();
@@ -246,6 +243,7 @@
                 $('#filtro_rango').val('').trigger('change');
             });
         });
+
     </script>
 
 @endsection

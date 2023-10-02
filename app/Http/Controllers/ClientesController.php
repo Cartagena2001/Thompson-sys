@@ -126,23 +126,25 @@ Class ClientesController extends Controller
         $clienteID = trim(strstr( $request->cliente, "_" ), "_");
         $clienteUptM = User::find($clienteID);
 
-        $marcasUDT = ""; 
+        $marcasUDT = "";
 
-        if ( str_contains($clienteUptM->marcas, $request->marca) ) {
+        $marcasInput = $request->marca; 
+        $marcasBD = $clienteUptM->marcas;
 
-           $marcasUDT = strstr( $clienteUptM->marcas, $request->marca, true);
+        if ( str_contains($marcasBD, $marcasInput) ) {
+
+            $marcasUDT = str_replace($marcasInput, '', $marcasBD);
 
             $clienteUptM->marcas = $marcasUDT;
-
-            $clienteUptM->save();
+            $clienteUptM->update();
 
            return response()->json($clienteUptM->marcas);
 
         } else {
 
-            $clienteUptM->marcas = $clienteUptM->marcas.$request->marca;
+            $clienteUptM->marcas = $marcasBD.$marcasInput;
 
-            $clienteUptM->save();
+            $clienteUptM->update();
 
             return response()->json($clienteUptM->marcas);
         }

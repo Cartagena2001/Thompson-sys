@@ -10,7 +10,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.js"></script>
 
-    {{-- Titulo --}}
+    {-- Titulo --}}
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
         <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png);"></div>
         <div class="card-body position-relative mt-4">
@@ -129,21 +129,21 @@
                     <div class="flex-center">
                         <form id="brandscheck">
                             <div>
-                                <label for="marca-t">
-                                    <input id="marca-t" type="checkbox" value="TODAS" /> TODAS
-                                </label>
-                                <br/>
                             @foreach ($marcas as $marca)
-                                <label for="marca-{{ $marca->nombre }}">
-                                    <input id="marca-{{ $marca->nombre }}" type="checkbox" value="{{ $marca->id }}" /> {{ $marca->nombre }}
+                                <label for="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}">
+                                    <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}" type="checkbox" value="{{ $marca->id }}" name="marks[]" onclick="asignarMarca (this.id)" @if ( str_contains( $cliente->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
                                 </label>
                                 <br/>
                             @endforeach
                             </div>
                         </form>
-
-                        <div class="alert alert-success" role="alert" id="successMsg" style="display: none" > ¡Cambios realizados con éxito!</div>
                     </div>
+                    <div class="alert alert-success" role="alert" id="successMsg" style="display: none" >
+                            Marca/s autorizada/s o denegadas con éxito! 
+                        </div>
+
+                    <span class="text-danger" id="ErrorMsg1"></span>
+                    <span class="text-danger" id="ErrorMsg2"></span>
                 </div>
 
             </div> 
@@ -202,5 +202,35 @@
 
         </div>
     </div>
+
+    <script type="text/javascript">
+
+        function asignarMarca(check_id) {
+
+            var marca = $('#'+check_id).val();
+            var clienteid = check_id;
+
+            console.log("marca id: "+marca+" cliente id: "+clienteid);
+            
+
+            $.ajax({
+                url: "{{ route('clientes.marcaUpdate') }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&marca=" + marca + "&cliente=" + clienteid,
+
+                success: function(response){
+                    $('#successMsg').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg1').text(response.responseJSON.errors.marca);
+                    $('#ErrorMsg2').text(response.responseJSON.errors.cliente);
+                },
+            });
+            
+        }
+       
+      </script>
 
 @endsection

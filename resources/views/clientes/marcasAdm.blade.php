@@ -50,9 +50,10 @@
 
         <hr/>
 
-        <div class="card-body">
+        <div class="card-body pt-3">
             <div class="table-responsive scrollbar">
-                <table id="table_productos" class="table display">
+
+                <table id="table_clientes" class="table display pb-4 pt-4">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
@@ -64,7 +65,7 @@
                     </thead>
                     <tbody>
                         <div class="alert alert-success" role="alert" id="successMsg" style="display: none" >
-                            Marca/s autorizada/s con éxito! 
+                            Marca/s autorizada/s o denegadas con éxito! 
                         </div>
 
                         @foreach ($clientes as $cliente)
@@ -73,8 +74,8 @@
                                 <td>{{ $cliente->name }}</td>
                                 <td>{{ $cliente->nombre_empresa }}</td>
                                 <td class="text-success">{{ $cliente->clasificacion }}</td>
-                                <td class="flex-center">
-                                    <div class="text-start">
+                                <td style="display: block; margin: 0 auto;">
+                                    <div>
                                 @foreach ($marcas as $marca)
                                     <label for="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}">
                                         <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}" type="checkbox" name="marks[]" value="{{ $marca->id }}" onclick="asignarMarca (this.id)" @if ( str_contains( $cliente->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
@@ -95,8 +96,9 @@
     </div>
 
     <script>
+
         $(document).ready(function() {
-            var table = $('#table_productos').DataTable({
+            var table = $('#table_clientes').DataTable({
                 language: {
                     url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 }
@@ -118,17 +120,13 @@
                 $('#filtro_rango').val('').trigger('change');
             });
         });
-    </script>
-
-
-    <script type="text/javascript">
 
         function asignarMarca(check_id) {
 
             var marca = $('#'+check_id).val();
             var clienteid = check_id;
 
-            //console.log("marca id: "+marca+" cliente id: "+clienteid);
+            console.log("marca id: "+marca+" cliente id: "+clienteid);
             
 
             $.ajax({

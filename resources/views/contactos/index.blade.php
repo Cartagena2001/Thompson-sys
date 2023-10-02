@@ -68,19 +68,10 @@
 
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
         
-        <div class="card-header">
-            <div class="row flex-between-end">
-                {{-- 
-                <div class="col-auto align-self-center">
-                    <h5 class="mb-0" data-anchor="data-anchor">Tabla de contactos</h5>
-                </div>
-                --}}
-            </div>
-        </div>
-
-        <div class="card-body pt-0">
+        <div class="card-body pt-3">
             <div class="table-responsive scrollbar">
-                <table id="table_contactos" class="table display">
+
+                <table id="table_contactos" class="table display pb-4 pt-4">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
@@ -89,26 +80,26 @@
                             <th scope="col">Empresa</th>
                             <th scope="col">WhatsApp</th>
                             <th scope="col">Mensaje</th>
-                            <th scope="col">Boletín</th>
-                            <th scope="col">Fecha/Hora</th>
-                            <th class="text-end" scope="col">Acciones</th>
+                            <th scope="col" class="text-center">Boletín</th>
+                            <th scope="col" class="text-center">Fecha/Hora</th>
+                            <th scope="col" class="text-center">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($contactos as $contacto)
                             <tr>
-                                <td>{{ $contacto->id }}</td>
+                                <td class="text-center">{{ $contacto->id }}</td>
                                 <td>{{ $contacto->nombre }}</td>
                                 <td>{{ $contacto->correo }}</td>
                                 <td>{{ $contacto->nombre_empresa }}</td>
                                 <td>{{ $contacto->numero_whatsapp }}</td>
                                 <td>{{ $contacto->mensaje }}</td>
 
-                                <td 
+                                <td  
                                     @if( $contacto->boletin == 1 ) 
-                                        class="text-success"
+                                        class="text-success text-center"
                                     @else
-                                        class="text-danger"
+                                        class="text-danger text-center"
                                     @endif
                                    style="font-weight:bold;" 
 
@@ -121,13 +112,14 @@
                                     @endif
                                </td>
 
-                                <td>{{ $contacto->fecha_hora_form }}</td>
+                                <td class="text-center">{{ $contacto->fecha_hora_form }}</td>
 
-                                <td class="text-end">
+                                <td class="text-center">
                                     <a href="{{ route('contactos.show', $contacto->id) }}">
                                         <button class="btn p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="text-500 fas fa-eye"></span> Ver Detalle </button>
                                     </a>
                                 </td>
+
                             </tr>
                         @endforeach
                     </tbody>
@@ -137,13 +129,18 @@
     </div>
 
     <script>
+
         $(document).ready(function() {
-            $('#table_contactos').DataTable({
+            var table = $('#table_contactos').DataTable({
                 language: {
                     url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-                }
+                },
+                buttons: [
+                    'excel'
+                ]
             });
         });
+
     </script>
 
 @endsection

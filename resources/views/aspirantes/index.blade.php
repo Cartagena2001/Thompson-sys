@@ -33,7 +33,7 @@
                 <div class="card-body position-relative">
                     <h6># Aspirantes</h6>
                     <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-warning" data-countup='{"endValue":58.386,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los productos activos de la base de datos --}}
+                        {{-- contar los usuarios aspirantes --}}
                         <?php
                         $clientesAspirantes = DB::table('users')
                             ->where('estatus', 'aspirante')
@@ -51,8 +51,8 @@
                 <!--/.bg-holder-->
                 <div class="card-body position-relative">
                     <h6># Clientes</h6>
-                    <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los productos activos de la base de datos --}}
+                    <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-success" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
+                        {{-- contar los usuarios aprobados como clientes --}}
                         <?php
                         $ordenesProceso = DB::table('users')
                             ->where('estatus', 'aprobado')
@@ -70,8 +70,8 @@
                 <!--/.bg-holder-->
                 <div class="card-body position-relative">
                     <h6># Rechazados</h6>
-                    <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los productos activos de la base de datos --}}
+                    <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-danger" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
+                        {{-- contar los usuarios rechazados --}}
                         <?php
                         $ordenesProceso = DB::table('users')
                             ->where('estatus', 'rechazado')
@@ -87,31 +87,42 @@
 
 
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
-        
+
         <div class="card-header">
-            <div class="row flex-between-end">
-                {{-- 
-                <div class="col-auto align-self-center">
-                    <h5 class="mb-0" data-anchor="data-anchor">Tabla de aspirantes</h5>
+            
+            <div class="row mt-1">
+                <div class="col-6 col-lg-12">
+                    <label for="filtro_estado">Filtrar por Estado:
+                    <select class="form-select" id="filtro_estado">
+                        <option value="">Todos los aspirantes</option>
+                        <option value="aspirante">Aspirante</option>
+                        <option value="rechazado">Rechazado</option>
+                        {{-- <option value="aprobado">Aprobado</option> --}}
+                    </select>
+                    </label>
+                    <button style="height: 38px; position: relative; bottom: 2px;" class="btn btn-primary" id="limpiar_filtro">Limpiar Filtro</button>
                 </div>
-                --}}
             </div>
+
         </div>
 
-        <div class="card-body pt-0">
+        <hr/>
+
+        <div class="card-body pt-3">
             <div class="table-responsive scrollbar">
-                <table id="table_aspirantes" class="table display">
+                
+                <table id="table_aspirantes" class="table display pb-4 pt-4" >
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Nombre del cliente</th>
                             <th scope="col">Correo Electrónico</th>
                             <th scope="col">Empresa</th>
-                            <th scope="col">Municipio</th>
-                            <th scope="col">Departamento</th>
-                            <th scope="col">NIT</th>
-                            <th scope="col">Estado</th>
-                            <th class="text-end" scope="col">Acciones</th>
+                            <th scope="col" class="text-center">Municipio</th>
+                            <th scope="col" class="text-center">Departamento</th>
+                            <th scope="col" class="text-center">NIT</th>
+                            <th scope="col" class="text-center">Estado</th>
+                            <th scope="col" class="text-center">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -121,38 +132,58 @@
                                 <td>{{ $aspirante->name }}</td>
                                 <td>{{ $aspirante->email }}</td>
                                 <td>{{ $aspirante->nombre_empresa }}</td>
-                                <td>{{ $aspirante->municipio }}</td>
-                                <td>{{ $aspirante->departamento }}</td>
-                                <td>{{ $aspirante->nit }}</td>
+                                <td class="text-center">{{ $aspirante->municipio }}</td>
+                                <td class="text-center">{{ $aspirante->departamento }}</td>
+                                <td class="text-center">{{ $aspirante->nit }}</td>
                                 <td @if( $aspirante->estatus == 'aprobado' ) 
-                                        class="text-success"
+                                        class="text-center text-success"
                                     @elseif( $aspirante->estatus == 'aspirante' )
-                                        class="text-warning"
+                                        class="text-center text-warning"
+                                    @elseif( $aspirante->estatus == 'rechazado' )
+                                        class="text-center text-danger" 
                                     @else
-                                        class="text-danger" 
+                                        class="text-center" 
                                     @endif
-                                   style="font-weight:bold;" >{{ $aspirante->estatus }}
+                                   
+                                    style="font-weight:bold;" >{{ $aspirante->estatus }}
                                 </td>
                                 
-                                <td class="text-end">
+                                <td class="text-center">
                                     <a href="{{ route('aspirantes.show', $aspirante->id) }}">
-                                        <button class="btn p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="text-500 fas fa-eye"></span> Ver Detalle </button>
+                                        <button class="btn p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="text-500 fas fa-search"></span> Ver Detalle </button>
                                     </a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>
 
     <script>
         $(document).ready(function() {
-            $('#table_aspirantes').DataTable({
+            var table = $('#table_aspirantes').DataTable({
                 language: {
                     url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 }
+            });
+
+            var filtroColumna = table.column(7);
+
+            $('#filtro_estado').on('change', function() {
+                var filtro = $(this).val();
+
+                if (filtro === '') {
+                    filtroColumna.search('').draw();
+                } else {
+                    filtroColumna.search('^' + filtro + '$', true, false).draw();
+                }
+            });
+
+            $('#limpiar_filtro').on('click', function() {
+                $('#filtro_estado').val('').trigger('change');
             });
         });
     </script>

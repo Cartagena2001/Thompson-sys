@@ -102,12 +102,12 @@
 
         <div class="mb-3">
             {{ Form::label('marca_id', 'Selecione la marca: *', ['class' => 'form-label']) }}
-            {{ Form::select('marca_id', $marcas, $producto->marca_id, ['class' => 'form-select', 'aria-label' => 'Default select example', 'required', 'placeholder' => 'Selecione una marca']) }}
+            {{ Form::select('marca_id', $marcas, $producto->marca_id, ['class' => 'form-select', 'aria-label' => 'Default select example', 'required', 'placeholder' => 'Seleciona una Marca']) }}
         </div>
 
         <div class="mb-3">
             {{ Form::label('origen', 'Origen del producto: *', ['class' => 'form-label']) }}
-            {{ Form::select('origen', ['HECHO EN MEXICO' => 'HECHO EN MEXICO', 'HECHO EN USA' => 'HECHO EN USA'], $producto->origen, ['class' => 'form-control', 'placeholder' => 'Origen', 'required']) }}
+            {{ Form::select('origen', ['OTRO' => 'OTRO', 'HECHO EN MEXICO' => 'HECHO EN MEXICO', 'HECHO EN USA' => 'HECHO EN USA'], $producto->origen, ['class' => 'form-control', 'placeholder' => 'Selecciona un Origen', 'required']) }}
         </div>
 
         <div class="mb-3">
