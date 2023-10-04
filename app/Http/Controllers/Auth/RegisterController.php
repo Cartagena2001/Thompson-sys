@@ -102,7 +102,8 @@ class RegisterController extends Controller
         $estado1 = $this->sendMail($mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
 
         //Envio de notificación por correo a oficina
-        $emailRecipientOff = "oficina@rtelsalvador.com";
+        $emailRecipientOff = "oficina@rtelsalvador.com";}
+        
         $emailSubjectOff = 'Registro de nuevo Usuario - RTElSalvador';
         $emailBodyOff = " 
                         <div style='display:flex;justify-content:center;' >
@@ -138,7 +139,7 @@ class RegisterController extends Controller
             'estatus' => 'aspirante', 
             'clasificacion' => 'Cobre',
             'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png',
-            'marcas' => '0,',
+            'marcas' => '0',
             'form_status' => 'none',
             'fecha_registro' => \Carbon\Carbon::now()->toDateTimeString(),
             'boletin' => 1,

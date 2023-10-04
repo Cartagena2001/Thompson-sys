@@ -26,7 +26,7 @@ class OrdenesController extends Controller
         $detalle = OrdenDetalle::where('orden_id' , $id)->get();
 
         $orden->visto = 'visto';
-        $orden->save();
+        $orden->update();
         
         //ahora buscar el producto de cada detalle
         foreach($detalle as $item){

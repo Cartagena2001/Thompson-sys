@@ -79,7 +79,7 @@ class ProductoController extends Controller
             //'peso' => 'numeric',
             //'unidad_peso' => 'required',
             'precio_distribuidor' => 'required',
-            'precio_taller' => 'required',
+            //'precio_taller' => 'required',
         ]);
 
         //almacenar datos
@@ -228,7 +228,7 @@ class ProductoController extends Controller
             //'volumen' => 'numeric',
             //'peso' => 'numeric',
             'precio_distribuidor' => 'required|numeric',
-            'precio_taller' => 'required|numeric',
+            //'precio_taller' => 'required|numeric',
         ]);
 
         //almacenar datos

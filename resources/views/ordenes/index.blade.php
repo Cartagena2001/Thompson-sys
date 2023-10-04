@@ -141,6 +141,7 @@
                                 <td>{{ $orden->id }}</td>
                                 <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
                                 <td>{{ $orden->user->nombre_empresa }}</td>
+
                                 @if ($orden->estado == 'Pendiente')
                                     <td class="text-warning">{{ $orden->estado }}</td>
                                 @elseif($orden->estado == 'Proceso')
@@ -150,6 +151,7 @@
                                 @else
                                     <td class="text-danger">{{ $orden->estado }}</td>
                                 @endif
+
                                 <td>{{ \Carbon\Carbon::parse($orden->fecha_envio)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($orden->fecha_entrega)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
                                 <td>${{ $orden->total }}</td>
@@ -167,6 +169,7 @@
                                     <td>{{ $orden->id }}</td>
                                     <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
                                     <td>{{ $orden->user->nombre_empresa }}</td>
+
                                     @if ($orden->estado == 'Pendiente')
                                         <td class="text-warning">{{ $orden->estado }}</td>
                                     @elseif($orden->estado == 'Proceso')
@@ -176,6 +179,7 @@
                                     @else
                                         <td class="text-danger">{{ $orden->estado }}</td>
                                     @endif
+
                                     <td>{{ \Carbon\Carbon::parse($orden->fecha_envio)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($orden->fecha_entrega)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
                                     <td>${{ $orden->total }}</td>
@@ -189,6 +193,7 @@
                                     </td>
                                 </tr>
                             @endif
+                            
                         @endforeach
                     </tbody>
                 </table>
