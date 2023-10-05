@@ -39,10 +39,13 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
     public function model(array $row)
     {
         return new Producto([
+            'slug' => $this->generateSlug($row['nombre']),
+            'sku' => '-',
             'OEM' => $row['oem'],
             'lote' => $row['lote'],
             'nombre' => $row['nombre'],
             'descripcion' => $row['descripcion'],
+            'caracteristicas' => $row['caracteristicas'],
             'marca_id' => $this->marca[$row['marca']],
             'origen' => $row['origen'],
             'categoria_id' => $this->categoria[$row['categoria']],
@@ -52,6 +55,8 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'existencia' => $row['existencia'],
             'existencia_limite' => $row['existencia_limite'],
             'garantia' => $row['garantia'],
+            'ubicacion_bodega' => $row['ubicacion_bodega'],
+            'ubicacion_oficina' => $row['ubicacion_oficina'],
             'unidad_por_caja' => $row['unidad_por_caja'],
             'volumen' => $row['volumen'],
             'unidad_volumen' => $row['und_vol'],
@@ -69,11 +74,12 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'imagen_2_src' => $row['imagen2'],
             'imagen_3_src' => $row['imagen3'],
             'imagen_4_src' => $row['imagen4'],
+            'imagen_5_src' => $row['imagen5'],
+            'imagen_6_src' => $row['imagen6'],
+            
             //campos que no estan en el excel
             'fecha_ingreso' => \Carbon\Carbon::now(),
             'etiqueta_destacado' => 0,
-            'sku' => '-',
-            'slug' => $this->generateSlug($row['nombre']),
             'precio_1' => $row['precio_distribuidor'],
             'existencia' => $row['unidad_por_caja'],
         ]);

@@ -146,7 +146,7 @@
 
                 <div class="col-6">
                     {{ Form::label('precio_taller', 'Precio taller: *', ['class' => 'form-label']) }}
-                    {{ Form::number('precio_taller', $producto->precio_taller, ['class' => 'form-control', 'placeholder' => '0.00 US$', 'required' ,'step' => 'any']) }}
+                    {{ Form::number('precio_taller', $producto->precio_taller, ['class' => 'form-control', 'placeholder' => '0.00 US$','step' => 'any']) }}
                 </div>
 
             </div>
@@ -239,6 +239,24 @@
         {{ Form::file('imagen_4_src', ['class' => 'form-control', 'placeholder' => '']) }}
         @if ($producto->imagen_4_src)
             <img src="{{ $producto->imagen_4_src }}" alt="" width="100px">
+        @endif
+    </div>
+
+    <div class="mb-3">
+        {{ Form::label('imagen_5_src', 'Imagen #5 (800x800px | .jpg, .jpeg, .png):', ['class' => 'form-label']) }}
+        {{ Form::hidden('imagen_5_src', $producto->imagen_5_src, ['id' => 'imagen_5_src']) }}
+        {{ Form::file('imagen_5_src', ['class' => 'form-control', 'placeholder' => '']) }}
+        @if ($producto->imagen_5_src)
+            <img src="{{ $producto->imagen_5_src }}" alt="" width="100px">
+        @endif
+    </div>
+
+    <div class="mb-3">
+        {{ Form::label('imagen_6_src', 'Imagen #6 (800x800px | .jpg, .jpeg, .png):', ['class' => 'form-label']) }}
+        {{ Form::hidden('imagen_6_src', $producto->imagen_6_src, ['id' => 'imagen_6_src']) }}
+        {{ Form::file('imagen_6_src', ['class' => 'form-control', 'placeholder' => '']) }}
+        @if ($producto->imagen_6_src)
+            <img src="{{ $producto->imagen_6_src }}" alt="" width="100px">
         @endif
     </div>
 

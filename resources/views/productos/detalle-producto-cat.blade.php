@@ -153,6 +153,22 @@
                                         </div>
                                     @endif
 
+                                    @if ($producto->imagen_5_src != null)
+                                        <div class="swiper-slide">
+                                            <div class="swiper-zoom-container">
+                                                <img class="img-fluid" src="{{ $producto->imagen_5_src }}" alt="{{ $producto->nombre }}-5">
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    @if ($producto->imagen_6_src != null)
+                                        <div class="swiper-slide">
+                                            <div class="swiper-zoom-container">
+                                                <img class="img-fluid" src="{{ $producto->imagen_6_src }}" alt="{{ $producto->nombre }}-6">
+                                            </div>
+                                        </div>
+                                    @endif
+
                                 </div>
 
                                 <div class="swiper-button-next"></div>
@@ -196,6 +212,22 @@
 
                                     <div class="swiper-slide">
                                         <img src="{{ $producto->imagen_4_src }}" alt="" />
+                                    </div>
+
+                                @endif
+
+                                @if ($producto->imagen_5_src != null)
+
+                                    <div class="swiper-slide">
+                                        <img src="{{ $producto->imagen_5_src }}" alt="" />
+                                    </div>
+
+                                @endif
+
+                                @if ($producto->imagen_6_src != null)
+
+                                    <div class="swiper-slide">
+                                        <img src="{{ $producto->imagen_6_src }}" alt="" />
                                     </div>
 
                                 @endif

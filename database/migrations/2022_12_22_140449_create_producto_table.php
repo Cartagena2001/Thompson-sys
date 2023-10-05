@@ -60,6 +60,8 @@ return new class extends Migration
             $table->string('imagen_2_src', 250)->nullable();
             $table->string('imagen_3_src', 250)->nullable();
             $table->string('imagen_4_src', 250)->nullable();
+            $table->string('imagen_5_src', 250)->nullable();
+            $table->string('imagen_6_src', 250)->nullable();
             
             //relacionar con la tabla estado_producto
             $table->integer('estado_producto_id')->unsigned()->nullable()->default(1);;

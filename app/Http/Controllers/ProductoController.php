@@ -84,6 +84,7 @@ class ProductoController extends Controller
 
         //almacenar datos
         $reg = new Producto();
+
         $reg->nombre = $request->get('nombre');
         $reg->setSlugAttribute($request->get('nombre'));
         $reg->categoria_id = $request->get('categoria_id');
@@ -105,13 +106,16 @@ class ProductoController extends Controller
         $reg->ref_3 = $request->get('ref_3');
         $reg->lote = $request->get('lote');
         $reg->fecha_ingreso = $request->get('fecha_ingreso');
+        
         //si no manda la fecha de ingreso se le asigna la fecha actual
         if ($request->get('fecha_ingreso') == null) {
             $reg->fecha_ingreso = date('Y-m-d');
         }
+
         $reg->existencia = $request->get('existencia');
         $reg->existencia_limite = $request->get('existencia_limite');
         $reg->estado_producto_id = $request->get('estado_producto_id');
+        
         //si no manda el estado del producto se le asgina 1
         if ($request->get('estado_producto_id') == null) {
             $reg->estado_producto_id = 1;
@@ -121,6 +125,7 @@ class ProductoController extends Controller
         $reg->unidad_por_caja = $request->get('unidad_por_caja');
         $reg->precio_distribuidor = $request->get('precio_distribuidor');
         $reg->precio_taller = $request->get('precio_taller');
+        
         //subir archivos pdf
         if ($request->hasFile('hoja_seguridad')) {
             $file = $request->file('hoja_seguridad');
@@ -132,6 +137,7 @@ class ProductoController extends Controller
             $file->move(public_path() . '/assets/pdf/productos/', $file->getClientOriginalName());
             $reg->ficha_tecnica_href = '/assets/pdf/productos/' . $file->getClientOriginalName();
         }
+        
         //subir archivos imagenes
         if ($request->hasFile('imagen_1_src')) {
             $file = $request->file('imagen_1_src');
@@ -153,7 +159,19 @@ class ProductoController extends Controller
             $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
             $reg->imagen_4_src = '/assets/img/products/' . $file->getClientOriginalName();
         }
+        if ($request->hasFile('imagen_5_src')) {
+            $file = $request->file('imagen_5_src');
+            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
+            $reg->imagen_5_src = '/assets/img/products/' . $file->getClientOriginalName();
+        }
+        if ($request->hasFile('imagen_6_src')) {
+            $file = $request->file('imagen_6_src');
+            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
+            $reg->imagen_6_src = '/assets/img/products/' . $file->getClientOriginalName();
+        }
+
         $reg->etiqueta_destacado = $request->get('etiqueta_destacado');
+        
         //si no manda la etiqueta destacado se le asigna 0
         if ($request->get('etiqueta_destacado') == null) {
             $reg->etiqueta_destacado = 0;
@@ -274,6 +292,7 @@ class ProductoController extends Controller
             $file->move(public_path() . '/assets/pdf/productos/', $file->getClientOriginalName());
             $producto->ficha_tecnica_href = '/assets/pdf/productos/' . $file->getClientOriginalName();
         }
+
         //subir archivos imagenes
         if ($request->hasFile('imagen_1_src')) {
             $file = $request->file('imagen_1_src');
@@ -295,6 +314,17 @@ class ProductoController extends Controller
             $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
             $producto->imagen_4_src = '/assets/img/products/' . $file->getClientOriginalName();
         }
+        if ($request->hasFile('imagen_5_src')) {
+            $file = $request->file('imagen_5_src');
+            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
+            $producto->imagen_5_src = '/assets/img/products/' . $file->getClientOriginalName();
+        }
+        if ($request->hasFile('imagen_6_src')) {
+            $file = $request->file('imagen_6_src');
+            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
+            $producto->imagen_6_src = '/assets/img/products/' . $file->getClientOriginalName();
+        }
+        
         $producto->etiqueta_destacado = $request->get('etiqueta_destacado');
         $producto->garantia = $request->get('garantia');
 

@@ -46,6 +46,8 @@ class Producto extends Model
         'imagen_2_src',
         'imagen_3_src',
         'imagen_4_src',
+        'imagen_5_src',
+        'imagen_6_src',
         'estado_producto_id',
         'etiqueta_destacado',
         'fecha_ingreso',
