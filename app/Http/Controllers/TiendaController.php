@@ -26,21 +26,29 @@ class TiendaController extends Controller
         //verificar el usuario en sesión
         $usr = auth()->User();
 
-        //validar si es un cliente
+        $marcasAuto = $usr->marcas;
+        $marcasAutorizadas = str_split($marcasAuto);
+
+        //Busca y ordena productos al entrar desde el menú
+        //pero 1ro valida si es un cliente
         if ( $usr->rol_id == 2) {
-
-
-            $marcasAuto = $usr->marcas;
 
             $productos = Producto::whereHas('marca', function($query){
                 $query->where('estado', "Activo");
-            })->where('existencia', '>', 0)->paginate(1000000000);
+            })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->paginate(1000000000);
+
+            $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
+            $categorias = Categoria::all();
+            //$categorias = Categoria::wherePivot('marca_id', 1)->get();
 
         } else {
 
             $productos = Producto::whereHas('marca', function($query){
                 $query->where('estado', "Activo");
-            })->where('existencia', '>', 0)->paginate(1000000000);
+            })->paginate(1000000000);
+
+            $marcas = Marca::all();
+            $categorias = Categoria::all();
 
         }
 
@@ -48,14 +56,6 @@ class TiendaController extends Controller
         $cat_mod = $cmsVars[12]['parametro']; //modo catalogo
         $mant_mod = $cmsVars[13]['parametro']; //modo mantenimiento
 
-        // Busca y ordena productos al entrar desde el menú
-        $productos = Producto::whereHas('marca', function($query){
-            $query->where('estado', "Activo")->where('existencia', '>', 0);
-        })->paginate(1000000000);
-
-
-        $marcas = Marca::all();
-        $categorias = Categoria::all();
         $categoriaActual = 0;
         $marcaActual = 0;
 
@@ -72,7 +72,7 @@ class TiendaController extends Controller
             
             $marca = Marca::find($marca_id);
 
-            $categorias = $marca->Categoria()->get();
+            //$categorias = $marca->Categoria()->get();
 
             $marcaActual = $request->input('marca');
 
@@ -91,16 +91,53 @@ class TiendaController extends Controller
 
             $categoria = Categoria::find($categoria_id);
 
-            $marcas = $categoria->Marca()->get();
+            //$marcas = $categoria->Marca()->get();
 
             $marcaActual = 0;
             $categoriaActual = $categoria_id; 
 
         } elseif ( $request->input('categoria') == 0 && $request->input('marca') == 0) {
-            $marcas = Marca::all();
-            $categorias = Categoria::all();
+            //$marcas = Marca::all();
+            //$categorias = Categoria::all();
             $categoriaActual = 0;
             $marcaActual = 0;  
+        }
+
+
+
+
+
+        //if ver si esta selecionado el filtro busq por OEM
+        if( $request->input('busq') != null || $request->input('busq') != '' ){
+
+            //pero 1ro valida si es un cliente
+            if ( $usr->rol_id == 2) {
+
+                $busqOEM = $request->input('busq');
+
+                //devuelve los productos que coincidan con el OEM ingresado en filtro
+                $productos = Producto::whereHas('marca', function($query){
+                    $query->where('estado', "Activo");
+                })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->where('oem', 'like', '%'.$busqOEM.'%')->paginate(1000000000);
+
+                $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
+                $categorias = Categoria::all();
+                //$categorias = Categoria::wherePivot('marca_id', 1)->get();
+
+            } else {
+
+                $busqOEM = $request->input('busq');
+
+                //devuelve los productos que coincidan con el OEM ingresado en filtro
+                $productos = Producto::whereHas('marca', function($query){
+                    $query->where('estado', "Activo");
+                })->where('oem', 'like', '%'.$busqOEM.'%')->paginate(1000000000);
+
+                $marcas = Marca::all();
+                $categorias = Categoria::all();
+                $categoriaActual = 0;
+                $marcaActual = 0;
+            }    
         }
 
 
@@ -115,7 +152,10 @@ class TiendaController extends Controller
           
         $estadoProductos = EstadoProducto::all();
 
-        return view('productos.productos-grid', compact('productos', 'categorias', 'marcas', 'marcaActual', 'estadoProductos', 'categoriaActual', 'categoriaActualname', 'cat_mod', 'mant_mod'));
+        $productosDisponibles = $productos;
+
+        return view('productos.productos-grid', compact('productos', 'productosDisponibles', 'categorias', 'marcas', 'marcaActual', 'estadoProductos', 'categoriaActual', 'categoriaActualname', 'cat_mod', 'mant_mod'));
+
     }
 
 
@@ -377,38 +417,5 @@ class TiendaController extends Controller
     }
 
 
-    public function filtroMarca(Request $request)
-    {
-
-
-        //if ver si esta selecionado el filtro de marca
-        if( isset($request->marca) ){
-            $marca_id = $request->marca;
-
-            $categoriasP = Producto::where('marca_id', $marca_id);
-            
-            //devuelve los productos según la marca seleccionada en filtro  
-            $productos = Producto::where('marca_id', $marca_id)->paginate(1000000000);
-
-            return response()->json($productos);
-
-        } else {
-
-            $marcaActual = $request->marca;
-            $marcaActualname = null;
-            
-            if($marcaActual != null){
-                $marcaActualname = Marca::find($marcaActual);
-            }else{
-                $marcaActualname = "Todas";
-            }
-
-            return response()->json($productos, $marcaActualname);
-        }
-    }
-
-
-
-
-
+ 
 }

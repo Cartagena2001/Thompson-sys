@@ -315,6 +315,8 @@
                     <h3 class="d-flex align-items-center">
                         <span style="color: #F3151E">
 
+                        @if( $producto->marca->nombre != 'TEMCO' )
+
                             @if ($producto->precio_oferta != null)                        
                                 $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
 
@@ -330,39 +332,68 @@
                                 $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
                             @elseif (Auth::user()->clasificacion == 'Taller')
                                 $ {{ $producto->precio_taller * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Reparto')
+                            @elseif (Auth::user()->clasificacion == 'Distribuidor')
                                 $ {{ $producto->precio_distribuidor * $producto->unidad_por_caja }}
                             @endif
                             <span class="rt-color-2">c/caja</span>
-                        </span>
-                        <span class="me-1 fs--1 text-500"></span>
-                    </h3>
 
-                    <span class="d-flex align-items-center mb-4">
-                        <span style="color: #F3151E">
+                        @else
 
                             @if ($producto->precio_oferta != null)                        
                                 $ {{ $producto->precio_oferta }}
 
                             @elseif (Auth::user()->clasificacion == 'Cobre')
-                                $ {{ $producto->precio_1}}
+                                $ {{ $producto->precio_1 }}
                             @elseif (Auth::user()->clasificacion == 'Plata')
                                 $ {{ $producto->precio_1 }}
                             @elseif (Auth::user()->clasificacion == 'Oro')
-                                $ {{ $producto->precio_2}}
+                                $ {{ $producto->precio_2 }}
                             @elseif (Auth::user()->clasificacion == 'Platino')
-                                $ {{ $producto->precio_3}}
+                                $ {{ $producto->precio_3 }}
                             @elseif (Auth::user()->clasificacion == 'Diamante')
-                                $ {{ $producto->precio_oferta}}
+                                $ {{ $producto->precio_oferta }}
                             @elseif (Auth::user()->clasificacion == 'Taller')
-                                $ {{ $producto->precio_taller}}
-                            @elseif (Auth::user()->clasificacion == 'Reparto')
-                                $ {{ $producto->precio_distribuidor}}
+                                $ {{ $producto->precio_taller }}
+                            @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                                $ {{ $producto->precio_distribuidor }}
                             @endif
                             <span class="rt-color-2">c/producto</span>
+
+                        @endif
+
                         </span>
                         <span class="me-1 fs--1 text-500"></span>
-                    </span>
+                    </h3>
+
+                    @if( $producto->marca->nombre != 'TEMCO' )
+
+                        <span class="d-flex align-items-center mb-4">
+                            <span style="color: #F3151E">
+
+                                @if ($producto->precio_oferta != null)                        
+                                    $ {{ $producto->precio_oferta }}
+
+                                @elseif (Auth::user()->clasificacion == 'Cobre')
+                                    $ {{ $producto->precio_1}}
+                                @elseif (Auth::user()->clasificacion == 'Plata')
+                                    $ {{ $producto->precio_1 }}
+                                @elseif (Auth::user()->clasificacion == 'Oro')
+                                    $ {{ $producto->precio_2}}
+                                @elseif (Auth::user()->clasificacion == 'Platino')
+                                    $ {{ $producto->precio_3}}
+                                @elseif (Auth::user()->clasificacion == 'Diamante')
+                                    $ {{ $producto->precio_oferta}}
+                                @elseif (Auth::user()->clasificacion == 'Taller')
+                                    $ {{ $producto->precio_taller}}
+                                @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                                    $ {{ $producto->precio_distribuidor}}
+                                @endif
+                                <span class="rt-color-2">c/producto</span>
+                            </span>
+                            <span class="me-1 fs--1 text-500"></span>
+                        </span>
+
+                    @endif
 
                 @elseif ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
 
@@ -384,7 +415,7 @@
                                 $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
                             @elseif (Auth::user()->clasificacion == 'Taller')
                                 $ {{ $producto->precio_taller * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Reparto')
+                            @elseif (Auth::user()->clasificacion == 'Distribuidor')
                                 $ {{ $producto->precio_distribuidor * $producto->unidad_por_caja }}
                             @endif
                             <span class="rt-color-2">c/caja</span>
@@ -392,31 +423,62 @@
                         <span class="me-1 fs--1 text-500"></span>
                     </h3>
 
-                    <span class="d-flex align-items-center mb-4">
-                        <span style="color: #F3151E">
+                    @if( $producto->marca->nombre != 'TEMCO' )
 
-                            @if ($producto->precio_oferta != null)                        
-                                $ {{ $producto->precio_oferta }}
+                        <span class="d-flex align-items-center mb-4">
+                            <span style="color: #F3151E">
 
-                            @elseif (Auth::user()->clasificacion == 'Cobre')
-                                $ {{ $producto->precio_1}}
-                            @elseif (Auth::user()->clasificacion == 'Plata')
-                                $ {{ $producto->precio_1 }}
-                            @elseif (Auth::user()->clasificacion == 'Oro')
-                                $ {{ $producto->precio_2}}
-                            @elseif (Auth::user()->clasificacion == 'Platino')
-                                $ {{ $producto->precio_3}}
-                            @elseif (Auth::user()->clasificacion == 'Diamante')
-                                $ {{ $producto->precio_oferta}}
-                            @elseif (Auth::user()->clasificacion == 'Taller')
-                                $ {{ $producto->precio_taller}}
-                            @elseif (Auth::user()->clasificacion == 'Reparto')
-                                $ {{ $producto->precio_distribuidor}}
-                            @endif
-                            <span class="rt-color-2">c/producto</span>
+                                @if( $producto->marca->nombre != 'TEMCO' )
+
+                                    @if ($producto->precio_oferta != null)                        
+                                        $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
+
+                                    @elseif (Auth::user()->clasificacion == 'Cobre')
+                                        $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
+                                    @elseif (Auth::user()->clasificacion == 'Plata')
+                                        $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
+                                    @elseif (Auth::user()->clasificacion == 'Oro')
+                                        $ {{ $producto->precio_2 * $producto->unidad_por_caja }}
+                                    @elseif (Auth::user()->clasificacion == 'Platino')
+                                        $ {{ $producto->precio_3 * $producto->unidad_por_caja }}
+                                    @elseif (Auth::user()->clasificacion == 'Diamante')
+                                        $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
+                                    @elseif (Auth::user()->clasificacion == 'Taller')
+                                        $ {{ $producto->precio_taller * $producto->unidad_por_caja }}
+                                    @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                                        $ {{ $producto->precio_distribuidor * $producto->unidad_por_caja }}
+                                    @endif
+                                    <span class="rt-color-2">c/caja</span>
+
+                                @else
+
+                                    @if ($producto->precio_oferta != null)                        
+                                        $ {{ $producto->precio_oferta }}
+
+                                    @elseif (Auth::user()->clasificacion == 'Cobre')
+                                        $ {{ $producto->precio_1 }}
+                                    @elseif (Auth::user()->clasificacion == 'Plata')
+                                        $ {{ $producto->precio_1 }}
+                                    @elseif (Auth::user()->clasificacion == 'Oro')
+                                        $ {{ $producto->precio_2 }}
+                                    @elseif (Auth::user()->clasificacion == 'Platino')
+                                        $ {{ $producto->precio_3 }}
+                                    @elseif (Auth::user()->clasificacion == 'Diamante')
+                                        $ {{ $producto->precio_oferta }}
+                                    @elseif (Auth::user()->clasificacion == 'Taller')
+                                        $ {{ $producto->precio_taller }}
+                                    @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                                        $ {{ $producto->precio_distribuidor }}
+                                    @endif
+                                    <span class="rt-color-2">c/producto</span>
+
+                                @endif
+                                
+                            </span>
+                            <span class="me-1 fs--1 text-500"></span>
                         </span>
-                        <span class="me-1 fs--1 text-500"></span>
-                    </span>
+
+                    @endif
 
                 @endif
 

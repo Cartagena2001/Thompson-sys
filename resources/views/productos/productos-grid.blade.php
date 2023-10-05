@@ -277,14 +277,9 @@
                 <form action="" method="get">
 
                     <label for="busq">Búsqueda: </label>
-                    <input class="form-control" type="text" name="busq" id="busq" value="" maxlength="20" placeholder="Buscar por OEM...">
-                                                    
-                    <div style="display: none;" class="mt-2">
-                        <button id="btn-filter-brand" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-filter"></i> Aplicar filtro</button>
-                        {{-- <a href="{{ url('/dashboard/tienda') }}" class="btn btn-sm btn-primary" type="submit"><i class="fas fa-trash-alt"></i> Limpiar filtro</a> --}}
-                    </div>
-
-
+                    <div style="display: flex;">    
+                        <input class="form-control" type="text" name="busq" id="busq" value="" maxlength="20" placeholder="Buscar por OEM..." style="vertical-align: middle;"><button id="btn-filter-brand" class="btn btn-sm btn-primary" type="submit" style="vertical-align: middle;"><i class="fas fa-search"></i></button>
+                    </div>                           
                 </form>
 
             </div>
@@ -361,6 +356,11 @@
                             <div class="p-2">
 
                                 <h5 style="min-height: 55px;" class="fs--1 text-start"><a tabindex="-1" class="text-dark" href="{{ route('tienda.show', $producto->slug) }}">{{ $producto->nombre }}</a></h5>
+
+                                @if ($producto->marca->nombre == 'TEMCO')
+                                    <span class="rt-color-2 font-weight-bold" style="font-size: 12px;"></span><span style="font-size: 12px;">{{ $producto->descripcion }}</span>
+                                    <br/>
+                                @endif
 
                                 <span class="rt-color-2 font-weight-bold" style="font-size: 12px;">MARCA: </span><span style="font-size: 12px;">{{ $producto->marca->nombre }}</span>
                                 <br/>
