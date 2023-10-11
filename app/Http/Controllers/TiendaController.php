@@ -35,7 +35,7 @@ class TiendaController extends Controller
 
             $productos = Producto::whereHas('marca', function($query){
                 $query->where('estado', "Activo");
-            })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->paginate(1000000000);
+            })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->where('imagen_1_src', '!=', null)->paginate(1000000000);
 
             $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
             $categorias = Categoria::all();
@@ -45,7 +45,7 @@ class TiendaController extends Controller
 
             $productos = Producto::whereHas('marca', function($query){
                 $query->where('estado', "Activo");
-            })->paginate(1000000000);
+            })->where('imagen_1_src', '!=', null)->paginate(1000000000);
 
             $marcas = Marca::all();
             $categorias = Categoria::all();
@@ -68,6 +68,7 @@ class TiendaController extends Controller
             $productos = Producto::where('marca_id', $marca_id)
                                  ->where('estado_producto_id', 1)
                                  ->whereNot('existencia', 0)
+                                 ->where('imagen_1_src', '!=', null)
                                  ->paginate(1000000000);
             
             $marca = Marca::find($marca_id);
@@ -87,6 +88,7 @@ class TiendaController extends Controller
             $productos = Producto::where('categoria_id', $categoria_id)
                                  ->where('estado_producto_id', 1)
                                  ->whereNot('existencia', 0)
+                                 ->where('imagen_1_src', '!=', null)
                                  ->paginate(1000000000);
 
             $categoria = Categoria::find($categoria_id);
@@ -118,7 +120,7 @@ class TiendaController extends Controller
                 //devuelve los productos que coincidan con el OEM ingresado en filtro
                 $productos = Producto::whereHas('marca', function($query){
                     $query->where('estado', "Activo");
-                })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->where('oem', 'like', '%'.$busqOEM.'%')->paginate(1000000000);
+                })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->where('oem', 'like', '%'.$busqOEM.'%')->where('imagen_1_src', '!=', null)->paginate(1000000000);
 
                 $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
                 $categorias = Categoria::all();
@@ -131,7 +133,7 @@ class TiendaController extends Controller
                 //devuelve los productos que coincidan con el OEM ingresado en filtro
                 $productos = Producto::whereHas('marca', function($query){
                     $query->where('estado', "Activo");
-                })->where('oem', 'like', '%'.$busqOEM.'%')->paginate(1000000000);
+                })->where('oem', 'like', '%'.$busqOEM.'%')->where('imagen_1_src', '!=', null)->paginate(1000000000);
 
                 $marcas = Marca::all();
                 $categorias = Categoria::all();
