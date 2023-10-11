@@ -316,18 +316,21 @@ class TiendaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($id, $slug) 
     {
+
         // $producto = Producto::find($id);
-        $producto = Producto::where('slug', $slug)->firstOrFail();
+        //$producto = Producto::where('id', '=', $id)->get();
+        $producto = Producto::where('id', $id)->firstOrFail();
+        //$producto = Producto::where('slug', $slug)->firstOrFail();
         $cmsVars = CMS::get()->toArray();
 
         $cat_mod = $cmsVars[12]['parametro']; //modo catalogo
         $mant_mod = $cmsVars[13]['parametro']; //modo mantenimiento
         
-
         return view('productos.detalle-producto', compact('producto', 'cat_mod', 'mant_mod'));
     }
+
 
     /**
      * Display the specified resource.
@@ -335,10 +338,10 @@ class TiendaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function showProd($slug)
+    public function showProd($id, $slug)
     {
         // $producto = Producto::find($id);
-        $producto = Producto::where('slug', $slug)->firstOrFail();
+        $producto = Producto::where('id', $id)->firstOrFail();
         $cmsVars = CMS::get()->toArray();
 
         $cat_mod = $cmsVars[12]['parametro']; //modo catalogo

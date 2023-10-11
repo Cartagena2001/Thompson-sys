@@ -107,10 +107,12 @@ Route::post('/dashboard/permisos', [App\Http\Controllers\ClientesController::cla
 
 //Rutas para tienda
 Route::get('/dashboard/catalogo', [App\Http\Controllers\TiendaController::class, 'indexCat'])->name('catalogo.index')->middleware('auth');
-Route::get('/dashboard/catalogo/{producto:slug}', [App\Http\Controllers\TiendaController::class, 'showProd'])->name('catalogo.show')->middleware('auth');
+//Route::get('/dashboard/catalogo/{producto:slug}', [App\Http\Controllers\TiendaController::class, 'showProd'])->name('catalogo.show')->middleware('auth');
+Route::get('/dashboard/catalogo/{id}/{slug}', [App\Http\Controllers\TiendaController::class, 'showProd'])->name('catalogo.show')->middleware('auth');
 
 Route::get('/dashboard/tienda', [App\Http\Controllers\TiendaController::class, 'index'])->name('tienda.index')->middleware('auth');
-Route::get('/dashboard/tienda/{producto:slug}', [App\Http\Controllers\TiendaController::class, 'show'])->name('tienda.show')->middleware('auth');
+//Route::get('/dashboard/tienda/{producto:slug}', [App\Http\Controllers\TiendaController::class, 'show'])->name('tienda.show')->middleware('auth');
+Route::get('/dashboard/tienda/{id}/{slug}', [App\Http\Controllers\TiendaController::class, 'show'])->name('tienda.show')->middleware('auth');
 
 Route::get('/dashboard/compra-masiva', [App\Http\Controllers\TiendaController::class, 'showCat'])->name('compra.masiva.index')->middleware('auth');
 

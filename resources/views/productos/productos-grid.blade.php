@@ -339,7 +339,7 @@
 
                             <div class="position-relative rounded-top overflow-hidden div-tienda" style="position: relative;">
                                 
-                                <a tabindex="-1" class="d-block" href="{{ route('tienda.show', $producto->slug) }}">
+                                <a tabindex="-1" class="d-block" href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}">
                                     <img class="rounded-top" src="{{ $imagen }}" alt="img-producto-thumbnail" />
                                 </a>
 
@@ -355,7 +355,7 @@
 
                             <div class="p-2">
 
-                                <h5 style="min-height: 55px;" class="fs--1 text-start"><a tabindex="-1" class="text-dark" href="{{ route('tienda.show', $producto->slug) }}">{{ $producto->nombre }}</a></h5>
+                                <h5 style="min-height: 55px;" class="fs--1 text-start"><a tabindex="-1" class="text-dark" href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}">{{ $producto->nombre }}</a></h5>
 
                                 @if ($producto->marca->nombre == 'TEMCO')
                                     <span class="rt-color-2 font-weight-bold" style="font-size: 12px;"></span><span style="font-size: 12px;">{{ $producto->descripcion }}</span>
@@ -550,7 +550,7 @@
                             <div class="col-6 col-md-6 px-1 flex-center">
 
                                 <a tabindex="-1" class="btn btn-x btn-primary me-0 px-2"
-                                    href="{{ route('tienda.show', $producto->slug) }}" data-bs-toggle="tooltip"
+                                    href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Ir a">Ver Más <i class="fas fa-search-plus"></i>
                                 </a>
  
@@ -567,7 +567,7 @@
                             <div class="col-6 col-md-6 px-1 flex-center">
 
                                 <a tabindex="-1" class="btn btn-x btn-primary me-0 px-2"
-                                    href="{{ route('tienda.show', $producto->slug) }}" data-bs-toggle="tooltip"
+                                    href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Ir a">Ver Más <i class="fas fa-search-plus"></i>
                                 </a>
  
@@ -584,7 +584,7 @@
                             <div class="col-12 col-md-12 px-1 flex-center">
 
                                 <a tabindex="-1" class="btn btn-x btn-primary me-0 px-2"
-                                    href="{{ route('tienda.show', $producto->slug) }}" data-bs-toggle="tooltip"
+                                    href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Ir a">Ver Más <i class="fas fa-search-plus"></i>
                                 </a>
  
@@ -600,7 +600,7 @@
                             <div class="d-flex">
 
                                 <a tabindex="-1" class="btn btn-x btn-primary me-2"
-                                    href="{{ route('tienda.show', $producto->slug) }}" data-bs-toggle="tooltip"
+                                    href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Ver producto"><i class="fa-regular fa-eye"></i>
                                     Ver Producto
                                 </a>
