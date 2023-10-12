@@ -455,7 +455,7 @@
                                         </h5>
                                     </div>
 
-                                    <div class="col-5 text-end">
+                                    <div class="col-5 text-center">
                                         <input class="prod-grid-qty" type="number" id="{{ $producto->id }}" name="cantidad" value="{{ isset($cart[$producto->id]['cantidad']) ? $cart[$producto->id]['cantidad'] : 0 }}" min="1" max="{{ $producto->existencia }}" placeholder="0" onchange="agregarCarrito(this.id)"/>
                                         <br/>
                                         <span class="text-danger" id="ErrorMsg1"></span>
@@ -518,7 +518,7 @@
                                         </h5>
                                     </div>
 
-                                    <div class="col-5 text-end">
+                                    <div class="col-5 text-center">
                                         <input class="prod-grid-qty" type="number" id="{{ $producto->id }}" name="cantidad" value="{{ isset($cart[$producto->id]['cantidad']) ? $cart[$producto->id]['cantidad'] : 0 }}" min="1" max="{{ $producto->existencia }}" placeholder="0" onchange="agregarCarrito(this.id)"/>
                                         <br/>
                                         <span class="text-danger" id="ErrorMsg1"></span>

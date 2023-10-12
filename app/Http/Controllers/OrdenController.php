@@ -41,7 +41,7 @@ class OrdenController extends Controller
         $orden->notas = '-'; //notas
         $orden->notas_bodega = '-'; //notas bodega
         $orden->bulto = '-'; //total bultos
-        $orden->paletas = '-'; //total paletas
+        $orden->paleta = '-'; //total paletas
         $orden->fecha_envio = \Carbon\Carbon::now()->addDays(1)->toDateTimeString();
         $orden->fecha_entrega = \Carbon\Carbon::now()->addDays(4)->toDateTimeString();
         $orden->total = 0;
@@ -81,11 +81,6 @@ class OrdenController extends Controller
 
         $ordenFechaH = \Carbon\Carbon::parse($ordenAux->created_at)->format('d/m/Y, h:m:s a');
 
-
-        //Envio de notificación por correo a Oficina
-        $emailRecipientOff = "oficina@rtelsalvador.com";
-        $emailSubjectOff = 'Nueva órden de compra # '.$orden->id;
-
         $subtotal = 0;
         $iva = 0.13;
         $total = 0;
@@ -96,78 +91,12 @@ class OrdenController extends Controller
 
         $total = $subtotal + ($subtotal * $iva);
 
-        $emailBodyOff = " 
-                        <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
-                        </div>
 
-                        <br/>
-                        <br/>
 
-                        <p><b>NUEVA ÓRDEN DE COMPRA # ".$orden->id."</b></p>
-                        
-                        <br/>
+        $mailToClient = new PHPMailer(true);     // Passing `true` enables exceptions
 
-                        <p><b>DATOS</b>:</p>
-                        <p><b>Cliente</b>: ".$ordenAux->user->name." <br/>
-                           <b>Empresa</b>: ".$ordenAux->user->nombre_empresa." <br/>
-                           <b>Correo electrónico</b>: ".$ordenAux->user->email." <br/>
-                           <b>WhatsApp</b>: ".$ordenAux->user->numero_whatsapp." <br/>
-                           <b>Teléfono</b>: ".$ordenAux->user->telefono." <br/>
-                           <b>Dirección</b>: ".$ordenAux->user->direccion.", ".$ordenAux->user->municipio.", ".$ordenAux->user->departamento."<br/>  
-                           <b>Fecha/Hora</b>: ".$ordenFechaH." <br/>
-                           <b>Estado: ".$ordenAux->estado."
-                        </p>
+        $mailToOffice = new PHPMailer(true);     // Passing `true` enables exceptions
 
-                        <br/>
-
-                        <p><b>RESUMEN PEDIDO</b>:</p>
-                        <br/>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th class='text-start'>Producto</th>
-                                    <th class='text-center'>Cantidad (caja)</th>
-                                    <th class='text-center'>Precio (caja)</th>
-                                    <th class='text-cente'>Subtotal Parcial</th>
-                                </tr>
-                            </thead>
-                            <tbody>";
-
-                        foreach ($detalleAUx as $detalles) { 
-                $emailBodyOff .= "<tr class='pb-5'>
-                                    <td class='text-start'>".$detalles->producto->nombre ."</td>
-                                    <td class='text-center'>".$detalles->cantidad."</td>
-                                    <td class='text-center'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
-                                    <td class='text-center'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
-                                </tr>";
-                        }
-
-              $emailBodyOff .= "<tr class='pt-5' style='border-top: solid 4px #979797;'>
-                                    <td></td>
-                                    <td></td> 
-                                    <td class='text-start' style='font-weight: 600;'>Subtotal:</td> 
-                                    <td class='text-end'>".number_format($subtotal, 2, '.', ',')." $</td> 
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td> 
-                                    <td class='text-start' style='font-weight: 600;'>IVA (13%):</td> 
-                                    <td class='text-end'>".number_format(($subtotal * $iva), 2, '.', ',')." $</td> 
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td class='text-start' style='font-weight: 600;'>Total:</td> 
-                                    <td class='text-end'>".number_format($total, 2, '.', ',')." $</td> 
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <br/>
-                        
-                        <p>Pronto nos pondremos en contacto.</p>
-                        ";
 
         //Envio de notificación por correo a Cliente
         $emailRecipientClient = $ordenAux->user->email;
@@ -211,16 +140,16 @@ class OrdenController extends Controller
                             </thead>
                             <tbody>";
 
-                        foreach ($detalleAUx as $detalles) { 
+        foreach ($detalleAUx as $detalles) { 
             $emailBodyClient.= "<tr class='pb-5'>
                                     <td class='text-start'>".$detalles->producto->nombre ."</td>
                                     <td class='text-center'>".$detalles->cantidad."</td>
                                     <td class='text-center'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
                                     <td class='text-center'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
                                 </tr>";
-                        }
+        }
 
-          $emailBodyClient .= "<tr class='pt-5' style='border-top: solid 4px #979797;'>
+            $emailBodyClient .= "<tr class='pt-5' style='border-top: solid 4px #979797;'>
                                     <td></td>
                                     <td></td> 
                                     <td class='text-start' style='font-weight: 600;'>Subtotal:</td> 
@@ -246,16 +175,95 @@ class OrdenController extends Controller
                         <p>Pronto nos pondremos en contacto.</p>
                         ";
 
-                        
-        $replyToEmailOff = $ordenAux->user->email;
-        $replyToNameOff = $ordenAux->user->name;
-
         $replyToEmailClient = "oficina@rtelsalvador.com";
         $replyToNameClient = "Representaciones Thompson - Oficina";
 
-        $estado1 = $this->sendMail($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
+        $estado2 = $this->sendMail($mailToClient, $emailRecipientClient, $emailSubjectClient, $emailBodyClient, $replyToEmailClient, $replyToNameClient);
 
-        $estado2 = $this->sendMail($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient,$replyToEmailClient ,$replyToNameClient);
+        
+        //Envio de notificación por correo a Oficina
+        $emailRecipientOff = "oficina@rtelsalvador.com";
+        $emailSubjectOff = 'Nueva órden de compra # '.$orden->id;
+
+        $emailBodyOff = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                        </div>
+
+                        <br/>
+                        <br/>
+
+                        <p><b>NUEVA ÓRDEN DE COMPRA # ".$orden->id."</b></p>
+                        
+                        <br/>
+
+                        <p><b>DATOS</b>:</p>
+                        <p><b>Cliente</b>: ".$ordenAux->user->name." <br/>
+                           <b>Empresa</b>: ".$ordenAux->user->nombre_empresa." <br/>
+                           <b>Correo electrónico</b>: ".$ordenAux->user->email." <br/>
+                           <b>WhatsApp</b>: ".$ordenAux->user->numero_whatsapp." <br/>
+                           <b>Teléfono</b>: ".$ordenAux->user->telefono." <br/>
+                           <b>Dirección</b>: ".$ordenAux->user->direccion.", ".$ordenAux->user->municipio.", ".$ordenAux->user->departamento."<br/>  
+                           <b>Fecha/Hora</b>: ".$ordenFechaH." <br/>
+                           <b>Estado: ".$ordenAux->estado."
+                        </p>
+
+                        <br/>
+
+                        <p><b>RESUMEN PEDIDO</b>:</p>
+                        <br/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class='text-start'>Producto</th>
+                                    <th class='text-center'>Cantidad (caja)</th>
+                                    <th class='text-center'>Precio (caja)</th>
+                                    <th class='text-cente'>Subtotal Parcial</th>
+                                </tr>
+                            </thead>
+                            <tbody>";
+
+        foreach ($detalleAUx as $detalles) { 
+                $emailBodyOff .= "<tr class='pb-5'>
+                                    <td class='text-start'>".$detalles->producto->nombre ."</td>
+                                    <td class='text-center'>".$detalles->cantidad."</td>
+                                    <td class='text-center'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
+                                    <td class='text-center'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                </tr>";
+        }
+
+                $emailBodyOff .= "<tr class='pt-5' style='border-top: solid 4px #979797;'>
+                                    <td></td>
+                                    <td></td> 
+                                    <td class='text-start' style='font-weight: 600;'>Subtotal:</td> 
+                                    <td class='text-end'>".number_format($subtotal, 2, '.', ',')." $</td> 
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td> 
+                                    <td class='text-start' style='font-weight: 600;'>IVA (13%):</td> 
+                                    <td class='text-end'>".number_format(($subtotal * $iva), 2, '.', ',')." $</td> 
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class='text-start' style='font-weight: 600;'>Total:</td> 
+                                    <td class='text-end'>".number_format($total, 2, '.', ',')." $</td> 
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <br/>
+                        
+                        <p>Pronto nos pondremos en contacto.</p>
+                        ";
+
+                   
+        $replyToEmailOff = $ordenAux->user->email;
+        $replyToNameOff = $ordenAux->user->name;
+
+        $estado1 = $this->sendMail($mailToOffice, $emailRecipientOff, $emailSubjectOff, $emailBodyOff, $replyToEmailOff, $replyToNameOff);
+
 
         if( !$estado1 && !$estado2 ) {
 
