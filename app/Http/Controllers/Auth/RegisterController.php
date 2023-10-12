@@ -103,7 +103,7 @@ class RegisterController extends Controller
         $estado1 = $this->sendMail($mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
 
         //Envio de notificación por correo a oficina
-        $emailRecipientOff = "oficina@rtelsalvador.com";}
+        $emailRecipientOff = "oficina@rtelsalvador.com";
         
         $emailSubjectOff = 'Registro de nuevo Usuario - RTElSalvador';
         $emailBodyOff = " 
