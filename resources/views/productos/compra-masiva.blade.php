@@ -168,7 +168,7 @@
                         <tr>
                             <td>{{ $producto->id }}</td>
                             <td><a tabindex="-1" style="color: #5e6e82;" class=""
-                                    href="{{ route('tienda.show', $producto->slug) }}" data-bs-toggle="tooltip"
+                                    href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Ver producto">{{ $producto->nombre }}</a></td>
                             <td>{{ $producto->marca->nombre }}</td>
                             <td>{{ $producto->OEM }}</td>

@@ -123,27 +123,14 @@ class PerfilController extends Controller
 
         //validar los datos si es cliente o bodega
         $this->validate($request, [
-            'password_actual' => 'required|string',
-            'password_nuevo' => 'required|confirmed|min:6|string'
+            'password' => 'required|confirmed|min:6'
         ]);
 
         //capturar la informacion del usuario logeado
         $usuarioLogIn = auth()->User();
         $user = User::find($usuarioLogIn->id);
         
-        // La contraseña coincide
-        if ( !(Hash::check($request->get('password_actual'), $user->password)) ) {
-            
-            return redirect()->route('perfil.index')->with('error', '¡Contraseña actual es inválida!');
-        }
-
-        // La contraseña actual y nuevo son el mismo
-        if ( strcmp($request->get('password_actual'), $request->get('password_nuevo')) == 0 ) {
-            
-            return redirect()->route('perfil.index')->with('error', 'La nueva contraseña no puede ser igual a la actual.');
-        }
- 
-        $user->password = bcrypt($request->get('password_nuevo'));
+        $user->password = bcrypt($request->get('password'));
         $user->save();
 
         //$user->password = bcrypt($request->get('password'));

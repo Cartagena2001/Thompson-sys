@@ -312,22 +312,16 @@
                     <div class="col-12 flex-center">
 
                         <div>
-                        <label for="password_actual">Contraseña Actual: </label>
-                        <input class="form-control" type="password" name="password" id="password_actual" value="" maxlength="12" required>
-                        
-                        @if ($errors->has('password_actual'))
-                            <div class="alert alert-danger mt-1 mb-1">{{ $errors->first('password_actual') }}</div>
+                    
+                        <label for="password">Nueva Contraseña: </label>
+                        <input class="form-control" type="password" name="password" id="password" value="" maxlength="12" required>
+
+                        @if ($errors->has('password'))
+                            <div class="alert alert-danger mt-1 mb-1">{{ $errors->first('password') }}</div>
                         @endif
 
-                        <label for="password_nuevo">Nueva Contraseña: </label>
-                        <input class="form-control" type="password" name="password_nuevo" id="password_nuevo" value="" maxlength="12" required>
-
-                        @if ($errors->has('password_nuevo'))
-                            <div class="alert alert-danger mt-1 mb-1">{{ $errors->first('password_nuevo') }}</div>
-                        @endif
-
-                        <label for="password_confirmacion">Confirmar Contraseña: </label>
-                        <input class="form-control" type="password" name="password_confirmacion" id="password_confirmacion" value="" maxlength="12" required>
+                        <label for="password_confirmation">Confirmar Contraseña: </label>
+                        <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" value="" maxlength="12" required>
 
                         </div>
 

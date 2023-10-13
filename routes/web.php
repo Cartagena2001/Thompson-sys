@@ -163,8 +163,9 @@ Route::get('/configuracion/users', [App\Http\Controllers\UsersController::class,
 Route::get('/configuracion/users/create', [App\Http\Controllers\UsersController::class, 'create'])->name('users.create')->middleware('auth');
 Route::patch('/configuracion/users/create', [App\Http\Controllers\UsersController::class, 'store'])->name('users.store')->middleware('auth');
 Route::get('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'edit'])->name('users.edit')->middleware('auth');
-Route::put('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'update'])->name('users.update')->middleware('auth');
 
+Route::put('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'update'])->name('users.update')->middleware('auth');
+Route::post('/configuracion/users/edit/{id}', [App\Http\Controllers\PerfilController::class, 'passwordUpdate'])->name('perfil.password.update')->middleware('auth');
 
 
 

@@ -229,7 +229,6 @@ Class UsersController extends Controller
             'website' => 'required|max:34',
             'telefono' => 'required|string|min:9|max:9',
             'marcas' => 'required',
-            'password' => 'required|min:6|confirmed',
         ]);
 
         //almacenar datos
@@ -306,8 +305,6 @@ Class UsersController extends Controller
             $user->marcas = $marcasList;
         }
 
-        $user->password = bcrypt($request->get('password'));
-
         //$user->form_status = "none"; //none, sent 
 
         //$user->fecha_registro = \Carbon\Carbon::now()->addDays(4)->toDateTimeString();
@@ -318,7 +315,7 @@ Class UsersController extends Controller
         $user->update();
 
         //redireccionar
-        return redirect()->route('users.index')->with('success', 'usuario actualizado con éxito');
+        return redirect()->route('users.index')->with('success', 'Datos de usuario actualizados con éxito');
     }
 
 }

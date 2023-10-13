@@ -320,24 +320,36 @@
 
                     </div>
 
-                    <div class="col-auto align-self-center mt-5 mb-3 text-center">
+                    <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">
+                        <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Actualizar información</button>
+                    </div>
+
+                </form>
+
+                <hr />
+
+                <form method="POST" action="{{ route('perfil.password.update') }}" role="form" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="col-auto align-self-center mt-2 mb-3 text-center">
                         <h4 class="mb-0" data-anchor="data-anchor">🔑 Credenciales:</h4>
                     </div>
 
-                    <hr />
-
                     <div class="col-12 flex-center">
                         <div>
-                        <label for="password">Contraseña: </label>
-                        <input class="form-control" type="password" name="password" id="password" value="{{ $usuario->password }}" maxlength="12" autocomplete="current-password" required>
-                        @error('password')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                        @enderror
+                    
+                        <label for="password">Nueva Contraseña: </label>
+                        <input class="form-control" type="password" name="password" id="password" value="" maxlength="12" required>
+
+                        @if ($errors->has('password'))
+                            <div class="alert alert-danger mt-1 mb-1">{{ $errors->first('password') }}</div>
+                        @endif
 
                         <label for="password_confirmation">Confirmar Contraseña: </label>
-                        <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" value="{{ $usuario->password }}" maxlength="12" autocomplete="current-password" required>
+                        <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" value="" maxlength="12" required>
 
                         </div>
+                        
                     </div>
 
                     <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">

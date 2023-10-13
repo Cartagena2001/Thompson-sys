@@ -62,7 +62,7 @@
                     @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3 )
                          <img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="rt-logo" width="200" />
                     @else 
-                         <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 175px; max-height: 75px;" />
+                         <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 115px; height: auto;" />
                     @endif
                 </a>     
             </div>
@@ -145,8 +145,9 @@
             @endif
 
         </div>
-
-        <div id="modMsg" style="text-align: center; background-color: black; color: #fff; padding: 5px 0px;"> 🔧 VERSIÓN DE PRUEBA - TIENDA EN DESARROLLO 🔨</div>
+        @if ( $catalog_mode == 1 )
+            <div id="modMsg" style="text-align: center; background-color: black; color: #fff; padding: 5px 0px;"> 🔧 VERSIÓN DE PRUEBA - TIENDA EN DESARROLLO 🔨</div>
+        @endif
     </header>
     
 

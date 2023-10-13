@@ -268,12 +268,14 @@ class OrdenController extends Controller
         if( !$estado1 && !$estado2 ) {
 
             session()->forget('cart');
+            session()->forget('detalle');
 
             return view('orden.gracias');
         } 
         else {
             
             session()->forget('cart');
+            session()->forget('detalle');
 
             return view('orden.gracias');
         }
