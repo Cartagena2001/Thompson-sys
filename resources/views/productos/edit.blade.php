@@ -27,6 +27,10 @@
         <div class="card-header">
             <h2 class="text-center" style="color:#ff161f;">Actualizar Producto</h2>
             <p class="mt-4 mb-4 text-center">Los campos que contengan un <b class="text-danger">*</b> son obligatorios.</p>
+            <br/>
+            <a class="flex-center btn btn-sm btn-primary" href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}" title="Ir a" target="_blank">
+                <span class="d-none d-sm-inline-block">Vista Previa</span>&nbsp;&nbsp;<span class="fas fa-share"></span>
+            </a>
             <hr/>
         </div>
         
@@ -41,5 +45,30 @@
         </div>
 
     </div>
+
+<script type="text/javascript">
+
+    $('#mod_venta').on('change', function (e) {
+        
+        if (e.target.value == 'Unidad') {
+            
+            $('#unidad_por_caja').val(1);
+            $('#unidad_por_caja').attr("readonly", true);
+
+        } else if (e.target.value == '') {
+            //selecione
+            $('#unidad_por_caja').val();
+            $('#unidad_por_caja').attr("readonly", false);
+
+        } else {
+            //Caja
+            $('#unidad_por_caja').val();
+            $('#unidad_por_caja').attr("readonly", false);
+
+        }
+        
+    });
+
+</script>
 
 @endsection

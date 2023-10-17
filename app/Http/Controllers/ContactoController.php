@@ -112,8 +112,6 @@ class ContactoController extends Controller
     }
 
 
-
-
     /**
      * Store a newly created resource in storage.
      *
@@ -251,6 +249,9 @@ class ContactoController extends Controller
     public function show($id)
     {
         $contacto = Contacto::find($id);
+
+        $contacto->visto = 'visto';
+        $contacto->update();
 
         return view('contactos.show', compact('contacto'));
     }

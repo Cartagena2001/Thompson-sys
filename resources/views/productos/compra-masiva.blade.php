@@ -3,6 +3,19 @@
 @section('content')
 @section('title', 'Catálogo para compra masiva')
 
+<?php
+    $carrito = session('cart', []);
+    $cart = session()->get('cart', []);
+
+    $detallesSUM = session('detalle', []);
+
+    $cantidad = 0;
+    
+    foreach ($carrito as $item) {
+        $cantidad += $item['cantidad'];
+    }
+?>
+
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.css" />
 
@@ -30,11 +43,13 @@
     <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
     
     <div class="card-body position-relative">
+        
         <div class="row">
+
             <div id="brand-list" class="col-lg-8 flex-center">
-                @foreach ($marcas as $marca)
+                @foreach ($marcas as $brand)
                     
-                    <img src="{{ $marca->logo_src }}" alt="img-{{ $marca->nombre }}" class="img-fluid" style="max-width: 150px; margin: 0 auto;" /> 
+                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 150px; margin: 0 auto;" id="mfp-{{ $brand->nombre }}" onclick="filterBrandPic(this.id)" />
 
                 @endforeach
             </div>
@@ -46,26 +61,35 @@
                         <tr>
                             <th class="text-start p-1">Marca</th>
                             <th class="text-center p-1">Cantidad 📦</th>
-                            <th class="text-center p-1">Subtotal Parcial</th>
+                            <th class="text-center p-1">Subtotal Parcial</th>   
                         </tr>
                     </thead>
                     <tbody>
+                   
+                    @foreach ($detallesSUM as $marcaDetalle)
+                        <tr>
+                            <td class="text-start p-1">{{ $marcaDetalle['nombre'] }}</td>
+                            <td class="text-center p-1">{{ $marcaDetalle['cantidad'] }}</td>
+                            <td class="text-center p-1">{{ number_format($marcaDetalle['monto'], 2, '.', ',') }} $</td>
+                        </tr>  
+                    @endforeach
 
-                        @foreach ($marcas as $marca)
+                        <tr>
+                            <td class="text-start p-1"></td>
+                            <td class="text-center p-1">Subtotal:</td>
+                            @php
 
-                            <tr>
-                                <td class="text-start p-1" id="{{ $marca->id }}">{{ $marca->nombre }}</td>
-                                <td class="text-center p-1" id="{{ $marca->id }}-qty">0</td>
-                                <td class="text-center p-1" id="{{ $marca->nombre }}-st">00.00 $</td>
-                            </tr>
+                                $total = 0;
+                                //$cart = session('cart', []);
+                                
+                                foreach ($cart as $item) {
+                                    $total += $item['precio_f'] * $item['cantidad'] * $item['unidad_caja'];
+                                }
 
-                        @endforeach
-
-                            <tr>
-                                <td class="text-start p-1"></td>
-                                <td class="text-center p-1">Subtotal:</td>
-                                <td class="text-center p-1" id="st-brands">00.00 $</td>
-                            </tr>
+                                echo '<td class="text-center p-1" id="st-brands">' . number_format($total, 2, '.', ',') . ' $</td>';
+                           
+                            @endphp
+                        </tr>
 
                         @php
                             $subtotal = 0;
@@ -83,6 +107,7 @@
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 </div>
@@ -152,11 +177,11 @@
                         <th class="text-center" scope="col">ID</th>
                         <th scope="col">Nombre</th>
                         <th class="text-center" scope="col">Marca</th>
-                        <th scope="col">OEM</th>
-                        <th scope="col">Categoría</th>
+                        <th class="text-center" scope="col">OEM</th>
+                        <th class="text-center" scope="col">Categoría</th>
                         <th class="text-center" style="width: 100px;" scope="col">Precio 📦</th>
                         <th class="text-center" style="width: 100px;" scope="col"># unidades en caja</th>
-                        <th class="text-center" style="width: 100px;" scope="col">Agregar # <br/> 📦 a 🛒</th>
+                        <th class="text-center" style="width: 100px;" scope="col">Agregar <br/> 📦 a 🛒</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -166,13 +191,13 @@
 
                     @foreach ($productos as $producto)
                         <tr>
-                            <td>{{ $producto->id }}</td>
+                            <td class="text-center">{{ $producto->id }}</td>
                             <td><a tabindex="-1" style="color: #5e6e82;" class=""
                                     href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Ver producto">{{ $producto->nombre }}</a></td>
-                            <td>{{ $producto->marca->nombre }}</td>
-                            <td>{{ $producto->OEM }}</td>
-                            <td>{{ $producto->categoria->nombre }}</td>
+                            <td class="text-center">{{ $producto->marca->nombre }}</td>
+                            <td class="text-center">{{ $producto->OEM }}</td>
+                            <td class="text-center">{{ $producto->categoria->nombre }}</td>
                             <td class="text-center">${{ $producto->precio_1 * $producto->unidad_por_caja  }}</td>
                             <td class="text-center">{{ $producto->unidad_por_caja }}</td>
 
@@ -272,7 +297,11 @@
 
             success: function(response){
                 $('#successMsg').show();
-                console.log(response);
+                //console.log(response);
+                //$("#table_detalle").load(location.href + " #table_detalle");
+                //$("#hcart").load(location.href + " #hcart");
+                $("#table_detalle").load(' #table_detalle');
+                $("#hcart").load(' #hcart');
             },
             error: function(response) {
                 $('#ErrorMsg1').text(response.responseJSON.errors.qty);
@@ -282,29 +311,52 @@
         
     }
 
-</script>
 
-<script>
-window.onscroll = function() {myFunction()};
+    window.onscroll = function() {myFunction()};
 
-var header = document.getElementById("summary");
-var brandsl = document.getElementById("brand-list");
-var sumdet = document.getElementById("summ-detail");
-var sticky = header.offsetTop;
+    var header = document.getElementById("summary");
+    var brandsl = document.getElementById("brand-list");
+    var sumdet = document.getElementById("summ-detail");
+    var sticky = header.offsetTop;
 
-function myFunction() {
-  if (window.pageYOffset > sticky) {
-    header.classList.add("sticky-pos");
-    brandsl.classList.add("no-show");
-    sumdet.classList.remove("col-lg-4");
-    sumdet.classList.add("col-lg-12");
-  } else {
-    header.classList.remove("sticky-pos");
-    brandsl.classList.remove("no-show");
-    sumdet.classList.remove("col-lg-12");
-    sumdet.classList.add("col-lg-4");
-  }
-}
+    function myFunction() {
+      if (window.pageYOffset > sticky) {
+        header.classList.add("sticky-pos");
+        brandsl.classList.add("no-show");
+        sumdet.classList.remove("col-lg-4");
+        sumdet.classList.add("col-lg-12");
+      } else {
+        header.classList.remove("sticky-pos");
+        brandsl.classList.remove("no-show");
+        sumdet.classList.remove("col-lg-12");
+        sumdet.classList.add("col-lg-4");
+      }
+    }
+
+    function filterBrand(filterid) {
+
+        var brand = $('#'+filterid).find(":selected").val();
+
+        $('#btn-filter').click();
+
+    }
+
+    function filterCat(filterid) {
+
+        var cat = $('#'+filterid).find(":selected").val();
+
+        $('#btn-filter').click();
+
+    }
+
+    function filterBrandPic(filteridpic) {
+
+        var brandName = filteridpic.substring(4, 10000);
+
+        $('#brandfilter option').removeAttr("selected");
+        $('#brandfilter').children('option[value="'+ brandName +'"]').attr('selected', true).trigger("change");
+    }
+
 </script>
 
 @endsection

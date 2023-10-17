@@ -82,7 +82,7 @@ Class UsersController extends Controller
             'website' => 'required|max:34',
             'telefono' => 'required|string|min:9|max:9',
             'marcas' => 'required',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|confirmed|min:6'
         ]);
 
         //Creamos nuevo usuario
@@ -109,11 +109,11 @@ Class UsersController extends Controller
             $user->estado = 'inactivo';
         }
         
-        if ( $request->get('clasificacion') == 'Taller' || $request->get('clasificacion') == 'Distribuidor' || $request->get('clasificacion') == 'PrecioCosto') 
+        if ( $request->get('clasificacion') == 'taller' || $request->get('clasificacion') == 'distribuidor' || $request->get('clasificacion') == 'precioCosto' || $request->get('clasificacion') == 'precioOp') 
         {
             $user->clasificacion = $request->get('clasificacion');
         } else {
-            $user->clasificacion = 'Cobre';
+            $user->clasificacion = 'precioCosto';
         }
 
         if ( $request->get('boletin') == 0 || $request->get('boletin') == 1 ) {
@@ -228,7 +228,7 @@ Class UsersController extends Controller
             'nombre_empresa' => 'required|max:34',
             'website' => 'required|max:34',
             'telefono' => 'required|string|min:9|max:9',
-            'marcas' => 'required',
+            //'marcas' => 'required',
         ]);
 
         //almacenar datos
@@ -252,11 +252,11 @@ Class UsersController extends Controller
             $user->estado = 'inactivo';
         }
         
-        if ( $request->get('clasificacion') == 'Taller' || $request->get('clasificacion') == 'Distribuidor' || $request->get('clasificacion') == 'PrecioCosto') 
+        if ( $request->get('clasificacion') == 'taller' || $request->get('clasificacion') == 'distribuidor' || $request->get('clasificacion') == 'precioCosto' || $request->get('clasificacion') == 'precioOp') 
         {
             $user->clasificacion = $request->get('clasificacion');
         } else {
-            $user->clasificacion = 'Cobre';
+            $user->clasificacion = 'precioCosto';
         }
 
         if ( $request->get('boletin') == 0 || $request->get('boletin') == 1 ) {
@@ -298,12 +298,14 @@ Class UsersController extends Controller
         $user->website = $request->get('website');
         $user->telefono = $request->get('telefono');
 
+        /*
         if(in_array('0', $request->get('marcas'))){
             $user->marcas = '0,';
         }else{
             $marcasList = implode(",", $request->get('marcas'));
             $user->marcas = $marcasList;
         }
+        */
 
         //$user->form_status = "none"; //none, sent 
 

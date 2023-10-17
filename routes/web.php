@@ -41,7 +41,7 @@ Route::get('/terminos-y-condiciones', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::patch('/home', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscrip.load')->middleware('verified');
+Route::patch('/home', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscrip.load')->middleware('auth');
 
 
 //Rutas para el dashboard
@@ -75,6 +75,11 @@ Route::get('/dashboard/aspirantes/{id}', [App\Http\Controllers\AspirantesControl
 Route::put('/dashboard/aspirantes/aprobado/{id}', [App\Http\Controllers\AspirantesController::class, 'aprobado'])->name('aspirantes.aprobado')->middleware('auth');
 Route::put('/dashboard/aspirantes/rechazado/{id}', [App\Http\Controllers\AspirantesController::class, 'rechazado'])->name('aspirantes.rechazado')->middleware('auth');
 
+Route::put('/dashboard/aspirantes/taller/{id}', [App\Http\Controllers\AspirantesController::class, 'taller'])->name('aspirantes.taller')->middleware('auth');
+Route::put('/dashboard/aspirantes/distribuidor/{id}', [App\Http\Controllers\AspirantesController::class, 'distribuidor'])->name('aspirantes.distribuidor')->middleware('auth');
+Route::put('/dashboard/aspirantes/preciocosto/{id}', [App\Http\Controllers\AspirantesController::class, 'precioCosto'])->name('aspirantes.pcosto')->middleware('auth');
+Route::put('/dashboard/aspirantes/precioop/{id}', [App\Http\Controllers\AspirantesController::class, 'precioOP'])->name('aspirantes.pop')->middleware('auth');
+
 Route::post('/dashboard/aspirantes/{id}', [App\Http\Controllers\AspirantesController::class, 'updateMarcas'])->name('aspirante.updmarcas')->middleware('auth');
 
 //Rutas para aspirantes II
@@ -91,13 +96,11 @@ Route::post('/', [App\Http\Controllers\ContactoController::class, 'store'])->nam
 //Rutas para clientes
 Route::get('/dashboard/clientes', [App\Http\Controllers\ClientesController::class, 'index'])->name('clientes.index')->middleware('auth');
 Route::get('/dashboard/clientes/{id}', [App\Http\Controllers\ClientesController::class, 'show'])->name('clientes.show')->middleware('auth');
-Route::put('/dashboard/clientes/cobre/{id}', [App\Http\Controllers\ClientesController::class, 'cobre'])->name('clientes.cobre')->middleware('auth');
-Route::put('/dashboard/clientes/plata/{id}', [App\Http\Controllers\ClientesController::class, 'plata'])->name('clientes.plata')->middleware('auth');
-Route::put('/dashboard/clientes/oro/{id}', [App\Http\Controllers\ClientesController::class, 'oro'])->name('clientes.oro')->middleware('auth');
-Route::put('/dashboard/clientes/platino/{id}', [App\Http\Controllers\ClientesController::class, 'platino'])->name('clientes.platino')->middleware('auth');
-Route::put('/dashboard/clientes/diamante/{id}', [App\Http\Controllers\ClientesController::class, 'diamante'])->name('clientes.diamante')->middleware('auth');
+
 Route::put('/dashboard/clientes/taller/{id}', [App\Http\Controllers\ClientesController::class, 'taller'])->name('clientes.taller')->middleware('auth');
-Route::put('/dashboard/clientes/distribucion/{id}', [App\Http\Controllers\ClientesController::class, 'distribucion'])->name('clientes.distribucion')->middleware('auth');
+Route::put('/dashboard/clientes/distribuidor/{id}', [App\Http\Controllers\ClientesController::class, 'distribuidor'])->name('clientes.distribuidor')->middleware('auth');
+Route::put('/dashboard/clientes/preciocosto/{id}', [App\Http\Controllers\ClientesController::class, 'precioCosto'])->name('clientes.pcosto')->middleware('auth');
+Route::put('/dashboard/clientes/precioop/{id}', [App\Http\Controllers\ClientesController::class, 'precioOP'])->name('clientes.pop')->middleware('auth');
 
 
 //Marcas autorizadas
@@ -165,7 +168,7 @@ Route::patch('/configuracion/users/create', [App\Http\Controllers\UsersControlle
 Route::get('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'edit'])->name('users.edit')->middleware('auth');
 
 Route::put('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'update'])->name('users.update')->middleware('auth');
-Route::post('/configuracion/users/edit/{id}', [App\Http\Controllers\PerfilController::class, 'passwordUpdate'])->name('perfil.password.update')->middleware('auth');
+Route::post('/configuracion/users/edit', [App\Http\Controllers\PerfilController::class, 'passwordUpdate'])->name('perfil.password.update')->middleware('auth');
 
 
 

@@ -157,26 +157,44 @@ class PerfilController extends Controller
 
 
     // método para cargar la información del aspirante a cliente
-    public function loadInfo(Request $request, User $user)
+    public function loadInfo(Request $request)
     {
         //capturar la información del usuario logeado
         $user = auth()->User();
-        
-        //validar los datos
-        $request->validate([
-            'dui' => 'required|unique:users,dui|min:10|max:10' . $user->id,
-            'whatsapp' => 'required|min:9|max:9',
-            'nrc' => 'required|unique:users,nrc|min:8|max:10' . $user->id,
-            'nit' => 'required|unique:users,nit|min:17|max:17' . $user->id,
-            'razon_social' => 'required|max:34',
-            'direccion' => 'required|max:75',
-            'municipio' => 'required|max:25',
-            'departamento' => 'required|max:15',
-            'giro' => 'required|max:180',
-            'nombre_empresa' => 'required|max:34',
-            'website' => 'required|max:34',
-            'telefono' => 'required|min:9|max:9'     
-        ]);
+
+        if ( $request->get('negTipo') == 'persona') {
+            //persona natural no inscrita en CNR
+            //validar los datos
+            $request->validate([
+                'dui' => 'required|unique:users,dui,'.$user->id.'|min:9|max:10',
+                'whatsapp' => 'required|min:8|max:9',
+                'direccion' => 'required|string|max:75',
+                'municipio' => 'required|string|max:25',
+                'departamento' => 'required|string|max:15',
+                'website' => 'string|max:34',
+                'telefono' => 'string|min:8|max:9',
+                'g-recaptcha-response' => 'recaptcha'    
+            ]);
+
+        } else {
+            //negocio/empresa inscrita en CNR
+            //validar los datos
+            $request->validate([
+                'dui' => 'required|unique:users,dui,'.$user->id.'|min:9|max:10',
+                'whatsapp' => 'required|min:8|max:9',
+                'nrc' => 'required|unique:users,nrc,'.$user->id.'|min:8|max:10',
+                'nit' => 'required|unique:users,nit,'.$user->id.'|min:17|max:17',
+                'razon_social' => 'required|string|max:34',
+                'direccion' => 'required|string|max:75',
+                'municipio' => 'required|string|max:25',
+                'departamento' => 'required|string|max:15',
+                'giro' => 'required|string|max:180',
+                'nombre_empresa' => 'required|string|max:34',
+                'website' => 'string|max:34',
+                'telefono' => 'string|min:8|max:9',
+                'g-recaptcha-response' => 'recaptcha'     
+            ]);
+        }
 
         //almacenar datos
         if ($request->hasFile('imagen_perfil_src')) {
@@ -185,10 +203,11 @@ class PerfilController extends Controller
             $user->imagen_perfil_src = '/assets/img/perfil-user/' . $file->getClientOriginalName();
         }
 
-        $user->form_status = 'sent'; //uso de emergencia como bandera
+        $user->form_status = 'sent'; //bandera para controlar el estado del llenado del formulario
 
         //$user->name = $request->get('name');
         //$user->email = $request->get('email');
+        $user->usr_tipo = $request->get('negTipo');
         $user->dui = $request->get('dui');
         $user->whatsapp = $request->get('whatsapp');
         $user->nrc = $request->get('nrc');
@@ -282,8 +301,6 @@ class PerfilController extends Controller
         $replyToNameOffice = $request->get('name');
 
         $estado2 = $this->sendMail($mailToOffice, $emailRecipientOffice, $emailSubjectOffice ,$emailBodyOffice ,$replyToEmailOffice ,$replyToNameOffice);
-
-
 
         if( !$estado1 && !$estado2 ) {
 

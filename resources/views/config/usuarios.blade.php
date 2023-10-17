@@ -190,7 +190,7 @@
                                 <td>{{ $usuario->email }}</td>
                                 <td>{{ $usuario->nombre_empresa }}</td>
                                 <td>{{ $usuario->estado }}</td>
-                                <td>{{ \Carbon\Carbon::parse($usuario->fecha_registro)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($usuario->fecha_registro)->isoFormat('D [de ]MMMM [de] YYYY, h:mm:ss a') }}</td>
                                 <td class="text-success">{{ $usuario->notas }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('users.edit', $usuario->id) }}">

@@ -76,7 +76,7 @@
 
                     <hr/>
 
-                    <form method="POST" action="{{-- route('forminscrip.load', $user->id) --}}" role="form" enctype="multipart/form-data">
+                    <form method="POST" action="{{-- route('forminscrip.load') --}}" role="form" enctype="multipart/form-data">
                         {{ method_field('PATCH') }}
                         @csrf
 
@@ -127,8 +127,29 @@
 
                         </div>
 
-                        <div class="col-auto align-self-center mt-5 mb-3">
-                            <h4 class="mb-0" data-anchor="data-anchor">💼 Información de la Empresa/Negocio:</h4>
+                        <div class="row py-4">
+
+                            <div class="col-12">
+                                <p class="text-justify"><b>NOTA:</b> La siguiente información puede o no aplicar parcial o totalmente según la naturaleza juridica de tu negocio, si posees Número de Registro del Contribuyente (NRC) selecciona "negocio registrado", si no, selecciona "comerciante sin iva".</p>
+                            </div>                      
+
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="text-center">
+                                <label class="form-label" for="negTipo">Selecciona según convenga:
+                                <br/> 
+                                <br/> 
+                                <input type="radio" name="negTipo" value="negocio" checked> <span style="color: #ff5722;">Negocio Registrado</span>
+                                <br/> 
+                                <br/> 
+                                <input type="radio" name="negTipo" value="persona"> <span style="color: #009688;">Comerciante sin IVA</span>
+                                </label> 
+                            </div>
+                        </div>
+
+                        <div class="col-auto align-self-center mt-2htm mb-3">
+                            <h4 class="mb-0">💼 Información de la Empresa/Negocio:</h4>
                         </div>
 
                         <hr />
@@ -144,7 +165,7 @@
                             </div>
 
                             <div class="col-6">
-                                <label for="nit">NIT: </label>
+                                <label for="nit">NIT (incluyendo guiones medios): </label>
                                 <input class="form-control" type="text" name="nit" id="nit" value="{{ $user->nit }}" minlength="17" maxlength="17" placeholder="0000-000000-000-0">
                                 @error('nit')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -239,6 +260,12 @@
                                 @enderror
                             </div>
 
+                        </div>
+
+                        <div class="col-12 pt-4">
+                          <div style="display: flex; justify-content: center;">
+                            {!! htmlFormSnippet() !!}
+                          </div>  
                         </div> 
 
                         <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">
@@ -255,5 +282,64 @@
     @endif
 
     </div>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+        $('input[type=radio][name=negTipo]').change( function () {
+
+            let selected_value = $("input[name='negTipo']:checked").val();
+            
+            if (selected_value == 1) {
+
+                //registrado
+                $('#nrc').val();
+                $('#nrc').attr("readonly", false);
+                
+                $('#nit').val();
+                $('#nit').attr("readonly", false);
+                
+                $('#razon_social').val();
+                $('#razon_social').attr("readonly", false);
+                
+                $('#giro').val();
+                $('#giro').attr("readonly", false);
+                
+                $('#nombre_empresa').val();
+                $('#nombre_empresa').attr("readonly", false);
+                
+                $('#website').val();
+
+                $('#telefono').val();
+
+            } else {
+
+                //no registrado
+                $('#nrc').val('-');
+                $('#nrc').attr("readonly", true);
+                
+                $('#nit').val('-');
+                $('#nit').attr("readonly", true);
+                
+                $('#razon_social').val('-');
+                $('#razon_social').attr("readonly", true);
+                
+                $('#giro').val('-');
+                $('#giro').attr("readonly", true);
+                
+                $('#nombre_empresa').val('-');
+                $('#nombre_empresa').attr("readonly", true);
+                
+                $('#website').val('-');
+
+                $('#telefono').val('-');
+
+            }
+            
+        });
+    });
+
+</script>
 
 @endsection

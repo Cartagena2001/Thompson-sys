@@ -201,16 +201,9 @@
                             <td>{{ $producto->unidad_por_caja }}</td>
                             <td>{{ $producto->fecha_ingreso }}</td>
                             <td class="text-center">
-                                <form action="{{ route('productos.destroy', $producto->id) }}" method="POST">
-                                    <a href="{{ route('productos.edit', $producto->id) }}">
-                                        <button class="btn p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Producto"><span class="text-500 fas fa-edit"></span></button>
-                                    </a>
-                                    @csrf
-                                    @method('DELETE')
-                                    {{-- 
-                                    <button class="btn p-0 ms-2" type="submit" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar Producto"><span class="text-500 fas fa-trash-alt"></span></button>
-                                    --}}
-                                </form>
+                                <a href="{{ route('productos.edit', $producto->id) }}">
+                                    <button class="btn p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Producto"><span class="text-500 fas fa-edit"></span></button>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

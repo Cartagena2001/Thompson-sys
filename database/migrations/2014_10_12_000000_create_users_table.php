@@ -46,6 +46,7 @@ return new class extends Migration
             $table->string('notas', 300)->nullable();
             $table->string('estatus', 15)->nullable(); // otro, aspirante, aprobado, rechazado
             $table->string('visto', 18); // nuevo, visto
+            $table->string('usr_tipo', 28); // negocio, persona
 
             $table->rememberToken();
             $table->timestamps();

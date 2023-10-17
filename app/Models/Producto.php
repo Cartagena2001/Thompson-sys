@@ -30,6 +30,7 @@ class Producto extends Model
         'ubicacion_bodega',
         'ubicacion_oficina',
         'unidad_por_caja',
+        'mod_venta',
         'volumen',
         'unidad_volumen',
         'peso',

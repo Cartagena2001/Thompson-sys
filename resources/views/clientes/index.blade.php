@@ -27,120 +27,80 @@
     {{-- Cards de informacion --}}
     <div class="row g-3 mb-3">
 
-        <div class="col-sm-6 col-md-4">
+        <div class="col-sm-6 col-md-6">
             <div class="card overflow-hidden" style="min-width: 12rem">
                 <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
                 <!--/.bg-holder-->
                 <div class="card-body position-relative">
-                    <h6># Clientes | Cobre <span class="text-500 fas fa-certificate ccobre"></span></h6>
+                    <h6># Clientes | L. Taller <span class="text-500 fas fa-certificate ctaller"></span></h6>
                     <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":58.386,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los clientes cobre --}}
+                        {{-- contar los clientes con lista taller --}}
                         <?php
-                        $clientesCobre = DB::table('users')
-                            ->where('clasificacion', 'Cobre')
+                        $clientesListaTaller = DB::table('users')
+                            ->where('clasificacion', 'taller')
                             ->where('estatus', 'aprobado')
                             ->get();
-                        echo count($clientesCobre);
+                        echo count($clientesListaTaller);
                         ?>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-6 col-md-4">
+        <div class="col-sm-6 col-md-6">
             <div class="card overflow-hidden" style="min-width: 12rem">
                 <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
                 <!--/.bg-holder-->
                 <div class="card-body position-relative">
-                    <h6># Clientes | Plata <span class="text-500 fas fa-certificate cplata"></span></h6>
+                    <h6># Clientes | L. Distribuidor <span class="text-500 fas fa-certificate cdist"></span></h6>
                     <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los clientes plata --}}
+                        {{-- contar los clientes con lista distribuidor --}}
                         <?php
-                        $clientesPlata = DB::table('users')
-                            ->where('clasificacion', 'Plata')
+                        $clientesListaDist = DB::table('users')
+                            ->where('clasificacion', 'distribuidor')
                             ->where('estatus', 'aprobado')
                             ->get();
-                        echo count($clientesPlata);
+                        echo count($clientesListaDist);
                         ?> 
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-6 col-md-4">
+        <div class="col-sm-6 col-md-6">
             <div class="card overflow-hidden" style="min-width: 12rem">
                 <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
                 <!--/.bg-holder-->
                 <div class="card-body position-relative">
-                    <h6># Clientes | Platino <span class="text-500 fas fa-certificate cplatino"></span></h6>
+                    <h6># Clientes | L. Precio Costo <span class="text-500 fas fa-certificate cpreciocosto"></span></h6>
                     <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los clientes platino --}}
+                        {{-- contar los clientes con lista Precio Costo --}}
                         <?php
-                        $ordenesPlatino = DB::table('users')
-                            ->where('clasificacion', 'Platino')
+                        $clientesListaPC = DB::table('users')
+                            ->where('clasificacion', 'precioCosto')
                             ->where('estatus', 'aprobado')
                             ->get();
-                        echo count($ordenesPlatino);
+                        echo count($clientesListaPC);
                         ?> 
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-6 col-md-4">
+        <div class="col-sm-6 col-md-6">
             <div class="card overflow-hidden" style="min-width: 12rem">
                 <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
                 <!--/.bg-holder-->
                 <div class="card-body position-relative">
-                    <h6># Clientes | Diamante <span class="text-500 fas fa-certificate cdiamante"></span></h6>
+                    <h6># Clientes | L. Precio Op. <span class="text-500 fas fa-certificate cprecioop"></span></h6>
                     <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los clientes diamante --}}
+                        {{-- contar los clientes con lista Precio Opcional --}}
                         <?php
-                        $ordenesDiamante = DB::table('users')
-                            ->where('clasificacion', 'Diamante')
+                        $clientesListaPOP = DB::table('users')
+                            ->where('clasificacion', 'precioOP')
                             ->where('estatus', 'aprobado')
                             ->get();
-                        echo count($ordenesDiamante);
-                        ?> 
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-4">
-            <div class="card overflow-hidden" style="min-width: 12rem">
-                <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
-                <!--/.bg-holder-->
-                <div class="card-body position-relative">
-                    <h6># Clientes | Taller <span class="text-500 fas fa-certificate ctaller"></span></h6>
-                    <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los clientes taller --}}
-                        <?php
-                        $ordenesTaller = DB::table('users')
-                            ->where('clasificacion', 'Taller')
-                            ->where('estatus', 'aprobado')
-                            ->get();
-                        echo count($ordenesTaller);
-                        ?> 
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-4">
-            <div class="card overflow-hidden" style="min-width: 12rem">
-                <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
-                <!--/.bg-holder-->
-                <div class="card-body position-relative">
-                    <h6># Clientes | Distribuidor <span class="text-500 fas fa-certificate cdist"></span></h6>
-                    <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar los clientes distribuidores --}}
-                        <?php
-                        $ordenesDistribuidor = DB::table('users')
-                            ->where('estatus', 'Distribuidor')
-                            ->where('estatus', 'aprobado')
-                            ->get();
-                        echo count($ordenesDistribuidor);
+                        echo count($clientesListaPOP);
                         ?> 
                     </div>
                 </div>
@@ -156,16 +116,13 @@
             
             <div class="row mt-1">
                 <div class="col-6 col-lg-12">
-                    <label for="filtro_rango">Filtrar por clasificación de cliente:
-                    <select class="form-select" id="filtro_rango">
+                    <label for="filtro_lprecios">Filtrar por Lista de Precios:
+                    <select class="form-select" id="filtro_lprecios">
                         <option value="">Todos los clientes</option>
-                        <option value="cobre">Cobre</option>
-                        <option value="plata">Plata</option>
-                        <option value="oro">Oro</option>
-                        <option value="platino">Platino</option>
-                        <option value="diamante">Diamante</option>
                         <option value="taller">Taller</option>
-                        <option value="reparto">Distribucion</option>
+                        <option value="distribuidor">Distribuidor</option>
+                        <option value="precioCosto">Precio Costo</option>
+                        <option value="precioOP">Precio Opcional</option>
                     </select>
                     </label>
                     <button style="height: 38px; position: relative; bottom: 2px;" class="btn btn-primary" id="limpiar_filtro">Limpiar Filtro</button>
@@ -182,22 +139,43 @@
                 <table id="table_clientes" class="table display pb-4 pt-4">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
+                            <th class="text-center" scope="col">ID</th>
                             <th scope="col">Nombre del cliente</th>
                             <th scope="col">Empresa</th>
-                            <th scope="col">NRC</th>
-                            <th scope="col">Rango</th>
+                            <th class="text-center" scope="col">NRC</th>
+                            <th class="text-center" scope="col">Lista de Precios</th>
                             <th class="text-center" scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($clientes as $cliente)
                             <tr>
-                                <td>{{ $cliente->id }}</td>
+                                <td class="text-center">{{ $cliente->id }}</td>
                                 <td>{{ $cliente->name }}</td>
                                 <td>{{ $cliente->nombre_empresa }}</td>
-                                <td>{{ $cliente->nrc }}</td>
-                                <td class="text-success">{{ $cliente->clasificacion }}</td>
+                                <td class="text-center">{{ $cliente->nrc }}</td>
+                                <td class="text-center">
+                                <?php
+                                    
+                                    $classPList = '';
+
+                                    if ($cliente->clasificacion == 'taller') {
+                                        $classPList = 'ctaller';
+                                    } elseif ($cliente->clasificacion == 'distribuidor') {
+                                        $classPList = 'cdist';
+                                    } elseif ($cliente->clasificacion == 'precioCosto') {
+                                        $classPList = 'cpreciocosto';
+                                    } elseif ($cliente->clasificacion == 'precioOp') {
+                                        $classPList = 'cprecioop';
+                                    } else {
+                                        $classPList = ''; 
+                                    }
+
+                                ?>  
+                                    <span class="<?php echo $classPList; ?>">
+                                        {{ $cliente->clasificacion }}
+                                    </span>
+                                </td>
 
                                 <td class="text-center">
                                     <a href="{{ route('clientes.show', $cliente->id) }}">
@@ -227,9 +205,9 @@
                 }
             });
 
-            var filtroColumna = table.column(5);
+            var filtroColumna = table.column(4);
 
-            $('#filtro_rango').on('change', function() {
+            $('#filtro_lprecios').on('change', function() {
                 var filtro = $(this).val();
 
                 if (filtro === '') {
@@ -240,7 +218,7 @@
             });
 
             $('#limpiar_filtro').on('click', function() {
-                $('#filtro_rango').val('').trigger('change');
+                $('#filtro_lprecios').val('').trigger('change');
             });
         });
 

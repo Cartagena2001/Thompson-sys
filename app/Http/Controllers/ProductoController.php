@@ -63,68 +63,83 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
         //validar campos
-        $request->validate([
+        request()->validate([
             'OEM'   => 'required',
             'nombre' => 'required',
             'descripcion' => 'required',
             'marca_id' => 'required',
+            'fecha_ingreso' => 'required',
+            'mod_venta' => 'required|string',
             'origen' => 'required',
             'categoria_id' => 'required',
             'garantia' => 'required',
             'unidad_por_caja' => 'required',
+            'existencia' => 'required|numeric',
+            'existencia_limite' => 'required|numeric',
+            'estado_producto_id' => 'required|numeric',
             //'volumen' => 'numeric',
-            //'unidad_volumen' => 'required',
             //'peso' => 'numeric',
-            //'unidad_peso' => 'required',
-            'precio_distribuidor' => 'required',
-            //'precio_taller' => 'required',
+            'precio_distribuidor' => 'required|numeric',
+            //'precio_taller' => 'required|numeric',
         ]);
 
         //almacenar datos
         $reg = new Producto();
 
+        $reg->OEM = $request->get('OEM');
         $reg->nombre = $request->get('nombre');
         $reg->setSlugAttribute($request->get('nombre'));
+        $reg->lote = $request->get('lote');
+        $reg->marca_id = $request->get('marca_id');
+        $reg->descripcion = $request->get('descripcion');
+        $reg->origen = $request->get('origen');
+        $reg->caracteristicas = $request->get('caracteristicas');
         $reg->categoria_id = $request->get('categoria_id');
         $reg->sku = $request->get('sku');
-        $reg->descripcion = $request->get('descripcion');
-        $reg->caracteristicas = $request->get('caracteristicas');
-        $reg->marca_id = $request->get('marca_id');
-        $reg->OEM = $request->get('OEM');
-        $reg->precio_1 = $request->get('precio_1');
-        $reg->precio_2 = $request->get('precio_2');
-        $reg->precio_3 = $request->get('precio_3');
-        $reg->precio_oferta = $request->get('precio_oferta');
-        $reg->volumen = $request->get('volumen');
-        $reg->unidad_volumen = $request->get('unidad_volumen');
-        $reg->peso = $request->get('peso');
-        $reg->unidad_peso = $request->get('unidad_peso');
-        $reg->ref_1 = $request->get('ref_1');
-        $reg->ref_2 = $request->get('ref_2');
-        $reg->ref_3 = $request->get('ref_3');
-        $reg->lote = $request->get('lote');
-        $reg->fecha_ingreso = $request->get('fecha_ingreso');
-        
+
         //si no manda la fecha de ingreso se le asigna la fecha actual
         if ($request->get('fecha_ingreso') == null) {
-            $reg->fecha_ingreso = date('Y-m-d');
+            $reg->fecha_ingreso = Carbon::today()->toDateString();
+        } else {
+            $reg->fecha_ingreso = $request->get('fecha_ingreso');  
+        }
+
+        $reg->garantia = $request->get('garantia');
+        $reg->unidad_por_caja = $request->get('unidad_por_caja');
+        $reg->mod_venta = $request->get('mod_venta');
+
+        //si no manda el estado del producto se le asgina 1
+        if ($request->get('estado_producto_id') == null) {
+            $reg->estado_producto_id = 1;
+        } else {
+            $reg->estado_producto_id = $request->get('estado_producto_id');
         }
 
         $reg->existencia = $request->get('existencia');
         $reg->existencia_limite = $request->get('existencia_limite');
-        $reg->estado_producto_id = $request->get('estado_producto_id');
-        
-        //si no manda el estado del producto se le asgina 1
-        if ($request->get('estado_producto_id') == null) {
-            $reg->estado_producto_id = 1;
-        }
+        $reg->ref_1 = $request->get('ref_1');
+        $reg->ref_2 = $request->get('ref_2');
+        $reg->ref_3 = $request->get('ref_3');
 
-        $reg->origen = $request->get('origen');
-        $reg->unidad_por_caja = $request->get('unidad_por_caja');
+        //si no manda la etiqueta destacado se le asigna 0
+        if ($request->get('etiqueta_destacado') == null) {
+            $reg->etiqueta_destacado = 0;
+        } else {
+            $reg->etiqueta_destacado = $request->get('etiqueta_destacado');
+        }
+        
         $reg->precio_distribuidor = $request->get('precio_distribuidor');
         $reg->precio_taller = $request->get('precio_taller');
+        $reg->precio_1 = $request->get('precioCosto'); //precioCosto
+        $reg->precio_2 = $request->get('precioop'); //precioop
+        $reg->precio_3 = null; //sobra
+        $reg->precio_oferta = $request->get('precio_oferta');
+        
+        $reg->volumen = $request->get('volumen');
+        $reg->unidad_volumen = $request->get('unidad_volumen');
+        $reg->peso = $request->get('peso');
+        $reg->unidad_peso = $request->get('unidad_peso');
         
         //subir archivos pdf
         if ($request->hasFile('hoja_seguridad')) {
@@ -170,17 +185,11 @@ class ProductoController extends Controller
             $reg->imagen_6_src = '/assets/img/products/' . $file->getClientOriginalName();
         }
 
-        $reg->etiqueta_destacado = $request->get('etiqueta_destacado');
-        
-        //si no manda la etiqueta destacado se le asigna 0
-        if ($request->get('etiqueta_destacado') == null) {
-            $reg->etiqueta_destacado = 0;
-        }
-        $reg->garantia = $request->get('garantia');
-
         $reg->save();
         
-        return redirect()->route('productos.index')->with('success', 'Producto creado exitosamente');
+        //return redirect()->route('productos.index')->with('success', 'Producto creado exitosamente');
+        //return redirect()->route('tienda.show', [$reg->id, $reg->slug])->with('success', 'Producto creado exitosamente');
+        return redirect()->route('productos.edit', $reg->id)->with('success', 'Producto creado exitosamente');
     }
 
     //funcion para importar productos
@@ -221,8 +230,8 @@ class ProductoController extends Controller
         $categorias = Categoria::pluck('nombre', 'id');
         $marcas = Marca::pluck('nombre', 'id');
         $estadoProductos = EstadoProducto::pluck('estado', 'id');
-        return view('productos.edit', compact('producto', 'categorias', 'marcas', 'estadoProductos'));
 
+        return view('productos.edit', compact('producto', 'categorias', 'marcas', 'estadoProductos'));
     }
 
     /**
@@ -239,10 +248,15 @@ class ProductoController extends Controller
             'nombre' => 'required',
             'descripcion' => 'required',
             'marca_id' => 'required',
+            'fecha_ingreso' => 'required',
+            'mod_venta' => 'required|string',
             'origen' => 'required',
             'categoria_id' => 'required',
             'garantia' => 'required',
             'unidad_por_caja' => 'required',
+            'existencia' => 'required|numeric',
+            'existencia_limite' => 'required|numeric',
+            'estado_producto_id' => 'required|numeric',
             //'volumen' => 'numeric',
             //'peso' => 'numeric',
             'precio_distribuidor' => 'required|numeric',
@@ -250,36 +264,38 @@ class ProductoController extends Controller
         ]);
 
         //almacenar datos
+        $producto->OEM = $request->get('OEM');
+        $producto->lote = $request->get('lote');
         $producto->nombre = $request->get('nombre');
+        $producto->marca_id = $request->get('marca_id');
+        $producto->descripcion = $request->get('descripcion');
+        $producto->origen = $request->get('origen');
+        $producto->caracteristicas = $request->get('caracteristicas');
         $producto->categoria_id = $request->get('categoria_id');
         $producto->sku = $request->get('sku');
-        $producto->descripcion = $request->get('descripcion');
-        $producto->caracteristicas = $request->get('caracteristicas');
-        $producto->marca_id = $request->get('marca_id');
-        $producto->OEM = $request->get('OEM');
-        $producto->precio_1 = $request->get('precio_1');
-        $producto->precio_2 = $request->get('precio_2');
-        $producto->precio_3 = $request->get('precio_3');
-        $producto->precio_oferta = $request->get('precio_oferta');
+        $producto->fecha_ingreso = $request->get('fecha_ingreso');
+        $producto->garantia = $request->get('garantia'); 
+        $producto->unidad_por_caja = $request->get('unidad_por_caja'); 
+        $producto->mod_venta = $request->get('mod_venta'); 
+        $producto->estado_producto_id = $request->get('estado_producto_id');
+        $producto->existencia = $request->get('existencia');
+        $producto->existencia_limite = $request->get('existencia_limite');
+        $producto->ref_1 = $request->get('ref_1');
+        $producto->ref_2 = $request->get('ref_2');
+        $producto->ref_3 = $request->get('ref_3');
+        $producto->etiqueta_destacado = $request->get('etiqueta_destacado');
+
+        $producto->precio_distribuidor = $request->get('precio_distribuidor');
+        $producto->precio_taller = $request->get('precio_taller');
+        $producto->precio_1 = $request->get('precioCosto'); //precioCosto
+        $producto->precio_2 = $request->get('precioop'); //precioop
+        $producto->precio_3 = null; //sobrante
+        $producto->precio_oferta = $request->get('precio_oferta');  
 
         $producto->volumen = $request->get('volumen');
         $producto->unidad_volumen = $request->get('unidad_volumen');
         $producto->peso = $request->get('peso');
         $producto->unidad_peso = $request->get('unidad_peso');
-
-        $producto->ref_1 = $request->get('ref_1');
-        $producto->ref_2 = $request->get('ref_2');
-        $producto->ref_3 = $request->get('ref_3');
-        $producto->lote = $request->get('lote');
-        $producto->fecha_ingreso = $request->get('fecha_ingreso');
-        $producto->existencia = $request->get('existencia');
-        $producto->existencia_limite = $request->get('existencia_limite');
-        $producto->estado_producto_id = $request->get('estado_producto_id');
-
-        $producto->origen = $request->get('origen');
-        $producto->unidad_por_caja = $request->get('unidad_por_caja');
-        $producto->precio_distribuidor = $request->get('precio_distribuidor');
-        $producto->precio_taller = $request->get('precio_taller');
 
         //subir archivos pdf
         if ($request->hasFile('hoja_seguridad')) {
@@ -325,12 +341,11 @@ class ProductoController extends Controller
             $producto->imagen_6_src = '/assets/img/products/' . $file->getClientOriginalName();
         }
         
-        $producto->etiqueta_destacado = $request->get('etiqueta_destacado');
-        $producto->garantia = $request->get('garantia');
-
         $producto->update();
+
         return redirect()->route('productos.index')->with('success', 'Producto actualizado exitosamente');
     }
+
 
     public function updateUbiBO(Request $request)
     {

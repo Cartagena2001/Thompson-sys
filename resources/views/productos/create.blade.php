@@ -41,4 +41,29 @@
 
     </div>
 
+<script type="text/javascript">
+
+    $('#mod_venta').on('change', function (e) {
+        
+        if (e.target.value == 'Unidad') {
+            
+            $('#unidad_por_caja').val(1);
+            $('#unidad_por_caja').attr("readonly", true);
+
+        } else if (e.target.value == '') {
+            //selecione
+            $('#unidad_por_caja').val();
+            $('#unidad_por_caja').attr("readonly", false);
+
+        } else {
+            //Caja
+            $('#unidad_por_caja').val();
+            $('#unidad_por_caja').attr("readonly", false);
+
+        }
+        
+    });
+
+</script>
+
 @endsection

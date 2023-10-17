@@ -32,75 +32,46 @@ Class ClientesController extends Controller
         return view('clientes.show', compact('cliente', 'marcas'));
     }
 
-    //actualizar clasiicacion a cobre
-    public function cobre($id){
-
-        $cliente = User::find($id);
-        $cliente->clasificacion = 'Cobre';
-        $cliente->save();
-
-        return redirect('/dashboard/clientes')->with('toast_success', 'Se actualizo el estado del cliente a Cobre');
-    }
-
-    //actualizar clasiicacion a plata
-    public function plata($id){
-
-        $cliente = User::find($id);
-        $cliente->clasificacion = 'Plata';
-        $cliente->save();
-
-        return redirect('/dashboard/clientes')->with('toast_success', 'Se actualizo el estado del cliente a Plata');
-    }
-
-    //actualizar clasiicacion a oro
-    public function oro($id){
-
-        $cliente = User::find($id);
-        $cliente->clasificacion = 'Oro';
-        $cliente->save();
-
-        return redirect('/dashboard/clientes')->with('toast_success', 'Se actualizo el estado del cliente a Oro');
-    }
-
-    //actualizar clasiicacion a platino
-    public function platino($id){
-
-        $cliente = User::find($id);
-        $cliente->clasificacion = 'Platino';
-        $cliente->save();
-
-        return redirect('/dashboard/clientes')->with('toast_success', 'Se actualizo el estado del cliente a Platino');
-    }
-
-    //actualizar clasiicacion a diamante
-    public function diamante($id){
-
-        $cliente = User::find($id);
-        $cliente->clasificacion = 'Diamante';
-        $cliente->save();
-
-        return redirect('/dashboard/clientes')->with('toast_success', 'Se actualizo el estado del cliente a Diamante');
-    }
-
-    //actualizar clasiicacion a taller
+    //actualizar lista de precios a taller
     public function taller($id){
 
         $cliente = User::find($id);
-        $cliente->clasificacion = 'Taller';
+        $cliente->clasificacion = 'taller';
         $cliente->save();
 
-        return redirect('/dashboard/clientes')->with('toast_success', 'Se actualizo el estado del cliente a Taller');
+        return redirect('/dashboard/clientes')->with('toast_success', 'Se actualizó la lista de precios del cliente a Taller');
     }
 
-    //actualizar clasiicacion a distribucion
-    public function distribucion($id){
+    //actualizar la lista de precios a distribuidor
+    public function distribuidor($id){
 
         $cliente = User::find($id);
-        $cliente->clasificacion = 'Distribuidor';
+        $cliente->clasificacion = 'distribuidor';
         $cliente->save();
 
-        return redirect('/dashboard/clientes')->with('toast_success', 'Se actualizo el estado del cliente a Distribuidor');
+        return redirect('/dashboard/clientes')->with('toast_success', 'Se actualizó la lista de precios del cliente a Distribuidor');
     }
+
+    //actualizar la lista de precios a precio costo
+    public function precioCosto($id){
+
+        $cliente = User::find($id);
+        $cliente->clasificacion = 'precioCosto';
+        $cliente->save();
+
+        return redirect('/dashboard/clientes')->with('toast_success', 'Se actualizó la lista de precios del cliente a Precio Costo');
+    }
+
+    //actualizar la lista de precios a precio op
+    public function precioOP($id){
+
+        $cliente = User::find($id);
+        $cliente->clasificacion = 'precioOp';
+        $cliente->save();
+
+        return redirect('/dashboard/clientes')->with('toast_success', 'Se actualizó la lista de precios del cliente a Precio OP');
+    }
+
 
     public function admPermMarca(){
 
@@ -121,8 +92,6 @@ Class ClientesController extends Controller
 
         ]);
 */
-
-
         $clienteID = trim(strstr( $request->cliente, "_" ), "_");
         $clienteUptM = User::find($clienteID);
 

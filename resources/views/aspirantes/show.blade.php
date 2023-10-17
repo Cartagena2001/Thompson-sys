@@ -34,6 +34,16 @@
             <div class="mt-3 mb-4">
                 <img class="rounded mt-2 mb-2" style="display: block; margin: 0 auto;" src="{{ $aspirante->imagen_perfil_src }}" alt="per" width="200">
                 <h4 class="text-center">Nombre del usuario: <br/> <span style="color: #ff161f">{{ $aspirante->name }}</span> </h4>
+                <br/>
+                <p class="text-center" style="font-size: 18px;">
+                        <span class="font-weight-bold" style="color:#000;"><b>Tipo de Cliente:</b>
+                        @if ($aspirante->usr_tipo == 'persona') 
+                            persona natural sin NRC 
+                        @else
+                            empresa o persona natural con NRC 
+                        @endif
+                        </span>
+                </p>
             </div>
 
             <hr/>
@@ -96,29 +106,27 @@
 
         @if ( $aspirante->form_status != 'none' )
 
-            <div class="row mb-4">
+            <div class="row my-3">
 
                 <h4 class="text-center mb-4">Marcas disponibles:</h4>
 
                 <div class="col-sm-12 flex-center">
                     <div class="text-start">
-                        <label for="marca-t">
-                            <input id="marca-t" name="marca[]" type="checkbox" value="0" onclick="asignarMarca (this.id)" @if ( str_contains( $aspirante->marcas, '0' ) ) checked @endif /> TODAS
-                        </label>
-                        <br/>
+ 
                     @foreach ($marcas as $marca)
                         <label for="marca-{{ $marca->nombre }}">
-                            <input id="marca-{{ $marca->nombre }}" name="marca[]" type="checkbox" value="{{ $marca->id }}" onclick="asignarMarca (this.id)" @if ( str_contains( $aspirante->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
+                            <input id="marca-{{ $marca->nombre }}" type="checkbox" name="marks[]" value="{{ $marca->id }}" onclick="asignarMarca (this.id)" @if ( str_contains( $aspirante->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
+
                         </label>
                         <br/>
                     @endforeach
+
                     <input type="hidden" id="aspid" name="aspid" value="{{ $aspirante->id }}">
                     
-                    <br/>
-                    <div class="alert alert-success" role="alert" id="successMsg" style="display: none" >
-                        Marca/s autorizada/s con éxito! 
+                    <div class="alert alert-success mb-2" role="alert" id="successMsg" style="display: none" >
+                        Marca/s autorizada/s o denegadas con éxito! 
                     </div>
-                    <br/>
+
                     <span class="text-danger" id="ErrorMsg1"></span>
                     <span class="text-danger" id="ErrorMsg2"></span>
                     </div> 
@@ -128,7 +136,43 @@
 
             <hr/>
 
-            <div class="row mb-4">
+            <div class="row my-4">
+
+                <h4 class="text-center mb-4">Asignar una lista de precios: </h4>
+
+                <div class="flex-center">
+       
+                    <form class="d-inline-block" action="{{ route('aspirantes.taller', $aspirante->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <button id="idtall" class="btn p-2 mx-1 ctallerbg classtag {{ $aspirante->clasificacion == 'taller' ? 'classtagsel' : ''; }}" type="submit">Taller</button>
+                    </form>
+
+                    <form class="d-inline-block" action="{{ route('aspirantes.distribuidor', $aspirante->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <button id="iddistr" class="btn p-2 mx-1 cdistbg classtag {{ $aspirante->clasificacion == 'distribuidor' ? 'classtagsel' : ''; }}" type="submit">Distribuidor</button>
+                    </form>
+
+                    <form class="d-inline-block" action="{{ route('aspirantes.pcosto', $aspirante->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <button id="idprec" class="btn p-2 mx-1 cpreciocostobg classtag {{ $aspirante->clasificacion == 'precioCosto' ? 'classtagsel' : ''; }}" type="submit">Precio Costo</button>
+                    </form>
+
+                    <form class="d-inline-block" action="{{ route('aspirantes.pop', $aspirante->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <button id="idpreo" class="btn p-2 mx-1 cprecioopbg classtag {{ $aspirante->clasificacion == 'precioOp' ? 'classtagsel' : ''; }}" type="submit">Precio OP</button>
+                    </form>
+
+                </div>
+
+            </div>        
+
+            <hr/>
+
+            <div class="row my-3">
 
                 <h4 class="text-center mb-4">Actualizar Estado:</h4>
 
@@ -172,16 +216,16 @@
 
         function asignarMarca(check_id) {
 
-            var marcaid = $('#'+check_id).val();
+            var marca = $('#'+check_id).val();
             var clienteid = $('#aspid').val();
 
-            console.log("marca id: "+marcaid+" cliente id: "+clienteid);
+            //console.log("marca id: "+marca+" cliente id: "+clienteid);
             
             $.ajax({
                 url: "{{ route('aspirante.updmarcas', $aspirante->id) }}",
                 type: "POST",
                 data:
-                    "_token=" + "{{ csrf_token() }}" + "&marcaid=" + marcaid + "&clienteid=" + clienteid,
+                    "_token=" + "{{ csrf_token() }}" + "&marca=" + marca + "&cliente=" + clienteid,
 
                 success: function(response){
                     $('#successMsg').show();

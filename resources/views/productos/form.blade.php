@@ -68,29 +68,6 @@
             {{ Form::text('ref_3', $producto->ref_3, ['class' => 'form-control', 'placeholder' => '-']) }}
         </div>
 
-        <div class="mb-3">
-
-            <div class="row">
-                <div class="col-3">
-                    {{ Form::label('volumen', 'Vol. del producto: ', ['class' => 'form-label']) }}
-                    {{ Form::text('volumen', $producto->volumen, ['class' => 'form-control', 'placeholder' => '0.00']) }}    
-                </div>
-                <div class="col-3">
-                    {{ Form::label('unidad_volumen', 'Unidad de volumen: ', ['class' => 'form-label']) }}
-                    {{ Form::select('unidad_volumen', ['galon.' => 'Galón', 'galones.' => 'Galones', 'ml.' => 'Mililitros', 'litro.' => 'Litros'], $producto->unidad_volumen, ['class' => 'form-control', 'placeholder' => 'Selecciona una unidad de Volumen']) }}
-                </div>
-                <div class="col-3">
-                    {{ Form::label('peso', 'Peso del producto: ', ['class' => 'form-label']) }}
-                    {{ Form::text('peso', $producto->peso, ['class' => 'form-control', 'placeholder' => '0.0']) }}
-                </div>
-                <div class="col-3">
-                    {{ Form::label('unidad_peso', 'Unidad de peso: ', ['class' => 'form-label']) }}
-                    {{ Form::select('unidad_peso', ['grs.' => 'Gramos', 'kgs.' => 'Kilogramos', 'oz.' => 'Onza', 'lb.' => 'Libras'], $producto->unidad_peso, ['class' => 'form-control', 'placeholder' => 'Seleccion una Unidad de Peso']) }}
-                </div>
-            </div>
-
-        </div>
-
     </div>
 
     <div class="col-lg-6">
@@ -107,7 +84,7 @@
 
         <div class="mb-3">
             {{ Form::label('origen', 'Origen del producto: *', ['class' => 'form-label']) }}
-            {{ Form::select('origen', ['OTRO' => 'OTRO', 'HECHO EN MEXICO' => 'HECHO EN MEXICO', 'HECHO EN USA' => 'HECHO EN USA'], $producto->origen, ['class' => 'form-control', 'placeholder' => 'Selecciona un Origen', 'required']) }}
+            {{ Form::select('origen', ['OTRO' => 'OTRO', 'HECHO EN MEXICO' => 'HECHO EN MEXICO', 'HECHO EN CHINA' => 'HECHO EN CHINA', 'HECHO EN USA' => 'HECHO EN USA'], $producto->origen, ['class' => 'form-control', 'placeholder' => 'Selecciona un Origen', 'required']) }}
         </div>
 
         <div class="mb-3">
@@ -121,13 +98,39 @@
         </div>
 
         <div class="mb-3">
-            {{ Form::label('unidad_por_caja', 'Unidad por caja: *', ['class' => 'form-label']) }}
-            {{ Form::number('unidad_por_caja', $producto->unidad_por_caja, ['class' => 'form-control', 'placeholder' => '0', 'required']) }}
+
+            <div class="row">
+
+                <div class="col-6">
+                    {{ Form::label('unidad_por_caja', 'Unidad por caja: *', ['class' => 'form-label']) }}
+                    {{ Form::number('unidad_por_caja', $producto->unidad_por_caja, ['class' => 'form-control', 'placeholder' => '0', 'required']) }}
+                </div>
+
+                <div class="col-6">
+                    {{ Form::label('mod_venta', 'Se vende por: *', ['class' => 'form-label']) }}
+                    {{ Form::select('mod_venta', ['Caja' => 'Caja', 'Unidad' => 'Unidad'], $producto->mod_venta, ['class' => 'form-control', 'placeholder' => 'Selecciona empaque', 'required']) }}
+                </div>
+
+            </div>
+
         </div>
 
         <div class="mb-3">
-            {{ Form::label('existencia', 'Existencia: *', ['class' => 'form-label']) }}
-            {{ Form::number('existencia', $producto->existencia, ['class' => 'form-control', 'placeholder' => '0', 'required']) }}
+
+            <div class="row">
+
+                <div class="col-6">
+                    {{ Form::label('existencia', 'Existencia (unidad/caja): *', ['class' => 'form-label']) }}
+                    {{ Form::number('existencia', $producto->existencia, ['class' => 'form-control', 'placeholder' => '0', 'required']) }}
+                </div>
+
+                <div class="col-6">
+                    {{ Form::label('existencia_limite', 'Existencia Limite(unidad/caja): *', ['class' => 'form-label']) }}
+                    {{ Form::number('existencia_limite', $producto->existencia_limite, ['class' => 'form-control', 'placeholder' => '0', 'required']) }}
+                </div>
+
+            </div>
+
         </div>
 
         <div class="mb-3">
@@ -140,38 +143,34 @@
             <div class="row">
 
                 <div class="col-6">
-                    {{ Form::label('precio_distribuidor', 'Precio distribuidor: *', ['class' => 'form-label']) }}
+                    {{ Form::label('precio_distribuidor', 'Precio Distribuidor: *', ['class' => 'form-label']) }}
                     {{ Form::number('precio_distribuidor', $producto->precio_distribuidor, ['class' => 'form-control', 'placeholder' => '0.00 US$', 'required' ,'step' => 'any']) }}
                 </div>
 
                 <div class="col-6">
-                    {{ Form::label('precio_taller', 'Precio taller: *', ['class' => 'form-label']) }}
+                    {{ Form::label('precio_taller', 'Precio Taller:', ['class' => 'form-label']) }}
                     {{ Form::number('precio_taller', $producto->precio_taller, ['class' => 'form-control', 'placeholder' => '0.00 US$','step' => 'any']) }}
                 </div>
 
             </div>
+
         </div>
 
         <div class="mb-3">
 
             <div class="row">
 
-                <div class="col-3">
-                    {{ Form::label('precio_1', 'Precio principal: *', ['class' => 'form-label']) }}
-                    {{ Form::number('precio_1', $producto->precio_1, ['class' => 'form-control', 'placeholder' => '0.00 US$','step' => 'any']) }}
+                <div class="col-4">
+                    {{ Form::label('precioCosto', 'Precio Costo: *', ['class' => 'form-label']) }}
+                    {{ Form::number('precioCosto', $producto->precio_1, ['class' => 'form-control', 'placeholder' => '0.00 US$','step' => 'any']) }}
                 </div>
 
-                <div class="col-3">
-                    {{ Form::label('precio_2', 'Segundo precio: ', ['class' => 'form-label']) }}
-                    {{ Form::number('precio_2', $producto->precio_2, ['class' => 'form-control', 'placeholder' => '0.00 US$', 'step' => 'any']) }}
+                <div class="col-4">
+                    {{ Form::label('precioop', 'Precio Op: ', ['class' => 'form-label']) }}
+                    {{ Form::number('precioop', $producto->precio_2, ['class' => 'form-control', 'placeholder' => '0.00 US$', 'step' => 'any']) }}
                 </div>
 
-                <div class="col-3">
-                    {{ Form::label('precio_3', 'Tercer precio: ', ['class' => 'form-label']) }}
-                    {{ Form::number('precio_3', $producto->precio_3, ['class' => 'form-control', 'placeholder' => '0.00 US$', 'step' => 'any']) }}
-                </div>
-
-                <div class="col-3">
+                <div class="col-4">
                     {{ Form::label('precio_oferta', 'Precio oferta: ', ['class' => 'form-label']) }}
                     {{ Form::number('precio_oferta', $producto->precio_oferta, ['class' => 'form-control', 'placeholder' => '0.00 US$', 'step' => 'any']) }}
                 </div>
@@ -179,6 +178,37 @@
             </div>
 
         </div>
+
+        <div class="mb-3">
+
+            <div class="row">
+                <div class="col-6">
+                    {{ Form::label('volumen', 'Vol. del producto: ', ['class' => 'form-label']) }}
+                    {{ Form::text('volumen', $producto->volumen, ['class' => 'form-control', 'placeholder' => '0.00']) }}    
+                </div>
+                <div class="col-6">
+                    {{ Form::label('unidad_volumen', 'Unidad de volumen: ', ['class' => 'form-label']) }}
+                    {{ Form::select('unidad_volumen', ['galon.' => 'Galón', 'galones.' => 'Galones', 'ml.' => 'Mililitros', 'litro.' => 'Litros'], $producto->unidad_volumen, ['class' => 'form-control', 'placeholder' => 'Selecciona una unidad de Volumen']) }}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mb-3">
+
+            <div class="row">
+                <div class="col-6">
+                    {{ Form::label('peso', 'Peso del producto: ', ['class' => 'form-label']) }}
+                    {{ Form::text('peso', $producto->peso, ['class' => 'form-control', 'placeholder' => '0.0']) }}
+                </div>
+                <div class="col-6">
+                    {{ Form::label('unidad_peso', 'Unidad de peso: ', ['class' => 'form-label']) }}
+                    {{ Form::select('unidad_peso', ['grs.' => 'Gramos', 'kgs.' => 'Kilogramos', 'oz.' => 'Onza', 'lb.' => 'Libras'], $producto->unidad_peso, ['class' => 'form-control', 'placeholder' => 'Seleccion una Unidad de Peso']) }}
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
     <p class="mt-4 text-start rt-color-1">📕 Documentos Adjuntos:</p>

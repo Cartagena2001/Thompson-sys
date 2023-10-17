@@ -91,7 +91,7 @@
             @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
                                 
             {{-- CART ADMIN, SUPERADMIN y CLIENTE --}}
-            <div class="col-1 col-lg-1 text-start pt-2 pe-2 me-md-auto">
+            <div id="hcart" class="col-1 col-lg-1 text-start pt-2 pe-2 me-md-auto">
                 
                 <div class="my-4 text-start" style="display: block;">
                     <a style="position: relative;" href="{{ url('/carrito') }}" title="Procesar Órden...">
@@ -105,7 +105,7 @@
                                     $cantidad += $item['cantidad'];
                                 }
                             ?>
-                            <i style="font-size: 21px; margin: 3px 20px; color: #fff;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; bottom: 15px; left: 50px;">{{ $cantidad }}</span>
+                            <i style="font-size: 21px; margin: 3px 10px; color: #fff;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; bottom: 15px; left: 42px;">{{ $cantidad }}</span>
                     </a>
                 </div>
 

@@ -89,7 +89,7 @@
                         <tr>
                             <td class="text-start p-1">{{ $marcaDetalle['nombre'] }}</td>
                             <td class="text-center p-1">{{ $marcaDetalle['cantidad'] }}</td>
-                            <td class="text-center p-1">{{ $marcaDetalle['monto'] }}</td>
+                            <td class="text-center p-1">{{ number_format($marcaDetalle['monto'], 2, '.', ',') }} $</td>
                         </tr>  
                     @endforeach
 
@@ -153,7 +153,7 @@
                         <tr>
                             <td class="text-start p-1">{{ $marcaDetalle['nombre'] }}</td>
                             <td class="text-center p-1">{{ $marcaDetalle['cantidad'] }}</td>
-                            <td class="text-center p-1">{{ $marcaDetalle['monto'] }}</td>
+                            <td class="text-center p-1">{{ number_format($marcaDetalle['monto'], 2, '.', ',') }} $</td>
                         </tr>  
                     @endforeach
 
@@ -409,23 +409,26 @@
                                 
                                         <h5 class="fs-md-1 text-dark d-flex align-items-center mb-2">
 
-                                            @if ($producto->precio_oferta != null)                        
+                                            @if ($producto->precio_oferta != null)
+
                                                 $ {{ $producto->precio_oferta }}
 
-                                            @elseif (Auth::user()->clasificacion == "Cobre")
-                                                $ {{ $producto->precio_1 }}
-                                            @elseif (Auth::user()->clasificacion == "Plata")
-                                                $ {{ $producto->precio_1 }}
-                                            @elseif (Auth::user()->clasificacion == "Oro")
-                                                $ {{ $producto->precio_2 }}
-                                            @elseif (Auth::user()->clasificacion == "Platino")
-                                                $ {{ $producto->precio_3 }}
-                                            @elseif (Auth::user()->clasificacion == "Diamante")
-                                                $ {{ $producto->precio_oferta }}
-                                            @elseif (Auth::user()->clasificacion == "Taller")
+                                            @elseif (Auth::user()->clasificacion == "taller")
+
                                                 $ {{ $producto->precio_taller }}
-                                            @elseif (Auth::user()->clasificacion == "Distribuidor")
+
+                                            @elseif (Auth::user()->clasificacion == "distribuidor")
+
                                                 $ {{ $producto->precio_distribuidor }}
+
+                                            @elseif (Auth::user()->clasificacion == "precioCosto")
+
+                                                $ {{ $producto->precio_1 }}
+
+                                            @elseif (Auth::user()->clasificacion == "precioOp")
+
+                                                $ {{ $producto->precio_2 }}
+
                                             @endif
 
                                             {{-- Precio antes de descuento --}}
@@ -433,20 +436,22 @@
                                             <?php if ($producto->precio_oferta != null) { ?>
                                             
                                                
-                                                @if (Auth::user()->clasificacion == "Cobre")
-                                                    $ {{ $producto->precio_1 }}
-                                                @elseif (Auth::user()->clasificacion == "Plata")
-                                                    $ {{ $producto->precio_1 }}
-                                                @elseif (Auth::user()->clasificacion == "Oro")
-                                                    $ {{ $producto->precio_2 }}
-                                                @elseif (Auth::user()->clasificacion == "Platino")
-                                                    $ {{ $producto->precio_3 }}
-                                                @elseif (Auth::user()->clasificacion == "Diamante")
-                                                    $ {{ $producto->precio_oferta }}
-                                                @elseif (Auth::user()->clasificacion == "Taller")
+                                                @if (Auth::user()->clasificacion == "taller")
+
                                                     $ {{ $producto->precio_taller }}
-                                                @elseif (Auth::user()->clasificacion == "Distribuidor")
+
+                                                @elseif (Auth::user()->clasificacion == "distribuidor")
+
                                                     $ {{ $producto->precio_distribuidor }}
+
+                                                @elseif (Auth::user()->clasificacion == "precioCosto")
+
+                                                    $ {{ $producto->precio_1 }}
+
+                                                @elseif (Auth::user()->clasificacion == "precioOp")
+
+                                                    $ {{ $producto->precio_2 }}
+
                                                 @endif
 
                                              <?php } ?>
@@ -472,23 +477,26 @@
                                 
                                         <h5 class="fs-md-1 text-dark d-flex align-items-center mb-2">
 
-                                            @if ($producto->precio_oferta != null)                        
+                                            @if ($producto->precio_oferta != null)
+
                                                 $ {{ $producto->precio_oferta }}
 
-                                            @elseif (Auth::user()->clasificacion == "Cobre")
-                                                $ {{ $producto->precio_1 }}
-                                            @elseif (Auth::user()->clasificacion == "Plata")
-                                                $ {{ $producto->precio_1 }}
-                                            @elseif (Auth::user()->clasificacion == "Oro")
-                                                $ {{ $producto->precio_2 }}
-                                            @elseif (Auth::user()->clasificacion == "Platino")
-                                                $ {{ $producto->precio_3 }}
-                                            @elseif (Auth::user()->clasificacion == "Diamante")
-                                                $ {{ $producto->precio_oferta }}
-                                            @elseif (Auth::user()->clasificacion == "Taller")
+                                            @elseif (Auth::user()->clasificacion == "taller")
+
                                                 $ {{ $producto->precio_taller }}
-                                            @elseif (Auth::user()->clasificacion == "Distribuidor")
+
+                                            @elseif (Auth::user()->clasificacion == "distribuidor")
+
                                                 $ {{ $producto->precio_distribuidor }}
+
+                                            @elseif (Auth::user()->clasificacion == "precioCosto")
+
+                                                $ {{ $producto->precio_1 }}
+
+                                            @elseif (Auth::user()->clasificacion == "precioOp")
+
+                                                $ {{ $producto->precio_2 }}
+
                                             @endif
 
                                             {{-- Precio antes de descuento --}}
@@ -496,20 +504,22 @@
                                             <?php if ($producto->precio_oferta != null) { ?>
                                             
                                                
-                                                @if (Auth::user()->clasificacion == "Cobre")
-                                                    $ {{ $producto->precio_1 }}
-                                                @elseif (Auth::user()->clasificacion == "Plata")
-                                                    $ {{ $producto->precio_1 }}
-                                                @elseif (Auth::user()->clasificacion == "Oro")
-                                                    $ {{ $producto->precio_2 }}
-                                                @elseif (Auth::user()->clasificacion == "Platino")
-                                                    $ {{ $producto->precio_3 }}
-                                                @elseif (Auth::user()->clasificacion == "Diamante")
-                                                    $ {{ $producto->precio_oferta }}
-                                                @elseif (Auth::user()->clasificacion == "Taller")
+                                                @if (Auth::user()->clasificacion == "taller")
+
                                                     $ {{ $producto->precio_taller }}
-                                                @elseif (Auth::user()->clasificacion == "Distribuidor")
+
+                                                @elseif (Auth::user()->clasificacion == "distribuidor")
+
                                                     $ {{ $producto->precio_distribuidor }}
+
+                                                @elseif (Auth::user()->clasificacion == "precioCosto")
+
+                                                    $ {{ $producto->precio_1 }}
+
+                                                @elseif (Auth::user()->clasificacion == "precioOp")
+
+                                                    $ {{ $producto->precio_2 }}
+
                                                 @endif
 
                                              <?php } ?>
@@ -535,7 +545,7 @@
 
                                 
 
-                                <p class="fs--1 mb-2">Estado: <strong class="text-success">{{ $producto->estadoProducto->estado }}</strong></p>
+                                <p id="estExt" class="fs--1 mb-2">Estado: <strong class="text-success">{{ $producto->estadoProducto->estado }}</strong> | @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 ) <b>Existencia:</b> {{ $producto->existencia }} @endif </p>
 
                             </div>
 
@@ -558,7 +568,7 @@
 
                             <div class="col-6 col-md-6 px-1">
 
-                                <p class="me-0 mb-0 text-center"><span style="font-size: 14px;">Subtotal:</span> <br/> <span style="font-weight: bold; font-size: 20px;">{{ isset($cart[$producto->id]['cantidad']) ? number_format(($cart[$producto->id]['precio_f'] * $cart[$producto->id]['cantidad'] * $cart[$producto->id]['unidad_caja']), 2, '.', ',') : number_format(0, 2, '.', ',') }} $</span></p> 
+                                <p id="subtSing" class="me-0 mb-0 text-center"><span style="font-size: 14px;">Subtotal:</span> <br/> <span style="font-weight: bold; font-size: 20px;">{{ isset($cart[$producto->id]['cantidad']) ? number_format(($cart[$producto->id]['precio_f'] * $cart[$producto->id]['cantidad'] * $cart[$producto->id]['unidad_caja']), 2, '.', ',') : number_format(0, 2, '.', ',') }} $</span></p> 
 
                             </div>
 
@@ -655,7 +665,13 @@
 
             success: function(response){
                 $('#successMsg').show();
-                console.log(response);
+                //console.log(response);
+                //$("#table_detalle").load(location.href + " #table_detalle");
+                //$("#hcart").load(location.href + " #hcart");
+                //$("#subtSing").load(location.href + " #subtSing");
+                $("#table_detalle").load(' #table_detalle');
+                $("#hcart").load(' #hcart'); 
+                $("#subtSing").load(' #subtSing'); 
             },
             error: function(response) {
                 $('#ErrorMsg1').text(response.responseJSON.errors.qty);

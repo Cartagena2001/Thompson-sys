@@ -17,7 +17,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="text-center">🥇 Información del Cliente 🥇</h1>
-                    <p class="mt-4 mb-4 text-center">Administración de clientes aprobados por <b>rtelsalvador.</b> <br/>Aquí podrás cambiar la clasificación y las marcas permitidas para c/cliente.</p>
+                    <p class="mt-4 mb-4 text-center">Administración de clientes aprobados por <b>rtelsalvador.</b> <br/>Aquí podrás cambiar la lista de precios asig
+                    nada y las marcas permitidas para c/cliente.</p>
                 </div>
                 <div class="text-center mb-4">
                     <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/clientes') }}"><span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block"> Volver Atrás</span></a>
@@ -35,6 +36,16 @@
                 <img class="rounded mt-2 mb-2" style="display: block; margin: 0 auto;" src="{{ $cliente->imagen_perfil_src }}" alt="per" width="200">
                 <h4 class="text-center">Cliente #{{ $cliente->id}}: <br/> <span style="color: #ff161f">{{ $cliente->name }}</span> </h4>
                 <h5 class="text-center">🔰 {{ $cliente->clasificacion }} 🔰</h5>
+                <br/>
+                <p class="text-center" style="font-size: 18px;">
+                        <span class="font-weight-bold" style="color:#000;"><b>Tipo de Cliente:</b>
+                        @if ($cliente->usr_tipo == 'persona') 
+                            persona natural sin NRC 
+                        @else
+                            empresa o persona natural con NRC 
+                        @endif
+                        </span>
+                </p>
             </div>
 
             <hr/>
@@ -57,7 +68,8 @@
 
                 <div class="col-sm-6">
                     <p class="mt-4 mb-4 text-start" style="font-size: 18px;">
-                        {{ $cliente->fecha_registro }} <br><br>
+                        {{ \Carbon\Carbon::parse($cliente->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}
+                        <br><br>
                         {{ $cliente->dui }} <br>
                         <a href="mailto:{{ $cliente->email }}" title="contactar" target="_blank">{{ $cliente->email }}</a><br>
                         {{ $cliente->direccion }} <br>
@@ -123,7 +135,7 @@
 
             <div class="row mb-4">
 
-                <h4 class="text-center mb-4">Marcas permitidas:</h4>
+                <h4 class="text-center mb-4">Marcas Autorizadas:</h4>
 
                 <div class="col-sm-12">
                     <div class="flex-center">
@@ -152,50 +164,34 @@
 
             <div class="row mt-4 mb-4">
 
-                <h4 class="text-center mb-4">Actualizar clasificación del cliente: </h4>
+                <h4 class="text-center mb-4">Asignar lista de precios de cliente: </h4>
 
                 <div class="flex-center">
-                    <form class="d-inline-block" action="{{ route('clientes.cobre', $cliente->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <button id="idcobr" class="btn p-2 mx-1 ccobrebg classtag {{ $cliente->clasificacion == 'Cobre' ? 'classtagsel' : ''; }}" type="submit">Cobre</button>
-                    </form>
-
-                    <form class="d-inline-block" action="{{ route('clientes.plata', $cliente->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <button id="idplat" class="btn p-2 mx-1 cplatabg classtag {{ $cliente->clasificacion == 'Plata' ? 'classtagsel' : ''; }}" type="submit">Plata</button>
-                    </form>
-
-                    <form class="d-inline-block" action="{{ route('clientes.oro', $cliente->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <button id="idoro" class="btn p-2 mx-1 corobg classtag {{ $cliente->clasificacion == 'Oro' ? 'classtagsel' : ''; }}" type="submit">Oro</button>
-                    </form>
-
-                    <form class="d-inline-block" action="{{ route('clientes.platino', $cliente->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <button id="idplati" class="btn p-2 mx-1 cplatinobg classtag {{ $cliente->clasificacion == 'Platino' ? 'classtagsel' : ''; }}" type="submit">Platino</button>
-                    </form>
-
-                    <form class="d-inline-block" action="{{ route('clientes.diamante', $cliente->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <button id="iddiam" class="btn p-2 mx-1 cdiamantebg classtag {{ $cliente->clasificacion == 'Diamante' ? 'classtagsel' : ''; }}" type="submit">Diamante</button>
-                    </form>
-
+       
                     <form class="d-inline-block" action="{{ route('clientes.taller', $cliente->id) }}" method="POST">
                         @csrf
                         @method('PUT')
-                        <button id="idtall" class="btn p-2 mx-1 ctallerbg classtag {{ $cliente->clasificacion == 'Taller' ? 'classtagsel' : ''; }}" type="submit">Taller</button>
+                        <button id="idtall" class="btn p-2 mx-1 ctallerbg classtag {{ $cliente->clasificacion == 'taller' ? 'classtagsel' : ''; }}" type="submit">Taller</button>
                     </form>
 
-                    <form class="d-inline-block" action="{{ route('clientes.distribucion', $cliente->id) }}" method="POST">
+                    <form class="d-inline-block" action="{{ route('clientes.distribuidor', $cliente->id) }}" method="POST">
                         @csrf
                         @method('PUT')
-                        <button id="iddistr" class="btn p-2 mx-1 cdistbg classtag {{ $cliente->clasificacion == 'Distribuidor' ? 'classtagsel' : ''; }}" type="submit">Distribuidor</button>
+                        <button id="iddistr" class="btn p-2 mx-1 cdistbg classtag {{ $cliente->clasificacion == 'distribuidor' ? 'classtagsel' : ''; }}" type="submit">Distribuidor</button>
                     </form>
+
+                    <form class="d-inline-block" action="{{ route('clientes.pcosto', $cliente->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <button id="idprec" class="btn p-2 mx-1 cpreciocostobg classtag {{ $cliente->clasificacion == 'precioCosto' ? 'classtagsel' : ''; }}" type="submit">Precio Costo</button>
+                    </form>
+
+                    <form class="d-inline-block" action="{{ route('clientes.pop', $cliente->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <button id="idpreo" class="btn p-2 mx-1 cprecioopbg classtag {{ $cliente->clasificacion == 'precioOp' ? 'classtagsel' : ''; }}" type="submit">Precio OP</button>
+                    </form>
+
                 </div>
 
             </div>
@@ -230,7 +226,7 @@
             });
             
         }
-       
+
       </script>
 
 @endsection

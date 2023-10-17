@@ -42,7 +42,8 @@ return new class extends Migration
             $table->string('garantia', 100)->nullable();
             $table->string('ubicacion_bodega', 255)->nullable();
             $table->string('ubicacion_oficina', 255)->nullable();
-            $table->string('unidad_por_caja', 10)->nullable();
+            $table->string('unidad_por_caja', 10)->nullable();  
+            $table->string('mod_venta', 20)->nullable(); //caja o unidad
             //Campos para control el volumen y peso del producto
             $table->decimal('volumen', 8,4)->nullable();
             $table->string('unidad_volumen', 10)->nullable();
@@ -50,9 +51,9 @@ return new class extends Migration
             $table->string('unidad_peso', 10)->nullable();
             $table->decimal('precio_distribuidor', 8, 2)->nullable();
             $table->decimal('precio_taller', 8, 2)->nullable();
-            $table->decimal('precio_1', 8, 2)->nullable();
-            $table->decimal('precio_2', 8, 2)->nullable();
-            $table->decimal('precio_3', 8, 2)->nullable();
+            $table->decimal('precio_1', 8, 2)->nullable(); //precioCosto
+            $table->decimal('precio_2', 8, 2)->nullable(); //precioOP
+            $table->decimal('precio_3', 8, 2)->nullable(); //sobrante
             $table->decimal('precio_oferta', 8, 2)->nullable();
             $table->string('hoja_seguridad', 250)->nullable();
             $table->string('ficha_tecnica_href', 250)->nullable();

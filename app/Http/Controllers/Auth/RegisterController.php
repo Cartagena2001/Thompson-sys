@@ -94,7 +94,7 @@ class RegisterController extends Controller
 
                         <br/>
                         
-                        <p>Porfavor completa el proceso de registro, llenando el formulario con tus datos.</p>
+                        <p>Por favor completa el proceso de registro ingresando tus datos en el formulario.</p>
                         ";
                         
         $replyToEmailClient = "oficina@rtelsalvador.com";
@@ -123,7 +123,7 @@ class RegisterController extends Controller
 
                         <br/>
                         
-                        <p>Recuerda que por el momento es solo un aspirantes, deberás autorizarle o no acceso desde el sistema RT.</p>
+                        <p>Recuerda que por el momento es solo un aspirante, deberás autorizarle o no acceso desde el sistema RT una vez haya completado el formulario de registro.</p>
                         ";
                         
         $replyToEmailOff = $data['email'];
@@ -136,11 +136,11 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'estado' => 'activo',
-            'rol_id' => 2,
+            'rol_id' => 2, //cliente/aspirante
             'estatus' => 'aspirante', 
-            'clasificacion' => 'Cobre',
+            'clasificacion' => 'precioOP',
             'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png',
-            'marcas' => '0',
+            'marcas' => '',
             'form_status' => 'none',
             'fecha_registro' => \Carbon\Carbon::now()->toDateTimeString(),
             'boletin' => 1,
@@ -149,7 +149,7 @@ class RegisterController extends Controller
     }
 
 
-private function sendMail(PHPMailer $mail, $emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName ) 
+    private function sendMail(PHPMailer $mail, $emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName ) 
     {
 
         require base_path("vendor/autoload.php");
@@ -223,13 +223,5 @@ private function sendMail(PHPMailer $mail, $emailRecipient ,$emailSubject ,$emai
 
 
 
-
-
-
-
-
-
-
-
-
+//fin clase
 }

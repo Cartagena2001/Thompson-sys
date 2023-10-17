@@ -139,7 +139,7 @@
                             @if ( Auth::user()->rol_id == 3 && $orden->estado != 'Pendiente')
                             <tr>
                                 <td>{{ $orden->id }}</td>
-                                <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>
                                 <td>{{ $orden->user->nombre_empresa }}</td>
 
                                 @if ($orden->estado == 'Pendiente')
@@ -152,8 +152,8 @@
                                     <td class="text-danger">{{ $orden->estado }}</td>
                                 @endif
 
-                                <td>{{ \Carbon\Carbon::parse($orden->fecha_envio)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
-                                <td>{{ \Carbon\Carbon::parse($orden->fecha_entrega)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($orden->fecha_envio)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($orden->fecha_entrega)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>
                                 <td>${{ $orden->total }}</td>
                                 <td class="text-end">
                                     <form action="{{ route('productos.destroy', $orden->id) }}" method="POST">
@@ -167,7 +167,7 @@
                             @elseif ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
                                 <tr>
                                     <td>{{ $orden->id }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>
                                     <td>{{ $orden->user->nombre_empresa }}</td>
 
                                     @if ($orden->estado == 'Pendiente')
@@ -180,8 +180,8 @@
                                         <td class="text-danger">{{ $orden->estado }}</td>
                                     @endif
 
-                                    <td>{{ \Carbon\Carbon::parse($orden->fecha_envio)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($orden->fecha_entrega)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($orden->fecha_envio)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($orden->fecha_entrega)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>
                                     <td>${{ $orden->total }}</td>
                                     <td class="text-end">
                                         <form action="{{ route('productos.destroy', $orden->id) }}" method="POST">

@@ -30,16 +30,13 @@
         
             <div class="row mt-1">
                 <div class="col-6 col-lg-12">
-                    <label for="filtro_rango">Filtrar por clasificación de cliente:
-                    <select class="form-select" id="filtro_rango">
+                    <label for="filtro_lprecios">Filtrar por Lista de Precios:
+                    <select class="form-select" id="filtro_lprecios">
                         <option value="">Todos los clientes</option>
-                        <option value="cobre">Cobre</option>
-                        <option value="plata">Plata</option>
-                        <option value="oro">Oro</option>
-                        <option value="platino">Platino</option>
-                        <option value="diamante">Diamante</option>
                         <option value="taller">Taller</option>
-                        <option value="reparto">Distribucion</option>
+                        <option value="distribuidor">Distribuidor</option>
+                        <option value="precioCosto">Precio Costo</option>
+                        <option value="precioOP">Precio Opcional</option>
                     </select>
                     </label>
                     <button style="height: 38px; position: relative; bottom: 2px;" class="btn btn-primary" id="limpiar_filtro">Limpiar Filtro</button>
@@ -56,10 +53,10 @@
                 <table id="table_clientes" class="table display pb-4 pt-4">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
+                            <th class="text-center" scope="col">ID</th>
                             <th scope="col">Cliente</th>
                             <th scope="col">Empresa/Negocio</th>
-                            <th scope="col">Lista/Precio</th>
+                            <th class="text-center" scope="col">Lista/Precio</th>
                             <th class="text-center" scope="col">Marcas Autorizadas</th>
                         </tr>
                     </thead>
@@ -70,10 +67,32 @@
 
                         @foreach ($clientes as $cliente)
                             <tr>
-                                <td>{{ $cliente->id }}</td>
+                                <td class="text-center">{{ $cliente->id }}</td>
                                 <td>{{ $cliente->name }}</td>
                                 <td>{{ $cliente->nombre_empresa }}</td>
-                                <td class="text-success">{{ $cliente->clasificacion }}</td>
+                                <td class="text-center">
+                                <?php
+                                    
+                                    $classPList = '';
+
+                                    if ($cliente->clasificacion == 'taller') {
+                                        $classPList = 'ctaller';
+                                    } elseif ($cliente->clasificacion == 'distribuidor') {
+                                        $classPList = 'cdist';
+                                    } elseif ($cliente->clasificacion == 'precioCosto') {
+                                        $classPList = 'cpreciocosto';
+                                    } elseif ($cliente->clasificacion == 'precioOp') {
+                                        $classPList = 'cprecioop';
+                                    } else {
+                                        $classPList = ''; 
+                                    }
+
+                                ?> 
+                                    <span class="<?php echo $classPList; ?>">
+                                        {{ $cliente->clasificacion }}
+                                    </span>
+                                </td>
+
                                 <td style="display: block; margin: 0 auto;">
                                     <div>
                                 @foreach ($marcas as $marca)
@@ -106,7 +125,7 @@
 
             var filtroColumna = table.column(3);
 
-            $('#filtro_rango').on('change', function() {
+            $('#filtro_lprecios').on('change', function() {
                 var filtro = $(this).val();
 
                 if (filtro === '') {
@@ -117,7 +136,7 @@
             });
 
             $('#limpiar_filtro').on('click', function() {
-                $('#filtro_rango').val('').trigger('change');
+                $('#filtro_lprecios').val('').trigger('change');
             });
         });
 
@@ -126,9 +145,8 @@
             var marca = $('#'+check_id).val();
             var clienteid = check_id;
 
-            console.log("marca id: "+marca+" cliente id: "+clienteid);
+            //console.log("marca id: "+marca+" cliente id: "+clienteid);
             
-
             $.ajax({
                 url: "{{ route('clientes.marcaUpdate') }}",
                 type: "POST",

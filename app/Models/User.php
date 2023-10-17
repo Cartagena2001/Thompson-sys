@@ -45,7 +45,8 @@ class User extends Authenticatable
         'marcas',
         'notas',
         'estatus',
-        'visto'
+        'visto',
+        'usr_tipo'
     ];
 
     protected $table='users';

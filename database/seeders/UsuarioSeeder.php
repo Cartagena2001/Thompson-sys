@@ -43,6 +43,7 @@ class UsuarioSeeder extends Seeder
                       'notas' => '-', 
                       'estatus' => 'otro',
                       'visto' => 'otro',
+                      'usr_tipo' => null,
                     ]);
 
         User::create(['cliente_id_interno' => '-',
@@ -72,6 +73,7 @@ class UsuarioSeeder extends Seeder
                       'notas' => '-', 
                       'estatus' => 'otro',
                       'visto' => 'otro',
+                      'usr_tipo' => null,
                     ]);
 
         User::create(['cliente_id_interno' => '-',
@@ -101,6 +103,7 @@ class UsuarioSeeder extends Seeder
                       'notas' => '-', 
                       'estatus' => 'otro',
                       'visto' => 'otro',
+                      'usr_tipo' => null,
                     ]);
         
         //Bódega
@@ -131,6 +134,7 @@ class UsuarioSeeder extends Seeder
                       'notas' => '-', 
                       'estatus' => 'otro',
                       'visto' => 'otro',
+                      'usr_tipo' => null,
                     ]);
 
 
@@ -162,6 +166,7 @@ class UsuarioSeeder extends Seeder
                       'notas' => '-', 
                       'estatus' => 'aprobado',
                       'visto' => 'otro',
+                      'usr_tipo' => 'negocio',
                     ]);
 
 
@@ -193,6 +198,7 @@ class UsuarioSeeder extends Seeder
                       'notas' => '-', 
                       'estatus' => 'aspirante',
                       'visto' => 'nuevo',
+                      'usr_tipo' => 'negocio',
                     ]);
 
         User::create(['cliente_id_interno' => '-',
@@ -222,6 +228,7 @@ class UsuarioSeeder extends Seeder
                       'notas' => '-', 
                       'estatus' => 'aspirante',
                       'visto' => 'nuevo',
+                      'usr_tipo' => 'negocio',
                     ]);
 
     }

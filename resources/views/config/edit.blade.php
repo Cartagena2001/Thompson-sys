@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-@section('title', 'Editar Usuario')
+@section('title', 'Editar Usuario') 
     
     {{-- Titulo --}}
     <div class="card mb-3">
-        <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
+        <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url( {{ URL('assets/img/icons/spot-illustrations/corner-4.png') }} ); border: ridge 1px #ff1620;"></div>
         <div class="card-body position-relative mt-4">
             <div class="row">
                 <div class="col-lg-12">
@@ -62,7 +62,9 @@
                             <select class="form-select" id="rol" name="rol" required>
                                 <option value="">Selecione un rol</option>
                                 @foreach($roles as $rol)
-                                <option value="{{ $rol->id }}" @if ( $usuario->rol_id == $rol->id ) selected @endif >{{ $rol->nombre}}</option>
+                                    @if ( $rol->id != 0)
+                                        <option value="{{ $rol->id }}" @if ( $usuario->rol_id == $rol->id ) selected @endif >{{ $rol->nombre}}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             @error('rol')
@@ -90,10 +92,10 @@
                             <label for="clasificacion">Lista de Precios (Clasificación): *</label>
                             <select class="form-select" id="clasificacion" name="clasificacion" required>
                                 <option value="">Selecione una lista/clasificación</option>
-                                <option value="Cobre" @if ( $usuario->clasificacion == 'Cobre' ) selected @endif >Taller</option>
-                                <option value="Taller" @if ( $usuario->clasificacion == 'Taller' ) selected @endif >Taller</option>
-                                <option value="Distribuidor" @if ( $usuario->clasificacion == 'Distribuidor' ) selected @endif >Distribuidor</option>
-                                <option value="PrecioCosto" @if ( $usuario->clasificacion == 'PrecioCosto' ) selected @endif >Precio Costo</option>
+                                <option value="taller" @if ( $usuario->clasificacion == 'taller' ) selected @endif >Taller</option>
+                                <option value="distribuidor" @if ( $usuario->clasificacion == 'distribuidor' ) selected @endif >Distribuidor</option>
+                                <option value="precioOp" @if ( $usuario->clasificacion == 'precioOp' ) selected @endif >Precio OP</option>
+                                <option value="precioCosto" @if ( $usuario->clasificacion == 'precioCosto' ) selected @endif >Precio Costo</option>
                             </select>
                             @error('clasificacion')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -293,38 +295,41 @@
 
                     </div>
 
-                    <div class="row mb-2"> 
-
-                        <div class="col-6">
-                            <label for="marcas">Marcas Autorizadas: </label>
-                            <br>
-                            <label for="marca-t">
-                                <input id="marca-t" type="checkbox" value="0" name="marcas[]" @if ( str_contains( $usuario->marcas, '0' ) ) checked @endif /> TODAS
-                            </label>
-                            <br/>
-                            @foreach ($marcas as $marca)
-                                <label for="{{ $marca->nombre }}">
-                                    <input id="{{ $marca->nombre }}" type="checkbox" name="marcas[]" value="{{ $marca->id }}" 
-                                    @if ( str_contains( $usuario->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
-
-
-                                </label>
-                                <br/>
-                            @endforeach
-
-
-                            @error('marcas')
-                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                    </div>
-
                     <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">
                         <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Actualizar información</button>
                     </div>
 
                 </form>
+
+                <hr />
+
+                <div class="row mb-2">
+
+                    <h4 class="text-center mb-4">Marcas Autorizadas:</h4> 
+
+                    <div class="col-sm-12">
+                        <div class="flex-center">
+                            <form id="brandscheck">
+                                <div>
+                                @foreach ($marcas as $marca)
+                                    <label for="{{ $marca->nombre }}-{{ $marca->id }}_{{ $usuario->id }}">
+                                        <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $usuario->id }}" type="checkbox" value="{{ $marca->id }}" name="marks[]" onclick="asignarMarca (this.id)" @if ( str_contains( $usuario->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
+
+                                    </label>
+                                    <br/>
+                                @endforeach
+                                </div>
+                            </form>
+                        </div>
+                        <div class="alert alert-success" role="alert" id="successMsg" style="display: none" >
+                                Marca/s autorizada/s o denegadas con éxito! 
+                            </div>
+
+                        <span class="text-danger" id="ErrorMsg1"></span>
+                        <span class="text-danger" id="ErrorMsg2"></span>
+                    </div>
+
+                </div> 
 
                 <hr />
 
@@ -353,7 +358,7 @@
                     </div>
 
                     <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">
-                        <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Actualizar Usuario</button>
+                        <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Actualizar Contraseña</button>
                     </div>
 
                 </form>
@@ -361,5 +366,93 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+        function asignarMarca(check_id) {
+
+            var marca = $('#'+check_id).val();
+            var clienteid = check_id;
+
+            //console.log("marca id: "+marca+" cliente id: "+clienteid);
+            
+            $.ajax({
+                url: "{{ route('clientes.marcaUpdate') }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&marca=" + marca + "&cliente=" + clienteid,
+
+                success: function(response){
+                    $('#successMsg').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg1').text(response.responseJSON.errors.marca);
+                    $('#ErrorMsg2').text(response.responseJSON.errors.cliente);
+                },
+            });
+            
+        }
+
+
+        $('#rol').on('change', function (e) {
+            
+            if (e.target.value == 1 || e.target.value == 3) {
+
+                $('#estatus option[value="aprobado"]').hide();
+                $('#estatus option[value="aspirante"]').hide();
+                $('#estatus option[value="rechazado"]').hide();
+                $('#estatus option[value="otro"]').show();
+
+                $('#estatus option[value="otro"]').attr("selected", "selected");
+
+            } else if (e.target.value == '') {
+
+                $('#estatus option[value="aprobado"]').show();
+                $('#estatus option[value="aspirante"]').show();
+                $('#estatus option[value="rechazado"]').show();
+                $('#estatus option[value="otro"]').show(); 
+
+            } else {
+
+                $('#estatus option[value="otro"]').hide();
+                $('#estatus option[value="aprobado"]').show();
+                $('#estatus option[value="aspirante"]').show();
+                $('#estatus option[value="rechazado"]').show();
+
+                $('#rol option[value=""]').attr("selected", "selected");
+            }
+            
+        });
+
+
+        $('#estatus').on('change', function (e) {
+            
+            if (e.target.value == 'aprobado' || e.target.value == 'aspirante' || e.target.value == 'rechazado') {
+                
+                $('#rol option[value="1"]').hide();
+                $('#rol option[value="2"]').show();
+                $('#rol option[value="3"]').hide();
+
+                $('#rol option[value="2"]').attr("selected", "selected");
+                
+            } else if (e.target.value == '') {
+
+                $('#rol option[value="1"]').show();
+                $('#rol option[value="2"]').show();
+                $('#rol option[value="3"]').show(); 
+
+            } else {
+
+                $('#rol option[value="1"]').show();
+                $('#rol option[value="2"]').hide();
+                $('#rol option[value="3"]').show();
+
+                $('#rol option[value=""]').attr("selected", "selected");
+            }
+            
+        });
+
+      </script>
 
 @endsection

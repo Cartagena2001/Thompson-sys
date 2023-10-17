@@ -41,23 +41,26 @@ class CarritoController extends Controller
 
         //validar que clasificacion tiene el cliente para poner un precio u otro
         if ($product->precio_oferta != null || $product->precio_oferta != 0 ) {
+            
             $precio = $product->precio_oferta;
             //echo '<script> console.log("precio: '. $precio.' "); </script>';
-        } elseif (Auth::user()->clasificacion == 'Cobre') {
-            $precio = $product->precio_1;
-        } elseif (Auth::user()->clasificacion == 'Plata') {
-            $precio = $product->precio_1;
-        } elseif (Auth::user()->clasificacion == 'Oro') {
-            $precio = $product->precio_2;
-        } elseif (Auth::user()->clasificacion == 'Platino') {
-            $precio = $product->precio_3;
-        } elseif (Auth::user()->clasificacion == 'Diamante') {
-            $precio = $product->precio_3;
-        } else if (Auth::user()->clasificacion == 'Taller') {
+
+        } elseif (Auth::user()->clasificacion == 'taller') {
+
             $precio = $product->precio_taller;
-        } else if (Auth::user()->clasificacion == 'Distribuidor') {
+
+        } elseif (Auth::user()->clasificacion == 'distribuidor') {
+
             $precio = $product->precio_distribuidor;
-        }
+
+        } elseif (Auth::user()->clasificacion == 'precioCosto') {
+
+            $precio = $product->precio_1;
+
+        } elseif (Auth::user()->clasificacion == 'precioOp') {
+
+            $precio = $product->precio_2;
+        } 
 
         //asignamos el ID de la marca
         $marcaid = $product->marca->id;
@@ -75,8 +78,8 @@ class CarritoController extends Controller
                 if ( $product->marca->nombre == $brandA->nombre ) {
                     
                     if (isset($detalleFloat[$marcaid])) {
-                         $detalleFloat[$marcaid]['cantidad'] += $cantidad;
-                         $detalleFloat[$marcaid]['monto'] += $montopm;
+                         $detalleFloat[$marcaid]['cantidad'] = $cantidad;
+                         $detalleFloat[$marcaid]['monto'] = $montopm;
                     } else {
                         $detalleFloat[$marcaid] = [
                             'marca_id' => $product->marca->id,
@@ -91,7 +94,7 @@ class CarritoController extends Controller
             }//end foreach
 
             if (isset($cart[$product->id])) {
-                $cart[$product->id]['cantidad'] += $cantidad;
+                $cart[$product->id]['cantidad'] = $cantidad;
             } else {
                 $cart[$product->id] = [
                     'producto_id' => $product->id,
@@ -116,7 +119,7 @@ class CarritoController extends Controller
             $montopm = $precio * $cantidad * $product->unidad_por_caja;
 
             if (isset($cart[$product->id])) {
-                $cart[$product->id]['cantidad'] += $cantidad;
+                $cart[$product->id]['cantidad'] = $cantidad;
             } else {
                 $cart[$product->id] = [
                     'producto_id' => $product->id,
@@ -136,8 +139,8 @@ class CarritoController extends Controller
                     
                     
                     if (isset($detalleFloat[$marcaid])) {
-                         $detalleFloat[$marcaid]['cantidad'] += $cantidad;
-                         $detalleFloat[$marcaid]['monto'] += $montopm;
+                         $detalleFloat[$marcaid]['cantidad'] = $cantidad;
+                         $detalleFloat[$marcaid]['monto'] = $montopm;
                     } else {
                         $detalleFloat[$marcaid] = [
                             'marca_id' => $product->marca->id,
@@ -160,6 +163,7 @@ class CarritoController extends Controller
   
     }
 
+
     //funciona para actualizar la cantidad de productos en el carrito de compras sin cambiar de vista
     public function update(Request $request)
     {
@@ -180,26 +184,32 @@ class CarritoController extends Controller
 
             //validar que clasificacion tiene el cliente para poner un precio u otro
             if ($product->precio_oferta != null) {
+                
                 $precio = $product->precio_oferta;
-            } elseif (Auth::user()->clasificacion == 'Cobre') {
-                $precio = $product->precio_1;
-            } elseif (Auth::user()->clasificacion == 'Plata') {
-                $precio = $product->precio_1;
-            } elseif (Auth::user()->clasificacion == 'Oro') {
-                $precio = $product->precio_2;
-            } elseif (Auth::user()->clasificacion == 'Platino') {
-                $precio = $product->precio_3;
-            } elseif (Auth::user()->clasificacion == 'Diamante') {
-                $precio = $product->precio_3;
-            } else if (Auth::user()->clasificacion == 'Taller') {
+
+            } elseif (Auth::user()->clasificacion == 'taller') {
+
                 $precio = $product->precio_taller;
-            } else if (Auth::user()->clasificacion == 'Distribuidor') {
+
+            } elseif (Auth::user()->clasificacion == 'distribuidor') {
+
                 $precio = $product->precio_distribuidor;
-            }
+
+            } elseif (Auth::user()->clasificacion == 'precioCosto') {
+
+                $precio = $product->precio_1;
+
+            } elseif (Auth::user()->clasificacion == 'precioOp') {
+
+                $precio = $product->precio_2;
+            } 
 
             if (isset($cart[$product->id])) {
+
                 $cart[$product->id]['cantidad'] = $cantidad;
+
             } else {
+
                 $cart[$product->id] = [
                     'producto_id' => $product->id,
                     'nombre' => $product->nombre,
@@ -291,4 +301,5 @@ class CarritoController extends Controller
         }
     }
 
+//fin clase
 }

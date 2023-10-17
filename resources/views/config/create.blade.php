@@ -87,10 +87,10 @@
                             <label for="clasificacion">Lista de Precios (Clasificación): *</label>
                             <select class="form-select" id="clasificacion" name="clasificacion" required>
                                 <option value="">Selecione una lista/clasificación</option>
-                                <option value="Cobre" {{ old('clasificacion') == 'Cobre' ? 'selected' : '' }} >Cobre</option>
-                                <option value="Taller" {{ old('clasificacion') == 'Taller' ? 'selected' : '' }} >Taller</option>
-                                <option value="Distribuidor" {{ old('clasificacion') == 'Distribuidor' ? 'selected' : '' }} >Distribuidor</option>
-                                <option value="PrecioCosto" {{ old('clasificacion') == 'PrecioCosto' ? 'selected' : '' }} >Precio Costo</option>
+                                <option value="taller" {{ old('clasificacion') == 'Cobre' ? 'selected' : '' }} >Taller</option>
+                                <option value="distribuidor" {{ old('clasificacion') == 'Taller' ? 'selected' : '' }} >Distribuidor</option>
+                                <option value="precioOp" {{ old('clasificacion') == 'Distribuidor' ? 'selected' : '' }} >Precio OP</option>
+                                <option value="precioCosto" {{ old('clasificacion') == 'PrecioCosto' ? 'selected' : '' }} >Precio Costo</option>
                             </select>
                             @error('clasificacion')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -295,10 +295,6 @@
                         <div class="col-6">
                             <label for="marcas">Marcas Autorizadas: </label>
                             <br>
-                            <label for="marca-t">
-                                <input id="marca-t" type="checkbox" value="0" name="marcas[]" {{ (is_array(old('marcas')) and in_array(0, old('marcas'))) ? ' checked' : '' }} /> TODAS
-                            </label>
-                            <br/>
                             @foreach ($marcas as $marca)
                                 <label for="{{ $marca->nombre }}">
                                     <input id="{{ $marca->nombre }}" type="checkbox" name="marcas[]" value="{{ $marca->id }}" {{ (is_array(old('marcas')) and in_array($marca->id, old('marcas'))) ? ' checked' : '' }} /> {{ $marca->nombre }}
@@ -323,13 +319,14 @@
                     <div class="col-12 flex-center">
                         <div>
                         <label for="password">Contraseña: </label>
-                        <input class="form-control" type="password" name="password" id="password" value="{{ old('password', request()->input('password'))}}" maxlength="12" autocomplete="current-password" required>
+                        <input class="form-control" type="password" name="password" id="password" value="{{ old('password', request()->input('password'))}}" maxlength="12" required>
+
                         @error('password')
                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                         @enderror
 
                         <label for="password_confirmation">Confirmar Contraseña: </label>
-                        <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" value="{{ old('password_confirmation', request()->input('password_confirmation'))}}" maxlength="12" autocomplete="current-password" required>
+                        <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" value="{{ old('password_confirmation', request()->input('password_confirmation'))}}" maxlength="12" required>
 
                         </div>
                     </div>
@@ -343,5 +340,69 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+        $('#rol').on('change', function (e) {
+            
+            if (e.target.value == 1 || e.target.value == 3) {
+
+                $('#estatus option[value="aprobado"]').hide();
+                $('#estatus option[value="aspirante"]').hide();
+                $('#estatus option[value="rechazado"]').hide();
+                $('#estatus option[value="otro"]').show();
+
+                $('#estatus option[value="otro"]').attr("selected", "selected");
+
+            } else if (e.target.value == '') {
+
+                $('#estatus option[value="aprobado"]').show();
+                $('#estatus option[value="aspirante"]').show();
+                $('#estatus option[value="rechazado"]').show();
+                $('#estatus option[value="otro"]').show(); 
+
+            } else {
+
+                $('#estatus option[value="otro"]').hide();
+                $('#estatus option[value="aprobado"]').show();
+                $('#estatus option[value="aspirante"]').show();
+                $('#estatus option[value="rechazado"]').show();
+
+                $('#rol option[value=""]').attr("selected", "selected");
+            }
+            
+        });
+
+
+        $('#estatus').on('change', function (e) {
+            
+            if (e.target.value == 'aprobado' || e.target.value == 'aspirante' || e.target.value == 'rechazado') {
+                
+                $('#rol option[value="1"]').hide();
+                $('#rol option[value="2"]').show();
+                $('#rol option[value="3"]').hide();
+
+                $('#rol option[value="2"]').attr("selected", "selected");
+                
+            } else if (e.target.value == '') {
+
+                $('#rol option[value="1"]').show();
+                $('#rol option[value="2"]').show();
+                $('#rol option[value="3"]').show(); 
+
+            } else {
+
+                $('#rol option[value="1"]').show();
+                $('#rol option[value="2"]').hide();
+                $('#rol option[value="3"]').show();
+
+                $('#rol option[value=""]').attr("selected", "selected");
+            }
+            
+        });
+
+
+       
+      </script>
 
 @endsection
