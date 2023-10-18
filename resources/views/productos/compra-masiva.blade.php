@@ -201,7 +201,7 @@
                             <td class="text-center">${{ $producto->precio_1 * $producto->unidad_por_caja  }}</td>
                             <td class="text-center">{{ $producto->unidad_por_caja }}</td>
 
-                            <td class="text-center">
+                            <td style="display: block; margin: 0 auto;">
                                 <div class="input-group" data-quantity="data-quantity">              
                                     {{-- <input type="hidden" name="producto_id" value="{{ $producto->id }}"> --}}
                                     <div class="input-group-append flex-center">
