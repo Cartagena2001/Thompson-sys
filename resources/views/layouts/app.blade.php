@@ -234,7 +234,7 @@
                                 </li>
                                 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/ordenes') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/ordenes/oficina') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/ordenes/oficina') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-folder-open"></i> 
                                         <span class="ms-1 d-none d-sm-inline">Órdenes de Compra 
                                         <?php
@@ -395,7 +395,7 @@
                                 <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">🚚 Bódega</h5></div>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/ordenes') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/ordenes/bodega') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/ordenes/bodega') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-folder-open"></i> <span class="ms-1 d-none d-sm-inline">Órdenes de Compra</span></a>
                                 </li>
 

@@ -122,7 +122,7 @@ class OrdenController extends Controller
                            <b>Teléfono</b>: ".$ordenAux->user->telefono." <br/>
                            <b>Dirección</b>: ".$ordenAux->user->direccion.", ".$ordenAux->user->municipio.", ".$ordenAux->user->departamento."<br/>  
                            <b>Fecha/Hora</b>: ".$ordenFechaH." <br/>
-                           <b>Estado: ".$ordenAux->estado."
+                           <b>Estado: </b>".$ordenAux->estado."
                         </p>
 
                         <br/>

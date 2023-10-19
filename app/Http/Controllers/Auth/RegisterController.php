@@ -146,6 +146,7 @@ class RegisterController extends Controller
             'boletin' => 1,
             'visto' => 'nuevo'
         ]);
+        
     }
 
 
