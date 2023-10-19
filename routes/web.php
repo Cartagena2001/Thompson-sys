@@ -57,17 +57,19 @@ Route::post('/dashboard/productos/import', [App\Http\Controllers\ProductoControl
 
 
 //Rutas para ordenes
-Route::resource('/dashboard/ordenes', App\Http\Controllers\OrdenesController::class)->middleware('auth');
-Route::put('/dashboard/ordenes/enProceso/{id}', [App\Http\Controllers\OrdenesController::class, 'enProceso'])->name('ordenes.enProceso')->middleware('auth');
-Route::put('/dashboard/ordenes/preparada/{id}', [App\Http\Controllers\OrdenesController::class, 'preparada'])->name('ordenes.preparada')->middleware('auth');
-Route::put('/dashboard/ordenes/enEspera/{id}', [App\Http\Controllers\OrdenesController::class, 'enEspera'])->name('ordenes.espera')->middleware('auth');
-Route::put('/dashboard/ordenes/pagada/{id}', [App\Http\Controllers\OrdenesController::class, 'pagada'])->name('ordenes.pagada')->middleware('auth');
-Route::put('/dashboard/ordenes/finalizada/{id}', [App\Http\Controllers\OrdenesController::class, 'finalizada'])->name('ordenes.finalizada')->middleware('auth');
-Route::put('/dashboard/ordenes/cancelada/{id}', [App\Http\Controllers\OrdenesController::class, 'cancelada'])->name('ordenes.cancelada')->middleware('auth');
+Route::resource('/dashboard/ordenes/oficina', App\Http\Controllers\OrdenesController::class)->middleware('auth');
 
-Route::put('/dashboard/ordenes/uploadCif/{id}', [App\Http\Controllers\OrdenesController::class, 'upload'])->name('ordenecif.upload')->middleware('auth');
-Route::put('/dashboard/ordenes/uploadHoj/{id}', [App\Http\Controllers\OrdenesController::class, 'uploadBod'])->name('ordenehoj.upload')->middleware('auth');
+Route::put('/dashboard/ordenes/oficina/enProceso/{id}', [App\Http\Controllers\OrdenesController::class, 'enProceso'])->name('ordenes.enProceso')->middleware('auth');
+Route::put('/dashboard/ordenes/oficina/preparada/{id}', [App\Http\Controllers\OrdenesController::class, 'preparada'])->name('ordenes.preparada')->middleware('auth');
+Route::put('/dashboard/ordenes/oficina/enEspera/{id}', [App\Http\Controllers\OrdenesController::class, 'enEspera'])->name('ordenes.espera')->middleware('auth');
+Route::put('/dashboard/ordenes/oficina/pagada/{id}', [App\Http\Controllers\OrdenesController::class, 'pagada'])->name('ordenes.pagada')->middleware('auth');
+Route::put('/dashboard/ordenes/oficina/finalizada/{id}', [App\Http\Controllers\OrdenesController::class, 'finalizada'])->name('ordenes.finalizada')->middleware('auth');
+Route::put('/dashboard/ordenes/oficina/cancelada/{id}', [App\Http\Controllers\OrdenesController::class, 'cancelada'])->name('ordenes.cancelada')->middleware('auth');
 
+Route::put('/dashboard/ordenes/oficina/uploadCif/{id}', [App\Http\Controllers\OrdenesController::class, 'upload'])->name('ordenecif.upload')->middleware('auth');
+Route::put('/dashboard/ordenes/oficina/uploadHoj/{id}', [App\Http\Controllers\OrdenesController::class, 'uploadBod'])->name('ordenehoj.upload')->middleware('auth');
+
+Route::resource('/dashboard/ordenes/bodega', App\Http\Controllers\OrdenesBodegaController::class)->middleware('auth');
 
 //Rutas para aspirantes
 Route::get('/dashboard/aspirantes', [App\Http\Controllers\AspirantesController::class, 'index'])->name('aspirantes.index')->middleware('auth');
@@ -130,6 +132,7 @@ Route::post('/carrito/clear', [App\Http\Controllers\CarritoController::class, 'c
 //Rutas para las ordenes del carrito
 Route::get('/orden', [App\Http\Controllers\OrdenController::class, 'index'])->name('orden.index')->middleware('auth');
 Route::post('/orden', [App\Http\Controllers\OrdenController::class, 'store'])->name('orden.store')->middleware('auth');
+
 Route::post('/carrito/validar', [App\Http\Controllers\CarritoController::class, 'validar'])->name('carrito.validar')->middleware('auth');
 
 
