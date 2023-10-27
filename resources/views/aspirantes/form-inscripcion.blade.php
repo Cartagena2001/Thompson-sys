@@ -119,7 +119,7 @@
 
                             <div class="col-6">
                                 <label for="whatsapp">Celular/Núm. WhatsApp: </label>
-                                <input class="form-control" type="text" name="whatsapp" id="whatsapp" value="{{ $user->whatsapp }}" placeholder="0000-0000" minlength="9" maxlength="9" required>
+                                <input class="form-control" type="text" name="whatsapp" id="whatsapp" value="{{ $user->whatsapp }}" placeholder="0000-0000" minlength="8" maxlength="9" required>
                                 @error('whatsapp')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror

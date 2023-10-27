@@ -22,135 +22,149 @@
 
     </div>
 
+    {{-- Bienvenidos img --}}
+
+    <div class="row g-3 mb-3">
+      <div class="col-md-12 mb-0">
+        <div class="d-flex align-items-center position-relative">
+          <img src="{{ URL('assets/img/imgs/bienvenidos-imgs.jpg') }}" alt="" width="100%" style="border: ridge 1px #ff1620; border-radius: 10px;">
+        </div>
+      </div>
+    </div>
+
     {{-- Datos Cliente --}}
 
-      <div class="row g-3 mb-3">
-          
-          <div class="col-md-6">
-            <div class="card h-md-100 ecommerce-card-min-width">
-              
-              <div class="card-header pb-0">
+    <div class="row g-3 mb-3">
+        
+        <div class="col-md-6">
 
-                <h6 class="mb-0 mt-2 d-flex align-items-center">Compras del Mes<span class="ms-1 text-400" data-bs-toggle="tooltip" data-bs-placement="top" title="Calculado según las ventas de la semana pasada"><span class="far fa-question-circle" data-fa-transform="shrink-1"></span></span></h6>
-
-              </div>
-
-              <div class="card-body d-flex flex-column justify-content-end">
-                <div class="row">
-                  <div class="col">
-                    <p class="font-sans-serif lh-1 mb-1 fs-4">$0.00</p><span class="badge badge-soft-success rounded-pill fs--2">+00.00%</span>
-                  </div>
-                  <div class="col-auto ps-0">
-                    <div class="echart-bar-weekly-sales h-100">
-                      
-                     <img src="{{ URL('assets/img/imgs/bar-level.png') }}" alt="" width="100%">
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="card h-md-100">
-
-              <div class="card-header pb-0">
-                <h6 class="mb-0 mt-2">Total de Pedidos</h6>
-              </div>
-
-              <div class="card-body d-flex flex-column justify-content-end">
-                <div class="row justify-content-between">
-                  <div class="col-auto align-self-end">
-                    <div class="fs-4 fw-normal font-sans-serif text-700 lh-1 mb-1">0</div><span class="badge rounded-pill fs--2 bg-200 text-primary"><span class="fas fa-caret-up me-1"></span>00.00%</span>
-                  </div>
-                  <div class="col-auto ps-0 mt-n4">
-                    <img src="{{ URL('assets/img/imgs/curve-img.png') }}" alt="" width="100%">
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-      </div>
-
-      <div class="row g-3 mb-3">
-
-        <div class="col-md-6 mb-3">
-          <div class="card h-lg-100 overflow-hidden">
-
-            <div class="card-body p-0">
-              <div class="table-responsive scrollbar">
-                
-                <table class="table table-dashboard mb-0 table-borderless fs--1 border-200">
-                  
-                  <thead class="bg-light">
-                    <tr class="text-900">
-                      <th colspan="3">Últimas Noticias</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-
-                    <tr class="border-bottom border-200">
-                      
-                      <td colspan="3">
-                        <div class="d-flex align-items-center position-relative">
-                          <img src="{{ URL('assets/img/imgs/news-img-1.png') }}" alt="" width="100%">
-                        </div>
-                      </td>
-
-                    </tr>
-             
-                  </tbody>
-                </table>
-
-              </div>
-            </div>
-
-            <div class="card-footer bg-light py-2">
-              <div class="row flex-between-center">
-                <div class="col-auto">
-                  <select class="form-select form-select-sm">
-                    <option>Últimos 7 días</option>
-                    <option>Último Mes</option>
-                    <option>Último Año</option>
-                  </select>
-                </div>
-                <div class="col-auto"><a class="btn btn-sm btn-falcon-default" href="#!">Ver Todo</a></div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="col-md-6 mb-3">
-          <div class="card h-lg-100">
+          <div class="card h-md-100 ecommerce-card-min-width" style="border: ridge 1px #ff1620;">
             
-            <div class="card-header">
-              
-              <div class="row flex-between-center">
+            <div class="card-header pb-0">
 
-                <div class="col-auto">
-                  <h6 class="mb-0">Nuevos Productos</h6>
+              <h6 class="mb-0 mt-2 d-flex align-items-center">Compras del Mes<span class="ms-1 text-400" data-bs-toggle="tooltip" data-bs-placement="top" title="Calculado según las ventas de la semana pasada"><span class="far fa-question-circle" data-fa-transform="shrink-1"></span></span></h6>
+
+            </div>
+
+            <div class="card-body d-flex flex-column justify-content-end">
+              <div class="row">
+                <div class="col">
+                  <p class="font-sans-serif lh-1 mb-1 fs-4">$0.00</p><span class="badge badge-soft-success rounded-pill fs--2">+00.00%</span>
                 </div>
+                <div class="col-auto ps-0">
+                  <div class="echart-bar-weekly-sales h-100">
+                    
+                   <img src="{{ URL('assets/img/imgs/bar-level.png') }}" alt="" width="100%">
 
+                  </div>
+                </div>
               </div>
-
             </div>
 
-            <div class="card-body h-100 pe-0">
-              <div class="echart-line-total-sales h-100 m-2" data-echart-responsive="true">
-                <img src="{{ URL('assets/img/imgs/nuevos-productos.png') }}" alt="" width="100%">
+          </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+          <div class="card h-md-100" style="border: ridge 1px #ff1620;">
+
+            <div class="card-header pb-0">
+              <h6 class="mb-0 mt-2">Total de Pedidos</h6>
+            </div>
+
+            <div class="card-body d-flex flex-column justify-content-end">
+              <div class="row justify-content-between">
+                <div class="col-auto align-self-end">
+                  <div class="fs-4 fw-normal font-sans-serif text-700 lh-1 mb-1">0</div><span class="badge rounded-pill fs--2 bg-200 text-primary"><span class="fas fa-caret-up me-1"></span>00.00%</span>
+                </div>
+                <div class="col-auto ps-0 mt-n4">
+                  <img src="{{ URL('assets/img/imgs/curve-img.png') }}" alt="" width="100%">
+                </div>
               </div>
             </div>
+
           </div>
         </div>
 
+    </div>
+      
+    {{-- 
+    <div class="row g-3 mb-3">
+
+      <div class="col-md-6 mb-3">
+        <div class="card h-lg-100 overflow-hidden">
+
+          <div class="card-body p-0">
+            <div class="table-responsive scrollbar">
+              
+              <table class="table table-dashboard mb-0 table-borderless fs--1 border-200">
+                
+                <thead class="bg-light">
+                  <tr class="text-900">
+                    <th colspan="3">Últimas Noticias</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  <tr class="border-bottom border-200">
+                    
+                    <td colspan="3">
+                      <div class="d-flex align-items-center position-relative">
+                        <img src="{{ URL('assets/img/imgs/news-img-1.png') }}" alt="" width="100%">
+                      </div>
+                    </td>
+
+                  </tr>
+           
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+          <div class="card-footer bg-light py-2">
+            <div class="row flex-between-center">
+              <div class="col-auto">
+                <select class="form-select form-select-sm">
+                  <option>Últimos 7 días</option>
+                  <option>Último Mes</option>
+                  <option>Último Año</option>
+                </select>
+              </div>
+              <div class="col-auto"><a class="btn btn-sm btn-falcon-default" href="#!">Ver Todo</a></div>
+            </div>
+          </div>
+
+        </div>
       </div>
 
+      <div class="col-md-6 mb-3">
+        <div class="card h-lg-100">
+          
+          <div class="card-header">
+            
+            <div class="row flex-between-center">
+
+              <div class="col-auto">
+                <h6 class="mb-0">Nuevos Productos</h6>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="card-body h-100 pe-0">
+            <div class="echart-line-total-sales h-100 m-2" data-echart-responsive="true">
+              <img src="{{ URL('assets/img/imgs/nuevos-productos.png') }}" alt="" width="100%">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    --}}
 
   @elseif ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
 
