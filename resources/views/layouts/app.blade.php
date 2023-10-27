@@ -62,7 +62,7 @@
                     @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3 )
                          <img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="rt-logo" width="200" />
                     @else 
-                         <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 115px; height: auto;" />
+                         <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 95px; height: auto;" />
                     @endif
                 </a>     
             </div>
@@ -151,7 +151,7 @@
     </header>
     
 
-    <div class="pb-6 pt-8" id="app">
+    <div class="pb-6 pt-9" id="app">
         <div class="container-fluid">
 
             <div class="row flex-nowrap">
