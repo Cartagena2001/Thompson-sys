@@ -49,7 +49,7 @@ class ContactoController extends Controller
         try {
 
             // Email server settings
-            $mail->SMTPDebug = 3;
+            $mail->SMTPDebug = 2;
             $mail->isSMTP();
             $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
             $mail->SMTPAuth = true;
