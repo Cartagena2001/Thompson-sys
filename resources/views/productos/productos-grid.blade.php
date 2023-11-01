@@ -65,16 +65,16 @@
 
         @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
 
-            <div id="brand-list" class="col-lg-8">  {{-- flex-center --}}
+            <div id="brand-list" class="col-12 col-lg-8">  {{-- flex-center --}}
                 @foreach ($marcas as $brand)
                     
-                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 150px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 100px; margin: 0 auto; display: inline-block;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
 
                 @endforeach
             </div>
 
             {{-- Detalle --}}
-            <div id="summ-detail" class="col-lg-4 flex-center">
+            <div id="summ-detail" class="col-12 col-lg-4 flex-center">
                 <table id="table_detalle" class="table display mb-0">
                     <thead>
                         <tr>
@@ -129,7 +129,7 @@
 
         @elseif ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
 
-            <div id="brand-list" class="col-lg-8">  {{-- flex-center --}}
+            <div id="brand-list" class="col-12 col-lg-8">  {{-- flex-center --}}
                 @foreach ($marcas as $brand)
                     
                     <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 150px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
@@ -138,7 +138,7 @@
             </div>
 
             {{-- Detalle --}}
-            <div id="summ-detail" class="col-lg-4 flex-center">
+            <div id="summ-detail" class="col-12 col-lg-4 flex-center">
                 <table id="table_detalle" class="table display mb-0">
                     <thead>
                         <tr>
