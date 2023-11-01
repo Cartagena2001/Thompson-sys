@@ -74,14 +74,14 @@
                     <p>
                     <a href="" class="text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" title="En Línea">
                         <i class="fas fa-circle" style="font-size: 12px; color: green;"></i>
-                        <span class="d-none d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
+                        <span class=" d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
                         @if ( Auth::user()->nombre_empresa != null)
-                            <span class="d-none d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">({{ Auth::user()->nombre_empresa }})</span>
+                            <span class=" d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">({{ Auth::user()->nombre_empresa }})</span>
                         @endif
                     </a> | <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="Cerrar Sesión">
-                        <span class="d-none d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">SALIR</span> <i style="font-size: 12px;" class="fas fa-sign-out-alt"></i>
+                        <span class=" d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">SALIR</span> <i style="font-size: 12px;" class="fas fa-sign-out-alt"></i>
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf </form>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="">@csrf </form>
                     </p>
 
                 </div> 
@@ -176,7 +176,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-user-edit"></i> <span class="ms-1 d-none d-sm-inline">Perfil de Usuario</span></a>
+                                        <i class="fas fa-user-edit"></i> <span class="ms-1  d-sm-inline">Perfil de Usuario</span></a>
                                 </li>
 
                                 @if ( Auth::user()->rol_id == 0)
@@ -185,17 +185,17 @@
 
                                     <li class="ps-4">
                                         <a href="{{ url('/configuracion/cms') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/cms') !== false ? 'active-menu' : '' }}">
-                                            <i class="fas fa-brush"></i> <span class="ms-1 d-none d-sm-inline">CMS</span></a>
+                                            <i class="fas fa-brush"></i> <span class="ms-1  d-sm-inline">CMS</span></a>
                                     </li>
 
                                     <li class="ps-4">
                                         <a href="{{ url('/configuracion/users') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/users') !== false ? 'active-menu' : '' }}">
-                                            <i class="fas fa-users-cog"></i> <span class="ms-1 d-none d-sm-inline">Usuarios</span></a>
+                                            <i class="fas fa-users-cog"></i> <span class="ms-1  d-sm-inline">Usuarios</span></a>
                                     </li>
 
                                     <li class="ps-4">
                                         <a href="{{ url('/configuracion/bitacora') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/bitacora') !== false ? 'active-menu' : '' }}">
-                                            <i class="fab fa-readme"></i> <span class="ms-1 d-none d-sm-inline">Bitácora</span> (75%)</a>
+                                            <i class="fab fa-readme"></i> <span class="ms-1  d-sm-inline">Bitácora</span> (75%)</a>
                                     </li>
 
                                 @endif
@@ -206,37 +206,37 @@
                                 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Catálogo/Compra</span>
+                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1  d-sm-inline">Catálogo/Compra</span>
                                     </a>
                                 </li>
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/compra-masiva') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-box-open"></i> <span class="ms-1 d-none d-sm-inline">Compra Rápida</span>
+                                        <i class="fas fa-box-open"></i> <span class="ms-1  d-sm-inline">Compra Rápida</span>
                                     </a>
                                 </li>
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/productos') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/productos') !== false ? 'active-menu' : '' }}">
-                                        <i class="fa-solid fa-newspaper"></i> <span class="ms-1 d-none d-sm-inline">Gestión de Productos</span>
+                                        <i class="fa-solid fa-newspaper"></i> <span class="ms-1  d-sm-inline">Gestión de Productos</span>
                                     </a>
                                 </li>
                                 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/categorias') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/categorias') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-list-ul"></i> <span class="ms-1 d-none d-sm-inline">Categorías</span>
+                                        <i class="fas fa-list-ul"></i> <span class="ms-1  d-sm-inline">Categorías</span>
                                     </a>
                                 </li>
                                 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/marcas') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/marcas') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-copyright"></i> <span class="ms-1 d-none d-sm-inline">Marcas</span></a>
+                                        <i class="fas fa-copyright"></i> <span class="ms-1  d-sm-inline">Marcas</span></a>
                                 </li>
                                 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/ordenes/oficina') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/ordenes/oficina') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-folder-open"></i> 
-                                        <span class="ms-1 d-none d-sm-inline">Órdenes de Compra 
+                                        <span class="ms-1  d-sm-inline">Órdenes de Compra 
                                         <?php
                                             $ordenesSinVer = DB::table('orden')
                                                 ->where('visto', 'nuevo')
@@ -257,7 +257,7 @@
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/aspirantes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/aspirantes') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-users-cog"></i> 
-                                        <span class="ms-1 d-none d-sm-inline">Aspirantes 
+                                        <span class="ms-1  d-sm-inline">Aspirantes 
                                         <?php
                                             $aspitanresNew = DB::table('users')
                                                 ->where('visto', 'nuevo')
@@ -274,18 +274,18 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/clientes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/clientes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-medal"></i> <span class="ms-1 d-none d-sm-inline">Clientes</span></a>
+                                        <i class="fas fa-medal"></i> <span class="ms-1  d-sm-inline">Clientes</span></a>
                                 </li>
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/permisos') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/permisos') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-lock-open"></i> <span class="ms-1 d-none d-sm-inline">Autorizar Marcas</span></a>
+                                        <i class="fas fa-lock-open"></i> <span class="ms-1  d-sm-inline">Autorizar Marcas</span></a>
                                 </li>
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/contactos') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/contactos') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-user-plus"></i> 
-                                        <span class="ms-1 d-none d-sm-inline">Contactos 
+                                        <span class="ms-1  d-sm-inline">Contactos 
                                         <?php
                                             $msjNew = DB::table('contacto')
                                                 ->where('visto', 'nuevo')
@@ -304,13 +304,13 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/reportes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/reportes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-file-download"></i> <span class="ms-1 d-none d-sm-inline">Reportes</span>
+                                        <i class="fas fa-file-download"></i> <span class="ms-1  d-sm-inline">Reportes</span>
                                     </a>
                                 </li>
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/estadisticas') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/estadisticas') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-chart-pie"></i> <span class="ms-1 d-none d-sm-inline">Estadísticas (35%)</span>
+                                        <i class="fas fa-chart-pie"></i> <span class="ms-1  d-sm-inline">Estadísticas (35%)</span>
                                     </a>
                                 </li>
 
@@ -320,7 +320,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/manuales') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/manuales') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-file-pdf"></i> <span class="ms-1 d-none d-sm-inline">Manuales (1%)</span>
+                                        <i class="fas fa-file-pdf"></i> <span class="ms-1  d-sm-inline">Manuales (1%)</span>
                                     </a>
                                 </li>
 
@@ -332,14 +332,14 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-user-edit"></i> <span class="ms-1 d-none d-sm-inline">Mi Perfil</span></a>
+                                        <i class="fas fa-user-edit"></i> <span class="ms-1  d-sm-inline">Mi Perfil</span></a>
                                 </li>
 
                                 @if ( $catalog_mode == 0 )
 
                                 <li class="ps-4">
                                     <a href="{{ url('/perfil/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/ordenes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-truck-loading"></i> <span class="ms-1 d-none d-sm-inline">Mis Órdenes</span></a>
+                                        <i class="fas fa-truck-loading"></i> <span class="ms-1  d-sm-inline">Mis Órdenes</span></a>
                                 </li>
 
                                 @endif
@@ -350,7 +350,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/catalogo') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/catalogo') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Catálogo</span>
+                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1  d-sm-inline">Catálogo</span>
                                     </a>
                                 </li>
 
@@ -358,13 +358,13 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Catálogo/Compra</span>
+                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1  d-sm-inline">Catálogo/Compra</span>
                                     </a>
                                 </li>
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/compra-masiva') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-box-open"></i> <span class="ms-1 d-none d-sm-inline">Compra Rápida</span>
+                                        <i class="fas fa-box-open"></i> <span class="ms-1  d-sm-inline">Compra Rápida</span>
                                     </a>
                                 </li>
 
@@ -376,7 +376,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/manuales') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/manuales') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-file-pdf"></i> <span class="ms-1 d-none d-sm-inline">Manuales</span>
+                                        <i class="fas fa-file-pdf"></i> <span class="ms-1  d-sm-inline">Manuales</span>
                                     </a>
                                 </li>
                                  
@@ -387,7 +387,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-user-edit"></i> <span class="ms-1 d-none d-sm-inline">Mi Perfil</span></a>
+                                        <i class="fas fa-user-edit"></i> <span class="ms-1  d-sm-inline">Mi Perfil</span></a>
                                 </li>
 
                                 <li><hr/></li>
@@ -396,7 +396,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/ordenes/bodega') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/ordenes/bodega') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-folder-open"></i> <span class="ms-1 d-none d-sm-inline">Órdenes de Compra</span></a>
+                                        <i class="fas fa-folder-open"></i> <span class="ms-1  d-sm-inline">Órdenes de Compra</span></a>
                                 </li>
 
                             @endif
@@ -420,7 +420,7 @@
     <footer class="footer rt-color-2-bg" style="border-top: 2px ridge #ff1620;">
       <div class="row g-0 justify-content-between fs--1 mt-4 mb-4 mx-4">
         <div class="col-12 col-sm-auto text-center">
-          <p class="mb-0 text-600"> &copy; 2023 <span class="d-none d-sm-inline-block">|</span> <br class="d-sm-none" /> Powered by <a class="opacity-85" href="https://markcoweb.com/" title="Ir a">MarkCoWeb</a></p>
+          <p class="mb-0 text-600"> &copy; 2023 <span class=" d-sm-inline-block">|</span> <br class="d-sm-none" /> Powered by <a class="opacity-85" href="https://markcoweb.com/" title="Ir a">MarkCoWeb</a></p>
         </div>
         <div class="col-12 col-sm-auto text-center">
           <p class="mb-0 text-600 rt-color-3"><a class="opacity-85" href="#" title="">RT</a> | v1.0.0</p>
