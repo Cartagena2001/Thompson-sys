@@ -57,7 +57,7 @@
     <header class="sticky-menu">
         <div class="row g-0 pb-2 pt-2" style="background-color: #000; border-bottom: 2px ridge #ff1620;">
 
-            <div class="col-12 col-lg-6 text-start pt-2 ps-5 me-md-auto">
+            <div class="col-6 col-lg-6 text-start pt-2 ps-5 me-md-auto">
                 <a href="/" class="text-decoration-none" title="Ir a Inicio">
                     @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3 )
                          <img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="rt-logo" width="200" />
@@ -67,7 +67,7 @@
                 </a>     
             </div>
 
-            <div class="col-11 col-lg-5 text-end pt-2 pe-1 me-md-auto">
+            <div class="col-5 col-lg-5 text-end pt-2 pe-1 me-md-auto">
                 
                 <div class="my-4">
                     
@@ -151,7 +151,7 @@
     </header>
     
 
-    <div class="pb-6 pt-9" id="app">
+    <div class="pb-6 pt-8" id="app">
         <div class="container-fluid">
 
             <div class="row flex-nowrap">
@@ -417,7 +417,8 @@
     @include('sweetalert::alert')
     </div>
 
-    <footer class="footer rt-color-2-bg" style="border-top: 2px ridge #ff1620;">
+    <footer class="footer rt-color-2-bg" style="border-top: 2px ridge #ff1620; position: fixed;">
+      
       <div class="row g-0 justify-content-between fs--1 mt-4 mb-4 mx-4">
         <div class="col-12 col-sm-auto text-center">
           <p class="mb-0 text-600"> &copy; 2023 <span class=" d-sm-inline-block">|</span> <br class="d-sm-none" /> Powered by <a class="opacity-85" href="https://markcoweb.com/" title="Ir a">MarkCoWeb</a></p>
@@ -426,6 +427,7 @@
           <p class="mb-0 text-600 rt-color-3"><a class="opacity-85" href="#" title="">RT</a> | v1.0.0</p>
         </div>
       </div>
+
     </footer>
 
 
