@@ -10,7 +10,7 @@
         
         <div class="card-body position-relative">
             <div class="row">
-                <div id="brand-list" class="col-lg-12 flex-center">
+                <div id="brand-list" class="col-lg-12"> {{-- flex-center --}}
                     @foreach ($marcas as $brand)
                         
                         <a style="margin: 0 auto;" href="{{ url( '/dashboard/tienda?marca='.$brand->id.'&categoria=0') }}"><img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="max-width: 150px; margin: 0 auto;" /></a> 
