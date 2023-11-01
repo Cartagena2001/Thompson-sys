@@ -12,7 +12,7 @@
     <div class="card-body position-relative">
         <div class="row">
 
-            <div id="brand-list" class="col-lg-12 flex-center">
+            <div id="brand-list" class="col-lg-12">  {{-- flex-center --}}
                 @foreach ($marcas as $brand)
                     
                     <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 150px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />

@@ -65,7 +65,7 @@
 
         @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
 
-            <div id="brand-list" class="col-lg-8 flex-center">
+            <div id="brand-list" class="col-lg-8">  {{-- flex-center --}}
                 @foreach ($marcas as $brand)
                     
                     <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 150px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
@@ -129,7 +129,7 @@
 
         @elseif ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
 
-            <div id="brand-list" class="col-lg-8 flex-center">
+            <div id="brand-list" class="col-lg-8">  {{-- flex-center --}}
                 @foreach ($marcas as $brand)
                     
                     <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 150px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
@@ -193,7 +193,7 @@
 
         @else
 
-            <div id="brand-list" class="col-lg-12 flex-center">
+            <div id="brand-list" class="col-lg-12">  {{-- flex-center --}}
                 @foreach ($marcas as $brand)
                     
                     <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 150px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
