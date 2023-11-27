@@ -448,10 +448,10 @@
 
                             <div class="p-2">
 
-                                <h5 style="min-height: 55px;" class="fs--1 text-start"><a tabindex="-1" class="text-dark" href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}">{{ $producto->nombre }}</a></h5>
+                                <h5 style="min-height: 40px;" class="fs--1 text-start"><a tabindex="-1" class="text-dark" href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}">{{ $producto->nombre }}</a></h5>
 
                                 @if ($producto->marca->nombre == 'TEMCO')
-                                    <span class="rt-color-2 font-weight-bold" style="font-size: 12px;"></span><span style="font-size: 12px;">{{ $producto->descripcion }}</span>
+                                    <span class="rt-color-2 font-weight-bold" style="font-size: 12px;"></span><span style="font-size: 12px;">{{ Str::limit($producto->descripcion, 100, '...') }}</span> 
                                     <br/>
                                 @endif
 
