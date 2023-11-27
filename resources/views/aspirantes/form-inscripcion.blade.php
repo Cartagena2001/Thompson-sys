@@ -291,23 +291,28 @@
 
             let selected_value = $("input[name='negTipo']:checked").val();
             
-            if (selected_value == 1) {
+            if (selected_value == 'negocio') {
 
                 //registrado
                 $('#nrc').val();
                 $('#nrc').attr("readonly", false);
+                $('#nrc').css("background-color", "transparent");
                 
                 $('#nit').val();
                 $('#nit').attr("readonly", false);
+                $('#nit').css("background-color", "transparent");
                 
                 $('#razon_social').val();
                 $('#razon_social').attr("readonly", false);
+                $('#razon_social').css("background-color", "transparent");
                 
                 $('#giro').val();
                 $('#giro').attr("readonly", false);
+                $('#giro').css("background-color", "transparent");
                 
                 $('#nombre_empresa').val();
                 $('#nombre_empresa').attr("readonly", false);
+                $('#nombre_empresa').css("background-color", "transparent");
                 
                 $('#website').val();
 
@@ -318,18 +323,23 @@
                 //no registrado
                 $('#nrc').val('-');
                 $('#nrc').attr("readonly", true);
+                $('#nrc').css("background-color", "gainsboro");
                 
                 $('#nit').val('-');
                 $('#nit').attr("readonly", true);
+                $('#nit').css("background-color", "gainsboro");
                 
                 $('#razon_social').val('-');
                 $('#razon_social').attr("readonly", true);
+                $('#razon_social').css("background-color", "gainsboro");
                 
                 $('#giro').val('-');
                 $('#giro').attr("readonly", true);
+                $('#giro').css("background-color", "gainsboro");
                 
                 $('#nombre_empresa').val('-');
                 $('#nombre_empresa').attr("readonly", true);
+                $('#nombre_empresa').css("background-color", "gainsboro");
                 
                 $('#website').val('-');
 

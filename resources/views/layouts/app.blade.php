@@ -29,7 +29,13 @@
         src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.js">
     </script>
 
-<!--
+    <!-- Glide -->
+    <!-- Required Core Stylesheet -->
+    <link rel="stylesheet" href="{{ url('assets/css/glide.core.min.css') }}">
+    <!-- Optional Theme Stylesheet -->
+    <link rel="stylesheet" href="{{ url('assets/css/glide.theme.min.css') }}">
+
+    <!--
     <link href="{{url('assets/vendors/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
     <link href="{{url('assets/vendors/overlayscrollbars/OverlayScrollbars.min.css')}}" rel="stylesheet"> -->
 
@@ -62,7 +68,7 @@
             <div class="col-6 col-lg-6 text-start pt-2 ps-5 me-md-auto">
                 <a href="/" class="text-decoration-none" title="Ir a Inicio">
                     @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3 )
-                         <img src="{{ URL('assets/img/rtthompson-logo.png') }}" alt="rt-logo" width="200" />
+                         <img src="{{ URL('assets/img/accumetric-slv-logo-mod.png') }}" alt="rt-logo" style="width: 100%; max-width: 340px; height: auto;" />
                     @else 
                          <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 95px; height: auto;" />
                     @endif
@@ -152,7 +158,6 @@
         @endif
     </header>
     
-
     <div class="pb-6 pt-8" id="app">
         <div class="container-fluid">
 
@@ -160,7 +165,12 @@
 
                 <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 py-5 px-2 nav-thompson">
 
-                    <div class="d-flex flex-column align-items-center align-items-sm-start px-2 pt-2 text-white min-vh-100">
+                    <div style="display: block; margin: 0 auto;">
+                        <button id="fullscreenbtm" class="btn navbar-toggler-humburger-icon navbar-vertical-toggle"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+                    </div>
+                    
+
+                    <div id="navLeft" class="d-flex flex-column align-items-center align-items-sm-start px-2 pt-2 text-white min-vh-100">
                         
                         <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu">
                             
@@ -197,7 +207,7 @@
 
                                     <li class="ps-4">
                                         <a href="{{ url('/configuracion/bitacora') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/bitacora') !== false ? 'active-menu' : '' }}">
-                                            <i class="fab fa-readme"></i> <span class="ms-1  d-sm-inline">Bitácora</span> (75%)</a>
+                                            <i class="fab fa-readme"></i> <span class="ms-1  d-sm-inline">Bitácora</span></a>
                                     </li>
 
                                 @endif
@@ -433,6 +443,13 @@
     </footer>
 
 
+<script>
+$(document).ready(function(){
+  $("#fullscreenbtm").click(function(){
+    $("#navLeft").hide(1000);
+  });
+});
+</script>
 
 </body>
 </html>

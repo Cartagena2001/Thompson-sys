@@ -181,6 +181,33 @@
 
                     </div>
 
+
+                    <div class="row py-4">
+
+                        <div class="col-12 offset-sm-2 col-sm-8 offset-md-2 col-md-8">
+                            <p class="text-justify mx-3"><b>NOTA:</b> La siguiente información puede o no aplicar parcial o totalmente según la naturaleza juridica del negocio del aspirante/cliente, si posee Número de Registro del Contribuyente (NRC) selecciona "negocio registrado", si no, selecciona "comerciante sin iva".</p>
+                        </div>                      
+
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="text-center">
+                            <label class="form-label" for="negTipo">Selecciona según convenga:
+                            <br/> 
+                            <br/> 
+                            <input type="radio" name="negTipo" value="negocio" @if($usuario->usr_tipo == 'negocio') checked @endif /> <span style="color: #ff5722;">Negocio Registrado</span>
+                            <br/> 
+                            <br/> 
+                            <input type="radio" name="negTipo" value="persona" @if($usuario->usr_tipo == 'persona') checked @endif /> <span style="color: #009688;">Comerciante sin IVA</span>
+                            </label> 
+                            @error('negTipo')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+
+
                     <div class="col-auto align-self-center mt-5 mb-3">
                         <h4 class="mb-0" data-anchor="data-anchor">💼 Información de la Empresa/Negocio:</h4>
                     </div>
@@ -452,6 +479,65 @@
             }
             
         });
+
+
+        $(document).ready(function(){
+
+            $('input[type=radio][name=negTipo]').change( function () {
+
+                let selected_value = $("input[name='negTipo']:checked").val();
+                
+                if (selected_value == 'negocio') {
+
+                    //registrado
+                    $('#nrc').val();
+                    $('#nrc').attr("readonly", false);
+                    $('#nrc').css("background-color", "transparent");
+                    
+                    $('#nit').val();
+                    $('#nit').attr("readonly", false);
+                    $('#nit').css("background-color", "transparent");
+                    
+                    $('#razon_social').val();
+                    $('#razon_social').attr("readonly", false);
+                    $('#razon_social').css("background-color", "transparent");
+                    
+                    $('#giro').val();
+                    $('#giro').attr("readonly", false);
+                    $('#giro').css("background-color", "transparent");
+                    
+                    $('#nombre_empresa').val();
+                    $('#nombre_empresa').attr("readonly", false);
+                    $('#nombre_empresa').css("background-color", "transparent");              
+
+                } else {
+
+                    //no registrado
+                    $('#nrc').val('-');
+                    $('#nrc').attr("readonly", true);
+                    $('#nrc').css("background-color", "gainsboro");
+
+                    $('#nit').val('-');
+                    $('#nit').attr("readonly", true);
+                    $('#nit').css("background-color", "gainsboro");
+                    
+                    $('#razon_social').val('-');
+                    $('#razon_social').attr("readonly", true);
+                    $('#razon_social').css("background-color", "gainsboro");
+                    
+                    $('#giro').val('-');
+                    $('#giro').attr("readonly", true);
+                    $('#giro').css("background-color", "gainsboro");
+                    
+                    $('#nombre_empresa').val('-');
+                    $('#nombre_empresa').attr("readonly", true);
+                    $('#nombre_empresa').css("background-color", "gainsboro");
+                    
+                }
+                
+            });
+        });
+
 
       </script>
 

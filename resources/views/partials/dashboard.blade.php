@@ -10,12 +10,35 @@
         
         <div class="card-body position-relative">
             <div class="row">
-                <div id="brand-list" class="col-lg-12"> {{-- flex-center --}}
-                    @foreach ($marcas as $brand)
-                        
-                        <a style="margin: 0 auto;" href="{{ url( '/dashboard/tienda?marca='.$brand->id.'&categoria=0') }}"><img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="max-width: 150px; margin: 0 auto;" /></a> 
+                <div id="brand-list" class="col-lg-12">
 
-                    @endforeach
+                  <div class="glide mt-4 mb-4">
+
+                    <div class="glide__track" data-glide-el="track">
+                      <ul class="glide__slides">
+
+                      @foreach ($marcas as $brand)
+                          
+                          <li class="glide__slide text-center">
+                              <a style="margin: 0 auto;" href="{{ url( '/dashboard/tienda?marca='.$brand->id.'&categoria=0') }}">
+                                <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="max-width: 180px; margin: 0 auto;"/>
+                              </a>
+                          </li>
+
+                      @endforeach
+
+                      </ul>
+                    </div>
+                    
+                    {{-- 
+                    <div class="glide__arrows" data-glide-el="controls">
+                      <button style="left: -20px; border-color: transparent;" class="glide__arrow glide__arrow--left" data-glide-dir="<"><i style="color: #d13239; font-size: 30px;" class="fa fa-chevron-left" aria-hidden="true"></i></button>
+                      <button style="right: -20px; border-color: transparent;" class="glide__arrow glide__arrow--right" data-glide-dir=">"><i style="color: #d13239; font-size: 30px;" class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                    </div>
+                    --}}
+      
+                  </div>
+
                 </div>
             </div>
         </div>
@@ -624,3 +647,28 @@
 
   @endif
 
+
+<!-- Glide JS -->           
+<script src="{{ url('assets/js/glide.js') }}"></script>
+<script>
+
+    const config = {
+        type: "carousel",
+        perView: 4,
+        focusAt: 'center',
+        gap: 2,
+        autoplay: 3000,
+        duration: 3500,
+        breakpoints: {
+            800: {
+              perView: 2
+            },
+            480: {
+              perView: 1
+            }
+        }
+
+    };
+
+    new Glide(".glide", config).mount();
+</script>

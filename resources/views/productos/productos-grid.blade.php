@@ -65,12 +65,33 @@
 
         @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
 
-            <div id="brand-list" class="col-12 col-lg-8">  {{-- flex-center --}}
-                @foreach ($marcas as $brand)
-                    
-                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 100px; margin: 0 auto; display: inline-block;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+            <div id="brand-list" class="col-12 col-lg-8">
 
-                @endforeach
+                <div class="glide mt-4 mb-4">
+
+                  <div class="glide__track" data-glide-el="track">
+                    <ul class="glide__slides">
+
+                    @foreach ($marcas as $brand)
+                        
+                        <li class="glide__slide text-center">
+                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 180px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+                        </li>
+
+                    @endforeach
+
+                    </ul>
+                  </div>
+                  
+                  {{-- 
+                  <div class="glide__arrows" data-glide-el="controls">
+                    <button style="left: -20px; border-color: transparent;" class="glide__arrow glide__arrow--left" data-glide-dir="<"><i style="color: #d13239; font-size: 30px;" class="fa fa-chevron-left" aria-hidden="true"></i></button>
+                    <button style="right: -20px; border-color: transparent;" class="glide__arrow glide__arrow--right" data-glide-dir=">"><i style="color: #d13239; font-size: 30px;" class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                  </div>
+                  --}}
+    
+                </div>
+
             </div>
 
             {{-- Detalle --}}
@@ -129,12 +150,33 @@
 
         @elseif ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
 
-            <div id="brand-list" class="col-12 col-lg-8">  {{-- flex-center --}}
-                @foreach ($marcas as $brand)
-                    
-                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 150px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+            <div id="brand-list" class="col-12 col-lg-8">
 
-                @endforeach
+                <div class="glide mt-4 mb-4">
+
+                  <div class="glide__track" data-glide-el="track">
+                    <ul class="glide__slides">
+
+                    @foreach ($marcas as $brand)
+                        
+                        <li class="glide__slide text-center">
+                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 180px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+                        </li>
+
+                    @endforeach
+
+                    </ul>
+                  </div>
+                  
+                  {{-- 
+                  <div class="glide__arrows" data-glide-el="controls">
+                    <button style="left: -20px; border-color: transparent;" class="glide__arrow glide__arrow--left" data-glide-dir="<"><i style="color: #d13239; font-size: 30px;" class="fa fa-chevron-left" aria-hidden="true"></i></button>
+                    <button style="right: -20px; border-color: transparent;" class="glide__arrow glide__arrow--right" data-glide-dir=">"><i style="color: #d13239; font-size: 30px;" class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                  </div>
+                  --}}
+    
+                </div>
+
             </div>
 
             {{-- Detalle --}}
@@ -193,12 +235,33 @@
 
         @else
 
-            <div id="brand-list" class="col-lg-12">  {{-- flex-center --}}
-                @foreach ($marcas as $brand)
-                    
-                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 150px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+            <div id="brand-list" class="col-lg-12">
 
-                @endforeach
+                <div class="glide mt-4 mb-4">
+
+                  <div class="glide__track" data-glide-el="track">
+                    <ul class="glide__slides">
+
+                    @foreach ($marcas as $brand)
+                        
+                        <li class="glide__slide text-center">
+                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 180px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+                        </li>
+
+                    @endforeach
+
+                    </ul>
+                  </div>
+                  
+                  {{-- 
+                  <div class="glide__arrows" data-glide-el="controls">
+                    <button style="left: -20px; border-color: transparent;" class="glide__arrow glide__arrow--left" data-glide-dir="<"><i style="color: #d13239; font-size: 30px;" class="fa fa-chevron-left" aria-hidden="true"></i></button>
+                    <button style="right: -20px; border-color: transparent;" class="glide__arrow glide__arrow--right" data-glide-dir=">"><i style="color: #d13239; font-size: 30px;" class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                  </div>
+                  --}}
+    
+                </div>
+
             </div>
 
         @endif
@@ -211,6 +274,26 @@
 
 {{-- Tienda --}}
 <div class="card mb-3" style="border: ridge 1px #ff1620;">
+
+
+    @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
+
+    {{-- CONTROL --}}
+    <div class="ps-3 pt-4 pb-2">
+
+        <div class="row gx-2">
+
+            <div class="col-12 col-md-12">
+
+                <p class="text-center" style="display: table; margin: 0 auto; border: 3px solid #ff0e19; padding: 10px 40px; border-radius: 30px;"><span style="font-weight: 600;">Productos con imagen:&nbsp;</span>&nbsp;<span style="color: green;">{{ $productos->count() }}</span>&nbsp;<b>/</b>&nbsp; {{ count($productosDisponibles) }} </p>
+
+            </div>
+        
+        </div>
+    </div>
+
+    @endif
+
 
     {{-- Filtros --}}
     <div class="ps-3 pt-4 pb-2">
@@ -276,9 +359,19 @@
 
                 <form action="" method="get">
 
-                    <label for="busq">Búsqueda: </label>
+                    <label for="busq">Búsqueda - OEM: </label>
                     <div style="display: flex;">    
-                        <input class="form-control" type="text" name="busq" id="busq" value="" maxlength="20" placeholder="Buscar por OEM..." style="vertical-align: middle;"><button id="btn-filter-brand" class="btn btn-sm btn-primary" type="submit" style="vertical-align: middle;"><i class="fas fa-search"></i></button>
+                        <input class="form-control" type="text" name="busq" id="busq" value="{{ old('busq', request()->input('busq')) }}" maxlength="20" placeholder="Buscar por OEM..." style="vertical-align: middle;"><button id="btn-filter-oem" class="btn btn-sm btn-primary" type="submit" style="vertical-align: middle;"><i class="fas fa-search"></i></button>
+                    </div>                           
+                </form>
+
+                <br/>
+
+                <form action="" method="get">
+
+                    <label for="busq">Búsqueda / Nombre: </label>
+                    <div style="display: flex;">    
+                        <input class="form-control" type="text" name="busqN" id="busqN" value="{{ old('busqN', request()->input('busqN')) }}" maxlength="35" placeholder="Buscar por Nombre..." style="vertical-align: middle;"><button id="btn-filter-nom" class="btn btn-sm btn-primary" type="submit" style="vertical-align: middle;"><i class="fas fa-search"></i></button>
                     </div>                           
                 </form>
 
@@ -741,8 +834,31 @@
 
     }
 
+</script>
 
+<!-- Glide JS -->           
+<script src="{{ url('assets/js/glide.js') }}"></script>
+<script>
 
+    const config = {
+        type: "carousel",
+        perView: 4,
+        focusAt: 'center',
+        gap: 2,
+        autoplay: 3000,
+        duration: 3500,
+        breakpoints: {
+            800: {
+              perView: 2
+            },
+            480: {
+              perView: 1
+            }
+        }
+
+    };
+
+    new Glide(".glide", config).mount();
 </script>
 
 @endsection

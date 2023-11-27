@@ -106,9 +106,6 @@ class TiendaController extends Controller
         }
 
 
-
-
-
         //if ver si esta selecionado el filtro busq por OEM
         if( $request->input('busq') != null || $request->input('busq') != '' ){
 
@@ -134,6 +131,40 @@ class TiendaController extends Controller
                 $productos = Producto::whereHas('marca', function($query){
                     $query->where('estado', "Activo");
                 })->where('oem', 'like', '%'.$busqOEM.'%')->where('imagen_1_src', '!=', null)->paginate(1000000000);
+
+                $marcas = Marca::all();
+                $categorias = Categoria::all();
+                $categoriaActual = 0;
+                $marcaActual = 0;
+            }    
+        }
+
+
+        //if ver si esta selecionado el filtro busq por Nombre
+        if( $request->input('busqN') != null || $request->input('busqN') != '' ){
+
+            //pero 1ro valida si es un cliente
+            if ( $usr->rol_id == 2) {
+
+                $busqNombre = $request->input('busqN');
+
+                //devuelve los productos que coincidan con el nombre ingresado en filtro
+                $productos = Producto::whereHas('marca', function($query){
+                    $query->where('estado', "Activo");
+                })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->where('nombre', 'like', '%'.$busqNombre.'%')->where('imagen_1_src', '!=', null)->paginate(1000000000);
+
+                $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
+                $categorias = Categoria::all();
+                //$categorias = Categoria::wherePivot('marca_id', 1)->get();
+
+            } else {
+
+                $busqNombre = $request->input('busqN');
+
+                //devuelve los productos que coincidan con el OEM ingresado en filtro
+                $productos = Producto::whereHas('marca', function($query){
+                    $query->where('estado', "Activo");
+                })->where('nombre', 'like', '%'.$busqNombre.'%')->where('imagen_1_src', '!=', null)->paginate(1000000000);
 
                 $marcas = Marca::all();
                 $categorias = Categoria::all();

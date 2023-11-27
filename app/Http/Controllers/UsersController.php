@@ -57,36 +57,75 @@ Class UsersController extends Controller
      */
     public function store(Request $request)
     {
- 
-        //validar los datos
-        $request->validate([
-            'cliente_id_interno' => 'string|max:10',
-            'rol' => 'required|numeric',
-            'estado' => 'required|string|min:6|max:8',
-            'clasificacion' => 'required|string|max:20',
-            'boletin' => 'required|numeric|max:1',
-            'estatus' => 'required|string|max:14',
-            'name' => 'required|max:100',
-            'email' => 'required|email|max:250|unique:users',
-            'dui' => 'unique:users,dui|min:10|max:10',
-            'whatsapp' => 'min:9|max:9',
-            'notas' => 'string|max:280',
-            'nrc' => 'unique:users,nrc|min:8|max:10',
-            'nit' => 'unique:users,nit|min:17|max:17',
-            'razon_social' => 'required|max:34',
-            'direccion' => 'required|max:75',
-            'municipio' => 'required|max:25',
-            'departamento' => 'required|max:15',
-            'giro' => 'required|max:180',
-            'nombre_empresa' => 'required|max:34',
-            'website' => 'required|max:34',
-            'telefono' => 'required|string|min:9|max:9',
-            'marcas' => 'required',
-            'password' => 'required|confirmed|min:6'
-        ]);
 
         //Creamos nuevo usuario
         $user = new User();
+
+        if ( $request->get('negTipo') == 'persona') {
+            //persona natural no inscrita en CNR
+            //validar los datos
+            $request->validate([
+                'cliente_id_interno' => 'string|max:10',
+                'rol' => 'required|numeric',
+                'estado' => 'required|string|min:6|max:8',
+                'clasificacion' => 'required|string|max:20', 
+                'boletin' => 'required|numeric|max:1',
+                'estatus' => 'required|string|max:14',
+                'name' => 'required|max:100',
+                'email' => 'required|email|max:250|unique:users',
+                'dui' => 'unique:users,dui|min:9|max:10',
+                'whatsapp' => 'required|min:8|max:9',
+                'notas' => 'string|max:280',
+                'direccion' => 'required|string|max:75',
+                'municipio' => 'required|string|max:25',
+                'departamento' => 'required|string|max:15',
+                'website' => 'string|max:34',
+                'telefono' => 'string|min:8|max:9',
+                'marcas' => 'required',
+                'password' => 'required|confirmed|min:6'   
+            ]);
+
+            $user->nrc = null;
+            $user->nit = null;
+            $user->razon_social = null;
+            $user->giro = null;
+            $user->nombre_empresa = null;
+
+        } else {
+            //negocio/empresa inscrita en CNR
+            //validar los datos
+            $request->validate([
+                'cliente_id_interno' => 'string|max:10',
+                'rol' => 'required|numeric',
+                'estado' => 'required|string|min:6|max:8',
+                'clasificacion' => 'required|string|max:20', 
+                'boletin' => 'required|numeric|max:1',
+                'estatus' => 'required|string|max:14',
+                'name' => 'required|max:100',
+                'email' => 'required|email|max:250|unique:users',
+                'dui' => 'unique:users,dui|min:9|max:10',
+                'whatsapp' => 'required|min:8|max:9',
+                'notas' => 'string|max:280',
+                'nrc' => 'unique:users,nrc|min:8|max:10',
+                'nit' => 'unique:users,nit|min:17|max:17',
+                'razon_social' => 'required|string|max:34',
+                'direccion' => 'required|string|max:75',
+                'municipio' => 'required|string|max:25',
+                'departamento' => 'required|string|max:15',
+                'giro' => 'required|string|max:180',
+                'nombre_empresa' => 'required|string|max:34',
+                'website' => 'string|max:34',
+                'telefono' => 'string|min:8|max:9',
+                'marcas' => 'required',
+                'password' => 'required|confirmed|min:6'    
+            ]);
+
+            $user->nrc = $request->get('nrc');
+            $user->nit = $request->get('nit');
+            $user->razon_social = $request->get('razon_social');
+            $user->giro = $request->get('giro');
+            $user->nombre_empresa = $request->get('nombre_empresa');
+        }
 
         //almacenar datos
         if ($request->hasFile('imagen_perfil_src')) {
@@ -138,20 +177,13 @@ Class UsersController extends Controller
         }
 
         $user->name = $request->get('name');
-
         $user->email = $request->get('email');
-
         $user->dui = $request->get('dui');
         $user->whatsapp = $request->get('whatsapp');
         $user->notas = $request->get('notas');
-        $user->nrc = $request->get('nrc');
-        $user->nit = $request->get('nit');
-        $user->razon_social = $request->get('razon_social');
         $user->direccion = $request->get('direccion');
         $user->municipio = $request->get('municipio');
         $user->departamento = $request->get('departamento');
-        $user->giro = $request->get('giro');
-        $user->nombre_empresa = $request->get('nombre_empresa');
         $user->website = $request->get('website');
         $user->telefono = $request->get('telefono');
 
@@ -205,31 +237,71 @@ Class UsersController extends Controller
         
         $user = User::find($id);
 
-        //validar los datos
-        $request->validate([
-            'cliente_id_interno' => 'string|max:10',
-            'rol' => 'required|numeric',
-            'estado' => 'required|string|min:6|max:8',
-            'clasificacion' => 'required|string|max:20', 
-            'boletin' => 'required|numeric|max:1',
-            'estatus' => 'required|string|max:14',
-            'name' => 'required|max:100',
-            //'email' => 'required|email|max:250|unique:users',
-            'dui' => 'unique:users,dui|min:10|max:10,' . $user->id,
-            'whatsapp' => 'min:9|max:9',
-            'notas' => 'string|max:280',
-            'nrc' => 'unique:users,nrc|min:8|max:10,' . $user->id,
-            'nit' => 'unique:users,nit|min:17|max:17,' . $user->id,
-            'razon_social' => 'required|max:34',
-            'direccion' => 'required|max:75',
-            'municipio' => 'required|max:25',
-            'departamento' => 'required|max:15',
-            'giro' => 'required|max:180',
-            'nombre_empresa' => 'required|max:34',
-            'website' => 'required|max:34',
-            'telefono' => 'required|string|min:9|max:9',
-            //'marcas' => 'required',
-        ]);
+        if ( $request->get('negTipo') == 'persona') {
+            //persona natural no inscrita en CNR
+            //validar los datos
+            $request->validate([
+                'cliente_id_interno' => 'string|max:10',
+                'rol' => 'required|numeric',
+                'estado' => 'required|string|min:6|max:8',
+                'clasificacion' => 'required|string|max:20', 
+                'boletin' => 'required|numeric|max:1',
+                'estatus' => 'required|string|max:14',
+                'name' => 'required|max:100',
+                //'email' => 'required|email|max:250|unique:users',
+                'dui' => 'required|unique:users,dui,'.$user->id.'|min:9|max:10',
+                'whatsapp' => 'required|min:8|max:9',
+                'notas' => 'string|max:280',
+                'direccion' => 'required|string|max:75',
+                'municipio' => 'required|string|max:25',
+                'departamento' => 'required|string|max:15',
+                'website' => 'string|max:34',
+                'telefono' => 'string|min:8|max:9',
+                'negTipo' => 'required|string|min:7|max:8' 
+                //'marcas' => 'required',   
+            ]);
+
+            $user->nrc = null;
+            $user->nit = null;
+            $user->razon_social = "-";
+            $user->giro = "-";
+            $user->nombre_empresa = "-";
+
+        } else {
+            //negocio/empresa inscrita en CNR
+            //validar los datos
+            $request->validate([
+                'cliente_id_interno' => 'string|max:10',
+                'rol' => 'required|numeric',
+                'estado' => 'required|string|min:6|max:8',
+                'clasificacion' => 'required|string|max:20', 
+                'boletin' => 'required|numeric|max:1',
+                'estatus' => 'required|string|max:14',
+                'name' => 'required|max:100',
+                //'email' => 'required|email|max:250|unique:users',
+                'dui' => 'required|unique:users,dui,'.$user->id.'|min:9|max:10',
+                'whatsapp' => 'required|min:8|max:9',
+                'notas' => 'string|max:280',
+                'nrc' => 'required|unique:users,nrc,'.$user->id.'|min:8|max:10',
+                'nit' => 'required|unique:users,nit,'.$user->id.'|min:17|max:17',
+                'razon_social' => 'required|string|max:34',
+                'direccion' => 'required|string|max:75',
+                'municipio' => 'required|string|max:25',
+                'departamento' => 'required|string|max:15',
+                'giro' => 'required|string|max:180',
+                'nombre_empresa' => 'required|string|max:34',
+                'website' => 'string|max:34',
+                'telefono' => 'string|min:8|max:9',
+                'negTipo' => 'required|string|min:7|max:8'  
+                //'marcas' => 'required',    
+            ]);
+
+            $user->nrc = $request->get('nrc');
+            $user->nit = $request->get('nit');
+            $user->razon_social = $request->get('razon_social');
+            $user->giro = $request->get('giro');
+            $user->nombre_empresa = $request->get('nombre_empresa');
+        }
 
         //almacenar datos
         if ($request->hasFile('imagen_perfil_src')) {
@@ -283,18 +355,13 @@ Class UsersController extends Controller
         $user->name = $request->get('name');
 
         //$user->email = $request->get('email');
-
+        $user->usr_tipo = $request->get('negTipo');
         $user->dui = $request->get('dui');
         $user->whatsapp = $request->get('whatsapp');
         $user->notas = $request->get('notas');
-        $user->nrc = $request->get('nrc');
-        $user->nit = $request->get('nit');
-        $user->razon_social = $request->get('razon_social');
         $user->direccion = $request->get('direccion');
         $user->municipio = $request->get('municipio');
         $user->departamento = $request->get('departamento');
-        $user->giro = $request->get('giro');
-        $user->nombre_empresa = $request->get('nombre_empresa');
         $user->website = $request->get('website');
         $user->telefono = $request->get('telefono');
 
