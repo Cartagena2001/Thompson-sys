@@ -46,15 +46,15 @@
 
     @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 ) 
 
-        id="summary">
+        id="summary" style="transition: background-color 1s;transition-timing-function: ease-in;">
 
     @elseif ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
 
-        id="summary">
+        id="summary" style="transition: background-color 1s;transition-timing-function: ease-in;">
 
     @else
 
-        ><span style="display: none;"  id="summary"><spam id="brand-list"><spam id="summ-detail"></spam></spam></span>
+        ><span style="display: none;"  id="summary" style="transition: background-color 1s;transition-timing-function: ease-in;"><spam id="brand-list"><spam id="summ-detail"></spam></spam></span>
 
     @endif
 
@@ -96,7 +96,7 @@
 
             {{-- Detalle --}}
             <div id="summ-detail" class="col-12 col-lg-4 flex-center">
-                <table id="table_detalle" class="table display mb-0">
+                <table id="table_detalle" class="table display mb-0" style="transition: color 1s;transition-timing-function: ease-in;">
                     <thead>
                         <tr>
                             <th class="text-start p-1">Marca</th>
@@ -181,7 +181,7 @@
 
             {{-- Detalle --}}
             <div id="summ-detail" class="col-12 col-lg-4 flex-center">
-                <table id="table_detalle" class="table display mb-0">
+                <table id="table_detalle" class="table display mb-0" style="transition: color 1s;transition-timing-function: ease-in;">
                     <thead>
                         <tr>
                             <th class="text-start p-1">Marca</th>
@@ -425,7 +425,7 @@
                         }  
                 ?>
 
-                <div class="mb-4 col-md-12 col-lg-3">
+                <div class="mb-4 col-6 col-sm-4 col-md-4 col-lg-4 col-xl-3">
 
                     <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
                         <div class="overflow-hidden">
@@ -451,7 +451,7 @@
                                 <h5 style="min-height: 40px;" class="fs--1 text-start"><a tabindex="-1" class="text-dark" href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}">{{ $producto->nombre }}</a></h5>
 
                                 @if ($producto->marca->nombre == 'TEMCO')
-                                    <span class="rt-color-2 font-weight-bold" style="font-size: 12px;"></span><span style="font-size: 12px;">{{ Str::limit($producto->descripcion, 100, '...') }}</span> 
+                                    <span class="rt-color-2 font-weight-bold" style="font-size: 12px;"></span><span style="font-size: 12px;">{{ Str::limit($producto->descripcion, 100, '...') }}|</span> 
                                     <br/>
                                 @endif
 
@@ -797,11 +797,13 @@
         brandsl.classList.add("no-show");
         sumdet.classList.remove("col-lg-4");
         sumdet.classList.add("col-lg-12");
+        $("#table_detalle").css("color", "white");
       } else {
         header.classList.remove("sticky-pos");
         brandsl.classList.remove("no-show");
         sumdet.classList.remove("col-lg-12");
         sumdet.classList.add("col-lg-4");
+        $("#table_detalle").css("color", "initial");
       }
     }
 

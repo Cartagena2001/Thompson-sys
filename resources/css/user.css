@@ -214,20 +214,24 @@ nav.navbar.navbar-standard.navbar-expand-lg.fixed-top.navbar-dark {
 .nav-thompson a:hover {
     color: #ff1620;
     font-weight: 600;
+    text-shadow: 5px 4px 8px black;
 }
 
 .nav-thompson a:focus {
     color: #ff1620;
     font-weight: 600;
+    text-shadow: 5px 4px 8px black;
 }
 
 .nav-thompson a:active {
     color: #ff1620;
     font-weight: 600;
+    text-shadow: 5px 4px 8px black;
 }
 
 .nav-thompson .active-menu {
     color: #ff1620;
+    
 }
 
 .flex-center {
@@ -316,6 +320,7 @@ input[type=number]::-webkit-outer-spin-button {
     top: 140px;
     left: 30px;
     z-index: 20;
+    background-color: black;
 }
 
 .no-show {

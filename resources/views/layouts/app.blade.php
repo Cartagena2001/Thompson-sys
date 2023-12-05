@@ -163,7 +163,7 @@
 
             <div class="row flex-nowrap">
 
-                <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 py-5 px-2 nav-thompson">
+                <div id="nvt" class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 py-5 px-2 nav-thompson">
 
                     <div style="display: block; margin: 0 auto;">
                         <button id="fullscreenbtm" class="btn navbar-toggler-humburger-icon navbar-vertical-toggle"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
@@ -419,7 +419,7 @@
 
                 </div>
 
-                <div class="col-12 col-sm-9 col-md-9 col-lg-9 col-xl-9 py-5 px-2">
+                <div id="ctt" class="col-12 col-sm-9 col-md-9 col-lg-9 col-xl-9 py-5 px-2 contentt">
                     @yield('content')
                 </div>
 
@@ -429,7 +429,7 @@
     @include('sweetalert::alert')
     </div>
 
-    <footer class="footer rt-color-2-bg" style="border-top: 2px ridge #ff1620; position: fixed;">
+    <footer class="footer rt-color-2-bg" style="border-top: 2px ridge #ff1620; position: fixed; z-index: 1000;">
       
       <div class="row g-0 justify-content-between fs--1 mt-4 mb-4 mx-4">
         <div class="col-12 col-sm-auto text-center">

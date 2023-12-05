@@ -41,7 +41,7 @@ Route::get('/terminos-y-condiciones', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::patch('/home', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscrip.load')->middleware('auth');
+Route::patch('/home', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscripc.load')->middleware('auth');
 
 
 //Rutas para el dashboard
@@ -171,7 +171,7 @@ Route::patch('/configuracion/users/create', [App\Http\Controllers\UsersControlle
 Route::get('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'edit'])->name('users.edit')->middleware('auth');
 
 Route::put('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'update'])->name('users.update')->middleware('auth');
-Route::post('/configuracion/users/edit', [App\Http\Controllers\PerfilController::class, 'passwordUpdate'])->name('perfil.password.update')->middleware('auth');
+Route::post('/configuracion/users/edit', [App\Http\Controllers\PerfilController::class, 'passwordUpdate'])->name('user.password.update')->middleware('auth');
 
 
 
