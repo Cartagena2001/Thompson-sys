@@ -141,7 +141,7 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="{{url('assets/vendors/list.js/list.min.js')}}"></script>  
     <script src="{{url('assets/js/theme.js')}}"></script>
-
+    
   </body>
 
 </html>

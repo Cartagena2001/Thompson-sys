@@ -322,7 +322,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/estadisticas') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/estadisticas') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-chart-pie"></i> <span class="ms-1  d-sm-inline">Estadísticas (35%)</span>
+                                        <i class="fas fa-chart-pie"></i> <span class="ms-1  d-sm-inline">Estadísticas</span>
                                     </a>
                                 </li>
 
@@ -450,6 +450,25 @@ $(document).ready(function(){
   });
 });
 </script>
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/radar.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/continentsLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/usaLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZonesLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZoneAreasLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script>
+        am4core.options.commercialLicense = true;
+    </script>  
 
 </body>
 </html>

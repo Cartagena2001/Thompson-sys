@@ -43,6 +43,16 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::patch('/home', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscripc.load')->middleware('auth');
 
+//api
+Route::get('/api/getWeeklySales', [App\Http\Controllers\HomeController::class, 'getWeeklySales'])->name('api.getWeeklySales');
+Route::get('/api/getSalesByDay', [App\Http\Controllers\HomeController::class, 'getSalesByDay'])->name('api.getSalesByDay');
+Route::get('/api/getYearlySalesChart', [App\Http\Controllers\HomeController::class, 'getYearlySalesChart'])->name('api.getYearlySalesChart');
+Route::get('/api/getMonthlySalesChart', [App\Http\Controllers\EstadisticasController::class, 'getMonthlySalesChart'])->name('api.getMonthlySalesChart');
+Route::get('/api/getOrderStatusCount', [App\Http\Controllers\EstadisticasController::class, 'getOrderStatusCount'])->name('api.getOrderStatusCount');
+Route::get('/api/getNewCustomersChart', [App\Http\Controllers\EstadisticasController::class, 'getNewCustomersChart'])->name('api.getNewCustomersChart');
+Route::get('/api/getLowStockProductsChart', [App\Http\Controllers\EstadisticasController::class, 'getLowStockProductsChart'])->name('api.getLowStockProductsChart');
+Route::get('/api/getTopStockProductsChart', [App\Http\Controllers\EstadisticasController::class, 'getTopStockProductsChart'])->name('api.getTopStockProductsChart');
+
 
 //Rutas para el dashboard
 Route::resource('/dashboard/marcas', App\Http\Controllers\MarcaController::class)->middleware('auth');
@@ -154,6 +164,9 @@ Route::get('/dashboard/reportes/clientes', [App\Http\Controllers\ReportesControl
 Route::get('/dashboard/reportes/marcas', [App\Http\Controllers\ReportesController::class, 'marcas'])->name('reportes.marcas')->middleware('auth');
 Route::get('/dashboard/reportes/categorias', [App\Http\Controllers\ReportesController::class, 'categorias'])->name('reportes.categorias')->middleware('auth');
 Route::get('/dashboard/reportes/ordenes', [App\Http\Controllers\ReportesController::class, 'ordenes'])->name('reportes.ordenes')->middleware('auth');
+
+//Rutas para las estadisticas
+Route::get('/dashboard/estadisticas', [App\Http\Controllers\EstadisticasController::class, 'index'])->name('estadisticas.index')->middleware('auth');
 
 
 //Config CMS
