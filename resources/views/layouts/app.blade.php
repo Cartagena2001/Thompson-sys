@@ -68,7 +68,7 @@
             <div class="col-6 col-lg-6 text-start pt-2 ps-5 me-md-auto">
                 <a href="/" class="text-decoration-none" title="Ir a Inicio">
                     @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3 )
-                         <img src="{{ URL('assets/img/accumetric-slv-logo-mod.png') }}" alt="rt-logo" style="width: 100%; max-width: 340px; height: auto;" />
+                         <img src="{{ URL('assets/img/accumetric-slv-logo-mod.png') }}" alt="rt-logo" style="width: 100%; max-width: 240px; height: auto;" />
                     @else 
                          <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 95px; height: auto;" />
                     @endif
@@ -77,17 +77,17 @@
 
             <div class="col-5 col-lg-5 text-end pt-2 pe-1 me-md-auto">
                 
-                <div class="my-4">
+                <div class="my-3">
                     
-                    <p>
+                    <p class="mb-0">
                     <a href="" class="text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" title="En Línea">
-                        <i class="fas fa-circle" style="font-size: 12px; color: green;"></i>
-                        <span class=" d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
+                        <i class="fas fa-circle" style="font-size: 10px; color: green;"></i>
+                        <span class=" d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
                         @if ( Auth::user()->nombre_empresa != null)
-                            <span class=" d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">({{ Auth::user()->nombre_empresa }})</span>
+                            <span class=" d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">({{ Auth::user()->nombre_empresa }})</span>
                         @endif
                     </a> | <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="Cerrar Sesión">
-                        <span class=" d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">SALIR</span> <i style="font-size: 12px;" class="fas fa-sign-out-alt"></i>
+                        <span class=" d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">SALIR</span> <i style="font-size: 10px;" class="fas fa-sign-out-alt"></i>
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="">@csrf </form>
                     </p>
@@ -101,7 +101,7 @@
             {{-- CART ADMIN, SUPERADMIN y CLIENTE --}}
             <div id="hcart" class="col-1 col-lg-1 text-start pt-2 pe-2 me-md-auto">
                 
-                <div class="my-4 text-start" style="display: block;">
+                <div class="my-3 text-start" style="display: block;">
                     <a style="position: relative;" href="{{ url('/carrito') }}" title="Procesar Órden...">
                             <?php
                                 $carrito = session('cart', []);
@@ -113,7 +113,7 @@
                                     $cantidad += $item['cantidad'];
                                 }
                             ?>
-                            <i style="font-size: 21px; margin: 3px 10px; color: #fff;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; bottom: 15px; left: 42px;">{{ $cantidad }}</span>
+                            <i style="font-size: 16px; margin: 3px 10px; color: #fff;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; bottom: 13px; left: 32px;">{{ $cantidad }}</span>
                     </a>
                 </div>
 
@@ -140,7 +140,7 @@
                                 $cantidad += $item['cantidad'];
                             }
                         ?>
-                        <i style="font-size: 20px;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; bottom: 20px; left: 42px;">{{ $cantidad }}</span>
+                        <i style="font-size: 16px;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; bottom: 13px; left: 32px;">{{ $cantidad }}</span>
                 </a>
 
                 <?php
@@ -154,28 +154,29 @@
 
         </div>
         @if ( $catalog_mode == 1 )
-            <div id="modMsg" style="text-align: center; background-color: black; color: #fff; padding: 5px 0px;"> 🔧 VERSIÓN DE PRUEBA - TIENDA EN DESARROLLO 🔨</div>
+            <div id="modMsg" style="font-size: 12px; text-align: center; background-color: black; color: #fff; padding: 5px 0px;"> 🔧 &nbsp; VERSIÓN DE PRUEBA - TIENDA EN DESARROLLO &nbsp; 🔨</div>
         @endif
     </header>
     
     <div class="pb-6 pt-8" id="app">
         <div class="container-fluid">
 
+            <div class="row">
+                <div class="col-12 pt-2" style="display: block; margin: 0 auto;">
+                    <button id="fullscreenbtm" class="btn navbar-toggler-humburger-icon navbar-vertical-toggle"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+                </div>
+            </div>
+
             <div class="row flex-nowrap">
 
-                <div id="nvt" class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 py-5 px-2 nav-thompson">
+                <div id="nvt" style="margin: 0 auto;" class="col-12 py-2 px-2 nav-thompson col-sm-3 col-md-3 col-lg-3 col-xl-3">
 
-                    <div style="display: block; margin: 0 auto;">
-                        <button id="fullscreenbtm" class="btn navbar-toggler-humburger-icon navbar-vertical-toggle"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-                    </div>
-                    
-
-                    <div id="navLeft" class="d-flex flex-column align-items-center align-items-sm-start px-2 pt-2 text-white min-vh-100">
+                    <div id="navLeft" class="px-2 pt-2 text-white min-vh-100">
                         
                         <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu">
                             
                                 <li>
-                                    <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}"><h5 class="rt-color-3 font-weight-bold">🖥 Dashboard  @if ( Auth::user()->rol_id == 1 || Auth::user()->rol_id == 0) (50%) @endif</h5></a>
+                                    <a href="{{ url('/home') }}" class="nav-link px-0 py-1 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}"><h5 class="rt-color-3 font-weight-bold">🖥 Dashboard  @if ( Auth::user()->rol_id == 1 || Auth::user()->rol_id == 0) (50%) @endif</h5></a>
                                 </li>
 
                                 <li><hr/></li>
@@ -187,7 +188,7 @@
                                 <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">⚒️ Configuraciones</h5></div>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-user-edit"></i> <span class="ms-1  d-sm-inline">Perfil de Usuario</span></a>
                                 </li>
 
@@ -196,17 +197,17 @@
                                     {{-- MENU SUPERADMIN --}}
 
                                     <li class="ps-4">
-                                        <a href="{{ url('/configuracion/cms') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/cms') !== false ? 'active-menu' : '' }}">
+                                        <a href="{{ url('/configuracion/cms') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/configuracion/cms') !== false ? 'active-menu' : '' }}">
                                             <i class="fas fa-brush"></i> <span class="ms-1  d-sm-inline">CMS</span></a>
                                     </li>
 
                                     <li class="ps-4">
-                                        <a href="{{ url('/configuracion/users') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/users') !== false ? 'active-menu' : '' }}">
+                                        <a href="{{ url('/configuracion/users') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/configuracion/users') !== false ? 'active-menu' : '' }}">
                                             <i class="fas fa-users-cog"></i> <span class="ms-1  d-sm-inline">Usuarios</span></a>
                                     </li>
 
                                     <li class="ps-4">
-                                        <a href="{{ url('/configuracion/bitacora') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/configuracion/bitacora') !== false ? 'active-menu' : '' }}">
+                                        <a href="{{ url('/configuracion/bitacora') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/configuracion/bitacora') !== false ? 'active-menu' : '' }}">
                                             <i class="fab fa-readme"></i> <span class="ms-1  d-sm-inline">Bitácora</span></a>
                                     </li>
 
@@ -217,36 +218,36 @@
                                 <div class="divider"><h5 class="rt-color-3 font-weight-bold">👜 Tienda</h5></div>
                                 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-shopping-basket"></i> <span class="ms-1  d-sm-inline">Catálogo/Compra</span>
                                     </a>
                                 </li>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/compra-masiva') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/compra-masiva') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-box-open"></i> <span class="ms-1  d-sm-inline">Compra Rápida</span>
                                     </a>
                                 </li>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/productos') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/productos') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/productos') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/productos') !== false ? 'active-menu' : '' }}">
                                         <i class="fa-solid fa-newspaper"></i> <span class="ms-1  d-sm-inline">Gestión de Productos</span>
                                     </a>
                                 </li>
                                 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/categorias') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/categorias') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/categorias') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/categorias') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-list-ul"></i> <span class="ms-1  d-sm-inline">Categorías</span>
                                     </a>
                                 </li>
                                 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/marcas') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/marcas') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/marcas') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/marcas') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-copyright"></i> <span class="ms-1  d-sm-inline">Marcas</span></a>
                                 </li>
                                 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/ordenes/oficina') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/ordenes/oficina') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/ordenes/oficina') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/ordenes/oficina') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-folder-open"></i> 
                                         <span class="ms-1  d-sm-inline">Órdenes de Compra 
                                         <?php
@@ -267,7 +268,7 @@
                                 <div class="divider"><h5 class="rt-color-3 font-weight-bold">👥 Usuarios</h5></div>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/aspirantes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/aspirantes') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/aspirantes') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/aspirantes') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-users-cog"></i> 
                                         <span class="ms-1  d-sm-inline">Aspirantes 
                                         <?php
@@ -285,17 +286,17 @@
                                 </li>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/clientes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/clientes') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/clientes') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/clientes') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-medal"></i> <span class="ms-1  d-sm-inline">Clientes</span></a>
                                 </li>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/permisos') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/permisos') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/permisos') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/permisos') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-lock-open"></i> <span class="ms-1  d-sm-inline">Autorizar Marcas</span></a>
                                 </li>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/contactos') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/contactos') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/contactos') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/contactos') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-user-plus"></i> 
                                         <span class="ms-1  d-sm-inline">Contactos 
                                         <?php
@@ -315,13 +316,13 @@
                                 <div class="divider"><h5 class="rt-color-3 font-weight-bold">📊 Datos</h5></div>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/reportes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/reportes') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/reportes') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/reportes') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-file-download"></i> <span class="ms-1  d-sm-inline">Reportes</span>
                                     </a>
                                 </li>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/estadisticas') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/estadisticas') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/estadisticas') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/estadisticas') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-chart-pie"></i> <span class="ms-1  d-sm-inline">Estadísticas (35%)</span>
                                     </a>
                                 </li>
@@ -331,7 +332,7 @@
                                 <div class="divider"><h5 class="rt-color-3 font-weight-bold">📕 Documentación</h5></div>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/manuales') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/manuales') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/manuales') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/manuales') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-file-pdf"></i> <span class="ms-1  d-sm-inline">Manuales (1%)</span>
                                     </a>
                                 </li>
@@ -343,14 +344,14 @@
                                 <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">👤 Mi Cuenta</h5></div>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-user-edit"></i> <span class="ms-1  d-sm-inline">Mi Perfil</span></a>
                                 </li>
 
                                 @if ( $catalog_mode == 0 )
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/perfil/ordenes') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/ordenes') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/perfil/ordenes') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/perfil/ordenes') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-truck-loading"></i> <span class="ms-1  d-sm-inline">Mis Órdenes</span></a>
                                 </li>
 
@@ -361,7 +362,7 @@
                                 <div class="divider"><h5 class="rt-color-3 font-weight-bold">👜 Tienda</h5></div>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/catalogo') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/catalogo') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/catalogo') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/catalogo') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-shopping-basket"></i> <span class="ms-1  d-sm-inline">Catálogo</span>
                                     </a>
                                 </li>
@@ -369,13 +370,13 @@
                                 @if ( $catalog_mode == 0 )
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-shopping-basket"></i> <span class="ms-1  d-sm-inline">Catálogo/Compra</span>
                                     </a>
                                 </li>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/compra-masiva') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/compra-masiva') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-box-open"></i> <span class="ms-1  d-sm-inline">Compra Rápida</span>
                                     </a>
                                 </li>
@@ -387,7 +388,7 @@
                                 <div class="divider"><h5 class="rt-color-3 font-weight-bold">📕 Documentación</h5></div>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/manuales') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/manuales') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/manuales') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/manuales') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-file-pdf"></i> <span class="ms-1  d-sm-inline">Manuales</span>
                                     </a>
                                 </li>
@@ -398,7 +399,7 @@
                                 <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">👤 Configuración de Cuenta</h5></div>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-user-edit"></i> <span class="ms-1  d-sm-inline">Mi Perfil</span></a>
                                 </li>
 
@@ -407,7 +408,7 @@
                                 <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">🚚 Bódega</h5></div>
 
                                 <li class="ps-4">
-                                    <a href="{{ url('/dashboard/ordenes/bodega') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/ordenes/bodega') !== false ? 'active-menu' : '' }}">
+                                    <a href="{{ url('/dashboard/ordenes/bodega') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/ordenes/bodega') !== false ? 'active-menu' : '' }}">
                                         <i class="fas fa-folder-open"></i> <span class="ms-1  d-sm-inline">Órdenes de Compra</span></a>
                                 </li>
 
@@ -419,7 +420,7 @@
 
                 </div>
 
-                <div id="ctt" class="col-12 col-sm-9 col-md-9 col-lg-9 col-xl-9 py-5 px-2 contentt">
+                <div id="ctt" style="margin: 0 auto;" class="col-12 py-2 px-2 contentt col-sm-9 col-md-9 col-lg-9 col-xl-9">
                     @yield('content')
                 </div>
 
@@ -431,7 +432,7 @@
 
     <footer class="footer rt-color-2-bg" style="border-top: 2px ridge #ff1620; position: fixed; z-index: 1000;">
       
-      <div class="row g-0 justify-content-between fs--1 mt-4 mb-4 mx-4">
+      <div class="row g-0 justify-content-between fs--1 mt-3 mb-3 mx-3">
         <div class="col-12 col-sm-auto text-center">
           <p class="mb-0 text-600"> &copy; 2023 <span class=" d-sm-inline-block">|</span> <br class="d-sm-none" /> Powered by <a class="opacity-85" href="https://markcoweb.com/" title="Ir a">MarkCoWeb</a></p>
         </div>
@@ -445,9 +446,31 @@
 
 <script>
 $(document).ready(function(){
+
   $("#fullscreenbtm").click(function(){
-    $("#navLeft").hide(1000);
+    
+    var anchoMenu = $("#nvt").width();
+
+    if (anchoMenu > 0) {
+        $("#navLeft").hide(1000);
+        $("#nvt").css("display", "none");
+        $("#nvt").css("width", "0px");
+        $("#ctt").removeClass("col-sm-9 col-md-9 col-lg-9 col-xl-9");
+        $("#ctt").addClass("col-sm-12 col-md-12 col-lg-12 col-xl-12");
+
+        $("#nvt").removeClass("col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3");
+    } else {
+        $("#navLeft").show(1000);
+        $("#nvt").css("display", "initial");
+        $("#nvt").css("width", "inherit");
+        $("#ctt").removeClass("col-sm-12 col-md-12 col-lg-12 col-xl-12");
+        $("#ctt").addClass("col-sm-9 col-md-9 col-lg-9 col-xl-9");
+
+        $("#nvt").addClass("col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3");           
+    }
+
   });
+
 });
 </script>
 

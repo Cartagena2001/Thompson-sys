@@ -231,7 +231,7 @@ nav.navbar.navbar-standard.navbar-expand-lg.fixed-top.navbar-dark {
 
 .nav-thompson .active-menu {
     color: #ff1620;
-    
+
 }
 
 .flex-center {
@@ -344,4 +344,12 @@ table.dataTable thead tr th {
 table.dataTable tbody tr td {
     width: max-content !important;
     padding: 2px 10px;
+}
+
+ul.nav h5 {
+    font-size: 15px;
+}
+
+li a.nav-link span {
+    font-size: 13px;
 }

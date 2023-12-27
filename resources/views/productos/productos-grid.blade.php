@@ -67,7 +67,7 @@
 
             <div id="brand-list" class="col-12 col-lg-8">
 
-                <div class="glide mt-4 mb-4">
+                <div class="glide mt-2 mb-2">
 
                   <div class="glide__track" data-glide-el="track">
                     <ul class="glide__slides">
@@ -75,7 +75,7 @@
                     @foreach ($marcas as $brand)
                         
                         <li class="glide__slide text-center">
-                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 180px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
                         </li>
 
                     @endforeach
@@ -152,7 +152,7 @@
 
             <div id="brand-list" class="col-12 col-lg-8">
 
-                <div class="glide mt-4 mb-4">
+                <div class="glide mt-2 mb-2">
 
                   <div class="glide__track" data-glide-el="track">
                     <ul class="glide__slides">
@@ -160,7 +160,7 @@
                     @foreach ($marcas as $brand)
                         
                         <li class="glide__slide text-center">
-                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 180px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
                         </li>
 
                     @endforeach
@@ -237,7 +237,7 @@
 
             <div id="brand-list" class="col-lg-12">
 
-                <div class="glide mt-4 mb-4">
+                <div class="glide mt-2 mb-2">
 
                   <div class="glide__track" data-glide-el="track">
                     <ul class="glide__slides">
@@ -245,7 +245,7 @@
                     @foreach ($marcas as $brand)
                         
                         <li class="glide__slide text-center">
-                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 180px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
                         </li>
 
                     @endforeach
@@ -285,7 +285,7 @@
 
             <div class="col-12 col-md-12">
 
-                <p class="text-center" style="display: table; margin: 0 auto; border: 3px solid #ff0e19; padding: 10px 40px; border-radius: 30px;"><span style="font-weight: 600;">Productos con imagen:&nbsp;</span>&nbsp;<span style="color: green;">{{ $productos->count() }}</span>&nbsp;<b>/</b>&nbsp; {{ count($productosDisponibles) }} </p>
+                <p class="text-center" style="font-size: 12px; display: table; margin: 0 auto; border: 3px solid #ff0e19; padding: 10px 40px; border-radius: 30px;"><span style="font-weight: 600;">Productos con imagen:&nbsp;</span>&nbsp;<span style="color: green;">{{ $productos->count() }}</span>&nbsp;<b>/</b>&nbsp; {{ count($productosDisponibles) }} </p>
 
             </div>
         
@@ -638,7 +638,22 @@
 
                                 
 
-                                <p id="estExt" class="fs--1 mb-2">Estado: <strong class="text-success">{{ $producto->estadoProducto->estado }}</strong> | @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 ) <b>Existencia:</b> {{ $producto->existencia }} @endif </p>
+                                <p id="estExt" class="fs--1 mb-2">Estado: <span class="text-success"><b>{{ $producto->estadoProducto->estado }}</b></span> | 
+                                    @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 ) 
+                                        Existencia: 
+                                        @if ( $producto->existencia > 5)
+                                            <span class="text-success"><b>{{ $producto->existencia }}</b></span>
+                                        @else
+                                            <span class="text-danger"><b>{{ $producto->existencia }}</b></span>
+                                        @endif 
+                                    @else 
+                                        @if ( $producto->existencia > 0)
+                                            Existencia: <span class="text-success"><b>Disponible</b></span>
+                                        @else
+                                            Existencia: <span class="text-danger"><b>Agotado</b></span> 
+                                        @endif
+                                    @endif 
+                                </p>
 
                             </div>
 
@@ -661,7 +676,7 @@
 
                             <div class="col-6 col-md-6 px-1">
 
-                                <p id="subtSing" class="me-0 mb-0 text-center"><span style="font-size: 14px;">Subtotal:</span> <br/> <span style="font-weight: bold; font-size: 20px;">{{ isset($cart[$producto->id]['cantidad']) ? number_format(($cart[$producto->id]['precio_f'] * $cart[$producto->id]['cantidad'] * $cart[$producto->id]['unidad_caja']), 2, '.', ',') : number_format(0, 2, '.', ',') }} $</span></p> 
+                                <p id="subtSing{{ $producto->id }}" class="me-0 mb-0 text-center"><span style="font-size: 14px;">Subtotal:</span> <br/> <span style="font-weight: bold; font-size: 20px;">{{ isset($cart[$producto->id]['cantidad']) ? number_format(($cart[$producto->id]['precio_f'] * $cart[$producto->id]['cantidad'] * $cart[$producto->id]['unidad_caja']), 2, '.', ',') : number_format(0, 2, '.', ',') }} $</span></p> 
 
                             </div>
 
@@ -678,7 +693,7 @@
 
                             <div class="col-6 col-md-6 px-1">
 
-                                <p class="me-0 mb-0 text-center"><span style="font-size: 14px;">Subtotal:</span> <br/> <span style="font-weight: bold; font-size: 20px;">{{ isset($cart[$producto->id]['cantidad']) ? number_format(($cart[$producto->id]['precio_f'] * $cart[$producto->id]['cantidad'] * $cart[$producto->id]['unidad_caja']), 2, '.', ',') : number_format(0, 2, '.', ',') }} $</span></p> 
+                                <p id="subtSing{{ $producto->id }}" class="me-0 mb-0 text-center"><span style="font-size: 14px;">Subtotal:</span> <br/> <span style="font-weight: bold; font-size: 20px;">{{ isset($cart[$producto->id]['cantidad']) ? number_format(($cart[$producto->id]['precio_f'] * $cart[$producto->id]['cantidad'] * $cart[$producto->id]['unidad_caja']), 2, '.', ',') : number_format(0, 2, '.', ',') }} $</span></p> 
 
                             </div>
 
@@ -750,6 +765,8 @@
         var qty = $('#'+prod_id).val();
         var prodid = prod_id;
 
+        var subtSing = 'subtSing'+prod_id; 
+
         $.ajax({
             url: "{{ route('carrito.add') }}",
             type: "POST",
@@ -764,7 +781,7 @@
                 //$("#subtSing").load(location.href + " #subtSing");
                 $("#table_detalle").load(' #table_detalle');
                 $("#hcart").load(' #hcart'); 
-                $("#subtSing").load(' #subtSing'); 
+                $("#"+subtSing).load(' #'+subtSing); 
             },
             error: function(response) {
                 $('#ErrorMsg1').text(response.responseJSON.errors.qty);
