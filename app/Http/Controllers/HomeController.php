@@ -11,6 +11,7 @@ use App\Models\Orden;
 use App\Models\OrdenDetalle;
 use App\Models\Producto;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -79,8 +80,8 @@ class HomeController extends Controller
     public function getWeeklySales(Request $request)
     {
         if ($request->ajax()) {
-            $startOfWeek = now()->startOfWeek()->toDateString();
-            $endOfWeek = now()->endOfWeek()->toDateString();
+            $startOfWeek = Carbon::now()->startOfWeek()->subWeek()->toDateString();
+            $endOfWeek = Carbon::now()->startOfWeek()->subDay()->toDateString();
 
             $ventasSemanales = Orden::select(
                 DB::raw('DATE_FORMAT(fecha_registro, "%Y-%m-%d") as fecha'),

@@ -175,7 +175,7 @@
                         <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu">
                             
                                 <li>
-                                    <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}"><h5 class="rt-color-3 font-weight-bold">🖥 Dashboard  @if ( Auth::user()->rol_id == 1 || Auth::user()->rol_id == 0) (50%) @endif</h5></a>
+                                    <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}"><h5 class="rt-color-3 font-weight-bold">🖥 Dashboard  @if ( Auth::user()->rol_id == 1 || Auth::user()->rol_id == 0)  @endif</h5></a>
                                 </li>
 
                                 <li><hr/></li>

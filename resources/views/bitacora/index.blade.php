@@ -33,7 +33,9 @@
                     <label for="filtro_usr">Filtrar por usuario:
                     <select class="form-select" id="filtro_usr">
                         <option value="">Todos los usuarios</option>
-            
+                        @foreach ($users as $user)
+                            <option value="{{ $user->name }}">{{ $user->name }}</option>
+                        @endforeach
                     </select>
                     </label>
                     <button style="height: 38px; position: relative; bottom: 2px;" class="btn btn-primary" id="limpiar_filtro">Limpiar Filtro</button>
@@ -49,9 +51,9 @@
                 <table id="table_eventos" class="table display">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
                             <th scope="col">Usuario</th>
                             <th scope="col">Evento</th>
+                            <th scope="col">Descripcion</th>
                             <th scope="col">Fecha/Hora</th>
                             {{-- <th class="text-end" scope="col">Acciones</th> --}}
                         </tr>
@@ -60,10 +62,10 @@
 
                         @foreach ($bitacora as $registro)
                             <tr>
-                                <td>{{ $registro->id }}</td>
-                                <td>{{ $registro->users->name }}</td>
-                                <td>{{ $registro->users->name }}</td>
-                                <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                <td>{{ $registro->user->name }}</td>
+                                <td>{{ $registro->accion }}</td>
+                                <td>{{ $registro->descripcion }}</td>
+                                <td>{{ $registro->hora_fecha }}</td>
 
                                 {{-- 
                                 <td class="text-end">
@@ -91,10 +93,11 @@
                 }
             });
 
-            var filtroColumna = table.column(2);
+            var filtroColumna = table.column(0);
 
             $('#filtro_usr').on('change', function() {
                 var filtro = $(this).val();
+                console.log(filtro);
 
                 if (filtro === '') {
                     filtroColumna.search('').draw();
