@@ -29,6 +29,10 @@ class LogActions
 
         $routeInfo = "Ruta: $routeName ($routeAction) - $routeUri";
 
+        if (!$user) {
+            return $response;
+        }
+
         bitacora::create([
             'user_id' => $user->id,
             'accion' => $action . ' - ' . $routeUri,
