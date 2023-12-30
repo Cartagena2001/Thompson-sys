@@ -76,7 +76,7 @@
                         <input class="form-select" type="date" id="end_date_2">
                     </div>
                     <div class="col-4">
-                        <button class="btn btn-primary mt-4" onclick="filterOrderStatusCount()">Filtrar grafica de ventas</button>
+                        <button class="btn btn-primary mt-4" onclick="filterOrderStatusCount()">Filtrar grafica de estados</button>
                     </div>
                     <div class="col-4">
                         <button class="btn btn-primary mt-4" onclick="getOrderStatusCount()">Limpiar filtro</button>
@@ -107,7 +107,7 @@
                         <input class="form-select" type="date" id="end_date_3">
                     </div>
                     <div class="col-4">
-                        <button class="btn btn-primary mt-4" onclick="filterNewCustomersChart()">Filtrar grafica de ventas</button>
+                        <button class="btn btn-primary mt-4" onclick="filterNewCustomersChart()">Filtrar grafica de clientes</button>
                     </div>
                     <div class="col-4">
                         <button class="btn btn-primary mt-4" onclick="getNewCustomersChart()">Limpiar filtro</button>

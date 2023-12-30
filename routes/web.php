@@ -169,6 +169,10 @@ Route::get('/dashboard/reportes/ordenes', [App\Http\Controllers\ReportesControll
 Route::get('/dashboard/estadisticas', [App\Http\Controllers\EstadisticasController::class, 'index'])->name('estadisticas.index')->middleware('auth');
 
 
+//Ruta para los manuales
+Route::get('/dashboard/manuales', [App\Http\Controllers\ManualesController::class, 'index'])->name('manuales.index')->middleware('auth');
+
+
 //Config CMS
 Route::get('/configuracion/cms', [App\Http\Controllers\CMSController::class, 'index'])->name('cms.index')->middleware('auth');
 Route::patch('/configuracion/cms', [App\Http\Controllers\CMSController::class, 'update'])->name('cms.update')->middleware('auth');

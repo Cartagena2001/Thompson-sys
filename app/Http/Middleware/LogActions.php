@@ -29,7 +29,7 @@ class LogActions
 
         $routeInfo = "Ruta: $routeName ($routeAction) - $routeUri";
 
-        if (!$user) {
+        if (!$user || !in_array($user->rol_id, [0, 1])) {
             return $response;
         }
 
