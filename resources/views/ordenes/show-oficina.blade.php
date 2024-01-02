@@ -16,7 +16,7 @@
         <div class="card-body position-relative mt-4">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="text-center">📥 Resumen Órden de Compra 📥</h1>
+                    <h1 class="text-center">📥 Resumen orden de Compra 📥</h1>
                     <p class="mt-4 mb-4 text-center">Administración de órdenes de compra de productos en venta en la Tienda <b>rtelsalvador.</b> <br/>Aquí podrás encontrar todas las órdenes de compra de tus clientes y podrás gestionarlas.</p>
                 </div>
                 <div class="text-center mb-4">
@@ -29,7 +29,7 @@
     {{-- Cards de informacion --}}
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
 
-        <button id="imprimir_btn" class="btn btn-sm btn-primary" type="button"><i class="fas fa-print"></i> Imprimir detalle de la órden</button>
+        <button id="imprimir_btn" class="btn btn-sm btn-primary" type="button"><i class="fas fa-print"></i> Imprimir detalle de la orden</button>
 
         <div class="card-body">
 
@@ -108,21 +108,15 @@
                                     @if ( $orden->estado != 'Pendiente' )
                                         <td class="text-center">{{ $detalles->cantidad_despachada }}</td>
                                         <td class="text-center">{{ $detalles->n_bulto }}</td>
-                                    @endif
-
-                                    @if ( $orden->estado == 'Proceso' )
+                                    @elseif ( $orden->estado == 'Proceso' )
+                                        <td class="flex-center">
+                                            <input id="cantd_{{ $detalles->producto->id }}" name="cantd" class="form-control text-center" type="text" value="{{ $detalles->cantidad_despachada }}" placeholder="0" onchange="updateCantD(this.id)" style="max-width: 80px;" />
+                                        </td>
                                         <td class="flex-center">
                                             <input id="nbulto_{{ $detalles->producto->id }}" name="nbulto" class="form-control text-center" type="text" value="{{ $detalles->n_bulto }}" placeholder="0" onchange="updateNb(this.id)" style="max-width: 80px;" />
                                         </td>
                                     @endif
 
-                                    @if ( $orden->estado == 'Proceso' )
-                                        <td class="flex-center">
-                                            <input id="cantd_{{ $detalles->producto->id }}" name="cantd" class="form-control text-center" type="text" value="{{ $detalles->cantidad_despachada }}" placeholder="0" onchange="updateCantD(this.id)" style="max-width: 80px;" />
-                                        </td>
-                                    @endif
-
-                                    
                                     <td class="text-center">{{ number_format(($detalles->precio), 2, '.', ','); }} $</td>
                                     @if ( Auth::user()->rol_id != 3 )
                                         <td class="text-center">{{ number_format(($detalles->cantidad * $detalles->precio), 2, '.', ','); }} $</td>
