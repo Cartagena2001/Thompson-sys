@@ -10,5 +10,5 @@ class Evento extends Model
 {
     protected $table='evento';
 
-    public function Bitacora(){  return $this->hasOne('App\Models\Bitacora', 'id', 'evento_id'); }
+    //public function Bitacora(){  return $this->hasOne('App\Models\Bitacora', 'id', 'evento_id'); }
 }
