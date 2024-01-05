@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\bitacora;
+use App\Models\Bitacora;
 use Illuminate\Support\Facades\Route;
 
 class LogActions
