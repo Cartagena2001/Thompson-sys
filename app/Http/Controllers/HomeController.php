@@ -61,6 +61,7 @@ class HomeController extends Controller
         $topProductos = $topProductos->map(function ($producto) use ($productos) {
             return [
                 'producto_id' => $producto->producto_id,
+                'imagen_1_src' => Producto::find($producto->producto_id)->imagen_1_src,
                 'nombre' => $productos[$producto->producto_id],
                 'total_ventas' => $producto->total_ventas,
                 'slug' => $producto->slug

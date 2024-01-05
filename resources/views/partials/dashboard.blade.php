@@ -220,7 +220,7 @@
         <div class="card h-md-100">
 
           <div class="card-header pb-0">
-            <h6 class="mb-0 mt-2">Total de Pedidos en el mes de <?php setlocale(LC_TIME, 'es_ES'); echo strftime('%B'); ?></h6>
+            <h6 class="mb-0 mt-2">Total de Pedidos en el mes de <?php setlocale(LC_TIME, 'spanish'); echo strftime('%B'); ?></h6>
           </div>
 
           <div class="card-body d-flex flex-column justify-content-end">
@@ -256,7 +256,7 @@
                         <td>
                             <div class="d-flex align-items-center position-relative">
                                 <!-- Aquí puedes ajustar la ruta de la imagen según tus necesidades -->
-                                <img class="rounded-1 border border-200" src="{{ asset('img/products/producto-min-1.png') }}" width="60" alt="" />
+                                <img class="rounded-1 border border-200" src="{{ $producto['imagen_1_src'] }}" width="60" alt="" />
                                 <div class="flex-1 ms-3">
                                     <h6 class="mb-1 fw-semi-bold"><a class="text-dark stretched-link">{{ $producto['nombre'] }}</a></h6>
                                 </div>
@@ -318,7 +318,7 @@
         <div class="card h-md-100">
 
           <div class="card-header pb-0">
-            <h6 class="mb-0 mt-2">Total de Pedidos en el mes de <?php setlocale(LC_TIME, 'es_ES'); echo strftime('%B'); ?></h6>
+            <h6 class="mb-0 mt-2">Total de Pedidos en el mes de <?php setlocale(LC_TIME, 'spanish'); echo strftime('%B'); ?></h6>
           </div>
 
           <div class="card-body d-flex flex-column justify-content-end">
@@ -354,7 +354,7 @@
                         <td>
                             <div class="d-flex align-items-center position-relative">
                                 <!-- Aquí puedes ajustar la ruta de la imagen según tus necesidades -->
-                                <img class="rounded-1 border border-200" src="{{ asset('img/products/producto-min-1.png') }}" width="60" alt="" />
+                                <img class="rounded-1 border border-200" src="{{ $producto['imagen_1_src'] }}" width="60" alt="" />
                                 <div class="flex-1 ms-3">
                                     <h6 class="mb-1 fw-semi-bold"><a class="text-dark stretched-link">{{ $producto['nombre'] }}</a></h6>
                                 </div>
