@@ -335,7 +335,7 @@
 
                                 <li class="ps-4">
                                     <a href="{{ url('/dashboard/manuales') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/manuales') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-file-pdf"></i> <span class="ms-1  d-sm-inline">Manuales (1%)</span>
+                                        <i class="fas fa-file-pdf"></i> <span class="ms-1  d-sm-inline">Manuales</span>
                                     </a>
                                 </li>
 

@@ -60,7 +60,7 @@
                 <div class="row mt-1">
                     <div class="col-6 col-lg-12">
                         <h3 class="">Grafico estados pedidos durante el mes.</h3>
-                        <span>Este grafico la cantidad de pedidos por estados que se han realizado (Por defecto muestra información del mes actual).</span>
+                        <span>Este grafico la cantidad de pedidos por estados que se han realizado (Informacion de <?php setlocale(LC_TIME, 'spanish'); echo strftime('%B'); ?>).</span>
 
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                 <div class="row mt-1">
                     <div class="col-6 col-lg-12">
                         <h3 class="">Conoce la cantidad de nuevos clientes por mes</h3>
-                        <span>Este grafico muestra la cantidad de nuevos clientes que se han registrado en el sistema. (Por defecto muestra información del mes actual).</span>
+                        <span>Este grafico muestra la cantidad de nuevos clientes que se han registrado en el sistema. (Informacion de <?php setlocale(LC_TIME, 'spanish'); echo strftime('%B'); ?>).</span>
                     </div>
                 </div>
             </div>
