@@ -205,7 +205,7 @@ class OrdenesController extends Controller
         $total = 0;
 
         foreach ($ordenDetalle as $detalles) {
-            
+
             $subtotal += $detalles->cantidad * $detalles->precio;
 
             $emailBodyOff.= "<tr class='pb-5'>
@@ -244,8 +244,8 @@ class OrdenesController extends Controller
                         <p>...</p>
                         ";
                         
-        $replyToEmailOff = $data['email'];
-        $replyToNameOff = $data['name'];
+        $replyToEmailOff = $orden->user->name;
+        $replyToNameOff = $orden->user->email;
 
         //$estado2 = $this->sendMail($mailToOffice, $emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
 
