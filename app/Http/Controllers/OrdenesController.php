@@ -131,47 +131,50 @@ class OrdenesController extends Controller
         $orden->estado = 'Proceso';
         $orden->save();
 
-        $mailToClient = new PHPMailer(true);     // Passing `true` enables exceptions
+        //$mailToClient = new PHPMailer(true);     // Passing `true` enables exceptions
 
-        $mailToOffice = new PHPMailer(true);     // Passing `true` enables exceptions
+        //$mailToOffice = new PHPMailer(true);     // Passing `true` enables exceptions
 
 
         //Envio de notificación por correo al cliente
         $emailRecipientClient = $orden->user->email;
-        $emailSubjectClient = 'Actualización de Estado de Órden:'.$orden->id.' - RTElSalvador';
+        $emailSubjectClient = 'Actualización de Estado de Orden:'.$orden->id.' - RTElSalvador';
         $emailBodyClient = " 
                         <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
                         </div>
 
                         <br/>
                         <br/>
                         <p><b>Sr./Sra.</b>: ".$orden->user->name." </p>
                         <br/>
-                        <p>TU ÓRDEN: <b>".$orden->id."</b> HA CAMBIADO DE ESTADO: DE PENDIENTE A <b>EN PROCESO</b>.</p>
+                        <p>TU ORDEN: <b>".$orden->id."</b> HA CAMBIADO DE ESTADO: DE PENDIENTE A <b>EN PROCESO</b>.</p>
                         <br/>
                         <br/>
-                        <p>Cualquier duda o consulta sobre tu órden puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
+                        <p>Cualquier duda o consulta sobre tu orden de compra puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
                         ";
                         
         $replyToEmailClient = "oficina@rtelsalvador.com";
-        $replyToNameClient = "Representaciones Thompson Oficina";
+        $replyToNameClient = "Accumetric El Salvador - Oficina";
 
-        $estado1 = $this->sendMail($mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
+        //$estado1 = $this->sendMail($mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
+
+        $estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
+
 
         //Envio de notificación por correo a oficina
         $emailRecipientOff = "oficina@rtelsalvador.com";
         
-        $emailSubjectOff = 'Actualización de Estado de Órden:'.$orden->id.' completada';
+        $emailSubjectOff = 'Actualización de Estado de Orden:'.$orden->id.' completada';
         $emailBodyOff = " 
                         <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
                         </div>
 
                         <br/>
                         <br/>
 
-                        <p>LA ÓRDEN: <b>".$orden->id."</b> HA CAMBIADO DE ESTADO: DE PENDIENTE A <b>EN PROCESO</b>.</p>
+                        <p>LA ORDEN: <b>".$orden->id."</b> HA CAMBIADO DE ESTADO: DE PENDIENTE A <b>EN PROCESO</b>.</p>
                         <br/>
                         <p><b>DATOS</b>:</p>
                         <p><b>Cliente</b>: ".$orden->user->name." <br/>
@@ -235,7 +238,9 @@ class OrdenesController extends Controller
         $replyToEmailOff = $data['email'];
         $replyToNameOff = $data['name'];
 
-        $estado2 = $this->sendMail($mailToOffice, $emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
+        //$estado2 = $this->sendMail($mailToOffice, $emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
+
+        $estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
 
 
         return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a En Proceso');
@@ -289,6 +294,167 @@ class OrdenesController extends Controller
         $orden->save();
         return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la orden a Cancelada');
     }
+
+
+    private function notificarCliente($emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName ) 
+    {
+
+        require base_path("vendor/autoload.php");
+
+        $mail = new PHPMailer(true);     // Passing `true` enables exceptions
+
+        try {
+
+            // Email server settings
+            $mail->SMTPDebug = 2;
+            $mail->isSMTP();
+            $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
+            $mail->SMTPAuth = true;
+            $mail->Username = env('SMTP_USERNAME', "");   //  sender username
+            $mail->Password = env('SMTP_PASS', "");       // sender password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
+            $mail->Port = env('SMTP_PORT', "");                          // port - 587/465
+            $mail->SMTPKeepAlive = true;
+            $mail->CharSet = 'UTF-8';
+            $mail->Encoding = 'base64';
+
+            $mail->setFrom('notificaciones@rtelsalvador.com', 'Accumetric El Salvador');
+            $mail->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
+            //$mail->addCC($request->emailCc);
+            //$mail->addBCC($request->emailBcc);
+
+            $mail->addReplyTo($replyToEmail, $replyToName);
+
+            /*
+            if(isset($_FILES['emailAttachments'])) {
+                for ($i=0; $i < count($_FILES['emailAttachments']['tmp_name']); $i++) {
+                    $mail->addAttachment($_FILES['emailAttachments']['tmp_name'][$i], $_FILES['emailAttachments']['name'][$i]);
+                }
+            }
+            */
+
+            $mail->isHTML(true);                // Set email content format to HTML
+
+            $mail->Subject = $emailSubject;
+            $mail->Body    = $emailBody;
+
+            // $mail->AltBody = plain text version of email body;
+
+            /* Se envia el mensaje, si no ha habido problemas la variable $exito tendra el valor true */
+            $exito = $mail->Send();
+            /* 
+            Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
+            enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
+            funcion sleep
+            */  
+            $intentos=1; 
+            
+            while ((!$exito) && ($intentos < 5)) {
+                sleep(15);
+                /*echo $mail->ErrorInfo;*/
+                $exito = $mail->Send();
+                $intentos=$intentos+1;  
+            }
+
+            $mail->getSMTPInstance()->reset();
+            $mail->clearAddresses();
+            $mail->smtpClose();
+
+            return $exito;
+        
+        } catch (Exception $e) {
+             return redirect()->route('inicio')->with('error','Ha ocurrido algún error al enviar.');
+        } 
+
+    }
+
+
+    private function notificarOficina($emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName ) 
+    {
+
+        require base_path("vendor/autoload.php");
+
+        $mail = new PHPMailer(true);     // Passing `true` enables exceptions
+
+        try {
+
+            // Email server settings
+            $mail->SMTPDebug = 2;
+            $mail->isSMTP();
+            $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
+            $mail->SMTPAuth = true;
+            $mail->Username = env('SMTP_USERNAME', "");   //  sender username
+            $mail->Password = env('SMTP_PASS', "");       // sender password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
+            $mail->Port = env('SMTP_PORT', "");                          // port - 587/465
+            $mail->SMTPKeepAlive = true;
+            $mail->CharSet = 'UTF-8';
+            $mail->Encoding = 'base64';
+
+            $mail->setFrom('notificaciones@rtelsalvador.com', 'Accumetric El Salvador');
+            $mail->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
+            //$mail->addCC($request->emailCc);
+            //$mail->addBCC($request->emailBcc);
+
+            $mail->addReplyTo($replyToEmail, $replyToName);
+
+            /*
+            if(isset($_FILES['emailAttachments'])) {
+                for ($i=0; $i < count($_FILES['emailAttachments']['tmp_name']); $i++) {
+                    $mail->addAttachment($_FILES['emailAttachments']['tmp_name'][$i], $_FILES['emailAttachments']['name'][$i]);
+                }
+            }
+            */
+
+            $mail->isHTML(true);                // Set email content format to HTML
+
+            $mail->Subject = $emailSubject;
+            $mail->Body    = $emailBody;
+
+            // $mail->AltBody = plain text version of email body;
+
+            /* Se envia el mensaje, si no ha habido problemas la variable $exito tendra el valor true */
+            $exito = $mail->Send();
+            /* 
+            Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
+            enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
+            funcion sleep
+            */  
+            $intentos=1; 
+            
+            while ((!$exito) && ($intentos < 5)) {
+                sleep(15);
+                /*echo $mail->ErrorInfo;*/
+                $exito = $mail->Send();
+                $intentos=$intentos+1;  
+            }
+
+            $mail->getSMTPInstance()->reset();
+            $mail->clearAddresses();
+            $mail->smtpClose();
+
+            return $exito;
+        
+        } catch (Exception $e) {
+             return redirect()->route('inicio')->with('error','Ha ocurrido algún error al enviar.');
+        } 
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     private function sendMail(PHPMailer $mail, $emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName ) 
@@ -362,6 +528,7 @@ class OrdenesController extends Controller
         } 
 
     }
+
 
 
 //fin clase
