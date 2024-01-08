@@ -317,12 +317,13 @@ class OrdenesController extends Controller
             // Email server settings
             $mail->SMTPDebug = 2;
             $mail->isSMTP();
-            $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
+            $mail->Host = env('MAIL_HOST');             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
             $mail->SMTPAuth = true;
-            $mail->Username = env('SMTP_USERNAME', "");   //  sender username
-            $mail->Password = env('SMTP_PASS', "");       // sender password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
-            $mail->Port = env('SMTP_PORT', "");                          // port - 587/465
+            $mail->Username = env('MAIL_USERNAME');   //  sender username
+            $mail->Password = env('MAIL_PASSWORD');       // sender password
+            //$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
+            $mail->SMTPSecure = env('MAIL_ENCRYPTION');                  // encryption - ssl/tls
+            $mail->Port = env('MAIL_PORT');                          // port - 587/465
             $mail->SMTPKeepAlive = true;
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
@@ -390,12 +391,13 @@ class OrdenesController extends Controller
             // Email server settings
             $mail->SMTPDebug = 2;
             $mail->isSMTP();
-            $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
+            $mail->Host = env('MAIL_HOST');             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
             $mail->SMTPAuth = true;
-            $mail->Username = env('SMTP_USERNAME', "");   //  sender username
-            $mail->Password = env('SMTP_PASS', "");       // sender password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
-            $mail->Port = env('SMTP_PORT', "");                          // port - 587/465
+            $mail->Username = env('MAIL_USERNAME');   //  sender username
+            $mail->Password = env('MAIL_PASSWORD');       // sender password
+            //$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
+            $mail->SMTPSecure = env('MAIL_ENCRYPTION');                  // encryption - ssl/tls
+            $mail->Port = env('MAIL_PORT');                          // port - 587/465
             $mail->SMTPKeepAlive = true;
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
