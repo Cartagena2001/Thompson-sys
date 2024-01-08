@@ -183,7 +183,7 @@ class OrdenesController extends Controller
                            <b>WhatsApp</b>: ".$orden->user->numero_whatsapp." <br/>
                            <b>Teléfono</b>: ".$orden->user->telefono." <br/>
                            <b>Dirección</b>: ".$orden->user->direccion.", ".$orden->user->municipio.", ".$orden->user->departamento."<br/>  
-                           <b>Fecha/Hora</b>: ".$ordenFechaH." <br/>
+                           <b>Fecha/Hora</b>: ".\Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a')." <br/>
                            <b>Estado: </b>".$orden->estado."
                         </p>
                         
