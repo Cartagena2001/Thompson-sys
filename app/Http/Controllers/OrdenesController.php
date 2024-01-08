@@ -138,7 +138,7 @@ class OrdenesController extends Controller
 
         //Envio de notificación por correo al cliente
         $emailRecipientClient = $orden->user->email;
-        $emailSubjectClient = 'Actualización de Estado de Orden:'.$orden->id.' - RTElSalvador';
+        $emailSubjectClient = 'Actualización de Estado de Orden:'.$orden->id.' - Accumetric El Salvador';
         $emailBodyClient = " 
                         <div style='display:flex;justify-content:center;' >
                             <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
