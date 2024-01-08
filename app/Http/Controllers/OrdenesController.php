@@ -199,8 +199,15 @@ class OrdenesController extends Controller
                                 </tr>
                             </thead>
                             <tbody>";
+        
+        $subtotal = 0;
+        $iva = 0.13;
+        $total = 0;
 
-        foreach ($ordenDetalle as $detalles) { 
+        foreach ($ordenDetalle as $detalles) {
+            
+            $subtotal += $detalles->cantidad * $detalles->precio;
+
             $emailBodyOff.= "<tr class='pb-5'>
                                     <td class='text-start'>".$detalles->producto->nombre ."</td>
                                     <td class='text-center'>".$detalles->cantidad."</td>
@@ -208,6 +215,8 @@ class OrdenesController extends Controller
                                     <td class='text-center'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
                                 </tr>";
         }
+
+        $total = $subtotal + ($subtotal * $iva); 
 
             $emailBodyOff .= "<tr class='pt-5' style='border-top: solid 4px #979797;'>
                                     <td></td>
