@@ -321,8 +321,8 @@ class OrdenesController extends Controller
             $mail->SMTPAuth = true;
             $mail->Username = env('MAIL_USERNAME');   //  sender username
             $mail->Password = env('MAIL_PASSWORD');       // sender password
-            //$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
-            $mail->SMTPSecure = env('MAIL_ENCRYPTION');                  // encryption - ssl/tls
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
+            //$mail->SMTPSecure = env('MAIL_ENCRYPTION');                  // encryption - ssl/tls
             $mail->Port = env('MAIL_PORT');                          // port - 587/465
             $mail->SMTPKeepAlive = true;
             $mail->CharSet = 'UTF-8';
@@ -350,18 +350,32 @@ class OrdenesController extends Controller
 
             // $mail->AltBody = plain text version of email body;
 
-            /* Se envia el mensaje, si no ha habido problemas la variable $exito tendra el valor true */
+
+            if( !$mail->send() ) {
+                //return back()->with("failed", "Email not sent.")->withErrors($mail->ErrorInfo);
+                return false;
+            }
+            
+            else {
+                //return back()->with("success", "Email has been sent.");
+
+                return true;
+            }
+
+/*
+            // Se envia el mensaje, si no ha habido problemas la variable $exito tendra el valor true
             $exito = $mail->Send();
-            /* 
-            Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
-            enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
-            funcion sleep
-            */  
+             
+            //Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
+            //enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
+            //funcion sleep
+              
             $intentos=1; 
+ 
             
             while ((!$exito) && ($intentos < 5)) {
                 sleep(15);
-                /*echo $mail->ErrorInfo;*/
+                //echo $mail->ErrorInfo;
                 $exito = $mail->Send();
                 $intentos=$intentos+1;  
             }
@@ -371,9 +385,15 @@ class OrdenesController extends Controller
             $mail->smtpClose();
 
             return $exito;
+
+*/
+
+
+
+
         
         } catch (Exception $e) {
-             return redirect()->route('inicio')->with('error','Ha ocurrido algún error al enviar.');
+             return redirect()->route('oficina.index')->with("failed", "Email not sent.")->withErrors($mail->ErrorInfo);
         } 
 
     }
@@ -395,8 +415,8 @@ class OrdenesController extends Controller
             $mail->SMTPAuth = true;
             $mail->Username = env('MAIL_USERNAME');   //  sender username
             $mail->Password = env('MAIL_PASSWORD');       // sender password
-            //$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
-            $mail->SMTPSecure = env('MAIL_ENCRYPTION');                  // encryption - ssl/tls
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
+            //$mail->SMTPSecure = env('MAIL_ENCRYPTION');                  // encryption - ssl/tls
             $mail->Port = env('MAIL_PORT');                          // port - 587/465
             $mail->SMTPKeepAlive = true;
             $mail->CharSet = 'UTF-8';
@@ -447,7 +467,7 @@ class OrdenesController extends Controller
             return $exito;
         
         } catch (Exception $e) {
-             return redirect()->route('inicio')->with('error','Ha ocurrido algún error al enviar.');
+             return redirect()->route('oficina.index')->with('error','Ha ocurrido algún error al enviar.');
         } 
 
     }
