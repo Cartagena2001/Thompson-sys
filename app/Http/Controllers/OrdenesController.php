@@ -161,6 +161,8 @@ class OrdenesController extends Controller
 
         $estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
 
+        dd($estado1); 
+
 
         //Envio de notificación por correo a oficina
         $emailRecipientOff = "oficina@rtelsalvador.com";
@@ -251,6 +253,7 @@ class OrdenesController extends Controller
 
         $estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
 
+        dd($estado2);
 
         return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a En Proceso');
     }
@@ -353,6 +356,9 @@ class OrdenesController extends Controller
 
             if( !$mail->send() ) {
                 //return back()->with("failed", "Email not sent.")->withErrors($mail->ErrorInfo);
+
+                dd($mail->ErrorInfo);
+
                 return false;
             }
             
