@@ -319,22 +319,16 @@
 
                             @if ($producto->precio_oferta != null)                        
                                 $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
-
-                            @elseif (Auth::user()->clasificacion == 'Cobre')
+                            @elseif (Auth::user()->clasificacion == 'precioCosto')
                                 $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Plata')
+                            @elseif (Auth::user()->clasificacion == 'precioOp')
                                 $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Oro')
-                                $ {{ $producto->precio_2 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Platino')
-                                $ {{ $producto->precio_3 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Diamante')
-                                $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Taller')
+                            @elseif (Auth::user()->clasificacion == 'taller')
                                 $ {{ $producto->precio_taller * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                            @elseif (Auth::user()->clasificacion == 'distribuidor')
                                 $ {{ $producto->precio_distribuidor * $producto->unidad_por_caja }}
                             @endif
+
                             <span class="rt-color-2">c/caja</span>
 
                         @else
@@ -342,19 +336,13 @@
                             @if ($producto->precio_oferta != null)                        
                                 $ {{ $producto->precio_oferta }}
 
-                            @elseif (Auth::user()->clasificacion == 'Cobre')
+                            @elseif (Auth::user()->clasificacion == 'precioCosto')
                                 $ {{ $producto->precio_1 }}
-                            @elseif (Auth::user()->clasificacion == 'Plata')
+                            @elseif (Auth::user()->clasificacion == 'precioOp')
                                 $ {{ $producto->precio_1 }}
-                            @elseif (Auth::user()->clasificacion == 'Oro')
-                                $ {{ $producto->precio_2 }}
-                            @elseif (Auth::user()->clasificacion == 'Platino')
-                                $ {{ $producto->precio_3 }}
-                            @elseif (Auth::user()->clasificacion == 'Diamante')
-                                $ {{ $producto->precio_oferta }}
-                            @elseif (Auth::user()->clasificacion == 'Taller')
+                            @elseif (Auth::user()->clasificacion == 'taller')
                                 $ {{ $producto->precio_taller }}
-                            @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                            @elseif (Auth::user()->clasificacion == 'distribuidor')
                                 $ {{ $producto->precio_distribuidor }}
                             @endif
                             <span class="rt-color-2">c/producto</span>
@@ -373,19 +361,13 @@
                                 @if ($producto->precio_oferta != null)                        
                                     $ {{ $producto->precio_oferta }}
 
-                                @elseif (Auth::user()->clasificacion == 'Cobre')
+                                @elseif (Auth::user()->clasificacion == 'precioCosto')
                                     $ {{ $producto->precio_1}}
-                                @elseif (Auth::user()->clasificacion == 'Plata')
+                                @elseif (Auth::user()->clasificacion == 'precioOp')
                                     $ {{ $producto->precio_1 }}
-                                @elseif (Auth::user()->clasificacion == 'Oro')
-                                    $ {{ $producto->precio_2}}
-                                @elseif (Auth::user()->clasificacion == 'Platino')
-                                    $ {{ $producto->precio_3}}
-                                @elseif (Auth::user()->clasificacion == 'Diamante')
-                                    $ {{ $producto->precio_oferta}}
-                                @elseif (Auth::user()->clasificacion == 'Taller')
+                                @elseif (Auth::user()->clasificacion == 'taller')
                                     $ {{ $producto->precio_taller}}
-                                @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                                @elseif (Auth::user()->clasificacion == 'distribuidor')
                                     $ {{ $producto->precio_distribuidor}}
                                 @endif
                                 <span class="rt-color-2">c/producto</span>
@@ -403,19 +385,13 @@
                             @if ($producto->precio_oferta != null)                        
                                 $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
 
-                            @elseif (Auth::user()->clasificacion == 'Cobre')
+                            @elseif (Auth::user()->clasificacion == 'precioCosto')
                                 $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Plata')
+                            @elseif (Auth::user()->clasificacion == 'precioOp')
                                 $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Oro')
-                                $ {{ $producto->precio_2 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Platino')
-                                $ {{ $producto->precio_3 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Diamante')
-                                $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Taller')
+                            @elseif (Auth::user()->clasificacion == 'taller')
                                 $ {{ $producto->precio_taller * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                            @elseif (Auth::user()->clasificacion == 'distribuidor')
                                 $ {{ $producto->precio_distribuidor * $producto->unidad_por_caja }}
                             @endif
                             <span class="rt-color-2">c/caja</span>
@@ -433,19 +409,13 @@
                                     @if ($producto->precio_oferta != null)                        
                                         $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
 
-                                    @elseif (Auth::user()->clasificacion == 'Cobre')
+                                    @elseif (Auth::user()->clasificacion == 'precioCosto')
                                         $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
-                                    @elseif (Auth::user()->clasificacion == 'Plata')
+                                    @elseif (Auth::user()->clasificacion == 'precioOp')
                                         $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
-                                    @elseif (Auth::user()->clasificacion == 'Oro')
-                                        $ {{ $producto->precio_2 * $producto->unidad_por_caja }}
-                                    @elseif (Auth::user()->clasificacion == 'Platino')
-                                        $ {{ $producto->precio_3 * $producto->unidad_por_caja }}
-                                    @elseif (Auth::user()->clasificacion == 'Diamante')
-                                        $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
-                                    @elseif (Auth::user()->clasificacion == 'Taller')
+                                    @elseif (Auth::user()->clasificacion == 'taller')
                                         $ {{ $producto->precio_taller * $producto->unidad_por_caja }}
-                                    @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                                    @elseif (Auth::user()->clasificacion == 'distribuidor')
                                         $ {{ $producto->precio_distribuidor * $producto->unidad_por_caja }}
                                     @endif
                                     <span class="rt-color-2">c/caja</span>
@@ -455,19 +425,13 @@
                                     @if ($producto->precio_oferta != null)                        
                                         $ {{ $producto->precio_oferta }}
 
-                                    @elseif (Auth::user()->clasificacion == 'Cobre')
+                                    @elseif (Auth::user()->clasificacion == 'precioCosto')
                                         $ {{ $producto->precio_1 }}
-                                    @elseif (Auth::user()->clasificacion == 'Plata')
+                                    @elseif (Auth::user()->clasificacion == 'precioOp')
                                         $ {{ $producto->precio_1 }}
-                                    @elseif (Auth::user()->clasificacion == 'Oro')
-                                        $ {{ $producto->precio_2 }}
-                                    @elseif (Auth::user()->clasificacion == 'Platino')
-                                        $ {{ $producto->precio_3 }}
-                                    @elseif (Auth::user()->clasificacion == 'Diamante')
-                                        $ {{ $producto->precio_oferta }}
-                                    @elseif (Auth::user()->clasificacion == 'Taller')
+                                    @elseif (Auth::user()->clasificacion == 'taller')
                                         $ {{ $producto->precio_taller }}
-                                    @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                                    @elseif (Auth::user()->clasificacion == 'distribuidor')
                                         $ {{ $producto->precio_distribuidor }}
                                     @endif
                                     <span class="rt-color-2">c/producto</span>
