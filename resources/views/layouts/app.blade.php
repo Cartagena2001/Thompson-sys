@@ -65,12 +65,12 @@
     <header class="sticky-menu">
         <div class="row g-0 pb-2 pt-2" style="background-color: #000; border-bottom: 2px ridge #ff1620;">
 
-            <div class="col-6 col-lg-6 text-start pt-2 ps-5 me-md-auto">
+            <div class="col-6 col-lg-6 text-start pt-2 ps-2 me-md-auto">
                 <a href="/" class="text-decoration-none" title="Ir a Inicio">
                     @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3 )
-                         <img src="{{ URL('assets/img/accumetric-slv-logo-mod.png') }}" alt="rt-logo" style="width: 100%; max-width: 240px; height: auto;" />
+                         <img src="{{ URL('assets/img/accumetric-slv-logo-mod.png') }}" alt="rt-logo" style="width: 100%; max-width: 220px; height: auto;" />
                     @else 
-                         <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 95px; height: auto;" />
+                         <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 52px; height: auto;" />
                     @endif
                 </a>     
             </div>
@@ -98,7 +98,7 @@
 
             @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
                                 
-            {{-- CART ADMIN, SUPERADMIN y CLIENTE --}}
+            {{-- CART ADMIN, SUPERADMIN --}}
             <div id="hcart" class="col-1 col-lg-1 text-start pt-2 pe-2 me-md-auto">
                 
                 <div class="my-3 text-start" style="display: block;">
@@ -127,9 +127,10 @@
             @elseif ( Auth::user()->rol_id == 2 && $catalog_mode == 0)
 
             {{-- CART CLIENTE --}}
-            <div class="col-1 col-lg-1 pt-2 text-center me-md-auto">
+            <div id="hcart" class="col-1 col-lg-1 text-start pt-2 pe-2 me-md-auto">
 
-                <a class="btn btn-sm btn-primary py-2 px-3 my-4" style="position: relative;" href="{{ url('/carrito') }}" title="Procesar Órden ->">
+                <div class="my-3 text-start" style="display: block;">
+                    <a style="position: relative;" href="{{ url('/carrito') }}" title="Procesar Órden...">
                         <?php
                             $carrito = session('cart', []);
                             $cart = session()->get('cart', []);
@@ -140,8 +141,9 @@
                                 $cantidad += $item['cantidad'];
                             }
                         ?>
-                        <i style="font-size: 16px;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; bottom: 13px; left: 32px;">{{ $cantidad }}</span>
+                         <i style="font-size: 16px; margin: 3px 10px; color: #fff;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; bottom: 13px; left: 32px;">{{ $cantidad }}</span>
                 </a>
+                </div>
 
                 <?php
                 $productosDisponibles = DB::table('producto')
@@ -447,34 +449,35 @@
 
 
 <script>
-$(document).ready(function(){
+    $(document).ready(function(){
 
-  $("#fullscreenbtm").click(function(){
-    
-    var anchoMenu = $("#nvt").width();
+      $("#fullscreenbtm").click(function(){
+        
+        var anchoMenu = $("#nvt").width();
 
-    if (anchoMenu > 0) {
-        $("#navLeft").hide(1000);
-        $("#nvt").css("display", "none");
-        $("#nvt").css("width", "0px");
-        $("#ctt").removeClass("col-sm-9 col-md-9 col-lg-9 col-xl-9");
-        $("#ctt").addClass("col-sm-12 col-md-12 col-lg-12 col-xl-12");
+        if (anchoMenu > 0) {
+            $("#navLeft").hide(1000);
+            $("#nvt").css("display", "none");
+            $("#nvt").css("width", "0px");
+            $("#ctt").removeClass("col-sm-9 col-md-9 col-lg-9 col-xl-9");
+            $("#ctt").addClass("col-sm-12 col-md-12 col-lg-12 col-xl-12");
 
-        $("#nvt").removeClass("col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3");
-    } else {
-        $("#navLeft").show(1000);
-        $("#nvt").css("display", "initial");
-        $("#nvt").css("width", "inherit");
-        $("#ctt").removeClass("col-sm-12 col-md-12 col-lg-12 col-xl-12");
-        $("#ctt").addClass("col-sm-9 col-md-9 col-lg-9 col-xl-9");
+            $("#nvt").removeClass("col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3");
+        } else {
+            $("#navLeft").show(1);
+            $("#nvt").css("display", "block");
+            $("#nvt").css("width", "auto");
+            $("#ctt").removeClass("col-sm-12 col-md-12 col-lg-12 col-xl-12");
+            $("#ctt").addClass("col-sm-9 col-md-9 col-lg-9 col-xl-9");
 
-        $("#nvt").addClass("col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3");           
-    }
+            $("#nvt").addClass("col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3");           
+        }
 
-  });
+      });
 
-});
+    });
 </script>
+
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
