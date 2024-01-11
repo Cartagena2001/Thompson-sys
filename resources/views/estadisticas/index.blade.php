@@ -27,24 +27,24 @@
 <div class="card mb-3" style="border: ridge 1px #ff1620;">
     <div class="card-header">
         <div class="row mt-1">
-            <div class="col-6 col-lg-12">
+            <div class="col-12 col-lg-12">
                 <h3 class="">Grafico de ventas por mes.</h3>
                 <span>Conoce la cantidad monetaria de ventas que se han realizado durante el mes.</span>
             </div>
         </div>
         <div class="row">
-            <div class="col-2">
+            <div class="col-6 col-lg-2">
                 <label for="start_date">Fecha de Inicio:</label>
                 <input class="form-select" type="date" id="start_date">
             </div>
-            <div class="col-2">
+            <div class="col-6 col-lg-2">
                 <label for="end_date">Fecha de Fin:</label>
                 <input class="form-select" type="date" id="end_date">
             </div>
-            <div class="col-2">
+            <div class="col-6 col-lg-2">
                 <button class="btn btn-primary mt-4" onclick="filterSales()">Filtrar grafica de ventas</button>
             </div>
-            <div class="col-2">
+            <div class="col-6 col-lg-2">
                 <button class="btn btn-primary mt-4" onclick="getMonthlySalesChart()">Limpiar filtro</button>
             </div>
         </div>
@@ -54,11 +54,11 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-12 col-lg-6">
         <div class="card mb-3" style="border: ridge 1px #ff1620;">
             <div class="card-header">
                 <div class="row mt-1">
-                    <div class="col-6 col-lg-12">
+                    <div class="col-12 col-lg-12">
                         <h3 class="">Grafico estados pedidos durante el mes.</h3>
                         <span>Este grafico la cantidad de pedidos por estados que se han realizado (Informacion de <?php setlocale(LC_TIME, 'spanish'); echo strftime('%B'); ?>).</span>
 
@@ -67,18 +67,18 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-6 col-lg-4">
                         <label for="start_date">Fecha de Inicio:</label>
                         <input class="form-select" type="date" id="start_date_2">
                     </div>
-                    <div class="col-4">
+                    <div class="col-6 col-lg-4">
                         <label for="end_date">Fecha de Fin:</label>
                         <input class="form-select" type="date" id="end_date_2">
                     </div>
-                    <div class="col-4">
+                    <div class="col-6 col-lg-4">
                         <button class="btn btn-primary mt-4" onclick="filterOrderStatusCount()">Filtrar grafica de estados</button>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6 col-lg-4">
                         <button class="btn btn-primary mt-4" onclick="getOrderStatusCount()">Limpiar filtro</button>
                     </div>
                 </div>
@@ -86,11 +86,11 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-12 col-lg-6">
         <div class="card mb-3" style="border: ridge 1px #ff1620;">
             <div class="card-header">
                 <div class="row mt-1">
-                    <div class="col-6 col-lg-12">
+                    <div class="col-12 col-lg-12">
                         <h3 class="">Conoce la cantidad de nuevos clientes por mes</h3>
                         <span>Este grafico muestra la cantidad de nuevos clientes que se han registrado en el sistema. (Informacion de <?php setlocale(LC_TIME, 'spanish'); echo strftime('%B'); ?>).</span>
                     </div>
@@ -98,18 +98,18 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-6 col-lg-4">
                         <label for="start_date">Fecha de Inicio:</label>
                         <input class="form-select" type="date" id="start_date_3">
                     </div>
-                    <div class="col-4">
+                    <div class="col-6 col-lg-4">
                         <label for="end_date">Fecha de Fin:</label>
                         <input class="form-select" type="date" id="end_date_3">
                     </div>
-                    <div class="col-4">
+                    <div class="col-6 col-lg-4">
                         <button class="btn btn-primary mt-4" onclick="filterNewCustomersChart()">Filtrar grafica de clientes</button>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6 col-lg-4">
                         <button class="btn btn-primary mt-4" onclick="getNewCustomersChart()">Limpiar filtro</button>
                     </div>
                 </div>
@@ -119,11 +119,11 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-12 col-lg-6">
         <div class="card mb-3" style="border: ridge 1px #ff1620;">
             <div class="card-header">
                 <div class="row mt-1">
-                    <div class="col-6 col-lg-12">
+                    <div class="col-12 col-lg-12">
                         <h3 class="">Productos con menos stock</h3>
                         <span>Muestra un top 20 de productos que tienen menos stock en el sistema.</span>
 
@@ -145,11 +145,11 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-12 col-lg-6">
         <div class="card mb-3" style="border: ridge 1px #ff1620;">
             <div class="card-header">
                 <div class="row mt-1">
-                    <div class="col-6 col-lg-12">
+                    <div class="col-12 col-lg-12">
                         <h3 class="">Productos con más stock</h3>
                         <span>Muestra un top 10 de productos que tienen más stock en el sistema.</span>
 
