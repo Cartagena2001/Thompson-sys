@@ -320,7 +320,7 @@ class OrdenesController extends Controller
             // Email server settings
             $mail->SMTPDebug = 2;
             $mail->isSMTP();
-            $mail->Host = env('MAIL_HOST');             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
+            $mail->Host = env('MAIL_HOST');             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.net
             $mail->SMTPAuth = true;
             $mail->Username = env('MAIL_USERNAME');   //  sender username
             $mail->Password = env('MAIL_PASSWORD');       // sender password
@@ -417,7 +417,7 @@ class OrdenesController extends Controller
             // Email server settings
             $mail->SMTPDebug = 2;
             $mail->isSMTP();
-            $mail->Host = env('MAIL_HOST');             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
+            $mail->Host = env('MAIL_HOST');             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.net
             $mail->SMTPAuth = true;
             $mail->Username = env('MAIL_USERNAME');   //  sender username
             $mail->Password = env('MAIL_PASSWORD');       // sender password
