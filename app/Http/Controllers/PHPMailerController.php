@@ -86,10 +86,13 @@ class PHPMailerController extends Controller {
 
             if( !$mail->send() ) {
 
+                dd($mail->ErrorInfo);
+
                 return back()->with("error", "Email not sent.")->withErrors($mail->ErrorInfo);
             }
                 
             else {
+
                 return back()->with("success", "Email has been sent.");
             }
     
