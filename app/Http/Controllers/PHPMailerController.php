@@ -7,21 +7,31 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
 use Illuminate\Support\Collection;
 
 class PHPMailerController extends Controller {
 
-    // =============== [ Email ] ===================
-    public function email() {
-
-        return view("email");
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function index(Request $request)
+    {
+        return view('sendemail');
     }
 
 
     // ========== [ Compose Email ] ================
-    public function sendEmailNotif($emailRecipient, $emailSubject, $emailBody) {
+    public function sendEmail(Request $request) {
 
         //validar los datos
+        $request->validate([
+
+            'g-recaptcha-response' => 'recaptcha'
+
+        ]);
        /*
         $request->validate([
 
@@ -30,7 +40,8 @@ class PHPMailerController extends Controller {
             'notas_bodega' => 'string|max:250',
             'bulto' => 'string|max:9',
             'paleta' => 'string|max:9',
-            'ubicacion' => 'string|max:19'
+            'ubicacion' => 'string|max:19',
+            'g-recaptcha-response' => 'recaptcha'
 
         ]);
         /*/
@@ -41,20 +52,20 @@ class PHPMailerController extends Controller {
 
         try {
 
-            // Email server settings
+            /* Email SMTP Settings */
             $mail->SMTPDebug = 0;
             $mail->isSMTP();
-            $mail->Host = '';             //  smtp host
+            $mail->Host = env('MAIL_HOST');
             $mail->SMTPAuth = true;
-            $mail->Username = '';   //  sender username
-            $mail->Password = '';       // sender password
-            $mail->SMTPSecure = 'tls';                  // encryption - ssl/tls
-            $mail->Port = 465;                          // port - 587/465
+            $mail->Username = env('MAIL_USERNAME');
+            $mail->Password = env('MAIL_PASSWORD');
+            $mail->SMTPSecure = env('MAIL_ENCRYPTION');
+            $mail->Port = env('MAIL_PORT');                          // port - 587/465
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
 
             $mail->setFrom('notificaciones@rtelsalvador.com', 'Representaciones Thompson');
-            $mail->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
+            $mail->addAddress($request->email); /* NOTA: mandar a llamar email según config en la BD*/
             //$mail->addCC($request->emailCc);
             //$mail->addBCC($request->emailBcc);
 
@@ -70,24 +81,23 @@ class PHPMailerController extends Controller {
 
             $mail->isHTML(true);                // Set email content format to HTML
 
-            $mail->Subject = $emailSubject;
-            $mail->Body    = $emailBody;
-
-            // $mail->AltBody = plain text version of email body;
-
-            echo '<script> console.log("working... 2"); </script>';
+            $mail->Subject = $request->subject;
+            $mail->Body    = $request->body;
 
             if( !$mail->send() ) {
 
-                return back()->with("failed", "Email not sent.")->withErrors($mail->ErrorInfo);
-            } 
+                return back()->with("error", "Email not sent.")->withErrors($mail->ErrorInfo);
+            }
+                
             else {
-
                 return back()->with("success", "Email has been sent.");
             }
-
+    
         } catch (Exception $e) {
-             return back()->with('error','Message could not be sent.');
+                return back()->with('error','Message could not be sent.');
         }
+
     }
-}
+
+
+}//fin clase
