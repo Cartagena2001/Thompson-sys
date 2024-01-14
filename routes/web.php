@@ -194,8 +194,8 @@ Route::post('/configuracion/users/edit', [App\Http\Controllers\PerfilController:
 
 
 
-Route::get('send-php-mailer',[PHPMailerController::class, 'index'])->name('send.php.mailer');
-Route::post('send-php-mailer-submit',[PHPMailerController::class, 'sendEmail'])->name('send.php.mailer.submit');
+Route::get('send-php-mailer',[PHPMailerController::class, 'index'])->name('send.php.mailer')->middleware('auth');
+Route::post('send-php-mailer-submit',[PHPMailerController::class, 'sendEmail'])->name('send.php.mailer.submit')->middleware('auth');
 
 
 
