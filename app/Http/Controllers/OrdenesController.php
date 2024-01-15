@@ -138,7 +138,7 @@ class OrdenesController extends Controller
 
         //Envio de notificación por correo al cliente
         $emailRecipientClient = $orden->user->email;
-        $emailSubjectClient = 'Actualización de Estado de Orden:'.$orden->id.' - Accumetric El Salvador';
+        $emailSubjectClient = 'Actualización de Estado de Orden #: '.$orden->id.' - Accumetric El Salvador';
         $emailBodyClient = " 
                         <div style='display:flex;justify-content:center;' >
                             <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
@@ -165,7 +165,7 @@ class OrdenesController extends Controller
         //Envio de notificación por correo a oficina
         $emailRecipientOff = "oficina@rtelsalvador.com";
         
-        $emailSubjectOff = 'Actualización de Estado de Orden:'.$orden->id.' completada';
+        $emailSubjectOff = 'Actualización de Estado de Orden #: '.$orden->id.' a En Proceso';
         $emailBodyOff = " 
                         <div style='display:flex;justify-content:center;' >
                             <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
@@ -183,7 +183,7 @@ class OrdenesController extends Controller
                            <b>WhatsApp</b>: ".$orden->user->numero_whatsapp." <br/>
                            <b>Teléfono</b>: ".$orden->user->telefono." <br/>
                            <b>Dirección</b>: ".$orden->user->direccion.", ".$orden->user->municipio.", ".$orden->user->departamento."<br/>  
-                           <b>Fecha/Hora</b>: ".\Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a')." <br/>
+                           <b>Fecha/Hora</b>: ".$orden->fecha_registro." <br/>
                            <b>Estado: </b>".$orden->estado."
                         </p>
                         
@@ -199,6 +199,8 @@ class OrdenesController extends Controller
                                 </tr>
                             </thead>
                             <tbody>";
+
+        //<b>Fecha/Hora</b>: ".\Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a')." <br/>
         
         $subtotal = 0;
         $iva = 0.13;
