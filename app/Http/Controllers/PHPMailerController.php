@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 
 use Illuminate\Support\Collection;
 
@@ -56,15 +57,15 @@ class PHPMailerController extends Controller {
             $mail->Password = env('MAIL_PASSWORD');
             $mail->SMTPSecure = env('MAIL_ENCRYPTION');
             $mail->Port = env('MAIL_PORT');                          // port - 587/465
-            $mail->CharSet = 'UTF-8';
-            $mail->Encoding = 'base64';
+            //$mail->CharSet = 'UTF-8';
+            //$mail->Encoding = 'base64';
 
             $mail->setFrom('notificaciones@rtelsalvador.com', 'Representaciones Thompson');
             $mail->addAddress($request->email); /* NOTA: mandar a llamar email según config en la BD*/
             //$mail->addCC($request->emailCc);
             //$mail->addBCC($request->emailBcc);
 
-            $mail->addReplyTo(env('MAIL_FROM_ADDRESS'), 'Oficinas RT El Salvador');
+            $mail->addReplyTo('oficina@rtelsalvador.com', 'Oficinas RT El Salvador');
 
             /*
             if(isset($_FILES['emailAttachments'])) {
