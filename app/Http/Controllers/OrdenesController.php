@@ -187,10 +187,10 @@ class OrdenesController extends Controller
                         <table>
                             <thead>
                                 <tr>
-                                    <th class='text-start'>Producto</th>
-                                    <th class='text-center'>Cantidad (caja)</th>
-                                    <th class='text-center'>Precio (caja)</th>
-                                    <th class='text-cente'>Subtotal Parcial</th>
+                                    <th style='text-align: left;'>Producto</th>
+                                    <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Precio (caja)</th>
+                                    <th style='text-align: center;'>Subtotal Parcial</th>
                                 </tr>
                             </thead>
                             <tbody>";
@@ -203,33 +203,33 @@ class OrdenesController extends Controller
 
             $subtotal += $detalles->cantidad * $detalles->precio;
 
-            $emailBodyOff.= "<tr class='pb-5'>
-                                <td class='text-start'>".$detalles->producto->nombre ."</td>
-                                <td class='text-center'>".$detalles->cantidad."</td>
-                                <td class='text-center'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
-                                <td class='text-center'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+            $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
+                                <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
+                                <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
+                                <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
                              </tr>";
         }
 
         $total = $subtotal + ($subtotal * $iva); 
 
-            $emailBodyOff .= "<tr class='pt-5' style='border-top: solid 4px #979797;'>
+            $emailBodyOff .= "<tr style='padding-top: 20px; border-top: solid 4px #979797;'>
                                     <td></td>
                                     <td></td> 
-                                    <td class='text-start' style='font-weight: 600;'>Subtotal:</td> 
-                                    <td class='text-end'>".number_format($subtotal, 2, '.', ',')." $</td> 
+                                    <td style='text-align: left; font-weight: 600;'>Subtotal:</td> 
+                                    <td style='text-align: right;'>".number_format($subtotal, 2, '.', ',')." $</td> 
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td></td> 
-                                    <td class='text-start' style='font-weight: 600;'>IVA (13%):</td> 
-                                    <td class='text-end'>".number_format(($subtotal * $iva), 2, '.', ',')." $</td> 
+                                    <td style='text-align: left; font-weight: 600;'>IVA (13%):</td> 
+                                    <td style='text-align: right;'>".number_format(($subtotal * $iva), 2, '.', ',')." $</td> 
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td class='text-start' style='font-weight: 600;'>Total:</td> 
-                                    <td class='text-end'>".number_format($total, 2, '.', ',')." $</td> 
+                                    <td style='text-align: left; font-weight: 600;'>Total:</td> 
+                                    <td style='text-align: right;'>".number_format($total, 2, '.', ',')." $</td> 
                                 </tr>
                             </tbody>
                         </table>
@@ -351,12 +351,15 @@ class OrdenesController extends Controller
             //funcion sleep
               
             $intentos=1; 
- 
-            while (($exito != true) && ($intentos < 5)) {
-                sleep(5);
-                //echo $mail->ErrorInfo;
-                $exito = $mail->Send();
-                $intentos=$intentos+1;  
+            
+            if ($exito != true) {
+
+                while (($exito != true) && ($intentos < 5)) {
+                    sleep(5);
+                    //echo $mail->ErrorInfo;
+                    $exito = $mail->Send();
+                    $intentos=$intentos+1;  
+                }
             }
 
             $mail->getSMTPInstance()->reset();
@@ -426,11 +429,14 @@ class OrdenesController extends Controller
             */  
             $intentos=1; 
             
-            while (($exito != true) && ($intentos < 5)) {
-                sleep(5);
-                /*echo $mail->ErrorInfo;*/
-                $exito = $mail->Send();
-                $intentos=$intentos+1;  
+            if ($exito != true) {
+
+                while (($exito != true) && ($intentos < 5)) {
+                    sleep(5);
+                    /*echo $mail->ErrorInfo;*/
+                    $exito = $mail->Send();
+                    $intentos=$intentos+1;  
+                }
             }
 
             $mail->getSMTPInstance()->reset();
