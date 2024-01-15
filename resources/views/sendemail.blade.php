@@ -8,7 +8,7 @@
 
 @extends('layouts.internal')
 
-<body class="pt-6">
+<body class="pt-8">
         
 <div class="container mt-5" style="max-width: 750px">
     
@@ -42,7 +42,7 @@
         </div>
         <div class="form-group">
           <div style="display: flex; justify-content: center;">
-            {!! htmlFormSnippet() !!}
+
           </div>  
         </div>
         <div class="form-group mt-3 mb-3">

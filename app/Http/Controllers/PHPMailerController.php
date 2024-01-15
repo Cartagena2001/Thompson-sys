@@ -27,11 +27,6 @@ class PHPMailerController extends Controller {
     public function sendEmail(Request $request) {
 
         //validar los datos
-        $request->validate([
-
-            'g-recaptcha-response' => 'recaptcha'
-
-        ]);
        /*
         $request->validate([
 
