@@ -153,7 +153,7 @@ class OrdenesController extends Controller
         $replyToNameClient = "Accumetric El Salvador - Oficina";
 
         $estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
-
+        //dd($estado1);
 
         //Envio de notificación por correo a oficina
         $emailRecipientOff = "oficina@rtelsalvador.com";
@@ -241,8 +241,7 @@ class OrdenesController extends Controller
         $replyToNameOff = $orden->user->name;
 
         $estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
-
-        dd($estado2);
+        //dd($estado2);
 
         return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a En Proceso');
     }
