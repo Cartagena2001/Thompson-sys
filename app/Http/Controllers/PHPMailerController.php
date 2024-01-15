@@ -53,7 +53,7 @@ class PHPMailerController extends Controller {
         try {
 
             /* Email SMTP Settings */
-            $mail->SMTPDebug = 0;
+            $mail->SMTPDebug = 2;
             $mail->isSMTP();
             $mail->Host = env('MAIL_HOST');
             $mail->SMTPAuth = true;
