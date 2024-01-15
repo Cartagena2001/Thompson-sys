@@ -148,7 +148,7 @@ class OrdenesController extends Controller
                         <br/>
                         <p><b>Sr./Sra.</b>: ".$orden->user->name." </p>
                         <br/>
-                        <p>TU ORDEN: <b>".$orden->id."</b> HA CAMBIADO DE ESTADO: DE PENDIENTE A <b>EN PROCESO</b>.</p>
+                        <p>TU ORDEN: # <b>".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PENDIENTE<b/> A <b>EN PROCESO</b>.</p>
                         <br/>
                         <br/>
                         <p>Cualquier duda o consulta sobre tu orden de compra puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
@@ -159,7 +159,7 @@ class OrdenesController extends Controller
 
         //$estado1 = $this->sendMail($mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
 
-        $estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
+        //$estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
 
 
         //Envio de notificación por correo a oficina
@@ -174,7 +174,7 @@ class OrdenesController extends Controller
                         <br/>
                         <br/>
 
-                        <p>LA ORDEN: <b>".$orden->id."</b> HA CAMBIADO DE ESTADO: DE PENDIENTE A <b>EN PROCESO</b>.</p>
+                        <p>LA ORDEN: # <b>".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PENDIENTE</b> A <b>EN PROCESO</b>.</p>
                         <br/>
                         <p><b>DATOS</b>:</p>
                         <p><b>Cliente</b>: ".$orden->user->name." <br/>
