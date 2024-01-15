@@ -25,6 +25,12 @@
             <strong>{{ $message }}</strong>
         </div>
     @endif
+
+    @if(count($errors) > 0)
+      @foreach ($errors->all() as $error)
+        <p>{{ $error }}</p>
+      @endforeach
+    @endif
     
     <form method="post" action="{{ route('send.php.mailer.submit') }}" enctype="multipart/form-data">
         @csrf
