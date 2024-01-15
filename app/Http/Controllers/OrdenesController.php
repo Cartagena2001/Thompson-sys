@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Orden;
 use App\Models\OrdenDetalle;
+use App\Models\Producto;
 use App\Models\User;
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -126,24 +127,24 @@ class OrdenesController extends Controller
     //crear una funcion para actualizar el estado de la orden a en proceso (solo oficina)
     public function enProceso($id){
 
-        $orden = Orden::find($id);
-        $ordenDetalle = OrdenDetalle::where('orden_id', $id);
+        $orden = Orden::find($id); 
+        $ordenDetalle = OrdenDetalle::where('orden_id', $id); 
         $orden->estado = 'Proceso';
         $orden->save();
 
         //Envio de notificación por correo al cliente
         $emailRecipientClient = $orden->user->email;
-        $emailSubjectClient = 'Actualización de Estado de Orden #: '.$orden->id.' - Accumetric El Salvador';
+        $emailSubjectClient = 'Actualización de estado de orden de compra #: '.$orden->id.' - Accumetric El Salvador';
         $emailBodyClient = " 
                         <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'> 
                         </div>
 
                         <br/>
                         <br/>
                         <p><b>Sr./Sra.</b>: ".$orden->user->name." </p>
                         <br/>
-                        <p>TU ORDEN: # <b>".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PENDIENTE<b/> A <b>EN PROCESO</b>.</p>
+                        <p>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PENDIENTE</b> A <b>EN PROCESO</b>.</p>
                         <br/>
                         <br/>
                         <p>Cualquier duda o consulta sobre tu orden de compra puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
@@ -155,10 +156,11 @@ class OrdenesController extends Controller
         $estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
         //dd($estado1);
 
+
         //Envio de notificación por correo a oficina
         $emailRecipientOff = "oficina@rtelsalvador.com";
         
-        $emailSubjectOff = 'Actualización de Estado de Orden #: '.$orden->id.' a En Proceso';
+        $emailSubjectOff = 'Actualización de estado de orden de compra #: '.$orden->id.' a En Proceso';
         $emailBodyOff = " 
                         <div style='display:flex;justify-content:center;' >
                             <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
@@ -167,7 +169,7 @@ class OrdenesController extends Controller
                         <br/>
                         <br/>
 
-                        <p>LA ORDEN: # <b>".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PENDIENTE</b> A <b>EN PROCESO</b>.</p>
+                        <p>LA ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PENDIENTE</b> A <b>EN PROCESO</b>.</p>
                         <br/>
                         <p><b>DATOS</b>:</p>
                         <p><b>Cliente</b>: ".$orden->user->name." <br/>
@@ -202,11 +204,11 @@ class OrdenesController extends Controller
             $subtotal += $detalles->cantidad * $detalles->precio;
 
             $emailBodyOff.= "<tr class='pb-5'>
-                                    <td class='text-start'>".$detalles->producto->nombre ."</td>
-                                    <td class='text-center'>".$detalles->cantidad."</td>
-                                    <td class='text-center'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
-                                    <td class='text-center'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
-                                </tr>";
+                                <td class='text-start'>".$detalles->producto->nombre ."</td>
+                                <td class='text-center'>".$detalles->cantidad."</td>
+                                <td class='text-center'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
+                                <td class='text-center'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                             </tr>";
         }
 
         $total = $subtotal + ($subtotal * $iva); 
