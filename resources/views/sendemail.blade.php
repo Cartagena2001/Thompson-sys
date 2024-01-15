@@ -8,7 +8,7 @@
 
 @extends('layouts.internal')
 
-<body>
+<body class="pt-6">
         
 <div class="container mt-5" style="max-width: 750px">
     
