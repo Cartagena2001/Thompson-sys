@@ -161,8 +161,6 @@ class OrdenesController extends Controller
 
         $estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
 
-        dd($estado1); 
-
 
         //Envio de notificación por correo a oficina
         $emailRecipientOff = "oficina@rtelsalvador.com";
@@ -253,8 +251,6 @@ class OrdenesController extends Controller
 
         $estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
 
-        dd($estado2);
-
         return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a En Proceso');
     }
 
@@ -320,13 +316,13 @@ class OrdenesController extends Controller
             // Email server settings
             $mail->SMTPDebug = 2;
             $mail->isSMTP();
-            $mail->Host = env('MAIL_HOST');             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.net
+            $mail->Host = env('MAIL_HOST');             //  smtp host
             $mail->SMTPAuth = true;
             $mail->Username = env('MAIL_USERNAME');   //  sender username
             $mail->Password = env('MAIL_PASSWORD');       // sender password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
-            //$mail->SMTPSecure = env('MAIL_ENCRYPTION');                  // encryption - ssl/tls
-            $mail->Port = env('MAIL_PORT');                          // port - 587/465
+            $mail->SMTPSecure = env('MAIL_ENCRYPTION');    // encryption - ssl/tls
+            //$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // encryption - ssl/tls
+            $mail->Port = env('MAIL_PORT');           // port - 587/465
             $mail->SMTPKeepAlive = true;
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
@@ -353,22 +349,6 @@ class OrdenesController extends Controller
 
             // $mail->AltBody = plain text version of email body;
 
-
-            if( !$mail->send() ) {
-                //return back()->with("failed", "Email not sent.")->withErrors($mail->ErrorInfo);
-
-                dd($mail->ErrorInfo);
-
-                return false;
-            }
-            
-            else {
-                //return back()->with("success", "Email has been sent.");
-
-                return true;
-            }
-
-/*
             // Se envia el mensaje, si no ha habido problemas la variable $exito tendra el valor true
             $exito = $mail->Send();
              
@@ -378,9 +358,8 @@ class OrdenesController extends Controller
               
             $intentos=1; 
  
-            
             while ((!$exito) && ($intentos < 5)) {
-                sleep(15);
+                sleep(10);
                 //echo $mail->ErrorInfo;
                 $exito = $mail->Send();
                 $intentos=$intentos+1;  
@@ -391,15 +370,9 @@ class OrdenesController extends Controller
             $mail->smtpClose();
 
             return $exito;
-
-*/
-
-
-
-
         
         } catch (Exception $e) {
-             return redirect()->route('oficina.index')->with("failed", "Email not sent.")->withErrors($mail->ErrorInfo);
+             return $mail->ErrorInfo;
         } 
 
     }
@@ -417,7 +390,7 @@ class OrdenesController extends Controller
             // Email server settings
             $mail->SMTPDebug = 2;
             $mail->isSMTP();
-            $mail->Host = env('MAIL_HOST');             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.net
+            $mail->Host = env('MAIL_HOST');             //  smtp host
             $mail->SMTPAuth = true;
             $mail->Username = env('MAIL_USERNAME');   //  sender username
             $mail->Password = env('MAIL_PASSWORD');       // sender password
@@ -460,7 +433,7 @@ class OrdenesController extends Controller
             $intentos=1; 
             
             while ((!$exito) && ($intentos < 5)) {
-                sleep(15);
+                sleep(10);
                 /*echo $mail->ErrorInfo;*/
                 $exito = $mail->Send();
                 $intentos=$intentos+1;  
@@ -473,7 +446,7 @@ class OrdenesController extends Controller
             return $exito;
         
         } catch (Exception $e) {
-             return redirect()->route('oficina.index')->with('error','Ha ocurrido algún error al enviar.');
+              return $mail->ErrorInfo;
         } 
 
     }

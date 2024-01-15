@@ -295,7 +295,7 @@ class OrdenController extends Controller
             // Email server settings
             $mail->SMTPDebug = 2;
             $mail->isSMTP();
-            $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
+            $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.net
             $mail->SMTPAuth = true;
             $mail->Username = env('SMTP_USERNAME', "");   //  sender username
             $mail->Password = env('SMTP_PASS', "");       // sender password
