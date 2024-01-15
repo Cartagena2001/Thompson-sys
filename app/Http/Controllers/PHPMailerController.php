@@ -82,8 +82,6 @@ class PHPMailerController extends Controller {
 
             if( !$mail->send() ) {
 
-                dd($mail->ErrorInfo);
-
                 return back()->with("error", "Email not sent.")->withErrors($mail->ErrorInfo);
             }
                 
@@ -93,7 +91,7 @@ class PHPMailerController extends Controller {
             }
     
         } catch (Exception $e) {
-                return back()->with('error','Message could not be sent.');
+                return back()->with('error','Message could not be sent.')->withErrors($mail->ErrorInfo);
         }
 
     }
