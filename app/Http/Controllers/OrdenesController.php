@@ -383,48 +383,48 @@ class OrdenesController extends Controller
 
         require base_path("vendor/autoload.php");
 
-        $mail = new PHPMailer(true);     // Passing `true` enables exceptions
+        $mail2 = new PHPMailer(true);     // Passing `true` enables exceptions
 
         try {
 
             // Email server settings
-            $mail->SMTPDebug = 2;
-            $mail->isSMTP();
-            $mail->Host = env('MAIL_HOST');             //  smtp host
-            $mail->SMTPAuth = true;
-            $mail->Username = env('MAIL_USERNAME');   //  sender username
-            $mail->Password = env('MAIL_PASSWORD');       // sender password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
-            //$mail->SMTPSecure = env('MAIL_ENCRYPTION');                  // encryption - ssl/tls
-            $mail->Port = env('MAIL_PORT');                          // port - 587/465
-            $mail->SMTPKeepAlive = true;
-            $mail->CharSet = 'UTF-8';
-            $mail->Encoding = 'base64';
+            $mail2->SMTPDebug = 2;
+            $mail2->isSMTP();
+            $mail2->Host = env('MAIL_HOST');             //  smtp host
+            $mail2->SMTPAuth = true;
+            $mail2->Username = env('MAIL_USERNAME');   //  sender username
+            $mail2->Password = env('MAIL_PASSWORD');       // sender password
+            $mail2->SMTPSecure = env('MAIL_ENCRYPTION');    // encryption - ssl/tls
+            //$mail2->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // encryption - ssl/tls
+            $mail2->Port = env('MAIL_PORT');           // port - 587/465
+            $mail2->SMTPKeepAlive = true;
+            $mail2->CharSet = 'UTF-8';
+            $mail2->Encoding = 'base64';
 
-            $mail->setFrom('notificaciones@rtelsalvador.com', 'Accumetric El Salvador');
-            $mail->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
-            //$mail->addCC($request->emailCc);
-            //$mail->addBCC($request->emailBcc);
+            $mail2->setFrom('notificaciones@rtelsalvador.com', 'Accumetric El Salvador');
+            $mail2->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
+            //$mail2->addCC($request->emailCc);
+            //$mail2->addBCC($request->emailBcc);
 
-            $mail->addReplyTo($replyToEmail, $replyToName);
+            $mail2->addReplyTo($replyToEmail, $replyToName);
 
             /*
             if(isset($_FILES['emailAttachments'])) {
                 for ($i=0; $i < count($_FILES['emailAttachments']['tmp_name']); $i++) {
-                    $mail->addAttachment($_FILES['emailAttachments']['tmp_name'][$i], $_FILES['emailAttachments']['name'][$i]);
+                    $mail2->addAttachment($_FILES['emailAttachments']['tmp_name'][$i], $_FILES['emailAttachments']['name'][$i]);
                 }
             }
             */
 
-            $mail->isHTML(true);                // Set email content format to HTML
+            $mail2->isHTML(true);                // Set email content format to HTML
 
-            $mail->Subject = $emailSubject;
-            $mail->Body    = $emailBody;
+            $mail2->Subject = $emailSubject;
+            $mail2->Body    = $emailBody;
 
-            // $mail->AltBody = plain text version of email body;
+            // $mail2->AltBody = plain text version of email body;
 
             /* Se envia el mensaje, si no ha habido problemas la variable $exito tendra el valor true */
-            $exito = $mail->Send();
+            $exito = $mail2->Send();
             /* 
             Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
             enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
@@ -434,19 +434,19 @@ class OrdenesController extends Controller
             
             while ((!$exito) && ($intentos < 5)) {
                 sleep(10);
-                /*echo $mail->ErrorInfo;*/
-                $exito = $mail->Send();
+                /*echo $mail2->ErrorInfo;*/
+                $exito = $mail2->Send();
                 $intentos=$intentos+1;  
             }
 
-            $mail->getSMTPInstance()->reset();
-            $mail->clearAddresses();
-            $mail->smtpClose();
+            $mail2->getSMTPInstance()->reset();
+            $mail2->clearAddresses();
+            $mail2->smtpClose();
 
             return $exito;
         
         } catch (Exception $e) {
-              return $mail->ErrorInfo;
+              return $mail2->ErrorInfo;
         } 
 
     }
