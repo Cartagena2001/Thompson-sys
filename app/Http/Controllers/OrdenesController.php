@@ -173,7 +173,7 @@ class OrdenesController extends Controller
                         <br/>
                         <p><b>DATOS</b>:</p>
                         <p><b>Cliente</b>: ".$orden->user->name." <br/>
-                           <b>NRC</b>: ".($orden->user->nrc != null ? $orden->user->nrc : '-')." | <b>NIT</b>: ".($orden->user->nit != null ) ? $orden->user->nit : '-'." | <b>DUI</b>: ".($orden->user->dui != null ) ? $orden->user->dui : '-'." <br/>
+                           <b>NRC</b>: ".($orden->user->nrc != null ? $orden->user->nrc : '-')." | <b>NIT</b>: ".($orden->user->nit != null ? $orden->user->nit : '-')." | <b>DUI</b>: ".($orden->user->dui != null ? $orden->user->dui : '-')." <br/>
                            <b>Empresa</b>: ".$orden->user->nombre_empresa." <br/>
                            <b>Correo electrónico</b>: ".$orden->user->email." <br/>
                            <b>WhatsApp</b>: ".$orden->user->numero_whatsapp." <br/>

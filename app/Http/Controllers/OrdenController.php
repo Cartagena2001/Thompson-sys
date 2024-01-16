@@ -183,7 +183,7 @@ class OrdenController extends Controller
 
                         <p><b>DATOS</b>:</p>
                         <p><b>Cliente</b>: ".$ordenAux->user->name." <br/>
-                           <b>NRC</b>: ".($ordenAux->user->nrc != null ) ? $ordenAux->user->nrc : '-'." | <b>NIT</b>: ".($ordenAux->user->nit != null ) ? $ordenAux->user->nit : '-'." | <b>DUI</b>: ".($ordenAux->user->dui != null ) ? $ordenAux->user->dui : '-'." <br/>
+                           <b>NRC</b>: ".($ordenAux->user->nrc != null ? $ordenAux->user->nrc : '-')." | <b>NIT</b>: ".($ordenAux->user->nit != null ? $ordenAux->user->nit : '-')." | <b>DUI</b>: ".($ordenAux->user->dui != null ? $ordenAux->user->dui : '-')." <br/>
                            <b>Empresa</b>: ".$ordenAux->user->nombre_empresa." <br/>
                            <b>Correo electrónico</b>: ".$ordenAux->user->email." <br/>
                            <b>WhatsApp</b>: ".$ordenAux->user->numero_whatsapp." <br/>
