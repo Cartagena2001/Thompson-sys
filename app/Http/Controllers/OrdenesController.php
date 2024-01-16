@@ -345,7 +345,7 @@ class OrdenesController extends Controller
             // $mail->AltBody = plain text version of email body;
 
             // Se envia el mensaje, si no ha habido problemas la variable $exito tendra el valor true
-            $exito = $mail->Send();
+            //$exito = $mail->Send();
              
             //Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
             //enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
@@ -353,12 +353,12 @@ class OrdenesController extends Controller
               
             $intentos=1; 
             
-            if ($exito != true) {
+            if ($mail->Send() != true) {
 
-                while (($exito != true) && ($intentos < 5)) {
+                while (($$mail->Send() != true) && ($intentos < 5)) {
                     sleep(5);
                     //echo $mail->ErrorInfo;
-                    $exito = $mail->Send();
+                    $mail->Send();
                     $intentos=$intentos+1;  
                 }
             }
@@ -367,7 +367,7 @@ class OrdenesController extends Controller
             $mail->clearAddresses();
             $mail->smtpClose();
 
-            return $exito;
+            return $mail->Send();
         
         } catch (Exception $e) {
              return $mail->ErrorInfo;
@@ -422,7 +422,7 @@ class OrdenesController extends Controller
             // $mail->AltBody = plain text version of email body;
 
             /* Se envia el mensaje, si no ha habido problemas la variable $exito tendra el valor true */
-            $exito = $mail->Send();
+            //$exito = $mail->Send();
             /* 
             Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
             enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
@@ -430,12 +430,12 @@ class OrdenesController extends Controller
             */  
             $intentos=1; 
             
-            if ($exito != true) {
+            if ($mail->Send() != true) {
 
-                while (($exito != true) && ($intentos < 5)) {
+                while (($mail->Send() != true) && ($intentos < 5)) {
                     sleep(5);
                     /*echo $mail->ErrorInfo;*/
-                    $exito = $mail->Send();
+                    $mail->Send();
                     $intentos=$intentos+1;  
                 }
             }
@@ -444,7 +444,7 @@ class OrdenesController extends Controller
             $mail->clearAddresses();
             $mail->smtpClose();
 
-            return $exito;
+            return $mail->Send();
         
         } catch (Exception $e) {
               return $mail->ErrorInfo;
