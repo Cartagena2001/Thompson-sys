@@ -131,7 +131,7 @@ class OrdenesController extends Controller
         $orden = Orden::find($id); 
         $ordenDetalle = OrdenDetalle::where('orden_id', $id)->get(); 
         $orden->estado = 'Proceso';
-        $orden->save();
+        $orden->update();
 
         //Envio de notificación por correo al cliente
         $emailRecipientClient = $orden->user->email;
@@ -244,11 +244,11 @@ class OrdenesController extends Controller
         $replyToEmailOff = $orden->user->email;
         $replyToNameOff = $orden->user->name;
 
-        //$estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
+        $estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
         //dd($estado2);
 
         //return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la orden a En Proceso');
-        return redirect()->route('oficina.index')->with('toast_success', 'Se actualizó el estado de la orden a En Proceso');
+        return redirect()->route('oficina.index')->with('success', 'Se actualizó el estado de la orden a En Proceso');
     }
 
 
@@ -368,7 +368,7 @@ class OrdenesController extends Controller
             }
             */
 
-            $mail->getSMTPInstance()->reset();
+            //$mail->getSMTPInstance()->reset();
             $mail->clearAllRecipients();
             $mail->clearAddresses();
             $mail->clearReplyTos();
@@ -388,7 +388,7 @@ class OrdenesController extends Controller
 
         require base_path("vendor/autoload.php");
 
-        $mail2 = new PHPMailer(true);     // Passing `true` enables exceptions
+        $mail = new PHPMailer(true);     // Passing `true` enables exceptions
 
         try {
 
@@ -450,7 +450,7 @@ class OrdenesController extends Controller
             }
             */
 
-            $mail->getSMTPInstance()->reset();
+            //$mail->getSMTPInstance()->reset();
             $mail->clearAllRecipients();
             $mail->clearAddresses();
             $mail->clearReplyTos();
