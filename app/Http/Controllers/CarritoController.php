@@ -110,7 +110,7 @@ class CarritoController extends Controller
                 } else {
                     $cart[$product->id] = [
                         'producto_id' => $product->id,
-                        'producto_oem' => $product->oem,
+                        'producto_oem' => $product->OEM,
                         'nombre' => $product->nombre,
                         'marca_id' => $product->marca->id,
                         'marca' => $product->marca->nombre,
@@ -141,7 +141,7 @@ class CarritoController extends Controller
             } else {
                 $cart[$product->id] = [
                     'producto_id' => $product->id,
-                    'producto_oem' => $product->oem,
+                    'producto_oem' => $product->OEM,
                     'nombre' => $product->nombre,
                     'marca_id' => $product->marca->id,
                     'marca' => $product->marca->nombre,
@@ -199,6 +199,7 @@ class CarritoController extends Controller
             session()->put('cart', $cart);
 
             return redirect()->route('carrito.index')->with('toast_success', 'La cantidad requerida de ' . $product->nombre . 'no puede suplirse.');
+
         } else {
 
             //validar que clasificacion tiene el cliente para poner un precio u otro
@@ -231,6 +232,7 @@ class CarritoController extends Controller
 
                 $cart[$product->id] = [
                     'producto_id' => $product->id,
+                    'producto_oem' => $product->OEM,
                     'nombre' => $product->nombre,
                     'marca_id' => $product->marca->id,
                     'marca' => $product->marca->nombre,
@@ -291,7 +293,9 @@ class CarritoController extends Controller
         ]);
 */
         if (count($cart) == 0) {
+
             return redirect()->route('carrito.index')->with('info', 'No hay productos en el carrito de compras');
+        
         } else {
 
             //validar cantidades de producto requeridas respecto de la existencia
@@ -311,7 +315,7 @@ class CarritoController extends Controller
                     $cart[$producto_id]['cantidad'] = $existencia;
                     session()->put('cart', $cart);
 
-                    return redirect()->route('carrito.index')->with('info', 'No hay existencias suficientes para cubrir tu órden de: '.'<br/><br/>'.$producto['nombre']);
+                    return redirect()->route('carrito.index')->with('info', 'No hay existencias suficientes para cubrir tu orden de: '.'<br/><br/>'.$producto['nombre']);
                 } 
 
             }
