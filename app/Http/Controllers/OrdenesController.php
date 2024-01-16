@@ -247,9 +247,8 @@ class OrdenesController extends Controller
         //$estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
         //dd($estado2);
 
-        //return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a En Proceso');
-
-        return view('ordenes.index-oficina')->with('toast_success', 'Se actualizó el estado de la órden a En Proceso');
+        //return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la orden a En Proceso');
+        return redirect()->route('oficina.index')->with('toast_success', 'Se actualizó el estado de la orden a En Proceso');
     }
 
 
