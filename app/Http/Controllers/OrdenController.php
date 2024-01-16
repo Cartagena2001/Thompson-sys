@@ -81,6 +81,18 @@ class OrdenController extends Controller
 
         $ordenFechaH = \Carbon\Carbon::parse($ordenAux->created_at)->format('d/m/Y, h:m:s a');
 
+        $subtotal = 0;
+        $iva = 0.13;
+        $total = 0;
+
+        foreach ($detalleAUx as $detalles) {
+
+            $subtotal += $detalles->cantidad * $detalles->precio;
+
+        }
+
+        $total = $subtotal + ($subtotal * $iva);
+        
         //Envio de notificación por correo a Cliente
         $emailRecipientClient = $ordenAux->user->email;
         $emailSubjectClient = 'Tu orden de compra # '.$orden->id.' en Tienda Accumetric El Salvador';
@@ -165,17 +177,6 @@ class OrdenController extends Controller
         $estado1 = $this->notificarCliente($emailRecipientClient, $emailSubjectClient, $emailBodyClient, $replyToEmailClient, $replyToNameClient);
         //dd($estado1);
 
-        $subtotal = 0;
-        $iva = 0.13;
-        $total = 0;
-
-        foreach ($detalleAUx as $detalles) {
-
-            $subtotal += $detalles->cantidad * $detalles->precio;
-
-        }
-
-        $total = $subtotal + ($subtotal * $iva);
 
         //Envio de notificación por correo a Oficina
         $emailRecipientOff = "oficina@rtelsalvador.com";
