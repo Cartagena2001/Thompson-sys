@@ -110,6 +110,7 @@ class CarritoController extends Controller
                 } else {
                     $cart[$product->id] = [
                         'producto_id' => $product->id,
+                        'producto_oem' => $product->oem,
                         'nombre' => $product->nombre,
                         'marca_id' => $product->marca->id,
                         'marca' => $product->marca->nombre,

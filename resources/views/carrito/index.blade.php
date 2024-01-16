@@ -34,6 +34,7 @@
                 @endif
                 <tr>
                     <th>ID</th>
+                    <th>OEM</th>
                     <th>Producto</th>
                     <th>Marca</th>
                     <th class="text-center"># Cajas 📦</th>
@@ -46,9 +47,10 @@
                 @foreach (session('cart', []) as $item)
                     <tr>
                         <td style="font-size: 13px">{{ $item['producto_id'] }}</td>
+                        <td style="font-size: 13px">{{ $item['producto_oem'] }}</td>
                         <td style="font-size: 13px">{{ $item['nombre'] }}</td>
                         <td style="font-size: 13px">{{ $item['marca'] }}</td>
-                        <td style="font-size: 13px" class="text-center">
+                        <td style="font-size: 13px" class="flex-center">
                             <form action="{{ route('carrito.update', $item['producto_id']) }}" method="POST">
                                 @csrf
                                 @method('PUT')
