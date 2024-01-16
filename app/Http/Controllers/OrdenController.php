@@ -285,7 +285,7 @@ class OrdenController extends Controller
             $mail->SMTPSecure = env('MAIL_ENCRYPTION');    // encryption - ssl/tls
             //$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // encryption - ssl/tls
             $mail->Port = env('MAIL_PORT');           // port - 587/465
-            $mail->SMTPKeepAlive = true;
+            //$mail->SMTPKeepAlive = true;
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
 
@@ -332,7 +332,7 @@ class OrdenController extends Controller
 
             $mail->getSMTPInstance()->reset();
             $mail->clearAddresses();
-            $mail->smtpClose();
+            //$mail->smtpClose();
 
             return $exito;
         
