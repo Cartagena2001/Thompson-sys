@@ -165,6 +165,18 @@ class OrdenController extends Controller
         $estado1 = $this->notificarCliente($emailRecipientClient, $emailSubjectClient, $emailBodyClient, $replyToEmailClient, $replyToNameClient);
         //dd($estado1);
 
+        $subtotal = 0;
+        $iva = 0.13;
+        $total = 0;
+
+        foreach ($detalleAUx as $detalles) {
+
+            $subtotal += $detalles->cantidad * $detalles->precio;
+
+        }
+
+        $total = $subtotal + ($subtotal * $iva);
+
         //Envio de notificación por correo a Oficina
         $emailRecipientOff = "oficina@rtelsalvador.com";
         $emailSubjectOff = 'Nueva orden de compra # '.$orden->id;
@@ -208,23 +220,17 @@ class OrdenController extends Controller
                             </thead>
                             <tbody>";
 
-                $subtotal = 0;
-                $iva = 0.13;
-                $total = 0;
-
                 foreach ($detalleAUx as $detalles) {
 
-                    $subtotal += $detalles->cantidad * $detalles->precio;
-
-                    $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
-                                        <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
-                                        <td style='text-align: center;'>".$detalles->cantidad."</td>
-                                        <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
-                                        <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
-                                     </tr>";
+                $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
+                                    <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                 </tr>";
                 }
 
-                $total = $subtotal + ($subtotal * $iva); 
+
 
             $emailBodyOff .= "<tr style='padding-top: 20px; border-top: solid 4px #979797;'>
                                     <td></td>

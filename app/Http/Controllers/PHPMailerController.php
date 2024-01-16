@@ -65,7 +65,7 @@ class PHPMailerController extends Controller {
             //$mail->addCC($request->emailCc);
             //$mail->addBCC($request->emailBcc);
 
-            $mail->addReplyTo('oficina@rtelsalvador.com', 'Oficinas RT El Salvador');
+            //$mail->addReplyTo('oficina@rtelsalvador.com', 'Oficinas RT El Salvador');
 
             /*
             if(isset($_FILES['emailAttachments'])) {
