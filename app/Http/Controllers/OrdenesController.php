@@ -137,7 +137,7 @@ class OrdenesController extends Controller
         $emailSubjectClient = 'Actualización de estado de orden de compra #: '.$orden->id.' - Accumetric El Salvador';
         $emailBodyClient = " 
                         <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'> 
+                            <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'> 
                         </div>
 
                         <br/>
@@ -163,7 +163,7 @@ class OrdenesController extends Controller
         $emailSubjectOff = 'Actualización de estado de orden de compra #: '.$orden->id.' a En Proceso';
         $emailBodyOff = " 
                         <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
+                            <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
                         </div>
 
                         <br/>
@@ -173,6 +173,7 @@ class OrdenesController extends Controller
                         <br/>
                         <p><b>DATOS</b>:</p>
                         <p><b>Cliente</b>: ".$orden->user->name." <br/>
+                           <b>NRC</b>: ".($orden->user->nrc != null ) ? $orden->user->nrc : '-'." | <b>NIT</b>: ".($orden->user->nit != null ) ? $orden->user->nit : '-'." | <b>DUI</b>: ".($orden->user->dui != null ) ? $orden->user->dui : '-'." <br/>
                            <b>Empresa</b>: ".$orden->user->nombre_empresa." <br/>
                            <b>Correo electrónico</b>: ".$orden->user->email." <br/>
                            <b>WhatsApp</b>: ".$orden->user->numero_whatsapp." <br/>
@@ -195,49 +196,49 @@ class OrdenesController extends Controller
                             </thead>
                             <tbody>";
   
-        $subtotal = 0;
-        $iva = 0.13;
-        $total = 0;
+            $subtotal = 0;
+            $iva = 0.13;
+            $total = 0;
 
-        foreach ($ordenDetalle as $detalles) {
+            foreach ($ordenDetalle as $detalles) {
 
-            $subtotal += $detalles->cantidad * $detalles->precio;
+                $subtotal += $detalles->cantidad * $detalles->precio;
 
-            $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
-                                <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
-                                <td style='text-align: center;'>".$detalles->cantidad."</td>
-                                <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
-                                <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
-                             </tr>";
-        }
+                $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
+                                    <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                 </tr>";
+            }
 
-        $total = $subtotal + ($subtotal * $iva); 
+            $total = $subtotal + ($subtotal * $iva); 
 
-            $emailBodyOff .= "<tr style='padding-top: 20px; border-top: solid 4px #979797;'>
-                                    <td></td>
-                                    <td></td> 
-                                    <td style='text-align: left; font-weight: 600;'>Subtotal:</td> 
-                                    <td style='text-align: right;'>".number_format($subtotal, 2, '.', ',')." $</td> 
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td> 
-                                    <td style='text-align: left; font-weight: 600;'>IVA (13%):</td> 
-                                    <td style='text-align: right;'>".number_format(($subtotal * $iva), 2, '.', ',')." $</td> 
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td style='text-align: left; font-weight: 600;'>Total:</td> 
-                                    <td style='text-align: right;'>".number_format($total, 2, '.', ',')." $</td> 
-                                </tr>
-                            </tbody>
-                        </table>
+        $emailBodyOff .= "<tr style='padding-top: 20px; border-top: solid 4px #979797;'>
+                                <td></td>
+                                <td></td> 
+                                <td style='text-align: left; font-weight: 600;'>Subtotal:</td> 
+                                <td style='text-align: right;'>".number_format($subtotal, 2, '.', ',')." $</td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td> 
+                                <td style='text-align: left; font-weight: 600;'>IVA (13%):</td> 
+                                <td style='text-align: right;'>".number_format(($subtotal * $iva), 2, '.', ',')." $</td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td style='text-align: left; font-weight: 600;'>Total:</td> 
+                                <td style='text-align: right;'>".number_format($total, 2, '.', ',')." $</td> 
+                            </tr>
+                        </tbody>
+                    </table>
 
-                        <br/>
-                        
-                        <p>...</p>
-                        ";
+                    <br/>
+                    
+                    <p>...</p>
+                    ";
                         
         $replyToEmailOff = $orden->user->email;
         $replyToNameOff = $orden->user->name;

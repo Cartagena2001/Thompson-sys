@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Orden;
 use App\Models\OrdenDetalle;
+use App\Models\Producto;
 use App\Models\User;
 
 class OrdenesBodegaController extends Controller
