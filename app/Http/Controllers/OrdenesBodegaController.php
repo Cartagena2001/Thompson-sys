@@ -14,6 +14,7 @@ class OrdenesBodegaController extends Controller
     public function index()
     {
         $ordenes = Orden::Paginate(1000000000);
+        $ordenes = Orden::where('estatus', 'aspirante')->orWhere('estatus', 'rechazado')->paginate(1000000000);
         $users = User::all();
 
         return view('ordenes.index-bodega' , compact('ordenes' , 'users'));
