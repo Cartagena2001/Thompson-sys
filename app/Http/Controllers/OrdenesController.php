@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\Orden;
 use App\Models\OrdenDetalle;
 use App\Models\Producto;
@@ -243,10 +244,12 @@ class OrdenesController extends Controller
         $replyToEmailOff = $orden->user->email;
         $replyToNameOff = $orden->user->name;
 
-        $estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
+        //$estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
         //dd($estado2);
 
-        return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a En Proceso');
+        //return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a En Proceso');
+
+        return view('ordenes.index-oficina')->with('toast_success', 'Se actualizó el estado de la órden a En Proceso');
     }
 
 
@@ -299,7 +302,7 @@ class OrdenesController extends Controller
     }
 
 
-    private function notificarCliente($emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName) 
+    public function notificarCliente($emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName) 
     {
 
         require base_path("vendor/autoload.php");
@@ -367,7 +370,9 @@ class OrdenesController extends Controller
             */
 
             $mail->getSMTPInstance()->reset();
+            $mail->clearAllRecipients()
             $mail->clearAddresses();
+            $mail->clearReplyTos();
             //$mail->smtpClose();
 
             return $estatus;
@@ -379,7 +384,7 @@ class OrdenesController extends Controller
     }
 
 
-    private function notificarOficina($emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName ) 
+    public function notificarOficina($emailRecipient ,$emailSubject ,$emailBody ,$replyToEmail ,$replyToName ) 
     {
 
         require base_path("vendor/autoload.php");
@@ -389,25 +394,25 @@ class OrdenesController extends Controller
         try {
 
             // Email server settings
-            $mail2->SMTPDebug = 2;
-            $mail2->isSMTP();
-            $mail2->Host = env('MAIL_HOST');             //  smtp host
-            $mail2->SMTPAuth = true;
-            $mail2->Username = env('MAIL_USERNAME');   //  sender username
-            $mail2->Password = env('MAIL_PASSWORD');       // sender password
-            $mail2->SMTPSecure = env('MAIL_ENCRYPTION');    // encryption - ssl/tls
-            //$mail2->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // encryption - ssl/tls
-            $mail2->Port = env('MAIL_PORT');           // port - 587/465
-            //$mail2->SMTPKeepAlive = true;
-            $mail2->CharSet = 'UTF-8';
-            $mail2->Encoding = 'base64';
+            $mail->SMTPDebug = 2;
+            $mail->isSMTP();
+            $mail->Host = env('MAIL_HOST');             //  smtp host
+            $mail->SMTPAuth = true;
+            $mail->Username = env('MAIL_USERNAME');   //  sender username
+            $mail->Password = env('MAIL_PASSWORD');       // sender password
+            $mail->SMTPSecure = env('MAIL_ENCRYPTION');    // encryption - ssl/tls
+            //$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // encryption - ssl/tls
+            $mail->Port = env('MAIL_PORT');           // port - 587/465
+            //$mail->SMTPKeepAlive = true;
+            $mail->CharSet = 'UTF-8';
+            $mail->Encoding = 'base64';
 
-            $mail2->setFrom('notificaciones@rtelsalvador.com', 'Accumetric El Salvador');
-            $mail2->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
-            //$mail2->addCC($request->emailCc);
-            //$mail2->addBCC($request->emailBcc);
+            $mail->setFrom('notificaciones@rtelsalvador.com', 'Accumetric El Salvador');
+            $mail->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
+            //$mail->addCC($request->emailCc);
+            //$mail->addBCC($request->emailBcc);
 
-            $mail2->addReplyTo($replyToEmail, $replyToName);
+            $mail->addReplyTo($replyToEmail, $replyToName);
 
             /*
             if(isset($_FILES['emailAttachments'])) {
@@ -417,41 +422,45 @@ class OrdenesController extends Controller
             }
             */
 
-            $mail2->isHTML(true);                // Set email content format to HTML
+            $mail->isHTML(true);                // Set email content format to HTML
 
-            $mail2->Subject = $emailSubject.' '.rand();
-            $mail2->Body    = $emailBody;
+            $mail->Subject = $emailSubject.' '.rand();
+            $mail->Body    = $emailBody;
 
             // $mail2->AltBody = plain text version of email body;
 
             /* Se envia el mensaje, si no ha habido problemas la variable $estatus tendrá el valor true */
-            $estatus = $mail2->Send();
+            $estatus = $mail->Send();
             /* 
             Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
             enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
             funcion sleep
             */  
 
+            /*
             $intentos=1; 
             
             if ($estatus != true) {
 
                 while (($estatus != true) && ($intentos < 5)) {
                     sleep(5);
-                    //echo $mail2->ErrorInfo;
-                    $estatus = $mail2->Send();
+                    //echo $mail->ErrorInfo;
+                    $estatus = $mail->Send();
                     $intentos = $intentos+1;  
                 }
             }
+            */
 
-            $mail2->getSMTPInstance()->reset();
-            $mail2->clearAddresses();
-            //$mail2->smtpClose();
+            $mail->getSMTPInstance()->reset();
+            $mail->clearAllRecipients()
+            $mail->clearAddresses();
+            $mail->clearReplyTos();
+            //$mail->smtpClose();
 
             return $estatus;
         
         } catch (Exception $e) {
-              return $mail2->ErrorInfo;
+              return $mail->ErrorInfo;
         } 
 
     }
