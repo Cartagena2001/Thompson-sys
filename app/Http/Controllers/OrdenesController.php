@@ -351,17 +351,20 @@ class OrdenesController extends Controller
             enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
             funcion sleep
             */  
+            
+            /*
             $intentos=1; 
             
             if ($estatus != true) {
 
                 while (($estatus != true) && ($intentos < 5)) {
                     sleep(5);
-                    /*echo $mail->ErrorInfo;*/
+                    //echo $mail->ErrorInfo;
                     $estatus = $mail->Send();
                     $intentos = $intentos+1;  
                 }
             }
+            */
 
             $mail->getSMTPInstance()->reset();
             $mail->clearAddresses();
@@ -428,17 +431,20 @@ class OrdenesController extends Controller
             enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
             funcion sleep
             */  
+
+            /*
             $intentos=1; 
             
             if ($estatus != true) {
 
                 while (($estatus != true) && ($intentos < 5)) {
                     sleep(5);
-                    /*echo $mail->ErrorInfo;*/
+                    //echo $mail->ErrorInfo;
                     $estatus = $mail->Send();
                     $intentos = $intentos+1;  
                 }
             }
+            */
 
             $mail->getSMTPInstance()->reset();
             $mail->clearAddresses();
