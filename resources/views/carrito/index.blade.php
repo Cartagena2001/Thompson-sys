@@ -46,31 +46,27 @@
             <tbody>
                 @foreach (session('cart', []) as $item)
                     <tr>
-                        <td style="font-size: 13px">{{ $item['producto_id'] }}</td>
-                        <td style="font-size: 13px">{{ $item['producto_oem'] }}</td>
-                        <td style="font-size: 13px">{{ $item['nombre'] }}</td>
-                        <td style="font-size: 13px">{{ $item['marca'] }}</td>
-                        <td style="font-size: 13px" class="flex-center">
+                        <td style="font-size: 10px">{{ $item['producto_id'] }}</td>
+                        <td style="font-size: 10px">{{ $item['producto_oem'] }}</td>
+                        <td style="font-size: 10px">{{ $item['nombre'] }}</td>
+                        <td style="font-size: 10px">{{ $item['marca'] }}</td>
+                        <td style="font-size: 10px" class="flex-center">
                             <form action="{{ route('carrito.update', $item['producto_id']) }}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="row">
                                     <div class="input-group" data-quantity="data-quantity">
                                         <input type="hidden" id="{{ $item['producto_id'] }}" name="producto_id" value="{{ $item['producto_id'] }}">
-                                        <div class="input-group-append">
+                                        <div class="flex-center"> {{-- input-group-append --}}
                                             
-                                            <button class="btn btn-outline-secondary btn-menos" type="button">-</button>
+                                           {{-- <button class="btn btn-outline-secondary btn-menos" type="button">-</button> --}}
                                             
-                                            <input id="cantidad_{{ $item['producto_id'] }}" class="btn btn-outline-secondary cantidad px-2" type="number" name="cantidad" value="{{ $item['cantidad'] }}" min="1" max="{{ $item['existencia'] }}" {{-- onchange="udpCarrito(this.id)" --}} readonly>
+                                            <input id="cantidad_{{ $item['producto_id'] }}" class="btn btn-outline-secondary cantidad px-2" type="number" name="cantidad" value="{{ $item['cantidad'] }}" min="1" max="{{ $item['existencia'] }}" {{-- onchange="udpCarrito(this.id)" --}} >
                                             
-                                            <button class="btn btn-outline-secondary btn-mas" type="button">+</button>
+                                           {{--<button class="btn btn-outline-secondary btn-mas" type="button">+</button> --}}
                                             
-                                             
-                                            <button type="submit" class="btn btn-sm btn-primary">
-                                                <i class="fas fa-sync-alt"></i> Actualizar cantidad
-                                            </button>
+                                           <button style="height: 35px; border-radius: 6px;" type="submit" class="btn btn-sm btn-primary ms-1" title="Actualizar cantidad"><i class="fas fa-sync-alt"></i></button> 
                                             
-
                                         </div>
                                         <br/>
                                         @error('cantidad')
@@ -80,14 +76,14 @@
                                 </div>
                             </form>
                         </td>
-                        <td style="font-size: 13px" class="text-center">{{ number_format(($item['precio_f'] * $item['unidad_caja']), 2, '.', ','); }} $</td>
-                        <td style="font-size: 13px" class="text-center">{{ number_format(($item['precio_f'] * $item['cantidad'] * $item['unidad_caja']), 2, '.', ','); }} $</td>
-                        <td style="font-size: 13px" class="text-center">
+                        <td style="font-size: 10px" class="text-center">{{ number_format(($item['precio_f'] * $item['unidad_caja']), 2, '.', ','); }} $</td>
+                        <td style="font-size: 10px" class="text-center">{{ number_format(($item['precio_f'] * $item['cantidad'] * $item['unidad_caja']), 2, '.', ','); }} $</td>
+                        <td style="font-size: 10px" class="text-center">
                             <form action="{{ route('carrito.delete', $item['producto_id']) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="producto_id" value="{{ $item['producto_id'] }}">
-                                <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i> Quitar producto</button>
+                                <button style="height: 35px; border-radius: 6px;" type="submit" class="btn btn-sm btn-primary" title="Quitar producto"><i class="fas fa-trash-alt"></i></button>
                             </form>
                         </td>
                     </tr>
@@ -140,6 +136,7 @@
 
     <script>
 
+        /*
         var btnMas = document.querySelectorAll('.btn-mas');
         var btnMenos = document.querySelectorAll('.btn-menos');
         var inputCantidad = document.querySelectorAll('.cantidad');
@@ -161,6 +158,7 @@
                 }
             });
         }
+        */
 
 
         function updtCarrito(cant_id) {
@@ -168,7 +166,7 @@
             var qty = $('#'+cant_id).val();
             var prodid = cant_id.slice(cant_id.indexOf('_') + 1);
             
-            console.log(prodid);
+            //console.log(prodid);
 
             $.ajax({
                 url: "{{ route('carrito.update',"+prodid+") }}",
@@ -178,7 +176,7 @@
 
                 success: function(response){
                     $('#successMsg').show();
-                    console.log(response);
+                    //console.log(response);
                 },
                 error: function(response) {
                     $('#ErrorMsg1').text(response.responseJSON.errors.qty);

@@ -27,7 +27,7 @@
 {{-- Cards de informacion --}}
 <div class="row g-3 mb-3">
 
-    <div class="col-sm-3 col-md-3">
+    <div class="col-6 col-sm-6 col-md-6 col-lg-3">
         <div class="card overflow-hidden" style="min-width: 12rem">
             <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
             <!--/.bg-holder-->
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div class="col-sm-3 col-md-3">
+    <div class="col-6 col-sm-6 col-md-6 col-lg-3">
         <div class="card overflow-hidden" style="min-width: 12rem">
             <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
             <!--/.bg-holder-->
@@ -65,7 +65,7 @@
         </div>
     </div>
 
-    <div class="col-sm-3 col-md-3">
+    <div class="col-6 col-sm-6 col-md-6 col-lg-3">
         <div class="card overflow-hidden" style="min-width: 12rem">
             <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
             <!--/.bg-holder-->
@@ -84,7 +84,7 @@
         </div>
     </div>
 
-    <div class="col-sm-3 col-md-3">
+    <div class="col-6 col-sm-6 col-md-6 col-lg-3">
         <div class="card overflow-hidden" style="min-width: 12rem">
             <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
             <!--/.bg-holder-->

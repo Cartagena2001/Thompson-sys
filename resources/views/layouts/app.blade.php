@@ -434,7 +434,7 @@
     @include('sweetalert::alert')
     </div>
 
-    <footer class="footer rt-color-2-bg" style="border-top: 2px ridge #ff1620; position: fixed; z-index: 1000;">
+    <footer class="footer rt-color-2-bg" style="border-top: 2px ridge #ff1620;"> {{-- position: fixed; z-index: 1000; --}}
       
       <div class="row g-0 justify-content-between fs--1 mt-3 mb-3 mx-3">
         <div class="col-12 col-sm-auto text-center">
@@ -448,37 +448,37 @@
     </footer>
 
 
-<script>
-    $(document).ready(function(){
+    <script>
+        $(document).ready(function(){
 
-      $("#fullscreenbtm").click(function(){
-        
-        var anchoMenu = $("#nvt").width();
+          $("#fullscreenbtm").click(function(){
+            
+            var anchoMenu = $("#nvt").width();
 
-        if (anchoMenu > 0) {
-            $("#navLeft").hide(1000);
-            $("#nvt").css("display", "none");
-            $("#nvt").css("width", "0px");
-            $("#ctt").removeClass("col-sm-9 col-md-9 col-lg-9 col-xl-9");
-            $("#ctt").addClass("col-sm-12 col-md-12 col-lg-12 col-xl-12");
+            if (anchoMenu > 0) {
+                $("#navLeft").hide(1000);
+                $("#nvt").css("display", "none");
+                $("#nvt").css("width", "0px");
+                $("#ctt").removeClass("col-sm-9 col-md-9 col-lg-9 col-xl-9");
+                $("#ctt").addClass("col-sm-12 col-md-12 col-lg-12 col-xl-12");
 
-            $("#nvt").removeClass("col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3");
-        } else {
-            $("#navLeft").show(1);
-            $("#nvt").css("display", "block");
-            $("#nvt").css("width", "auto");
-            $("#ctt").removeClass("col-sm-12 col-md-12 col-lg-12 col-xl-12");
-            $("#ctt").addClass("col-sm-9 col-md-9 col-lg-9 col-xl-9");
+                $("#nvt").removeClass("col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3");
+            } else {
+                $("#navLeft").show(1);
+                $("#nvt").css("display", "block");
+                $("#nvt").css("width", "auto");
+                $("#ctt").removeClass("col-sm-12 col-md-12 col-lg-12 col-xl-12");
+                $("#ctt").addClass("col-sm-9 col-md-9 col-lg-9 col-xl-9");
 
-            $("#nvt").addClass("col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3");           
-        }
+                $("#nvt").addClass("col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3");           
+            }
 
-      });
+          });
 
-    });
-</script>
+        });
+    </script>
 
-<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/radar.js"></script>
@@ -493,7 +493,7 @@
     <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
     <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script>
         am4core.options.commercialLicense = true;
     </script>  
