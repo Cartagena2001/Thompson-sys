@@ -780,7 +780,8 @@
                 //$("#hcart").load(location.href + " #hcart");
                 //$("#subtSing").load(location.href + " #subtSing");
                 $("#table_detalle").load(' #table_detalle');
-                $("#hcart").load(' #hcart'); 
+                //$("#hcart").load(' #hcart');
+                $("#hcart").load(location.href+" #hcart>*",""); 
                 $("#"+subtSing).load(' #'+subtSing); 
             },
             error: function(response) {

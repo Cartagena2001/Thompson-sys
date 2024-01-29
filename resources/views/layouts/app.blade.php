@@ -63,368 +63,381 @@
 
 
     <header class="sticky-menu">
-        <div class="row g-0 pb-2 pt-2" style="background-color: #000; border-bottom: 2px ridge #ff1620;">
 
-            <div class="col-6 col-lg-6 text-start pt-2 ps-2 me-md-auto">
-                <a href="/" class="text-decoration-none" title="Ir a Inicio">
-                    @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3 )
-                         <img src="{{ URL('assets/img/accumetric-slv-logo-mod.png') }}" alt="rt-logo" style="width: 100%; max-width: 220px; height: auto;" />
-                    @else 
-                         <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 52px; height: auto;" />
-                    @endif
-                </a>     
+        <nav class="navbar navbar-dark navbar-top navbar-expand-lg" style="background-color: #000; border-bottom: 2px ridge #ff1620;">
+
+          <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarStandard" aria-controls="navbarStandard" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+
+          <a class="navbar-brand me-1 me-sm-3" href="/" title="Ir a Inicio">
+            <div class="d-flex align-items-center">
+              @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3 )
+                   <img src="{{ URL('assets/img/accumetric-slv-logo-mod.png') }}" alt="rt-logo" style="width: 100%; max-width: 190px; height: auto;" />
+              @else 
+                   <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 52px; height: auto;" />
+              @endif
             </div>
+          </a>
 
-            <div class="col-5 col-lg-5 text-end pt-2 pe-1 me-md-auto">
-                
-                <div class="my-3">
-                    
-                    <p class="mb-0">
-                    <a href="" class="text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" title="En Línea">
-                        <i class="fas fa-circle" style="font-size: 10px; color: green;"></i>
-                        <span class=" d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
-                        @if ( Auth::user()->nombre_empresa != null)
-                            <span class=" d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">({{ Auth::user()->nombre_empresa }})</span>
-                        @endif
-                    </a> | <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="Cerrar Sesión">
-                        <span class=" d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">SALIR</span> <i style="font-size: 10px;" class="fas fa-sign-out-alt"></i>
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="">@csrf </form>
-                    </p>
+          <div class="collapse navbar-collapse scrollbar" id="navbarStandard">
+            
+            <ul class="navbar-nav">
+              
+              <li class="nav-item"><a class="nav-link {{ 'home' == request()->path() ? 'active-menu' : '' }}" href="{{ url('/home') }}" role="button" aria-haspopup="true" aria-expanded="false" id="inicios">🖥 Inicio  @if ( Auth::user()->rol_id == 1 || Auth::user()->rol_id == 0)  @endif</a>
+              </li>
 
-                </div> 
-                
-            </div>
+                @if ( Auth::user()->rol_id == 1 || Auth::user()->rol_id == 0)
+
+                  {{-- MENU ADMIN y SUPERADMIN --}} 
+
+                  <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="configs">⚒️ Configuraciones</a>
+
+                    <div class="dropdown-menu dropdown-caret dropdown-menu-card border-0 mt-0" aria-labelledby="configs">
+
+                      <div class="bg-white dark__bg-1000 rounded-3 py-2">
+
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}" href="{{ url('/perfil/configuracion') }}">Perfil de Usuario</a>
+
+                          @if ( Auth::user()->rol_id == 0)
+
+                            {{-- MENU SUPERADMIN --}}
+                        
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/configuracion/cms') !== false ? 'active-menu' : '' }}" href="{{ url('/configuracion/cms') }}">CMS</a>
+
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/configuracion/users') !== false ? 'active-menu' : '' }}" href="{{ url('/configuracion/users') }}">Usuarios</a>
+
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/configuracion/bitacora') !== false ? 'active-menu' : '' }}" href="{{ url('/configuracion/bitacora') }}">Bitácora<span class="badge rounded-pill ms-2 badge-soft-success">Actualizado</span></a>
+
+                          @endif
+
+                      </div>
+
+                    </div>
+
+                  </li>
+
+                  <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="documentations">👜 Tienda</a>
+
+                    <div class="dropdown-menu dropdown-caret dropdown-menu-card border-0 mt-0" aria-labelledby="documentations">
+                      <div class="bg-white dark__bg-1000 rounded-3 py-2">
+                        
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/tienda') }}"><i class="fas fa-shopping-basket"></i> Catálogo/Compra</a>
+
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/compra-masiva') }}"><i class="fas fa-box-open"></i> Compra Rápida</a>
+
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/productos') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/productos') }}"><i class="fa-solid fa-newspaper"></i> Gestión de Productos</a>
+
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/categorias') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/categorias') }}"><i class="fas fa-list-ul"></i> Categorías</a>
+
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/marcas') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/marcas') }}"><i class="fas fa-copyright"></i> Marcas</a>
+
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/ordenes/oficina') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/ordenes/oficina') }}"><i class="fas fa-folder-open"></i> Órdenes de Compra 
+                          <?php
+                              $ordenesSinVer = DB::table('orden')
+                                  ->where('visto', 'nuevo')
+                                  ->get();
+                              if (count($ordenesSinVer) != 0) {
+                                  echo '<sup class="cantnoti">'.count($ordenesSinVer).'</sup>';
+                              }
+                              
+                          ?> </a>
+
+                      </div>
+                    </div>
+
+                  </li>
+
+
+                  <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="users">👥 Usuarios</a>
+
+                    <div class="dropdown-menu dropdown-caret dropdown-menu-card border-0 mt-0" aria-labelledby="users">
+
+                      <div class="bg-white dark__bg-1000 rounded-3 py-2">
+                        
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/aspirantes') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/aspirantes') }}"><i class="fas fa-users-cog"></i> Aspirantes 
+                        <?php
+                            $aspitanresNew = DB::table('users')
+                                ->where('visto', 'nuevo')
+                                ->where('estatus', 'aspirante')
+                                ->get();
+                            if (count($aspitanresNew) != 0) {
+                                echo '<sup class="cantnoti">'.count($aspitanresNew).'</sup>';
+                            }
+                            
+                        ?></a>
+
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/clientes') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/clientes') }}">
+                          <i class="fas fa-medal"></i> Clientes</a>
+
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/permisos') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/permisos') }}">
+                          <i class="fas fa-lock-open"></i> Autorizar Marcas</a>
+
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/permisos') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/permisos') }}">
+                          <i class="fas fa-user-plus"></i> Contactos 
+                          <?php
+                              $msjNew = DB::table('contacto')
+                                  ->where('visto', 'nuevo')
+                                  ->get();
+                              if (count($msjNew) != 0) {
+                                  echo '<sup class="cantnoti">'.count($msjNew).'</sup>';
+                              }
+                              
+                          ?></a>
+
+                      </div>
+                    </div>
+
+                  </li>
+
+                    <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="datos">📊 Datos</a>
+
+                    <div class="dropdown-menu dropdown-caret dropdown-menu-card border-0 mt-0" aria-labelledby="datos">
+
+                      <div class="bg-white dark__bg-1000 rounded-3 py-2">
+                        
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/reportes') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/reportes') }}">
+                          <i class="fas fa-file-download"></i> Reportes</a>
+
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/estadisticas') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/estadisticas') }}"><i class="fas fa-chart-pie"></i> Estadísticas</a>
+
+                      </div>
+                    </div>
+
+                  </li>
+
+
+                  <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="docs">📕 Documentación</a>
+
+                    <div class="dropdown-menu dropdown-caret dropdown-menu-card border-0 mt-0" aria-labelledby="docs">
+                      <div class="bg-white dark__bg-1000 rounded-3 py-2">
+                        
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/manuales') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/manuales') }}">
+                          <i class="fas fa-file-pdf"></i> Manuales</a>
+
+                      </div>
+                    </div>
+
+                  </li>
+
+                @elseif ( Auth::user()->rol_id == 2 )
+                  {{-- MENU CLIENTE --}}
+
+                    <li class="nav-item dropdown">
+
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="micuentas">👤 Mi Cuenta</a>
+
+                      <div class="dropdown-menu dropdown-caret dropdown-menu-card border-0 mt-0" aria-labelledby="micuentas">
+
+                        <div class="bg-white dark__bg-1000 rounded-3 py-2">
+                          
+                          <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}" href="{{ url('/perfil/configuracion') }}">
+                            <i class="fas fa-user-edit"></i> Mi Perfil</a>
+
+                          @if ( $catalog_mode == 0 )
+
+                            <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/perfil/ordenes') !== false ? 'active-menu' : '' }}" href="{{ url('/perfil/ordenes') }}">
+                            <i class="fas fa-truck-loading"></i> Mis Órdenes</a>
+
+                          @endif
+
+                        </div>
+                      </div>
+
+                    </li>
+
+                    <li class="nav-item dropdown">
+
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="tiendas">👜 Tienda</a>
+
+                      <div class="dropdown-menu dropdown-caret dropdown-menu-card border-0 mt-0" aria-labelledby="tiendas">
+
+                        <div class="bg-white dark__bg-1000 rounded-3 py-2">
+                          
+                          <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/catalogo') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/catalogo') }}">
+                            <i class="fas fa-shopping-basket"></i> Catálogo</a>
+
+                          @if ( $catalog_mode == 0 )
+
+                            <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/tienda') }}">
+                            <i class="fas fa-shopping-basket"></i> Catálogo/Compra</a>
+
+                            <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/compra-masiva') }}">
+                            <i class="fas fa-box-open"></i> Compra Rápida</a>
+
+                          @endif
+
+                        </div>
+                      </div>
+
+                    </li>
+
+
+
+                  <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="docs">📕 Documentación</a>
+
+                    <div class="dropdown-menu dropdown-caret dropdown-menu-card border-0 mt-0" aria-labelledby="docs">
+                      <div class="bg-white dark__bg-1000 rounded-3 py-2">
+                        
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/manuales') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/manuales') }}">
+                          <i class="fas fa-file-pdf"></i> Manuales</a>
+
+                      </div>
+                    </div>
+
+                  </li>
+
+                @else
+                  {{-- MENU BÓDEGA --}}
+
+                  <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="configss">👤 Configuración de Cuenta</a>
+
+                    <div class="dropdown-menu dropdown-caret dropdown-menu-card border-0 mt-0" aria-labelledby="configss">
+
+                      <div class="bg-white dark__bg-1000 rounded-3 py-2">
+                        
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}" href="{{ url('/perfil/configuracion') }}">
+                          <i class="fas fa-user-edit"></i> Mi Perfil</a>
+
+                      </div>
+                    </div>
+
+                  </li>
+
+                  <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="bodgs">🚚 Bódega</a>
+
+                    <div class="dropdown-menu dropdown-caret dropdown-menu-card border-0 mt-0" aria-labelledby="bodgs">
+
+                      <div class="bg-white dark__bg-1000 rounded-3 py-2">
+                        
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/ordenes/bodega') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/ordenes/bodega') }}">
+                          <i class="fas fa-folder-open"></i> Órdenes de Compra</a>
+
+                      </div>
+                    </div>
+
+                  </li>
+
+                @endif
+
+            </ul>
+          
+          </div>
+
+          <ul class="navbar-nav navbar-nav-icons ms-auto flex-row align-items-center">
+
+            <li class="nav-item dropdown">
+              
+              <a class="nav-link px-2" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="avatar avatar-xl">
+                  <img class="rounded-circle" src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 52px; height: auto;" />
+                </div>
+              </a>
+
+              <div class="dropdown-menu dropdown-caret dropdown-caret dropdown-menu-end py-0" aria-labelledby="navbarDropdownUser">
+                <div class="bg-white dark__bg-1000 rounded-2 py-2">
+                  <a class="dropdown-item fw-bold text-warning" href="#!"><svg class="svg-inline--fa fa-crown fa-w-20 me-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="crown" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg=""><path fill="currentColor" d="M528 448H112c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm64-320c-26.5 0-48 21.5-48 48 0 7.1 1.6 13.7 4.4 19.8L476 239.2c-15.4 9.2-35.3 4-44.2-11.6L350.3 85C361 76.2 368 63 368 48c0-26.5-21.5-48-48-48s-48 21.5-48 48c0 15 7 28.2 17.7 37l-81.5 142.6c-8.9 15.6-28.9 20.8-44.2 11.6l-72.3-43.4c2.7-6 4.4-12.7 4.4-19.8 0-26.5-21.5-48-48-48S0 149.5 0 176s21.5 48 48 48c2.6 0 5.2-.4 7.7-.8L128 416h384l72.3-192.8c2.5.4 5.1.8 7.7.8 26.5 0 48-21.5 48-48s-21.5-48-48-48z"></path></svg><!-- <span class="fas fa-crown me-1"></span> Font Awesome fontawesome.com --><span>Go Pro</span></a>
+
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#!">Set status</a>
+                  <a class="dropdown-item" href="../pages/user/profile.html">Profile &amp; account</a>
+                  <a class="dropdown-item" href="#!">Feedback</a>
+
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="../pages/user/settings.html">Settings</a>
+                  <a class="dropdown-item" href="../pages/authentication/card/logout.html">Logout</a>
+                </div>
+              </div>
+            </li>
 
             @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
-                                
-            {{-- CART ADMIN, SUPERADMIN --}}
-            <div id="hcart" class="col-1 col-lg-1 text-start pt-2 pe-2 me-md-auto">
-                
-                <div class="my-3 text-start" style="display: block;">
-                    <a style="position: relative;" href="{{ url('/carrito') }}" title="Procesar Órden...">
-                            <?php
-                                $carrito = session('cart', []);
-                                $cart = session()->get('cart', []);
+            
+                {{-- CART ADMIN, SUPERADMIN --}}
 
-                                $cantidad = 0;
-                                
-                                foreach ($carrito as $item) {
-                                    $cantidad += $item['cantidad'];
-                                }
-                            ?>
-                            <i style="font-size: 16px; margin: 3px 10px; color: #fff;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; bottom: 13px; left: 32px;">{{ $cantidad }}</span>
-                    </a>
-                </div>
+                <li class="nav-item d-sm-block">
+
+                  <a id="hcart" class="nav-link px-0" href="{{ url('/carrito') }}" title="Procesar Órden...">
+                      <?php
+                          $carrito = session('cart', []);
+                          $cart = session()->get('cart', []);
+
+                          $cantidad = 0;
+                          
+                          foreach ($carrito as $item) {
+                              $cantidad += $item['cantidad'];
+                          }
+                      ?>
+                    <i style="font-size: 16px; margin: 0px 4px; color: #fff;" class="fa-solid fa-cart-shopping"></i><sup>{{ $cantidad }}</sup>
+                  </a>
+
+                </li>
 
                 <?php
-                $productosDisponibles = DB::table('producto')
+                    $productosDisponibles = DB::table('producto')
                     ->where('estado_producto_id', '1')
                     ->get();
                 ?>
-            </div>
 
             @elseif ( Auth::user()->rol_id == 2 && $catalog_mode == 0)
 
-            {{-- CART CLIENTE --}}
-            <div id="hcart" class="col-1 col-lg-1 text-start pt-2 pe-2 me-md-auto">
+                {{-- CART CLIENTE --}}
 
-                <div class="my-3 text-start" style="display: block;">
-                    <a style="position: relative;" href="{{ url('/carrito') }}" title="Procesar Órden...">
-                        <?php
-                            $carrito = session('cart', []);
-                            $cart = session()->get('cart', []);
+                <li class="nav-item d-sm-block"> {{-- d-none --}}
 
-                            $cantidad = 0;
-                            
-                            foreach ($carrito as $item) {
-                                $cantidad += $item['cantidad'];
-                            }
-                        ?>
-                         <i style="font-size: 16px; margin: 3px 10px; color: #fff;" class="fa-solid fa-cart-shopping"></i><span style="position: absolute; bottom: 13px; left: 32px;">{{ $cantidad }}</span>
-                </a>
-                </div>
+                  <a id="hcart" class="nav-link px-0" href="{{ url('/carrito') }}" title="Procesar Órden...">
+                      <?php
+                          $carrito = session('cart', []);
+                          $cart = session()->get('cart', []);
+
+                          $cantidad = 0;
+                          
+                          foreach ($carrito as $item) {
+                              $cantidad += $item['cantidad'];
+                          }
+                      ?>
+                    <i style="font-size: 16px; margin: 0px 4px; color: #fff;" class="fa-solid fa-cart-shopping"></i><sup>{{ $cantidad }}</sup>
+                  </a>
+
+                </li>
 
                 <?php
-                $productosDisponibles = DB::table('producto')
+                    $productosDisponibles = DB::table('producto')
                     ->where('estado_producto_id', '1')
                     ->get();
                 ?>
-            </div>        
 
             @endif
 
-        </div>
+          </ul>
+
+        </nav>
+
         @if ( $catalog_mode == 1 )
             <div id="modMsg" style="font-size: 12px; text-align: center; background-color: black; color: #fff; padding: 5px 0px;"> 🔧 &nbsp; VERSIÓN DE PRUEBA - TIENDA EN DESARROLLO &nbsp; 🔨</div>
         @endif
+
     </header>
     
     <div class="pb-6 pt-8" id="app">
         <div class="container-fluid">
 
-            <div class="row">
-                <div class="col-12 pt-2" style="display: block; margin: 0 auto;">
-                    <button id="fullscreenbtm" class="btn navbar-toggler-humburger-icon navbar-vertical-toggle"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-                </div>
-            </div>
-
             <div class="row flex-nowrap">
 
-                <div id="nvt" style="margin: 0 auto;" class="col-12 py-2 px-2 nav-thompson col-sm-3 col-md-3 col-lg-3 col-xl-3">
-
-                    <div id="navLeft" class="px-2 pt-2 text-white min-vh-100">
-                        
-                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu">
-                            
-                                <li>
-                                
-                                    <a href="{{ url('/home') }}" class="nav-link px-0 align-middle {{ 'home' == request()->path() ? 'active-menu' : '' }}"><h5 class="rt-color-3 font-weight-bold">🖥 Dashboard  @if ( Auth::user()->rol_id == 1 || Auth::user()->rol_id == 0)  @endif</h5></a>
-
-                                </li>
-
-                                <li><hr/></li>
-
-                            @if ( Auth::user()->rol_id == 1 || Auth::user()->rol_id == 0)
-                                
-                                {{-- MENU ADMIN y SUPERADMIN --}}
-
-                                <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">⚒️ Configuraciones</h5></div>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-user-edit"></i> <span class="ms-1  d-sm-inline">Perfil de Usuario</span></a>
-                                </li>
-
-                                @if ( Auth::user()->rol_id == 0)
-
-                                    {{-- MENU SUPERADMIN --}}
-
-                                    <li class="ps-4">
-                                        <a href="{{ url('/configuracion/cms') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/configuracion/cms') !== false ? 'active-menu' : '' }}">
-                                            <i class="fas fa-brush"></i> <span class="ms-1  d-sm-inline">CMS</span></a>
-                                    </li>
-
-                                    <li class="ps-4">
-                                        <a href="{{ url('/configuracion/users') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/configuracion/users') !== false ? 'active-menu' : '' }}">
-                                            <i class="fas fa-users-cog"></i> <span class="ms-1  d-sm-inline">Usuarios</span></a>
-                                    </li>
-
-                                    <li class="ps-4">
-                                        <a href="{{ url('/configuracion/bitacora') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/configuracion/bitacora') !== false ? 'active-menu' : '' }}">
-                                            <i class="fab fa-readme"></i> <span class="ms-1  d-sm-inline">Bitácora</span></a>
-                                    </li>
-
-                                @endif
-
-                                <li><hr/></li>
-
-                                <div class="divider"><h5 class="rt-color-3 font-weight-bold">👜 Tienda</h5></div>
-                                
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1  d-sm-inline">Catálogo/Compra</span>
-                                    </a>
-                                </li>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/compra-masiva') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-box-open"></i> <span class="ms-1  d-sm-inline">Compra Rápida</span>
-                                    </a>
-                                </li>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/productos') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/productos') !== false ? 'active-menu' : '' }}">
-                                        <i class="fa-solid fa-newspaper"></i> <span class="ms-1  d-sm-inline">Gestión de Productos</span>
-                                    </a>
-                                </li>
-                                
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/categorias') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/categorias') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-list-ul"></i> <span class="ms-1  d-sm-inline">Categorías</span>
-                                    </a>
-                                </li>
-                                
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/marcas') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/marcas') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-copyright"></i> <span class="ms-1  d-sm-inline">Marcas</span></a>
-                                </li>
-                                
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/ordenes/oficina') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/ordenes/oficina') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-folder-open"></i> 
-                                        <span class="ms-1  d-sm-inline">Órdenes de Compra 
-                                        <?php
-                                            $ordenesSinVer = DB::table('orden')
-                                                ->where('visto', 'nuevo')
-                                                ->get();
-                                            if (count($ordenesSinVer) != 0) {
-                                                echo '<sup class="cantnoti">'.count($ordenesSinVer).'</sup>';
-                                            }
-                                            
-                                        ?>    
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li><hr/></li>
-
-                                <div class="divider"><h5 class="rt-color-3 font-weight-bold">👥 Usuarios</h5></div>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/aspirantes') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/aspirantes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-users-cog"></i> 
-                                        <span class="ms-1  d-sm-inline">Aspirantes 
-                                        <?php
-                                            $aspitanresNew = DB::table('users')
-                                                ->where('visto', 'nuevo')
-                                                ->where('estatus', 'aspirante')
-                                                ->get();
-                                            if (count($aspitanresNew) != 0) {
-                                                echo '<sup class="cantnoti">'.count($aspitanresNew).'</sup>';
-                                            }
-                                            
-                                        ?>
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/clientes') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/clientes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-medal"></i> <span class="ms-1  d-sm-inline">Clientes</span></a>
-                                </li>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/permisos') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/permisos') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-lock-open"></i> <span class="ms-1  d-sm-inline">Autorizar Marcas</span></a>
-                                </li>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/contactos') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/contactos') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-user-plus"></i> 
-                                        <span class="ms-1  d-sm-inline">Contactos 
-                                        <?php
-                                            $msjNew = DB::table('contacto')
-                                                ->where('visto', 'nuevo')
-                                                ->get();
-                                            if (count($msjNew) != 0) {
-                                                echo '<sup class="cantnoti">'.count($msjNew).'</sup>';
-                                            }
-                                            
-                                        ?>
-                                        </span></a>
-                                </li>
-
-                                <li><hr/></li>
-
-                                <div class="divider"><h5 class="rt-color-3 font-weight-bold">📊 Datos</h5></div>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/reportes') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/reportes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-file-download"></i> <span class="ms-1  d-sm-inline">Reportes</span>
-                                    </a>
-                                </li>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/estadisticas') }}" class="nav-link px-0 align-middle {{ strpos(request()->url(), '/dashboard/estadisticas') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-chart-pie"></i> <span class="ms-1  d-sm-inline">Estadísticas</span>
-                                    </a>
-                                </li>
-
-                                <li><hr/></li>
-
-                                <div class="divider"><h5 class="rt-color-3 font-weight-bold">📕 Documentación</h5></div>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/manuales') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/manuales') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-file-pdf"></i> <span class="ms-1  d-sm-inline">Manuales</span>
-                                    </a>
-                                </li>
-
-
-                            @elseif ( Auth::user()->rol_id == 2 )
-                                {{-- MENU CLIENTE --}}
-
-                                <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">👤 Mi Cuenta</h5></div>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-user-edit"></i> <span class="ms-1  d-sm-inline">Mi Perfil</span></a>
-                                </li>
-
-                                @if ( $catalog_mode == 0 )
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/perfil/ordenes') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/perfil/ordenes') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-truck-loading"></i> <span class="ms-1  d-sm-inline">Mis Órdenes</span></a>
-                                </li>
-
-                                @endif
-
-                                <li><hr/></li>
-                                
-                                <div class="divider"><h5 class="rt-color-3 font-weight-bold">👜 Tienda</h5></div>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/catalogo') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/catalogo') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1  d-sm-inline">Catálogo</span>
-                                    </a>
-                                </li>
-
-                                @if ( $catalog_mode == 0 )
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/tienda') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-shopping-basket"></i> <span class="ms-1  d-sm-inline">Catálogo/Compra</span>
-                                    </a>
-                                </li>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/compra-masiva') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-box-open"></i> <span class="ms-1  d-sm-inline">Compra Rápida</span>
-                                    </a>
-                                </li>
-
-                                @endif
-
-                                <li><hr/></li>
-
-                                <div class="divider"><h5 class="rt-color-3 font-weight-bold">📕 Documentación</h5></div>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/manuales') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/manuales') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-file-pdf"></i> <span class="ms-1  d-sm-inline">Manuales</span>
-                                    </a>
-                                </li>
-                                 
-                            @else
-                                {{-- MENU BÓDEGA --}}
-
-                                <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">👤 Configuración de Cuenta</h5></div>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/perfil/configuracion') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/perfil/configuracion') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-user-edit"></i> <span class="ms-1  d-sm-inline">Mi Perfil</span></a>
-                                </li>
-
-                                <li><hr/></li>
-
-                                <div class="divider mb-2"><h5 class="rt-color-3 font-weight-bold">🚚 Bódega</h5></div>
-
-                                <li class="ps-4">
-                                    <a href="{{ url('/dashboard/ordenes/bodega') }}" class="nav-link px-0 py-1 align-middle {{ strpos(request()->url(), '/dashboard/ordenes/bodega') !== false ? 'active-menu' : '' }}">
-                                        <i class="fas fa-folder-open"></i> <span class="ms-1  d-sm-inline">Órdenes de Compra</span></a>
-                                </li>
-
-                            @endif
-
-                        </ul>
-
-                    </div>
-
-                </div>
-
-                <div id="ctt" style="margin: 0 auto;" class="col-12 py-2 px-2 contentt col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                <div id="ctt" style="margin: 0 auto;" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 px-2 py-2">
                     @yield('content')
                 </div>
 
@@ -446,37 +459,6 @@
       </div>
 
     </footer>
-
-
-    <script>
-        $(document).ready(function(){
-
-          $("#fullscreenbtm").click(function(){
-            
-            var anchoMenu = $("#nvt").width();
-
-            if (anchoMenu > 0) {
-                $("#navLeft").hide(1000);
-                $("#nvt").css("display", "none");
-                $("#nvt").css("width", "0px");
-                $("#ctt").removeClass("col-sm-9 col-md-9 col-lg-9 col-xl-9");
-                $("#ctt").addClass("col-sm-12 col-md-12 col-lg-12 col-xl-12");
-
-                $("#nvt").removeClass("col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3");
-            } else {
-                $("#navLeft").show(1);
-                $("#nvt").css("display", "block");
-                $("#nvt").css("width", "auto");
-                $("#ctt").removeClass("col-sm-12 col-md-12 col-lg-12 col-xl-12");
-                $("#ctt").addClass("col-sm-9 col-md-9 col-lg-9 col-xl-9");
-
-                $("#nvt").addClass("col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3");           
-            }
-
-          });
-
-        });
-    </script>
 
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
