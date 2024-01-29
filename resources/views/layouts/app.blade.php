@@ -353,13 +353,13 @@
               <div class="dropdown-menu dropdown-caret dropdown-caret dropdown-menu-end py-0" aria-labelledby="navbarDropdownUser">
                 
                 <div class="bg-white dark__bg-1000 rounded-2 py-2">
-                  <a class="dropdown-item fw-bold text-warning" href="#!">
+                  <a class="dropdown-item fw-bold text-warning" href="{{ url('/perfil/configuracion') }}">
                     <img class="rounded-circle" src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; height: auto;" />
                   </a>
 
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" style="cursor: none;"><i class="fas fa-circle" style="font-size: 10px; color: green;"></i> En Línea</a>
-                  <a class="dropdown-item" style="cursor: none;"><span class=" d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
+                  <a class="dropdown-item" style="pointer-events: none;"><i class="fas fa-circle" style="font-size: 10px; color: green;"></i> En Línea</a>
+                  <a class="dropdown-item" style="pointer-events: none;"><span class=" d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
                         @if ( Auth::user()->nombre_empresa != null)
                             <span class=" d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">({{ Auth::user()->nombre_empresa }})</span>
                         @endif</a>
