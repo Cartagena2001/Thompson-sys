@@ -39,7 +39,9 @@
     <link href="{{url('assets/vendors/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
     <link href="{{url('assets/vendors/overlayscrollbars/OverlayScrollbars.min.css')}}" rel="stylesheet"> -->
 
-    @vite(['resources/sass/app.scss', 'resources/css/theme-rtl.css', 'resources/css/theme.css', 'resources/css/user-rtl.css', 'resources/css/user.css', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/app.css', 'resources/css/theme.css', 'resources/css/user.css'])
+
+    {{-- 'resources/css/user-rtl.css', 'resources/css/theme-rtl.css' --}}
     
     <!-- tailwind CSS Style 
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
@@ -64,7 +66,7 @@
 
     <header class="sticky-menu">
 
-        <nav class="navbar navbar-dark navbar-top navbar-expand-lg" style="background-color: #000; border-bottom: 2px ridge #ff1620;">
+        <nav class="navbar navbar-dark navbar-top navbar-expand-lg mx-auto" style="background-color: #000; border-bottom: 2px ridge #ff1620;">
 
           <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarStandard" aria-controls="navbarStandard" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
 
@@ -344,24 +346,37 @@
               
               <a class="nav-link px-2" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-xl">
-                  <img class="rounded-circle" src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 52px; height: auto;" />
+                  <img class="rounded-circle" src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; height: auto;" />
                 </div>
               </a>
 
               <div class="dropdown-menu dropdown-caret dropdown-caret dropdown-menu-end py-0" aria-labelledby="navbarDropdownUser">
+                
                 <div class="bg-white dark__bg-1000 rounded-2 py-2">
-                  <a class="dropdown-item fw-bold text-warning" href="#!"><svg class="svg-inline--fa fa-crown fa-w-20 me-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="crown" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg=""><path fill="currentColor" d="M528 448H112c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm64-320c-26.5 0-48 21.5-48 48 0 7.1 1.6 13.7 4.4 19.8L476 239.2c-15.4 9.2-35.3 4-44.2-11.6L350.3 85C361 76.2 368 63 368 48c0-26.5-21.5-48-48-48s-48 21.5-48 48c0 15 7 28.2 17.7 37l-81.5 142.6c-8.9 15.6-28.9 20.8-44.2 11.6l-72.3-43.4c2.7-6 4.4-12.7 4.4-19.8 0-26.5-21.5-48-48-48S0 149.5 0 176s21.5 48 48 48c2.6 0 5.2-.4 7.7-.8L128 416h384l72.3-192.8c2.5.4 5.1.8 7.7.8 26.5 0 48-21.5 48-48s-21.5-48-48-48z"></path></svg><!-- <span class="fas fa-crown me-1"></span> Font Awesome fontawesome.com --><span>Go Pro</span></a>
+                  <a class="dropdown-item fw-bold text-warning" href="#!">
+                    <img class="rounded-circle" src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; height: auto;" />
+                  </a>
 
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#!">Set status</a>
-                  <a class="dropdown-item" href="../pages/user/profile.html">Profile &amp; account</a>
-                  <a class="dropdown-item" href="#!">Feedback</a>
+                  <a class="dropdown-item" style="cursor: none;"><i class="fas fa-circle" style="font-size: 10px; color: green;"></i> En Línea</a>
+                  <a class="dropdown-item" style="cursor: none;"><span class=" d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
+                        @if ( Auth::user()->nombre_empresa != null)
+                            <span class=" d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">({{ Auth::user()->nombre_empresa }})</span>
+                        @endif</a>
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="{{ url('/perfil/configuracion') }}">Perfil y Cuenta</a>
+                  <a class="dropdown-item" href="{{ url('/configuracion/bitacora') }}">Bitácora</a>
 
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="../pages/user/settings.html">Settings</a>
-                  <a class="dropdown-item" href="../pages/authentication/card/logout.html">Logout</a>
+
+                  <a class="dropdown-item" href="{{ route('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="Ir a">Cerrar Sesión <i style="font-size: 15px; vertical-align: text-bottom; color: #ff0e19;" class="fas fa-sign-out-alt"></i></a> 
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="">@csrf </form>
+
                 </div>
+
               </div>
+
             </li>
 
             @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
@@ -381,7 +396,7 @@
                               $cantidad += $item['cantidad'];
                           }
                       ?>
-                    <i style="font-size: 16px; margin: 0px 4px; color: #fff;" class="fa-solid fa-cart-shopping"></i><sup>{{ $cantidad }}</sup>
+                    <i style="font-size: 26px; margin: 0px 5px; color: #fff;" class="fa-solid fa-cart-shopping"></i><sup style="top: -20px;">{{ $cantidad }}</sup>
                   </a>
 
                 </li>
@@ -409,7 +424,7 @@
                               $cantidad += $item['cantidad'];
                           }
                       ?>
-                    <i style="font-size: 16px; margin: 0px 4px; color: #fff;" class="fa-solid fa-cart-shopping"></i><sup>{{ $cantidad }}</sup>
+                    <i style="font-size: 26px; margin: 0px 5px; color: #fff;" class="fa-solid fa-cart-shopping"></i><sup style="top: -20px;">{{ $cantidad }}</sup>
                   </a>
 
                 </li>
