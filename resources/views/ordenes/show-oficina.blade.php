@@ -10,6 +10,46 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.js"></script>
 
+    <style type="text/css">
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        table {
+            display: flex;
+            flex-flow: column;
+            width: 100%;
+            height: 600px;
+            
+        }
+
+        thead {
+            padding-right: 13px;
+            flex: 0 0 auto;
+        }
+
+        tfoot {
+            padding-right: 13px;
+            flex: 0 0 auto;
+        }
+
+        tbody {
+            flex: 1 1 auto;
+            display: block;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        tr {
+            width: 100%;
+            display: table;
+            table-layout: fixed;
+        }        
+
+    </style>
+
     {{-- Titulo --}}
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
         <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png);"></div>
@@ -86,6 +126,8 @@
                         </thead>
 
                         <tbody>
+
+                            
                             @foreach ($detalle as $detalles)
                                 <tr class="pb-5">
                                     <td class="text-start">{{ $detalles->producto->OEM }}</td>
@@ -124,6 +166,10 @@
                                 </tr>
                             @endforeach
 
+                        </tbody>
+
+                        <tfoot>
+                            
                             @php
                                 $subtotal = 0;
                                 $iva = 0.13;
@@ -175,8 +221,8 @@
                                     <td class="text-start" style="font-weight: 600;">Total:</td> 
                                     <td class="text-end">{{ number_format($total, 2, '.', ',');  }} $</td>
                                 </tr>
+                        </tfoot>
 
-                        </tbody>
                     </table>
                 </div>
 

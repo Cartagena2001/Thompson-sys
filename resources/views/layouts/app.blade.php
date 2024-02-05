@@ -70,7 +70,7 @@
 
           <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarStandard" aria-controls="navbarStandard" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
 
-          <a class="navbar-brand me-1 me-sm-3" href="/" title="Ir a Inicio">
+          <a class="navbar-brand me-1 me-sm-3" href="{{ url('/home') }}" title="Ir a Inicio">
             <div class="d-flex align-items-center">
               @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3 )
                    <img src="{{ URL('assets/img/accumetric-slv-logo-mod.png') }}" alt="rt-logo" style="width: 100%; max-width: 190px; height: auto;" />

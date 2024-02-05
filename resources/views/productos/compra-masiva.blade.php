@@ -332,7 +332,7 @@
         
     }
 
-
+    /*
     window.onscroll = function() {myFunction()};
 
     var header = document.getElementById("summary");
@@ -353,6 +353,7 @@
         sumdet.classList.add("col-lg-4");
       }
     }
+    */
 
     function filterBrand(filterid) {
 

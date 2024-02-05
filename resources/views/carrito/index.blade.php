@@ -3,6 +3,46 @@
 @section('content')
 @section('title', 'Carrito de compras')
 
+<style type="text/css">
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    table {
+        display: flex;
+        flex-flow: column;
+        width: 100%;
+        height: 600px;
+        
+    }
+
+    thead {
+        padding-right: 13px;
+        flex: 0 0 auto;
+    }
+
+    tfoot {
+        padding-right: 13px;
+        flex: 0 0 auto;
+    }
+
+    tbody {
+        flex: 1 1 auto;
+        display: block;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    tr {
+        width: 100%;
+        display: table;
+        table-layout: fixed;
+    }        
+
+</style>
+
 {{-- Titulo --}}
 <div class="card mb-3">
     <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
@@ -118,7 +158,7 @@
                     foreach ($cart as $item) {
                         $total += $item['precio_f'] * $item['cantidad'] * $item['unidad_caja'];
                     }
-                    echo '<h3 class="text-center" style="font-size: 22px;">Subtotal: ' . number_format($total, 2, '.', ',') . ' $</h3>';
+                    echo '<h3 class="text-center" style="font-size: 22px;">Subtotal:</br/> ' . number_format($total, 2, '.', ',') . ' US$</h3>';
                 @endphp
                 <div class="col-auto px-2 px-md-3 mt-3 text-center">
                     <form action="{{ route('carrito.validar') }}" method="POST">

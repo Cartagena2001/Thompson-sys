@@ -801,7 +801,7 @@
         
     }
 
-
+    /*
     window.onscroll = function() {myFunction()};
 
     var header = document.getElementById("summary");
@@ -824,6 +824,7 @@
         $("#table_detalle").css("color", "initial");
       }
     }
+    */
 
     function filterBrand(filterid) {
 
