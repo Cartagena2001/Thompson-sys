@@ -56,23 +56,13 @@
     "isEntry": true,
     "src": "resources/css/app.css"
   },
-  "resources/css/theme-rtl.css": {
-    "file": "assets/theme-rtl-1a208f78.css",
-    "isEntry": true,
-    "src": "resources/css/theme-rtl.css"
-  },
   "resources/css/theme.css": {
     "file": "assets/theme-b438e9ad.css",
     "isEntry": true,
     "src": "resources/css/theme.css"
   },
-  "resources/css/user-rtl.css": {
-    "file": "assets/user-rtl-ebdb47ba.css",
-    "isEntry": true,
-    "src": "resources/css/user-rtl.css"
-  },
   "resources/css/user.css": {
-    "file": "assets/user-e6728b03.css",
+    "file": "assets/user-707815b8.css",
     "isEntry": true,
     "src": "resources/css/user.css"
   },

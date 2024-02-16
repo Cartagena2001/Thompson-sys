@@ -7,14 +7,16 @@
 
     table {
       border-collapse: collapse;
-      width: 100%;
+      min-width: 800px !important;
+      width: 100% !important;
     }
 
     table {
         display: flex;
         flex-flow: column;
-        width: 100%;
-        height: 600px;
+        min-width: 800px !important;
+        width: 100% !important;
+        min-height: 250px;
         
     }
 
@@ -36,7 +38,8 @@
     }
 
     tr {
-        width: 100%;
+        min-width: 800px !important;
+        width: 100% !important;
         display: table;
         table-layout: fixed;
     }        
@@ -136,21 +139,21 @@
 
     <div class="d-flex justify-content-between">
 
-        <div class="col-2">
+        <div class="col-4 col-sm-6 col-lg-6">
             <div class="col-auto px-2 px-md-3 mt-3">
-                <a class="btn btn-primary" href="javascript:history.back()" style="width: 160px;">
+                <a class="btn btn-primary" href="javascript:history.back()" style="width: 150px;">
                     <span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block">Seguir comprando</span>
                 </a>
             </div>
             <div class="col-auto px-2 px-md-3 mt-3">
                 <form action="{{ route('carrito.clear') }}" method="POST">
                     @csrf
-                    <button type="submit" class="btn btn-primary" style="width: 160px;"><i class="fas fa-trash-alt"></i> &nbsp;Vaciar carrito</button>
+                    <button type="submit" class="btn btn-primary" style="width: 150px;"><i class="fas fa-trash-alt"></i> <span class="d-none d-sm-inline-block">&nbsp;Vaciar carrito</span></button>
                 </form>
             </div>
         </div>
 
-        <div class="col-3">
+        <div class="col-8 col-sm-6 col-lg-6">
             <div class="col-auto px-2 px-md-3 mt-3">
                 @php
                     $total = 0;
@@ -158,9 +161,9 @@
                     foreach ($cart as $item) {
                         $total += $item['precio_f'] * $item['cantidad'] * $item['unidad_caja'];
                     }
-                    echo '<h3 class="text-center" style="font-size: 22px;">Subtotal:</br/> ' . number_format($total, 2, '.', ',') . ' US$</h3>';
+                    echo '<h3 class="text-end" style="font-size: 22px;">Subtotal:</br/> ' . number_format($total, 2, '.', ',') . ' US$</h3>';
                 @endphp
-                <div class="col-auto px-2 px-md-3 mt-3 text-center">
+                <div class="col-auto px-2 px-md-3 mt-3 text-end">
                     <form action="{{ route('carrito.validar') }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-success">

@@ -29,6 +29,13 @@
         src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.js">
     </script>
 
+    <script type="text/javascript">
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+
     <!-- Glide -->
     <!-- Required Core Stylesheet -->
     <link rel="stylesheet" href="{{ url('assets/css/glide.core.min.css') }}">
@@ -385,7 +392,7 @@
 
                 <li class="nav-item d-sm-block">
 
-                  <a id="hcart" class="nav-link px-0" href="{{ url('/carrito') }}" title="Procesar Órden...">
+                  <a id="hcart" class="nav-link px-0" href="{{ url('/carrito') }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Procesar Órden...">
                       <?php
                           $carrito = session('cart', []);
                           $cart = session()->get('cart', []);
@@ -413,7 +420,7 @@
 
                 <li class="nav-item d-sm-block"> {{-- d-none --}}
 
-                  <a id="hcart" class="nav-link px-0" href="{{ url('/carrito') }}" title="Procesar Órden...">
+                  <a id="hcart" class="nav-link px-0" href="{{ url('/carrito') }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Procesar Órden...">
                       <?php
                           $carrito = session('cart', []);
                           $cart = session()->get('cart', []);

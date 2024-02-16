@@ -1,91 +1,216 @@
+      <!-- START RTSLIDER REVOLUTION SLIDER 6.6.16 --><p class="rs-p-wp-fix"></p>
+      <rs-module-wrap id="rev_slider_2_1_wrapper" data-alias="slider-home" data-source="gallery" style="visibility:hidden;background:#ffffff;padding:0;margin:0px auto;margin-top:0;margin-bottom:0;">
+        <rs-module id="rev_slider_2_1" style="" data-version="6.6.16">
+          <rs-slides style="overflow: hidden; position: absolute;">
+            <rs-slide style="position: absolute;" data-key="rs-2" data-title="Slide" data-anim="ms:300;" data-in="o:0;" data-out="a:false;">
+              <img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" width="1920" height="1080" class="rev-slidebg tp-rs-img rs-lazyload" data-lazyload="{{ URL('assets/revs6/assets/Fondo.jpg') }}" data-no-retina>
+<!--
+              --><rs-group
+                id="slider-2-slide-2-layer-94" 
+                data-type="group"
+                data-xy="x:c;xo:10px,10px,0,0;y:m;yo:95px,95px,95px,55px;"
+                data-text="l:22;a:inherit;"
+                data-dim="w:290px,290px,290px,206px;h:140px,140px,140px,99px;"
+                data-frame_1="x:0,0,0,0px;y:0,0,0,0px;sR:10;"
+                data-frame_999="o:0;st:w;sR:8690;sA:9000;"
+                style="z-index:12;"
+              ><!--
+                --><rs-layer
+                  id="slider-2-slide-2-layer-96" 
+                  data-type="text"
+                  data-tsh="c:rgba(0,0,0,0.75);v:10px;b:10px;"
+                  data-rsp_ch="on"
+                  data-xy="x:c;y:m;yo:33px,33px,33px,23px;"
+                  data-pos="a"
+                  data-text="w:nowrap;s:20,20,20,14;l:24,24,24,17;fw:500;a:center;"
+                  data-dim="w:180px,180px,180px,128px;"
+                  data-frame_1="x:0,0,0,0px;y:0,0,0,0px;e:power2.inOut;st:2000;sp:1500;sR:1990;"
+                  data-frame_999="o:0;st:w;sR:5500;"
+                  style="z-index:7;font-family:'Fira Sans';text-transform:uppercase;"
+                >CALIDAD Y GARANTÍA 
+                </rs-layer><!--
 
-      <!-- ============================================-->
-      <!-- <section slider> begin ============================-->
-      <section class="py-0 overflow-hidden light" id="banner">
+                --><rs-layer
+                  id="slider-2-slide-2-layer-95" 
+                  class="number"
+                  data-type="text"
+                  data-tsh="c:rgba(0,0,0,0.75);v:10px;b:10px;"
+                  data-rsp_ch="on"
+                  data-xy="x:c;y:m;yo:-26px,-26px,-26px,-18px;"
+                  data-pos="a"
+                  data-text="s:60,60,60,43;l:64,64,64,45;fw:500;a:center;"
+                  data-frame_1="x:0,0,0,0px;y:0,0,0,0px;e:power2.inOut;st:2000;sp:1500;sR:1990;"
+                  data-frame_999="o:0;st:w;sR:5500;"
+                  style="z-index:6;font-family:'Fira Sans';"
+                >100% 
+                </rs-layer><!--
+              --></rs-group><!--
 
-        <div class="bg-holder overlay" style="background-image:url({{ URL('assets/img/bg/spare-parts-bg.jpg') }});background-position: center bottom;">  
-        </div>
-        <!--/.bg-holder-->
+              --><rs-layer
+                id="slider-2-slide-2-layer-0" 
+                data-type="image"
+                data-rsp_ch="on"
+                data-xy="x:c;y:m;"
+                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                data-dim="w:1920px,1408px,1152px,614px;h:1080px,792px,648px,345px;"
+                data-frame_1="e:power2.inOut;st:1000;sp:1300;sR:1000;"
+                data-frame_999="o:0;st:w;sR:6700;"
+                style="z-index:13;"
+              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="1920" height="1080" data-lazyload="{{ URL('assets/revs6/assets/mundo.png') }}" data-no-retina> 
+              </rs-layer><!--
 
-        <div class="container">
-          <div class="row flex-center pt-8 pt-lg-10 pb-lg-9 pb-xl-0">
+              --><rs-layer
+                id="slider-2-slide-2-layer-1" 
+                data-type="image"
+                data-rsp_ch="on"
+                data-xy="xo:166px,120px,127px,58px;yo:28px,69px,90px,125px;"
+                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                data-dim="w:300px,219px,179px,95px;h:180px,132px,158px,84px;"
+                data-frame_0="x:left;o:1;rZ:-10;"
+                data-frame_1="st:2560;sp:1800;sR:2560;"
+                data-frame_999="o:0;st:w;sR:4640;"
+                style="z-index:10;"
+              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="260" height="230" data-lazyload="{{ URL('assets/revs6/assets/estadosunidos-t.png') }}" data-no-retina> 
+              </rs-layer><!--
 
-            <div style="text-shadow: 3px 3px 4px #000;" class="col-md-11 col-lg-8 col-xl-4 pb-7 pb-xl-9 text-center text-xl-start">
+              --><rs-layer
+                id="slider-2-slide-2-layer-2" 
+                data-type="image"
+                data-rsp_ch="on"
+                data-xy="x:c;y:m;yo:-90px,-60px,-60px,-52px;"
+                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                data-dim="w:400px,293px,273px,220px;h:113px,82px,77px,62px;"
+                data-frame_1="e:power2.inOut;st:1600;sp:1300;sR:1600;"
+                data-frame_999="o:0;st:w;sR:6100;"
+                style="z-index:14;"
+              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="7335" height="2075" data-lazyload="{{ URL('assets/revs6/assets/logo-RT.png') }}" data-no-retina> 
+              </rs-layer><!--
 
-              <!--<a class="btn btn-outline-danger mb-4 fs--1 border-2 rounded-pill" href="#!"><span class="me-2" role="img" aria-label="Gift">🎁</span>-</a>-->
+              --><rs-layer
+                id="slider-2-slide-2-layer-3" 
+                data-type="image"
+                data-rsp_ch="on"
+                data-xy="xo:1028px,759px,594px,323px;yo:28px,75px,87px,129px;"
+                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                data-dim="w:300px,219px,179px,95px;h:180px,132px,158px,84px;"
+                data-frame_0="x:50px,36px,29px,15px;rZ:10;"
+                data-frame_1="st:2560;sp:1900;sR:2560;"
+                data-frame_999="o:0;st:w;sR:4540;"
+                style="z-index:11;"
+              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="260" height="230" data-lazyload="{{ URL('assets/revs6/assets/china-t.png') }}" data-no-retina> 
+              </rs-layer><!--
 
-              <h3 class="text-white fw-light">Ofrecemos <span class="typed-text fw-bold" data-typed-text='["variedad","garantía","calidad","durabilidad"]'></span><br />a nuestros clientes:</h3>
+              --><rs-layer
+                id="slider-2-slide-2-layer-4" 
+                data-type="image"
+                data-rsp_ch="on"
+                data-xy="xo:62px,64px,59px,19px;yo:264px,260px,254px,217px;"
+                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                data-dim="w:300px,219px,179px,95px;h:180px,132px,158px,84px;"
+                data-frame_0="x:left;o:1;rZ:-10;"
+                data-frame_1="st:2560;sp:1800;sR:2560;"
+                data-frame_999="o:0;st:w;sR:4640;"
+                style="z-index:9;"
+              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="260" height="230" data-lazyload="{{ URL('assets/revs6/assets/japon-t.png') }}" data-no-retina> 
+              </rs-layer><!--
 
-              <p class="lead text-white opacity-75 text-justify">Vendedores de repuestos y distribuidores de una forma fácil y accesible obtienen sus productos y así llegan hasta sus clientes de forma eficaz y segura.</p>
+              --><rs-layer
+                id="slider-2-slide-2-layer-5" 
+                data-type="image"
+                data-rsp_ch="on"
+                data-xy="xo:1171px,868px,671px,364px;yo:260px,259px,257px,218px;"
+                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                data-dim="w:300px,219px,179px,95px;h:180px,132px,158px,84px;"
+                data-frame_0="x:right;o:1;rZ:10;"
+                data-frame_1="st:2560;sp:1800;sR:2560;"
+                data-frame_999="o:0;st:w;sR:4640;"
+                style="z-index:8;"
+              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="260" height="230" data-lazyload="{{ URL('assets/revs6/assets/korea-t.png') }}" data-no-retina> 
+              </rs-layer><!--
 
-              <a class="btn btn-outline-light border-2 rounded-pill btn-lg mt-4 fs-0 py-2" href="#contactsection">Contáctanos<span class="fas fa-play ms-2" data-fa-transform="shrink-6 down-1"></span></a>
+              --><rs-layer
+                id="slider-2-slide-2-layer-6" 
+                data-type="image"
+                data-rsp_ch="on"
+                data-xy="xo:178px,125px,132px,57px;yo:476px,444px,448px,306px;"
+                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                data-dim="w:300px,219px,179px,95px;h:180px,132px,158px,84px;"
+                data-frame_0="x:left;o:1;rZ:-10;"
+                data-frame_1="st:2560;sp:1800;sR:2560;"
+                data-frame_999="o:0;st:w;sR:4640;"
+                style="z-index:7;"
+              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="260" height="230" data-lazyload="{{ URL('assets/revs6/assets/colombia-t.png') }}" data-no-retina> 
+              </rs-layer><!--
 
-            </div>
+              --><rs-layer
+                id="slider-2-slide-2-layer-7" 
+                data-type="image"
+                data-rsp_ch="on"
+                data-xy="xo:1076px,788px,657px,342px;yo:489px,457px,474px,311px;"
+                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                data-dim="w:300px,219px,179px,95px;h:180px,132px,158px,84px;"
+                data-frame_0="x:right;o:1;rZ:10;"
+                data-frame_1="x:-65px,-47px,-38px,-20px;y:-14px,-10px,-8px,-4px;st:2760;sp:2000;sR:2760;"
+                data-frame_999="o:0;st:w;sR:4240;"
+                style="z-index:6;"
+              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="260" height="230" data-lazyload="{{ URL('assets/revs6/assets/taiwan-t.png') }}" data-no-retina> 
+              </rs-layer><!--
+-->           </rs-slide>
+          </rs-slides>
+        </rs-module>
+        <script>
+          
+        </script>
+<script>
+    if(typeof revslider_showDoubleJqueryError === "undefined") {function revslider_showDoubleJqueryError(sliderID) {console.log("You have some jquery.js library include that comes after the Slider Revolution files js inclusion.");console.log("To fix this, you can:");console.log("1. Set 'Module General Options' -> 'Advanced' -> 'jQuery & OutPut Filters' -> 'Put JS to Body' to on");console.log("2. Find the double jQuery.js inclusion and remove it");return "Double Included jQuery Library";}}
+</script>
+      </rs-module-wrap>
+      <!-- END REVOLUTION SLIDER -->
 
-            <div class="col-xl-7 offset-xl-1 align-self-end mt-4 mt-xl-0"><a class="img-landing-banner rounded" href="{{url('/')}}"><img class="img-fluid" src="{{ URL('assets/img/generic/car-vel-img-v2.png') }}" alt="" /></a></div>
-
-          </div>
-        </div>
-        <!-- end of .container-->
-
-      </section>
-      <!-- <section slider> close ============================-->
-      <!-- ============================================-->
-
+        <script>
+          var tpj = jQuery;
+          if(window.RS_MODULES === undefined) window.RS_MODULES = {};
+          if(RS_MODULES.modules === undefined) RS_MODULES.modules = {};
+          RS_MODULES.modules["revslider21"] = {once: RS_MODULES.modules["revslider21"]!==undefined ? RS_MODULES.modules["revslider21"].once : undefined, init:function() {
+            window.revapi2 = window.revapi2===undefined || window.revapi2===null || window.revapi2.length===0  ? document.getElementById("rev_slider_2_1") : window.revapi2;
+            if(window.revapi2 === null || window.revapi2 === undefined || window.revapi2.length==0) { window.revapi2initTry = window.revapi2initTry ===undefined ? 0 : window.revapi2initTry+1; if (window.revapi2initTry<20) requestAnimationFrame(function() {RS_MODULES.modules["revslider21"].init()}); return;}
+            window.revapi2 = jQuery(window.revapi2);
+            if(window.revapi2.revolution==undefined){ revslider_showDoubleJqueryError("rev_slider_2_1"); return;}
+            revapi2.revolutionInit({
+                revapi:"revapi2",
+                sliderType:"hero",
+                DPR:"dpr",
+                visibilityLevels:"1240,1024,778,480",
+                gridwidth:"1500,1100,900,480",
+                gridheight:"700,650,700,520",
+                lazyType:"smart",
+                spinner:"spinner0",
+                perspective:600,
+                perspectiveType:"local",
+                editorheight:"700,650,700,520",
+                responsiveLevels:"1240,1024,778,480",
+                progressBar:{disableProgressBar:true},
+                navigation: {
+                  onHoverStop:false
+                },
+                viewPort: {
+                  global:true,
+                  globalDist:"-200px",
+                  enable:false,
+                  visible_area:"20%"
+                },
+                fallbacks: {
+                  allowHTML5AutoPlayOnAndroid:true
+                },
+            });
+            
+          }} // End of RevInitScript
+          if (window.RS_MODULES.checkMinimal!==undefined) { window.RS_MODULES.checkMinimal();};
+        </script>
 
       <!-- ============================================-->
       <!-- <section> begin ============================-->
-      <section id="servsection">
-
-        <div class="container">
-
-          <div class="row justify-content-center text-center">
-            <div class="col-lg-8 col-xl-7 col-xxl-6">
-              <h1 class="fs-2 fs-sm-4 fs-md-5">Nuestros Servicios</h1>
-              <p class="lead">Es una compañía creada para conectar empresas proveedoras internacionales de repuestos de automóviles con empresas salvadoreñas que desean vender dichos repuestos.</p>
-            </div>
-          </div>
-
-          <div class="row flex-center mt-8">
-            <div class="col-md col-lg-5 col-xl-4 ps-lg-6"><img class="img-fluid px-6 px-md-0" src="{{ URL('assets/img/generic/belts-img.png') }}" alt="" /></div>
-            <div class="col-md col-lg-5 col-xl-4 mt-4 mt-md-0">
-              <h5 class="text-info"><span class="fab fa-opera me-2"></span>FAJAS</h5>
-              <h3>Todo tipo de fajas de accesorios y tiempo.</h3>
-              <p class="text-justify">Piezas clave para el buen funcionamiento del motor al estar sincronizado y además sus accesorios como bomba de agua, bomba dirección asistida, compresor A/C y alternador.</p>
-            </div>
-          </div>
-
-          <div class="row flex-center mt-7">
-            <div class="col-md col-lg-5 col-xl-4 pe-lg-6 order-md-2"><img class="img-fluid px-6 px-md-0" src="{{ URL('assets/img/generic/soportes-img.png') }}" alt="" /></div>
-            <div class="col-md col-lg-5 col-xl-4 mt-4 mt-md-0">
-              <h5 class="text-info"> <span class="fas fa-dolly me-2"></span>SOPORTES</h5>
-              <h3>Todo tipo de soportes de motor y transmisión.</h3>
-              <p class="text-justify">Su función principal es mantener la alineación del tren motriz, la parte de goma absorbe los impactos y vibraciones que tienen lugar durante el uso del vehículo y por las detonaciones en el motor mismo.</p>
-            </div>
-          </div>
-
-          <div class="row flex-center mt-7">
-            <div class="col-md col-lg-5 col-xl-4 ps-lg-6"><img class="img-fluid px-6 px-md-0" src="{{ URL('assets/img/generic/silicon-limp-img.png') }}" alt="" /></div>
-            <div class="col-md col-lg-5 col-xl-4 mt-4 mt-md-0">
-              <h5 class="text-info"><span class="fas fa-spray-can me-2"></span>SILICONES Y LIMPIADORES</h5>
-              <h3>Ofrecemos variedad de selladores y limpiadores.</h3>
-              <p class="text-justify">Los selladores base silicón son muy útiles para crear empaques, sellar fugas y proteger partes plásticas, mientras que los limpiadores son efectivos retirando el polvo, mugre y corrosión.</p>
-            </div>
-          </div>
-
-        </div>
-        <!-- end of .container-->
-
-      </section>
-      <!-- <section> close ============================-->
-      <!-- ============================================-->
-
-
-
-
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      <section class="bg-light text-center" id="ussection">
+      <section class="bg-light text-center py-6" id="ussection">
 
         <div class="container">
 
@@ -256,28 +381,33 @@
 
       <!-- ============================================-->
       <!-- <section> begin ============================-->
-      <section class="bg-dark pt-8 pb-4 light">
+      <section class="bg-dark pt-6 pb-4 light">
 
         <div class="container">
 
           <div class="position-absolute btn-back-to-top bg-dark">
-            <a class="text-600" href="#banner" data-bs-offset-top="0" data-scroll-to="#banner">
+            <a class="text-600" href="#banner" data-bs-offset-top="0" data-scroll-to="#rev_slider_2_1_wrapper">
               <span class="fas fa-chevron-up" data-fa-transform="rotate-45"></span>
             </a>
           </div>
 
           <div class="row">
 
-            <div class="col-lg-4">
+            <div class="col-lg-6">
               <h5 class="text-uppercase text-white opacity-85 mb-3">En Representaciones Thompson</h5>
               <p class="text-600 text-justify">Buscamos ser líderes en el rubro de las importaciones de productos de la industria automotriz y así poder ofrecer excelentes precios y servicios a nuestros clientes posicionandose como la empresa número uno.</p>
+
+              {{-- 
               <div class="icon-group mt-4">
                 <p class="mt-2" style="">SÍGUENOS: &nbsp;&nbsp;</p>
                   <a class="icon-item bg-white text-facebook" href="{{ $cmsVars[4]['parametro'] }}" title="Ir a" target="_blank"><span class="fab fa-facebook-square"></span></a> 
                   <a class="icon-item bg-white text-instagram" href="{{{ $cmsVars[5]['parametro'] }}}" title="Ir a" target="_blank"><span class="fab fa-instagram-square"></span></a> 
               </div>
+              --}}
+
             </div>
 
+             {{-- 
             <div class="col-lg-2 offset-lg-2 mt-5 mt-lg-0">
               <h5 class="text-uppercase text-white opacity-85 mb-3">Enlaces</h5>
               <ul class="list-unstyled">
@@ -287,8 +417,10 @@
                 <li class="mb-1"><a class="link-600" href="#contactsection">Contáctanos</a></li>
               </ul>
             </div>
+             --}}
+            
 
-            <div class="col-lg-4 mt-5 mt-md-0">
+            <div class="col-lg-6 mt-5 mt-md-0">
               <h5 class="text-uppercase text-white opacity-85 mb-3">Ubicación y Horario de Atención</h5>
               <ul class="list-unstyled">
                 

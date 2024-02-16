@@ -4,6 +4,7 @@
 
 @section('title', 'Tienda')
 
+<button onclick="topFunction()" id="toTopBtn" title="Ir a arriba"><i style="" class="fa-solid fas fa-arrow-up"></i></button>
 
 <div style="display: none;">            
     <a style="float: right; z-index: 1000000; position: fixed; right: 50px; bottom: 200px;" href="{{ url('/carrito') }}">
@@ -296,7 +297,7 @@
 
 
     {{-- Filtros --}}
-    <div class="ps-3 pt-4 pb-2">
+    <div class="px-4 pt-4 pb-2">
 
         <div class="row gx-2">
 
@@ -880,6 +881,28 @@
     };
 
     new Glide(".glide", config).mount();
+</script>
+
+<script>
+// Get the button
+let mybutton = document.getElementById("toTopBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
 </script>
 
 @endsection
