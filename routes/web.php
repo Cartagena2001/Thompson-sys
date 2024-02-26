@@ -59,6 +59,10 @@ Route::resource('/dashboard/marcas', App\Http\Controllers\MarcaController::class
 Route::resource('/dashboard/categorias', App\Http\Controllers\CategoriaController::class)->middleware('auth');
 Route::post('producto.updateUbiBO', [App\Http\Controllers\ProductoController::class, 'updateUbiBO'])->name('producto.updateUbiBO')->middleware('auth');
 Route::post('producto.updateUbiOF', [App\Http\Controllers\ProductoController::class, 'updateUbiOF'])->name('producto.updateUbiOF')->middleware('auth');
+
+Route::post('producto.updateCantD', [App\Http\Controllers\ProductoController::class, 'updateCantD'])->name('producto.updateCantD')->middleware('auth');
+Route::post('producto.updateNb', [App\Http\Controllers\ProductoController::class, 'updateNb'])->name('producto.updateNb')->middleware('auth');
+
 Route::resource('/dashboard/productos', App\Http\Controllers\ProductoController::class)->middleware('auth');
 
 

@@ -84,7 +84,7 @@
                         <td class="text-center">{{ number_format($item['precio_f'], 2, '.', ','); }} $</td> 
                         <td class="text-center">{{ number_format(($item['precio_f'] * $item['cantidad'] * $item['unidad_caja']), 2, '.', ','); }} $</td> 
                     </tr>
-                @
+                @endforeach
             </tbody>
 
             <tfoot>
@@ -165,7 +165,7 @@
                         @csrf
                         <input type="hidden" name="total" value="{{ $total }}">
                         <button type="submit" class="btn btn-sm btn-primary">
-                            <i class="fas fa-check"></i> Finalizar Órden
+                            <i class="fas fa-check"></i> Finalizar Orden
                         </button>
                     </form>
                 </div>

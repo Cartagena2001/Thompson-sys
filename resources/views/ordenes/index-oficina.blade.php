@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="text-center">📥 Órdenes de Compra 📥</h1>
-                    <p class="mt-4 mb-4 text-center">Administración de órdenes de compra de Tienda <b>RT El Salvador.</b> <br/>Aquí podrás encontrar todas las órdenes de compra de tus clientes y podrás gestionarlas.</p>
+                    <p class="mt-4 mb-4 text-center">Administración de órdenes de compra de Tienda <b>Accumetric El Salvador.</b> <br/>Aquí podrás encontrar todas las órdenes de compra de tus clientes y podrás gestionarlas.</p>
                 </div>
             </div>
         </div>
@@ -180,10 +180,13 @@
                     <label for="filtro_estado">Filtrar por estado de orden:
                     <select class="form-select" id="filtro_estado">
                         <option value="">Todos los estados</option>
-                        <option value="Pendiente">Pendiente</option>
-                        <option value="En Proceso">En Proceso</option>
-                        <option value="Finalizada">Finalizada</option>
-                        <option value="Cancelada">Cancelada</option>
+                        <option value="Pendiente">Pendientes</option>
+                        <option value="Proceso">En Proceso</option>
+                        <option value="Preparada">Preparadas</option>
+                        <option value="Espera">En Espera</option>
+                        <option value="Pagada">Pagadas</option>
+                        <option value="Finalizada">Finalizadas</option>
+                        <option value="Cancelada">Canceladas</option>
                     </select>
                     </label>
                     <button style="height: 38px; position: relative; bottom: 2px;" class="btn btn-primary" id="limpiar_filtro">Limpiar Filtro</button>
@@ -254,7 +257,7 @@
                 }
             });
 
-            var filtroColumna = table.column(2);
+            var filtroColumna = table.column(3);
 
             $('#filtro_estado').on('change', function() {
                 var filtro = $(this).val();

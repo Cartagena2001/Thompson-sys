@@ -145,7 +145,7 @@ class OrdenesController extends Controller
                         <br/>
                         <p><b>Sr./Sra.</b>: ".$orden->user->name." </p>
                         <br/>
-                        <p>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PENDIENTE</b> A <b>EN PROCESO</b>.</p>
+                        <p>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PENDIENTE</b> A <span style='font-weight:bold; color:#21d781;'>EN PROCESO</span>.</p>
                         <br/>
                         <br/>
                         <p>Cualquier duda o consulta sobre tu orden de compra puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
@@ -170,7 +170,7 @@ class OrdenesController extends Controller
                         <br/>
                         <br/>
 
-                        <p>LA ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PENDIENTE</b> A <b>EN PROCESO</b>.</p>
+                        <p>LA ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PENDIENTE</b> A <span style='font-weight:bold; color:#21d781;'>EN PROCESO</span>.</p>
                         <br/>
                         <p><b>DATOS</b>:</p>
                         <p><b>Cliente</b>: ".$orden->user->name." <br/>
@@ -256,10 +256,126 @@ class OrdenesController extends Controller
     public function preparada($id){
         
         $orden = Orden::find($id);
+        $ordenDetalle = OrdenDetalle::where('orden_id', $id)->get();
         $orden->estado = 'Preparada';
-        $orden->save();
+        $orden->update();
 
-        return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a Preparada');
+        //Envio de notificación por correo al cliente
+        $emailRecipientClient = $orden->user->email;
+        $emailSubjectClient = 'Actualización de estado de orden de compra #: '.$orden->id.' - Accumetric El Salvador';
+        $emailBodyClient = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'> 
+                        </div>
+
+                        <br/>
+                        <br/>
+                        <p><b>Sr./Sra.</b>: ".$orden->user->name." </p>
+                        <br/>
+                        <p>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>EN PROCESO</b> A <span style='font-weight:bold; color:#21d735;'>PREPARADA</span>.</p>
+                        <br/>
+                        <br/>
+                        <p>Cualquier duda o consulta sobre tu orden de compra puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
+                        ";
+                        
+        $replyToEmailClient = "oficina@rtelsalvador.com";
+        $replyToNameClient = "Accumetric El Salvador - Oficina";
+
+        $estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
+        //dd($estado1);
+
+
+        //Envio de notificación por correo a oficina
+        $emailRecipientOff = "oficina@rtelsalvador.com";
+        
+        $emailSubjectOff = 'Actualización de estado de orden de compra #: '.$orden->id.' a En Proceso';
+        $emailBodyOff = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
+                        </div>
+
+                        <br/>
+                        <br/>
+
+                        <p>LA ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>EN PROCESO</b> A <span style='font-weight:bold; color:#21d735;'>PREPARADA</span>.</p>
+                        <br/>
+                        <p><b>DATOS</b>:</p>
+                        <p><b>Cliente</b>: ".$orden->user->name." <br/>
+                           <b>NRC</b>: ".($orden->user->nrc != null ? $orden->user->nrc : '-')." | <b>NIT</b>: ".($orden->user->nit != null ? $orden->user->nit : '-')." | <b>DUI</b>: ".($orden->user->dui != null ? $orden->user->dui : '-')." <br/>
+                           <b>Empresa</b>: ".$orden->user->nombre_empresa." <br/>
+                           <b>Correo electrónico</b>: ".$orden->user->email." <br/>
+                           <b>WhatsApp</b>: ".$orden->user->numero_whatsapp." <br/>
+                           <b>Teléfono</b>: ".$orden->user->telefono." <br/>
+                           <b>Dirección</b>: ".$orden->user->direccion.", ".$orden->user->municipio.", ".$orden->user->departamento."<br/>  
+                           <b>Fecha/Hora</b>: ".\Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a')." <br/>
+                           <b>Estado: </b>".$orden->estado."
+                        </p>
+                        
+                        <p><b>RESUMEN PEDIDO</b>:</p>
+                        <br/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style='text-align: left;'>Producto</th>
+                                    <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Precio (caja)</th>
+                                    <th style='text-align: center;'>Subtotal Parcial</th>
+                                </tr>
+                            </thead>
+                            <tbody>";
+  
+            $subtotal = 0;
+            $iva = 0.13;
+            $total = 0;
+
+            foreach ($ordenDetalle as $detalles) {
+
+                $subtotal += $detalles->cantidad * $detalles->precio;
+
+                $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
+                                    <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                 </tr>";
+            }
+
+            $total = $subtotal + ($subtotal * $iva); 
+
+        $emailBodyOff .= "<tr style='padding-top: 20px; border-top: solid 4px #979797;'>
+                                <td></td>
+                                <td></td> 
+                                <td style='text-align: left; font-weight: 600;'>Subtotal:</td> 
+                                <td style='text-align: right;'>".number_format($subtotal, 2, '.', ',')." $</td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td> 
+                                <td style='text-align: left; font-weight: 600;'>IVA (13%):</td> 
+                                <td style='text-align: right;'>".number_format(($subtotal * $iva), 2, '.', ',')." $</td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td style='text-align: left; font-weight: 600;'>Total:</td> 
+                                <td style='text-align: right;'>".number_format($total, 2, '.', ',')." $</td> 
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br/>
+                    
+                    <p>...</p>
+                    ";
+                        
+        $replyToEmailOff = $orden->user->email;
+        $replyToNameOff = $orden->user->name;
+
+        $estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
+        //dd($estado2);
+
+        //return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a Preparada');
+        return redirect()->route('oficina.index')->with('success', 'Se actualizó el estado de la orden a Preparada');
     }
 
 
@@ -267,37 +383,507 @@ class OrdenesController extends Controller
     public function enEspera($id){
         
         $orden = Orden::find($id);
+        $ordenDetalle = OrdenDetalle::where('orden_id', $id)->get();
         $orden->estado = 'Espera';
-        $orden->save();
+        $orden->update();
 
-        return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a En Espera');
+        //Envio de notificación por correo al cliente
+        $emailRecipientClient = $orden->user->email;
+        $emailSubjectClient = 'Actualización de estado de orden de compra #: '.$orden->id.' - Accumetric El Salvador';
+        $emailBodyClient = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'> 
+                        </div>
+
+                        <br/>
+                        <br/>
+                        <p><b>Sr./Sra.</b>: ".$orden->user->name." </p>
+                        <br/>
+                        <p>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PREPARADA</b> A <span style='font-weight:bold; color:#ff9800;'>EN ESPERA</span>.</p>
+                        <br/>
+                        <br/>
+                        <p>Cualquier duda o consulta sobre tu orden de compra puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
+                        ";
+                        
+        $replyToEmailClient = "oficina@rtelsalvador.com";
+        $replyToNameClient = "Accumetric El Salvador - Oficina";
+
+        $estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
+        //dd($estado1);
+
+
+        //Envio de notificación por correo a oficina
+        $emailRecipientOff = "oficina@rtelsalvador.com";
+        
+        $emailSubjectOff = 'Actualización de estado de orden de compra #: '.$orden->id.' a En Proceso';
+        $emailBodyOff = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
+                        </div>
+
+                        <br/>
+                        <br/>
+
+                        <p>LA ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PREPARADA</b> A <span style='font-weight:bold; color:#ff9800;'>EN ESPERA</span>.</p>
+                        <br/>
+                        <p><b>DATOS</b>:</p>
+                        <p><b>Cliente</b>: ".$orden->user->name." <br/>
+                           <b>NRC</b>: ".($orden->user->nrc != null ? $orden->user->nrc : '-')." | <b>NIT</b>: ".($orden->user->nit != null ? $orden->user->nit : '-')." | <b>DUI</b>: ".($orden->user->dui != null ? $orden->user->dui : '-')." <br/>
+                           <b>Empresa</b>: ".$orden->user->nombre_empresa." <br/>
+                           <b>Correo electrónico</b>: ".$orden->user->email." <br/>
+                           <b>WhatsApp</b>: ".$orden->user->numero_whatsapp." <br/>
+                           <b>Teléfono</b>: ".$orden->user->telefono." <br/>
+                           <b>Dirección</b>: ".$orden->user->direccion.", ".$orden->user->municipio.", ".$orden->user->departamento."<br/>  
+                           <b>Fecha/Hora</b>: ".\Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a')." <br/>
+                           <b>Estado: </b>".$orden->estado."
+                        </p>
+                        
+                        <p><b>RESUMEN PEDIDO</b>:</p>
+                        <br/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style='text-align: left;'>Producto</th>
+                                    <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Precio (caja)</th>
+                                    <th style='text-align: center;'>Subtotal Parcial</th>
+                                </tr>
+                            </thead>
+                            <tbody>";
+  
+            $subtotal = 0;
+            $iva = 0.13;
+            $total = 0;
+
+            foreach ($ordenDetalle as $detalles) {
+
+                $subtotal += $detalles->cantidad * $detalles->precio;
+
+                $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
+                                    <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                 </tr>";
+            }
+
+            $total = $subtotal + ($subtotal * $iva); 
+
+        $emailBodyOff .= "<tr style='padding-top: 20px; border-top: solid 4px #979797;'>
+                                <td></td>
+                                <td></td> 
+                                <td style='text-align: left; font-weight: 600;'>Subtotal:</td> 
+                                <td style='text-align: right;'>".number_format($subtotal, 2, '.', ',')." $</td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td> 
+                                <td style='text-align: left; font-weight: 600;'>IVA (13%):</td> 
+                                <td style='text-align: right;'>".number_format(($subtotal * $iva), 2, '.', ',')." $</td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td style='text-align: left; font-weight: 600;'>Total:</td> 
+                                <td style='text-align: right;'>".number_format($total, 2, '.', ',')." $</td> 
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br/>
+                    
+                    <p>...</p>
+                    ";
+                        
+        $replyToEmailOff = $orden->user->email;
+        $replyToNameOff = $orden->user->name;
+
+        $estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
+        //dd($estado2);
+
+        //return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a En Espera');
+        return redirect()->route('oficina.index')->with('success', 'Se actualizó el estado de la orden a En Espera');
     }
 
 
     //crear una funcion para actualizar el estado de la orden a pagada
     public function pagada($id){
+
         $orden = Orden::find($id);
+        $ordenDetalle = OrdenDetalle::where('orden_id', $id)->get();
         $orden->estado = 'Pagada';
-        $orden->save();
-        return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a Pagada');
+        $orden->update();
+
+        //Envio de notificación por correo al cliente
+        $emailRecipientClient = $orden->user->email;
+        $emailSubjectClient = 'Actualización de estado de orden de compra #: '.$orden->id.' - Accumetric El Salvador';
+        $emailBodyClient = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'> 
+                        </div>
+
+                        <br/>
+                        <br/>
+                        <p><b>Sr./Sra.</b>: ".$orden->user->name." </p>
+                        <br/>
+                        <p>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>EN ESPERA</b> A <span style='font-weight:bold; color:#1f41ff;'>PAGADA</span>.</p>
+                        <br/>
+                        <br/>
+                        <p>Cualquier duda o consulta sobre tu orden de compra puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
+                        ";
+                        
+        $replyToEmailClient = "oficina@rtelsalvador.com";
+        $replyToNameClient = "Accumetric El Salvador - Oficina";
+
+        $estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
+        //dd($estado1);
+
+
+        //Envio de notificación por correo a oficina
+        $emailRecipientOff = "oficina@rtelsalvador.com";
+        
+        $emailSubjectOff = 'Actualización de estado de orden de compra #: '.$orden->id.' a En Proceso';
+        $emailBodyOff = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
+                        </div>
+
+                        <br/>
+                        <br/>
+
+                        <p>LA ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>EN ESPERA</b> A <span style='font-weight:bold; color:#1f41ff;'>PAGADA</span>.</p>
+                        <br/>
+                        <p><b>DATOS</b>:</p>
+                        <p><b>Cliente</b>: ".$orden->user->name." <br/>
+                           <b>NRC</b>: ".($orden->user->nrc != null ? $orden->user->nrc : '-')." | <b>NIT</b>: ".($orden->user->nit != null ? $orden->user->nit : '-')." | <b>DUI</b>: ".($orden->user->dui != null ? $orden->user->dui : '-')." <br/>
+                           <b>Empresa</b>: ".$orden->user->nombre_empresa." <br/>
+                           <b>Correo electrónico</b>: ".$orden->user->email." <br/>
+                           <b>WhatsApp</b>: ".$orden->user->numero_whatsapp." <br/>
+                           <b>Teléfono</b>: ".$orden->user->telefono." <br/>
+                           <b>Dirección</b>: ".$orden->user->direccion.", ".$orden->user->municipio.", ".$orden->user->departamento."<br/>  
+                           <b>Fecha/Hora</b>: ".\Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a')." <br/>
+                           <b>Estado: </b>".$orden->estado."
+                        </p>
+                        
+                        <p><b>RESUMEN PEDIDO</b>:</p>
+                        <br/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style='text-align: left;'>Producto</th>
+                                    <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Precio (caja)</th>
+                                    <th style='text-align: center;'>Subtotal Parcial</th>
+                                </tr>
+                            </thead>
+                            <tbody>";
+  
+            $subtotal = 0;
+            $iva = 0.13;
+            $total = 0;
+
+            foreach ($ordenDetalle as $detalles) {
+
+                $subtotal += $detalles->cantidad * $detalles->precio;
+
+                $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
+                                    <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                 </tr>";
+            }
+
+            $total = $subtotal + ($subtotal * $iva); 
+
+        $emailBodyOff .= "<tr style='padding-top: 20px; border-top: solid 4px #979797;'>
+                                <td></td>
+                                <td></td> 
+                                <td style='text-align: left; font-weight: 600;'>Subtotal:</td> 
+                                <td style='text-align: right;'>".number_format($subtotal, 2, '.', ',')." $</td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td> 
+                                <td style='text-align: left; font-weight: 600;'>IVA (13%):</td> 
+                                <td style='text-align: right;'>".number_format(($subtotal * $iva), 2, '.', ',')." $</td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td style='text-align: left; font-weight: 600;'>Total:</td> 
+                                <td style='text-align: right;'>".number_format($total, 2, '.', ',')." $</td> 
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br/>
+                    
+                    <p>...</p>
+                    ";
+                        
+        $replyToEmailOff = $orden->user->email;
+        $replyToNameOff = $orden->user->name;
+
+        $estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
+        //dd($estado2);
+
+        //return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a Pagada');
+        return redirect()->route('oficina.index')->with('success', 'Se actualizó el estado de la orden a Pagada');
     }
 
 
     //crear una funcion para actualizar el estado de la orden a finalizada
     public function finalizada($id){
+
         $orden = Orden::find($id);
+        $ordenDetalle = OrdenDetalle::where('orden_id', $id)->get();
         $orden->estado = 'Finalizada';
-        $orden->save();
-        return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a Finalizada');
+        $orden->update();
+
+        //Envio de notificación por correo al cliente
+        $emailRecipientClient = $orden->user->email;
+        $emailSubjectClient = 'Actualización de estado de orden de compra #: '.$orden->id.' - Accumetric El Salvador';
+        $emailBodyClient = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'> 
+                        </div>
+
+                        <br/>
+                        <br/>
+                        <p><b>Sr./Sra.</b>: ".$orden->user->name." </p>
+                        <br/>
+                        <p>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PAGADA</b> A <span style='font-weight:bold; color:#607d8b;'>FINALIZADA</span>.</p>
+                        <br/>
+                        <br/>
+                        <p>Cualquier duda o consulta sobre tu orden de compra puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
+                        ";
+                        
+        $replyToEmailClient = "oficina@rtelsalvador.com";
+        $replyToNameClient = "Accumetric El Salvador - Oficina";
+
+        $estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
+        //dd($estado1);
+
+
+        //Envio de notificación por correo a oficina
+        $emailRecipientOff = "oficina@rtelsalvador.com";
+        
+        $emailSubjectOff = 'Actualización de estado de orden de compra #: '.$orden->id.' a En Proceso';
+        $emailBodyOff = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
+                        </div>
+
+                        <br/>
+                        <br/>
+
+                        <p>LA ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PAGADA</b> A <span style='font-weight:bold; color:#607d8b;'>FINALIZADA</span>.</p>
+                        <br/>
+                        <p><b>DATOS</b>:</p>
+                        <p><b>Cliente</b>: ".$orden->user->name." <br/>
+                           <b>NRC</b>: ".($orden->user->nrc != null ? $orden->user->nrc : '-')." | <b>NIT</b>: ".($orden->user->nit != null ? $orden->user->nit : '-')." | <b>DUI</b>: ".($orden->user->dui != null ? $orden->user->dui : '-')." <br/>
+                           <b>Empresa</b>: ".$orden->user->nombre_empresa." <br/>
+                           <b>Correo electrónico</b>: ".$orden->user->email." <br/>
+                           <b>WhatsApp</b>: ".$orden->user->numero_whatsapp." <br/>
+                           <b>Teléfono</b>: ".$orden->user->telefono." <br/>
+                           <b>Dirección</b>: ".$orden->user->direccion.", ".$orden->user->municipio.", ".$orden->user->departamento."<br/>  
+                           <b>Fecha/Hora</b>: ".\Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a')." <br/>
+                           <b>Estado: </b>".$orden->estado."
+                        </p>
+                        
+                        <p><b>RESUMEN PEDIDO</b>:</p>
+                        <br/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style='text-align: left;'>Producto</th>
+                                    <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Precio (caja)</th>
+                                    <th style='text-align: center;'>Subtotal Parcial</th>
+                                </tr>
+                            </thead>
+                            <tbody>";
+  
+            $subtotal = 0;
+            $iva = 0.13;
+            $total = 0;
+
+            foreach ($ordenDetalle as $detalles) {
+
+                $subtotal += $detalles->cantidad * $detalles->precio;
+
+                $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
+                                    <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                 </tr>";
+            }
+
+            $total = $subtotal + ($subtotal * $iva); 
+
+        $emailBodyOff .= "<tr style='padding-top: 20px; border-top: solid 4px #979797;'>
+                                <td></td>
+                                <td></td> 
+                                <td style='text-align: left; font-weight: 600;'>Subtotal:</td> 
+                                <td style='text-align: right;'>".number_format($subtotal, 2, '.', ',')." $</td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td> 
+                                <td style='text-align: left; font-weight: 600;'>IVA (13%):</td> 
+                                <td style='text-align: right;'>".number_format(($subtotal * $iva), 2, '.', ',')." $</td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td style='text-align: left; font-weight: 600;'>Total:</td> 
+                                <td style='text-align: right;'>".number_format($total, 2, '.', ',')." $</td> 
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br/>
+                    
+                    <p>...</p>
+                    ";
+                        
+        $replyToEmailOff = $orden->user->email;
+        $replyToNameOff = $orden->user->name;
+
+        $estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
+        //dd($estado2);
+
+        //return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a Finalizada');
+        return redirect()->route('oficina.index')->with('success', 'Se actualizó el estado de la orden a Finalizada');
     }
 
 
     //crear una funcion para actualizar el estado de la orden a cancelada
     public function cancelada($id){
+
         $orden = Orden::find($id);
+        $ordenDetalle = OrdenDetalle::where('orden_id', $id)->get();
         $orden->estado = 'Cancelada';
-        $orden->save();
-        return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la orden a Cancelada');
+        $orden->update();
+
+        //Envio de notificación por correo al cliente
+        $emailRecipientClient = $orden->user->email;
+        $emailSubjectClient = 'Actualización de estado de orden de compra #: '.$orden->id.' - Accumetric El Salvador';
+        $emailBodyClient = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'> 
+                        </div>
+
+                        <br/>
+                        <br/>
+                        <p><b>Sr./Sra.</b>: ".$orden->user->name." </p>
+                        <br/>
+                        <p>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA SIDO <span style='font-weight:bold; color:#ff161f;'>CANCELADA</span>.</p>
+                        <br/>
+                        <br/>
+                        <p>Cualquier duda o consulta sobre tu orden de compra puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
+                        ";
+                        
+        $replyToEmailClient = "oficina@rtelsalvador.com";
+        $replyToNameClient = "Accumetric El Salvador - Oficina";
+
+        $estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
+        //dd($estado1);
+
+
+        //Envio de notificación por correo a oficina
+        $emailRecipientOff = "oficina@rtelsalvador.com";
+        
+        $emailSubjectOff = 'Actualización de estado de orden de compra #: '.$orden->id.' a En Proceso';
+        $emailBodyOff = " 
+                        <div style='display:flex;justify-content:center;' >
+                            <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
+                        </div>
+
+                        <br/>
+                        <br/>
+
+                        <p>LA ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: A <span style='font-weight:bold; color:#ff161f;'>CANCELADA</span>.</p>
+                        <br/>
+                        <p><b>DATOS</b>:</p>
+                        <p><b>Cliente</b>: ".$orden->user->name." <br/>
+                           <b>NRC</b>: ".($orden->user->nrc != null ? $orden->user->nrc : '-')." | <b>NIT</b>: ".($orden->user->nit != null ? $orden->user->nit : '-')." | <b>DUI</b>: ".($orden->user->dui != null ? $orden->user->dui : '-')." <br/>
+                           <b>Empresa</b>: ".$orden->user->nombre_empresa." <br/>
+                           <b>Correo electrónico</b>: ".$orden->user->email." <br/>
+                           <b>WhatsApp</b>: ".$orden->user->numero_whatsapp." <br/>
+                           <b>Teléfono</b>: ".$orden->user->telefono." <br/>
+                           <b>Dirección</b>: ".$orden->user->direccion.", ".$orden->user->municipio.", ".$orden->user->departamento."<br/>  
+                           <b>Fecha/Hora</b>: ".\Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a')." <br/>
+                           <b>Estado: </b>".$orden->estado."
+                        </p>
+                        
+                        <p><b>RESUMEN PEDIDO</b>:</p>
+                        <br/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style='text-align: left;'>Producto</th>
+                                    <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Precio (caja)</th>
+                                    <th style='text-align: center;'>Subtotal Parcial</th>
+                                </tr>
+                            </thead>
+                            <tbody>";
+  
+            $subtotal = 0;
+            $iva = 0.13;
+            $total = 0;
+
+            foreach ($ordenDetalle as $detalles) {
+
+                $subtotal += $detalles->cantidad * $detalles->precio;
+
+                $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
+                                    <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                 </tr>";
+            }
+
+            $total = $subtotal + ($subtotal * $iva); 
+
+        $emailBodyOff .= "<tr style='padding-top: 20px; border-top: solid 4px #979797;'>
+                                <td></td>
+                                <td></td> 
+                                <td style='text-align: left; font-weight: 600;'>Subtotal:</td> 
+                                <td style='text-align: right;'>".number_format($subtotal, 2, '.', ',')." $</td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td> 
+                                <td style='text-align: left; font-weight: 600;'>IVA (13%):</td> 
+                                <td style='text-align: right;'>".number_format(($subtotal * $iva), 2, '.', ',')." $</td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td style='text-align: left; font-weight: 600;'>Total:</td> 
+                                <td style='text-align: right;'>".number_format($total, 2, '.', ',')." $</td> 
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br/>
+                    
+                    <p>...</p>
+                    ";
+                        
+        $replyToEmailOff = $orden->user->email;
+        $replyToNameOff = $orden->user->name;
+
+        $estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
+        //dd($estado2);
+
+        //return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la orden a Cancelada');
+        return redirect()->route('oficina.index')->with('success', 'Se actualizó el estado de la orden a Cancelada');
     }
 
 

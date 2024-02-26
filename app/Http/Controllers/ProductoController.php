@@ -385,6 +385,50 @@ class ProductoController extends Controller
         //return view('ordenes.show')->with('success');
     }
 
+    public function updateCantD(Request $request)
+    {
+        request()->validate([
+            'cantidad_despachada'   => 'required|string',
+            'producto_id' => 'required|string',
+            'ordend_id' => 'required|string',
+        ]);
+
+        $productoID = trim(strstr( $request->producto_id, "_" ), "_");
+
+        $ordenDID = trim(strstr( $request->ordend_id, "_" ), "_");
+
+        $ordenDet = OrdenDetalle::find($ordenDID);
+
+        //almacenar datos
+        $ordenDet->cantidad_despachada = $request->cantidad_despachada;
+
+        $ordenDet->update();
+
+        //return view('ordenes.show')->with('success');
+    }
+
+    public function updateNb(Request $request)
+    {
+        request()->validate([
+            'n_bulto'   => 'required|string',
+            'producto_id' => 'required|string',
+            'ordend_id' => 'required|string',
+        ]);
+
+        $productoID = trim(strstr( $request->producto_id, "_" ), "_");
+
+        $ordenDID = trim(strstr( $request->ordend_id, "_" ), "_");
+
+        $ordenDet = OrdenDetalle::find($ordenDID);
+
+        //almacenar datos
+        $ordenDet->ubicacion_oficina = $request->n_bulto;
+
+        $ordenDet->update();
+
+        //return view('ordenes.show')->with('success');
+    }
+
     /**
      * Remove the specified resource from storage.
      *
