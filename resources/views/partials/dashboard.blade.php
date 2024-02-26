@@ -404,10 +404,10 @@
         duration: 3500,
         breakpoints: {
             800: {
-              perView: 2
+              perView: 4
             },
             480: {
-              perView: 1
+              perView: 4
             }
         }
 
