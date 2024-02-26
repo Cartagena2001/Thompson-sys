@@ -41,7 +41,7 @@ Route::get('/terminos-y-condiciones', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-//Route::patch('/home', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscripc.load')->middleware('auth');
+//fRoute::patch('/home', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscripc.load')->middleware('auth');
 
 //api
 Route::get('/api/getWeeklySales', [App\Http\Controllers\HomeController::class, 'getWeeklySales'])->name('api.getWeeklySales');
@@ -100,7 +100,7 @@ Route::post('/dashboard/aspirantes/{id}', [App\Http\Controllers\AspirantesContro
 
 //Rutas para aspirantes II
 Route::get('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'indexInfoSent'])->name('info.enviada')->middleware('auth');
-Route::patch('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscrip.load')->middleware('auth');
+Route::post('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscrip.load')->middleware('auth');
 
 
 //Rutas Contactos
