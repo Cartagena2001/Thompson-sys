@@ -1,5 +1,6 @@
 
-  
+  {{-- CLIENTE --}}
+
   @if ( Auth::user()->rol_id == 2 )
 
     {{-- Logos marcas --}}
@@ -45,7 +46,7 @@
 
     </div>
 
-    {{-- Bienvenidos img --}}
+    {{-- Bienvenidos img 
 
     <div class="row g-3 mb-3">
       <div class="col-md-12 mb-0">
@@ -54,6 +55,8 @@
         </div>
       </div>
     </div>
+
+    --}}
 
     {{-- Datos Cliente --}}
 

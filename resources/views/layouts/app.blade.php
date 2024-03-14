@@ -82,7 +82,7 @@
               @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3 )
                    <img src="{{ URL('assets/img/accumetric-slv-logo-mod.png') }}" alt="rt-logo" style="width: 100%; max-width: 190px; height: auto;" />
               @else 
-                   <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 52px; height: auto;" />
+                   <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 52px; height: auto;" /> &nbsp;&nbsp; <span style="color: #fff; font-size: 18px;">{{ Auth::user()->name }}</span>
               @endif
             </div>
           </a>
