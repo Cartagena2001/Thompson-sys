@@ -2,9 +2,9 @@
 
         <div class="container">
 
-          {{-- 
+          
           <a class="navbar-brand" href="{{url('/')}}"><img src="{{url('assets/img/rtthompson-logo.png')}}" title="Ir a Inicio" style="width: 100%; max-width: 200px; height: auto;" class="" alt="rt-logo-img" /></a>
-          --}}
+          
 
           <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarStandard" aria-controls="navbarStandard" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 

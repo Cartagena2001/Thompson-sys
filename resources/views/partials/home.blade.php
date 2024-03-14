@@ -1,159 +1,232 @@
-      <!-- START RTSLIDER REVOLUTION SLIDER 6.6.16 --><p class="rs-p-wp-fix"></p>
-      <rs-module-wrap id="rev_slider_2_1_wrapper" data-alias="slider-home" data-source="gallery" style="visibility:hidden;background:#ffffff;padding:0;margin:0px auto;margin-top:0;margin-bottom:0;">
-        <rs-module id="rev_slider_2_1" style="" data-version="6.6.16">
+      <!-- START RTSLIDER V2 REVOLUTION SLIDER 6.6.16 --><p class="rs-p-wp-fix"></p>
+      <rs-module-wrap id="rev_slider_3_1_wrapper" data-alias="rt-slider-v2" data-source="gallery" style="visibility:hidden;background:#ffffff;padding:0;margin:0px auto;margin-top:0;margin-bottom:0;">
+        <rs-module id="rev_slider_3_1" style="" data-version="6.6.16">
           <rs-slides style="overflow: hidden; position: absolute;">
-            <rs-slide style="position: absolute;" data-key="rs-2" data-title="Slide" data-anim="ms:300;" data-in="o:0;" data-out="a:false;">
-              <img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" width="1920" height="1080" class="rev-slidebg tp-rs-img rs-lazyload" data-lazyload="{{ URL('assets/revs6/assets/Fondo.jpg') }}" data-no-retina>
+            <rs-slide style="position: absolute;" data-key="rs-3" data-title="Slide" data-anim="ms:300;" data-in="o:0;" data-out="a:false;">
+              <img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" width="1920" height="1080" class="rev-slidebg tp-rs-img rs-lazyload" data-lazyload="{{ URL('assets/revs6/assets/Banner_fondo2.png') }}" data-no-retina>
 <!--
               --><rs-group
-                id="slider-2-slide-2-layer-94" 
+                id="slider-3-slide-3-layer-20" 
                 data-type="group"
-                data-xy="x:c;xo:10px,10px,0,0;y:m;yo:95px,95px,95px,55px;"
-                data-text="l:22;a:inherit;"
-                data-dim="w:290px,290px,290px,206px;h:140px,140px,140px,99px;"
-                data-frame_1="x:0,0,0,0px;y:0,0,0,0px;sR:10;"
-                data-frame_999="o:0;st:w;sR:8690;sA:9000;"
-                style="z-index:12;"
+                data-rsp_ch="on"
+                data-xy="x:l,l,c,c;xo:-6px,-82px,-746px,-620px;yo:2px,43px,65px,35px;"
+                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                data-dim="w:300px,219px,215px,179px;h:180px,132px,130px,108px;"
+                data-frame_0="x:0,0,0px,0px;y:0,0,0px,0px;o:1;"
+                data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;"
+                data-frame_999="o:0;st:w;sA:9000;"
+                style="z-index:11;"
               ><!--
                 --><rs-layer
-                  id="slider-2-slide-2-layer-96" 
-                  data-type="text"
-                  data-tsh="c:rgba(0,0,0,0.75);v:10px;b:10px;"
+                  id="slider-3-slide-3-layer-19" 
+                  data-type="image"
                   data-rsp_ch="on"
-                  data-xy="x:c;y:m;yo:33px,33px,33px,23px;"
+                  data-xy="xo:1394px,1022px,1003px,838px;yo:153px,112px,109px,91px;"
                   data-pos="a"
-                  data-text="w:nowrap;s:20,20,20,14;l:24,24,24,17;fw:500;a:center;"
-                  data-dim="w:180px,180px,180px,128px;"
-                  data-frame_1="x:0,0,0,0px;y:0,0,0,0px;e:power2.inOut;st:2000;sp:1500;sR:1990;"
-                  data-frame_999="o:0;st:w;sR:5500;"
-                  style="z-index:7;font-family:'Fira Sans';text-transform:uppercase;"
-                >CALIDAD Y GARANTÍA 
+                  data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                  data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_999="o:0;st:w;sR:6250;"
+                  style="z-index:13;"
+                ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/taw-flag.png') }}" data-no-retina> 
                 </rs-layer><!--
 
                 --><rs-layer
-                  id="slider-2-slide-2-layer-95" 
+                  id="slider-3-slide-3-layer-18" 
+                  data-type="image"
+                  data-rsp_ch="on"
+                  data-xy="xo:1324px,970px,952px,796px;yo:153px,112px,109px,91px;"
+                  data-pos="a"
+                  data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                  data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_999="o:0;st:w;sR:6250;"
+                  style="z-index:12;"
+                ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/kra-flag.png') }}" data-no-retina> 
+                </rs-layer><!--
+
+                --><rs-layer
+                  id="slider-3-slide-3-layer-17" 
+                  data-type="image"
+                  data-rsp_ch="on"
+                  data-xy="xo:1254px,919px,901px,754px;yo:153px,112px,109px,91px;"
+                  data-pos="a"
+                  data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                  data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_999="o:0;st:w;sR:6250;"
+                  style="z-index:11;"
+                ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/jpn-flag.png') }}" data-no-retina> 
+                </rs-layer><!--
+
+                --><rs-layer
+                  id="slider-3-slide-3-layer-16" 
+                  data-type="image"
+                  data-rsp_ch="on"
+                  data-xy="xo:1184px,868px,852px,713px;yo:153px,112px,109px,91px;"
+                  data-pos="a"
+                  data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                  data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_999="o:0;st:w;sR:6250;"
+                  style="z-index:10;"
+                ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/slv-flag.png') }}" data-no-retina> 
+                </rs-layer><!--
+
+                --><rs-layer
+                  id="slider-3-slide-3-layer-14" 
+                  data-type="image"
+                  data-rsp_ch="on"
+                  data-xy="xo:1114px,816px,800px,669px;yo:153px,112px,109px,91px;"
+                  data-pos="a"
+                  data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                  data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_999="o:0;st:w;sR:6250;"
+                  style="z-index:9;"
+                ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/col-flag.png') }}" data-no-retina> 
+                </rs-layer><!--
+
+                --><rs-layer
+                  id="slider-3-slide-3-layer-13" 
+                  data-type="image"
+                  data-rsp_ch="on"
+                  data-xy="xo:1044px,765px,750px,628px;yo:153px,112px,109px,91px;"
+                  data-pos="a"
+                  data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                  data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_999="o:0;st:w;sR:6250;"
+                  style="z-index:8;"
+                ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/mex-flag.png') }}" data-no-retina> 
+                </rs-layer><!--
+
+                --><rs-layer
+                  id="slider-3-slide-3-layer-12" 
+                  data-type="image"
+                  data-rsp_ch="on"
+                  data-xy="xo:973px,713px,700px,586px;yo:153px,112px,109px,91px;"
+                  data-pos="a"
+                  data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                  data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_999="o:0;st:w;sR:6250;"
+                  style="z-index:7;"
+                ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/usa-flag.png') }}" data-no-retina> 
+                </rs-layer><!--
+
+                --><rs-layer
+                  id="slider-3-slide-3-layer-11" 
+                  data-type="image"
+                  data-rsp_ch="on"
+                  data-xy="xo:903px,662px,649px,543px;yo:153px,112px,109px,91px;"
+                  data-pos="a"
+                  data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
+                  data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_999="o:0;st:w;sR:6250;"
+                  style="z-index:6;"
+                ><img src="{{ URL('assets/revs6/assets/dummy.png') }}png" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/chn-flag.png') }}" data-no-retina> 
+                </rs-layer><!--
+              --></rs-group><!--
+
+              --><rs-group
+                id="slider-3-slide-3-layer-94" 
+                data-type="group"
+                data-xy="x:c;xo:436px,239px,0,0;y:m;yo:104px,105px,113px,95px;"
+                data-pos="a"
+                data-text="l:22;a:inherit;"
+                data-dim="w:394,394,290px,206px;h:190,190,140px,99px;"
+                data-frame_1="sR:10;"
+                data-frame_999="o:0;st:w;sR:8690;sA:9000;"
+                style="z-index:7;"
+              ><!--
+                --><rs-layer
+                  id="slider-3-slide-3-layer-95" 
                   class="number"
+                  data-type="text"
+                  data-color="#e20a16"
+                  data-rsp_ch="on"
+                  data-xy="x:c;y:m;yo:-35px,-35px,-26px,-18px;"
+                  data-pos="a"
+                  data-text="s:98,98,60,43;l:105,105,64,45;fw:500;a:center;"
+                  data-dim="w:246,246,auto,auto;"
+                  data-tst="c:#fcfcfc;"
+                  data-frame_1="e:power2.inOut;st:2000;sp:1500;sR:1990;"
+                  data-frame_999="o:0;st:w;sR:5500;"
+                  style="z-index:7;font-family:'Fira Sans';"
+                >100% 
+                </rs-layer><!--
+
+                --><rs-layer
+                  id="slider-3-slide-3-layer-96" 
                   data-type="text"
                   data-tsh="c:rgba(0,0,0,0.75);v:10px;b:10px;"
                   data-rsp_ch="on"
-                  data-xy="x:c;y:m;yo:-26px,-26px,-26px,-18px;"
+                  data-xy="x:c;xo:-8px,-8px,0,0;y:m;yo:46px,46px,33px,23px;"
                   data-pos="a"
-                  data-text="s:60,60,60,43;l:64,64,64,45;fw:500;a:center;"
-                  data-frame_1="x:0,0,0,0px;y:0,0,0,0px;e:power2.inOut;st:2000;sp:1500;sR:1990;"
+                  data-text="w:nowrap;s:27,27,20,14;l:33,33,24,17;fw:500;a:center;"
+                  data-dim="w:245,245,180px,128px;"
+                  data-frame_1="e:power2.inOut;st:2000;sp:1500;sR:1990;"
                   data-frame_999="o:0;st:w;sR:5500;"
-                  style="z-index:6;font-family:'Fira Sans';"
-                >100% 
+                  style="z-index:6;font-family:'Fira Sans';text-transform:uppercase;"
+                >CALIDAD Y GARANTÍA 
                 </rs-layer><!--
               --></rs-group><!--
 
               --><rs-layer
-                id="slider-2-slide-2-layer-0" 
+                id="slider-3-slide-3-layer-0" 
                 data-type="image"
                 data-rsp_ch="on"
-                data-xy="x:c;y:m;"
+                data-xy="x:l,c,c,c;xo:-585px,-428px,-170px,-90px;y:m;yo:0,0,-20px,-10px;"
                 data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
                 data-dim="w:1920px,1408px,1152px,614px;h:1080px,792px,648px,345px;"
                 data-frame_1="e:power2.inOut;st:1000;sp:1300;sR:1000;"
                 data-frame_999="o:0;st:w;sR:6700;"
-                style="z-index:13;"
+                style="z-index:6;"
               ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="1920" height="1080" data-lazyload="{{ URL('assets/revs6/assets/mundo.png') }}" data-no-retina> 
               </rs-layer><!--
 
               --><rs-layer
-                id="slider-2-slide-2-layer-1" 
+                id="slider-3-slide-3-layer-8" 
+                data-type="text"
+                data-tsh="c:rgba(0,0,0,0.75);v:10px;b:10px;"
+                data-rsp_ch="on"
+                data-xy="x:l,l,c,c;xo:900px,493px,0,0;y:t,t,m,m;yo:267px,257px,23px,25px;"
+                data-text="w:nowrap;s:23,23,20,14;l:28,28,24,17;ls:2px,2px,0px,0px;fw:400,400,500,500;a:center;"
+                data-dim="w:573px,573px,400px,271px;h:59px,59px,auto,auto;"
+                data-frame_1="e:power2.inOut;st:2000;sp:1500;sR:2000;"
+                data-frame_999="o:0;st:w;sR:5500;"
+                style="z-index:8;font-family:'Fira Sans';text-transform:uppercase;"
+              >Optimiza tu Cadena de Suministros <br />
+con Representaciones Thompson 
+              </rs-layer><!--
+
+              --><rs-layer
+                id="slider-3-slide-3-layer-9" 
                 data-type="image"
                 data-rsp_ch="on"
-                data-xy="xo:166px,120px,127px,58px;yo:28px,69px,90px,125px;"
+                data-xy="x:c;xo:-371px,-358px,0,0;y:t,m,m,m;yo:258px,0,-50px,-35px;"
                 data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
-                data-dim="w:300px,219px,179px,95px;h:180px,132px,158px,84px;"
-                data-frame_0="x:left;o:1;rZ:-10;"
-                data-frame_1="st:2560;sp:1800;sR:2560;"
-                data-frame_999="o:0;st:w;sR:4640;"
+                data-dim="w:301px,220px,180px,151px;h:145px,106px,86px,73px;"
+                data-frame_1="e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                data-frame_999="o:0;st:w;sR:6250;"
                 style="z-index:10;"
-              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="260" height="230" data-lazyload="{{ URL('assets/revs6/assets/estadosunidos-t.png') }}" data-no-retina> 
+              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}png" alt="" class="tp-rs-img rs-lazyload" width="4301" height="2075" data-lazyload="{{ URL('assets/revs6/assets/logo-RT-nn.png') }}" data-no-retina> 
               </rs-layer><!--
 
               --><rs-layer
-                id="slider-2-slide-2-layer-2" 
-                data-type="image"
+                id="slider-3-slide-3-layer-10" 
+                data-type="text"
+                data-tsh="c:rgba(0,0,0,0.75);v:10px;b:10px;"
                 data-rsp_ch="on"
-                data-xy="x:c;y:m;yo:-90px,-60px,-60px,-52px;"
-                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
-                data-dim="w:400px,293px,273px,220px;h:113px,82px,77px,62px;"
-                data-frame_1="e:power2.inOut;st:1600;sp:1300;sR:1600;"
-                data-frame_999="o:0;st:w;sR:6100;"
-                style="z-index:14;"
-              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="7335" height="2075" data-lazyload="{{ URL('assets/revs6/assets/logo-RT.png') }}" data-no-retina> 
-              </rs-layer><!--
-
-              --><rs-layer
-                id="slider-2-slide-2-layer-3" 
-                data-type="image"
-                data-rsp_ch="on"
-                data-xy="xo:1028px,759px,594px,323px;yo:28px,75px,87px,129px;"
-                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
-                data-dim="w:300px,219px,179px,95px;h:180px,132px,158px,84px;"
-                data-frame_0="x:50px,36px,29px,15px;rZ:10;"
-                data-frame_1="st:2560;sp:1900;sR:2560;"
-                data-frame_999="o:0;st:w;sR:4540;"
-                style="z-index:11;"
-              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="260" height="230" data-lazyload="{{ URL('assets/revs6/assets/china-t.png') }}" data-no-retina> 
-              </rs-layer><!--
-
-              --><rs-layer
-                id="slider-2-slide-2-layer-4" 
-                data-type="image"
-                data-rsp_ch="on"
-                data-xy="xo:62px,64px,59px,19px;yo:264px,260px,254px,217px;"
-                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
-                data-dim="w:300px,219px,179px,95px;h:180px,132px,158px,84px;"
-                data-frame_0="x:left;o:1;rZ:-10;"
-                data-frame_1="st:2560;sp:1800;sR:2560;"
-                data-frame_999="o:0;st:w;sR:4640;"
-                style="z-index:9;"
-              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="260" height="230" data-lazyload="{{ URL('assets/revs6/assets/japon-t.png') }}" data-no-retina> 
-              </rs-layer><!--
-
-              --><rs-layer
-                id="slider-2-slide-2-layer-5" 
-                data-type="image"
-                data-rsp_ch="on"
-                data-xy="xo:1171px,868px,671px,364px;yo:260px,259px,257px,218px;"
-                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
-                data-dim="w:300px,219px,179px,95px;h:180px,132px,158px,84px;"
-                data-frame_0="x:right;o:1;rZ:10;"
-                data-frame_1="st:2560;sp:1800;sR:2560;"
-                data-frame_999="o:0;st:w;sR:4640;"
-                style="z-index:8;"
-              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="260" height="230" data-lazyload="{{ URL('assets/revs6/assets/korea-t.png') }}" data-no-retina> 
-              </rs-layer><!--
-
-              --><rs-layer
-                id="slider-2-slide-2-layer-6" 
-                data-type="image"
-                data-rsp_ch="on"
-                data-xy="xo:178px,125px,132px,57px;yo:476px,444px,448px,306px;"
-                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
-                data-dim="w:300px,219px,179px,95px;h:180px,132px,158px,84px;"
-                data-frame_0="x:left;o:1;rZ:-10;"
-                data-frame_1="st:2560;sp:1800;sR:2560;"
-                data-frame_999="o:0;st:w;sR:4640;"
-                style="z-index:7;"
-              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="260" height="230" data-lazyload="{{ URL('assets/revs6/assets/colombia-t.png') }}" data-no-retina> 
-              </rs-layer><!--
-
-              --><rs-layer
-                id="slider-2-slide-2-layer-7" 
-                data-type="image"
-                data-rsp_ch="on"
-                data-xy="xo:1076px,788px,657px,342px;yo:489px,457px,474px,311px;"
-                data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
-                data-dim="w:300px,219px,179px,95px;h:180px,132px,158px,84px;"
-                data-frame_0="x:right;o:1;rZ:10;"
-                data-frame_1="x:-65px,-47px,-38px,-20px;y:-14px,-10px,-8px,-4px;st:2760;sp:2000;sR:2760;"
-                data-frame_999="o:0;st:w;sR:4240;"
-                style="z-index:6;"
-              ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="260" height="230" data-lazyload="{{ URL('assets/revs6/assets/taiwan-t.png') }}" data-no-retina> 
+                data-xy="x:l,l,c,c;xo:922px,523px,0,0;y:t,t,m,m;yo:204px,194px,-117px,-87px;"
+                data-text="w:nowrap;s:43,43,20,14;l:52,52,24,17;fw:500;a:left,left,center,center;"
+                data-dim="w:537,537,272px,192px;h:52,52,auto,auto;"
+                data-frame_1="e:power2.inOut;st:2000;sp:1500;sR:2000;"
+                data-frame_999="o:0;st:w;sR:5500;"
+                style="z-index:9;font-family:'Fira Sans';text-transform:uppercase;"
+              >Expandiendo Fronteras 
               </rs-layer><!--
 -->           </rs-slide>
           </rs-slides>
@@ -161,9 +234,9 @@
         <script>
           
         </script>
-<script>
+  <script>
     if(typeof revslider_showDoubleJqueryError === "undefined") {function revslider_showDoubleJqueryError(sliderID) {console.log("You have some jquery.js library include that comes after the Slider Revolution files js inclusion.");console.log("To fix this, you can:");console.log("1. Set 'Module General Options' -> 'Advanced' -> 'jQuery & OutPut Filters' -> 'Put JS to Body' to on");console.log("2. Find the double jQuery.js inclusion and remove it");return "Double Included jQuery Library";}}
-</script>
+  </script>
       </rs-module-wrap>
       <!-- END REVOLUTION SLIDER -->
 
@@ -171,13 +244,13 @@
           var tpj = jQuery;
           if(window.RS_MODULES === undefined) window.RS_MODULES = {};
           if(RS_MODULES.modules === undefined) RS_MODULES.modules = {};
-          RS_MODULES.modules["revslider21"] = {once: RS_MODULES.modules["revslider21"]!==undefined ? RS_MODULES.modules["revslider21"].once : undefined, init:function() {
-            window.revapi2 = window.revapi2===undefined || window.revapi2===null || window.revapi2.length===0  ? document.getElementById("rev_slider_2_1") : window.revapi2;
-            if(window.revapi2 === null || window.revapi2 === undefined || window.revapi2.length==0) { window.revapi2initTry = window.revapi2initTry ===undefined ? 0 : window.revapi2initTry+1; if (window.revapi2initTry<20) requestAnimationFrame(function() {RS_MODULES.modules["revslider21"].init()}); return;}
-            window.revapi2 = jQuery(window.revapi2);
-            if(window.revapi2.revolution==undefined){ revslider_showDoubleJqueryError("rev_slider_2_1"); return;}
-            revapi2.revolutionInit({
-                revapi:"revapi2",
+          RS_MODULES.modules["revslider31"] = {once: RS_MODULES.modules["revslider31"]!==undefined ? RS_MODULES.modules["revslider31"].once : undefined, init:function() {
+            window.revapi3 = window.revapi3===undefined || window.revapi3===null || window.revapi3.length===0  ? document.getElementById("rev_slider_3_1") : window.revapi3;
+            if(window.revapi3 === null || window.revapi3 === undefined || window.revapi3.length==0) { window.revapi3initTry = window.revapi3initTry ===undefined ? 0 : window.revapi3initTry+1; if (window.revapi3initTry<20) requestAnimationFrame(function() {RS_MODULES.modules["revslider31"].init()}); return;}
+            window.revapi3 = jQuery(window.revapi3);
+            if(window.revapi3.revolution==undefined){ revslider_showDoubleJqueryError("rev_slider_3_1"); return;}
+            revapi3.revolutionInit({
+                revapi:"revapi3",
                 sliderType:"hero",
                 DPR:"dpr",
                 visibilityLevels:"1240,1024,778,480",
@@ -216,8 +289,8 @@
 
           <div class="row">
             <div class="col">
-              <h1 class="fs-2 fs-sm-4 fs-md-5">Quienes Somos</h1>
-              <p class="lead">Representaciones Thompson, una empresa fundada en 1968 tiene como motivo fundamental ser una empresa líder en su rubro, lograr ser una excelente conexión entre proveedores y clientes y poder ofrecer excelentes servicios, precios y opciones.</p>
+              <h1 class="fs-2 fs-sm-4 fs-md-5" style="color: #ff161f;">Quienes Somos</h1>
+              <p class="lead" style="color: #1f191a;">Representaciones Thompson, una empresa fundada en 1968 tiene como motivo fundamental ser una empresa líder en su rubro, lograr ser una excelente conexión entre proveedores y clientes y poder ofrecer excelentes servicios, precios y opciones.</p>
             </div>
           </div>
 
@@ -227,8 +300,8 @@
               <div class="card card-span h-100">
                 <div class="card-span-img"><span class="fas fa-compress-arrows-alt fs-4 text-info"></span></div>
                 <div class="card-body pt-6 pb-4">
-                  <h5 class="mb-2">Misión</h5>
-                  <p>Suplir las necesidades de los clientes a través de los proveedores actuales en el menor tiempo posible.</p>
+                  <h5 class="mb-2" style="color: #000;">Misión</h5>
+                  <p style="color: #1f191a;">Suplir las necesidades de los clientes a través de los proveedores actuales en el menor tiempo posible.</p>
                 </div>
               </div>
             </div>
@@ -237,8 +310,8 @@
               <div class="card card-span h-100">
                 <div class="card-span-img"><span class="fas fa-lightbulb fs-5 text-info"></span></div>
                 <div class="card-body pt-6 pb-4">
-                  <h5 class="mb-2">Filosofía de trabajo</h5>
-                  <p>Ser transparentes, eficientes y retroactivos en las relaciones entre proveedores y clientes al entregarles calidad en los productos y precios.</p>
+                  <h5 class="mb-2" style="color: #000;">Filosofía de trabajo</h5>
+                  <p style="color: #1f191a;">Ser transparentes, eficientes y retroactivos en las relaciones entre proveedores y clientes al entregarles calidad en los productos y precios.</p>
                 </div>
               </div>
             </div>
@@ -247,8 +320,8 @@
               <div class="card card-span h-100">
                 <div class="card-span-img"><span class="far fa-eye fs-6 text-info"></span></div>
                 <div class="card-body pt-6 pb-4">
-                  <h5 class="mb-2">Visión</h5>
-                  <p>Cubrir el parque vehicular total de El Salvador.</p>
+                  <h5 class="mb-2" style="color: #000;">Visión</h5>
+                  <p style="color: #1f191a;">Cubrir el parque vehicular total de El Salvador.</p>
                 </div>
               </div>
             </div>
@@ -275,7 +348,7 @@
           <div class="row justify-content-center text-justify">
             <div class="col-lg-8">
 
-              <h1 class="fs-2 fs-sm-4 fs-md-5 text-white text-center">Contáctanos</h1>
+              <h1 class="fs-2 fs-sm-4 fs-md-5 text-white text-center" style="color: #ff161f !important;">Contáctanos</h1>
 
               <p class="fs-3 fs-sm-4 text-white text-center">¿Estás interesado en nuestros servicios?</p>
 
@@ -316,7 +389,7 @@
                   <div class="form-check" style="display: flex; justify-content: center;">
                     {{ Form::checkbox('boletin', $contacto->mensaje, ['class' => 'form-check-input']) }}
                     &nbsp;&nbsp;
-                    {{ Form::label('boletin', 'Suscríbete a nuestro boletín ', ['class' => 'form-check-label mb-0 text-whitee']) }}
+                    {{ Form::label('boletin', 'Suscríbete a nuestro boletín ', ['class' => 'form-check-label mb-0 text-white']) }}
                   </div>
                 </div>
 
@@ -365,7 +438,7 @@
 
               </form>
 
-               <p class="mt-4 text-600 text-justify">También puedes llamarnos a nuestro número de atención al cliente <a href="{{ $cmsVars[3]['parametro'] }}" title="Llamar" target="_blank"> {{ $cmsVars[2]['parametro'] }} </a> ó whatsApp <a href="https://api.whatsapp.com/send?phone=503{{ $cmsVars[1]['parametro'] }}&amp;text=¡Hola, buen día!" title="Escríbenos" target="_blank">+503 {{ $cmsVars[0]['parametro'] }}</a></p>
+               <p class="mt-4 text-white text-600 text-center">También puedes llamarnos a nuestro número de atención al cliente <a href="{{ $cmsVars[3]['parametro'] }}" title="Llamar" target="_blank"> {{ $cmsVars[2]['parametro'] }} </a> <br/>ó whatsApp <a href="https://api.whatsapp.com/send?phone=503{{ $cmsVars[1]['parametro'] }}&amp;text=¡Hola, buen día!" title="Escríbenos" target="_blank">+503 {{ $cmsVars[0]['parametro'] }}</a></p>
 
             </div>
           </div>
@@ -381,21 +454,21 @@
 
       <!-- ============================================-->
       <!-- <section> begin ============================-->
-      <section class="bg-dark pt-6 pb-4 light">
+      <section class="bg-dark pt-6 pb-4 light" style="border-top: 1px solid #fff;">
 
         <div class="container">
 
           <div class="position-absolute btn-back-to-top bg-dark">
-            <a class="text-600" href="#banner" data-bs-offset-top="0" data-scroll-to="#rev_slider_2_1_wrapper">
-              <span class="fas fa-chevron-up" data-fa-transform="rotate-45"></span>
+            <a title="Ir arriba" class="text-600" href="#rev_slider_3_1_wrapper" data-bs-offset-top="0" data-scroll-to="#rev_slider_3_1_wrapper">
+              <span style="color: #ff161f;" class="fas fa-chevron-up" data-fa-transform="rotate-45"></span>
             </a>
           </div>
 
           <div class="row">
 
-            <div class="col-lg-6">
-              <h5 class="text-uppercase text-white opacity-85 mb-3">En Representaciones Thompson</h5>
-              <p class="text-600 text-justify">Buscamos ser líderes en el rubro de las importaciones de productos de la industria automotriz y así poder ofrecer excelentes precios y servicios a nuestros clientes posicionandose como la empresa número uno.</p>
+            <div class="col-lg-4">
+              <h5 class="text-uppercase text-white opacity-85 mb-3" style="color: #ff161f !important;">En Representaciones Thompson</h5>
+              <p class="text-600 text-justify text-white">Buscamos ser líderes en el rubro de las importaciones de productos de la industria automotriz y así poder ofrecer excelentes precios y servicios a nuestros clientes posicionandose como la empresa número uno.</p>
 
               {{-- 
               <div class="icon-group mt-4">
@@ -407,8 +480,9 @@
 
             </div>
 
-             {{-- 
-            <div class="col-lg-2 offset-lg-2 mt-5 mt-lg-0">
+            {{-- 
+
+            <div class="col-lg-4 mt-5 mt-lg-0">
               <h5 class="text-uppercase text-white opacity-85 mb-3">Enlaces</h5>
               <ul class="list-unstyled">
                 <li class="mb-1"><a class="link-600" href="{{url('/')}}">Inicio</a></li>
@@ -417,21 +491,29 @@
                 <li class="mb-1"><a class="link-600" href="#contactsection">Contáctanos</a></li>
               </ul>
             </div>
-             --}}
+
+            --}}
+            
             
 
-            <div class="col-lg-6 mt-5 mt-md-0">
-              <h5 class="text-uppercase text-white opacity-85 mb-3">Ubicación y Horario de Atención</h5>
+            <div class="col-lg-4 mt-5 mt-md-0">
+              <h5 class="text-uppercase text-white opacity-85 mb-3" style="color: #ff161f !important;">Ubicación</h5>
               <ul class="list-unstyled">
                 
                 <li class="mb-3">
-                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d969.0502442360397!2d-89.22328017082137!3d13.706274302313108!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xc3988d90a90bb588!2zMTPCsDQyJzIyLjYiTiA4OcKwMTMnMjEuOCJX!5e0!3m2!1ses-419!2ssv!4v1663794422515!5m2!1ses-419!2ssv" width="100%" height="auto" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.991903160894!2d-89.22496092419692!3d13.718939898051996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f63311555cb8bdf%3A0xe34bb03752e01eda!2sRepresentaciones%20Thompson!5e0!3m2!1ses-419!2ssv!4v1710344799974!5m2!1ses-419!2ssv" width="100%" height="auto" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </li>
+              </ul>
+            </div>
+
+            <div class="col-lg-4 mt-5 mt-md-0">
+              <h5 class="text-uppercase text-white opacity-85 mb-3" style="color: #ff161f !important;">Horario de Atención</h5>
+              <ul class="list-unstyled">
                 <li>
-                  <p class="text-600 opacity-85"><b>Oficina:</b> {{ $cmsVars[6]['parametro'] }} </p> 
-                  <p class="text-600 opacity-75"> {{ $cmsVars[7]['parametro'] }} </p> 
-                  <p class="text-600 opacity-85"><b>Bódega:</b> {{ $cmsVars[8]['parametro'] }}</p> 
-                  <p class="text-600 opacity-75"> {{ $cmsVars[9]['parametro'] }} </p> 
+                  <p class="text-600 opacity-85 text-white text-justify"><b>Oficina:</b> {{ $cmsVars[6]['parametro'] }} </p> 
+                  <p class="text-600 opacity-75 text-white text-justify"> {{ $cmsVars[7]['parametro'] }} </p> 
+                  <p class="text-600 opacity-85 text-white text-justify"><b>Bódega:</b> {{ $cmsVars[8]['parametro'] }}</p> 
+                  <p class="text-600 opacity-75 text-white text-justify"> {{ $cmsVars[9]['parametro'] }} </p> 
                 </li>
               </ul>
             </div>
