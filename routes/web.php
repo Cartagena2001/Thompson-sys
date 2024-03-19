@@ -121,6 +121,7 @@ Route::put('/dashboard/clientes/precioop/{id}', [App\Http\Controllers\ClientesCo
 
 //Marcas autorizadas
 Route::get('/dashboard/permisos', [App\Http\Controllers\ClientesController::class, 'admPermMarca'])->name('clientes.marcasasoc')->middleware('auth');
+
 Route::post('/dashboard/permisos', [App\Http\Controllers\ClientesController::class, 'updateMarcas'])->name('clientes.marcaUpdate')->middleware('auth');
 
 

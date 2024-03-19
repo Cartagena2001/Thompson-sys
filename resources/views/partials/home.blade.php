@@ -438,7 +438,10 @@ con Representaciones Thompson
 
               </form>
 
-               <p class="mt-4 text-white text-600 text-center">También puedes llamarnos a nuestro número de atención al cliente <a href="{{ $cmsVars[3]['parametro'] }}" title="Llamar" target="_blank"> {{ $cmsVars[2]['parametro'] }} </a> <br/>ó whatsApp <a href="https://api.whatsapp.com/send?phone=503{{ $cmsVars[1]['parametro'] }}&amp;text=¡Hola, buen día!" title="Escríbenos" target="_blank">+503 {{ $cmsVars[0]['parametro'] }}</a></p>
+            </div>
+
+            <div class="col-lg-12">
+               <p class="mt-4 text-white text-600 text-center">También puedes llamarnos a nuestro número de atención al cliente <a href="{{ $cmsVars[3]['parametro'] }}" title="Llamar" target="_blank"> {{ $cmsVars[2]['parametro'] }} </a> ó whatsApp <a href="https://api.whatsapp.com/send?phone=503{{ $cmsVars[1]['parametro'] }}&amp;text=¡Hola, buen día!" title="Escríbenos" target="_blank">+503 {{ $cmsVars[0]['parametro'] }}</a></p>
 
             </div>
           </div>

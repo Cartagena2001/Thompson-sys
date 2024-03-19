@@ -280,15 +280,28 @@
     @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
 
     {{-- CONTROL --}}
-    <div class="ps-3 pt-4 pb-2">
+    <div class="px-2 pt-3 pb0">
 
         <div class="row gx-2">
 
-            <div class="col-12 col-md-12">
+            <div class="col-6 col-md-6">
 
-                <p class="text-center" style="font-size: 12px; display: table; margin: 0 auto; border: 3px solid #ff0e19; padding: 10px 40px; border-radius: 30px;"><span style="font-weight: 600;">Productos con imagen:&nbsp;</span>&nbsp;<span style="color: green;">{{ $productos->count() }}</span>&nbsp;<b>/</b>&nbsp; {{ count($productosDisponibles) }} </p>
+                <h6 class="px-2 mb-2" style="text-transform: uppercase;">
+                    <a href="{{ url('/home') }}" role="button" aria-haspopup="true" aria-expanded="false">🏠 Inicio</a> /
+                    <a href="{{ url('/dashboard/tienda') }}" role="button" aria-haspopup="true" aria-expanded="false">Tienda</a> /
+                    <a aria-haspopup="true" aria-expanded="false"> {{ $marcaActual == 0 ? 'Todas' : 'marca' }}</a> / 
+                    <a aria-haspopup="true" aria-expanded="false"> {{ $categoriaActual == 0 ? 'Todas' : $categoriaActualname->nombre }} </a>
+                </h6>
+        
+            </div>
+
+            <div class="col-6 col-md-6">
+
+                <p class="text-end px-2 mb-2" style="font-size: 12px; text-transform: uppercase;"><span style="font-weight: 600;">Productos con imagen:&nbsp;</span>&nbsp;<span style="color: green;">{{ $productos->count() }}</span>&nbsp;<b>/</b>&nbsp; {{ count($productosDisponibles) }} </p>
 
             </div>
+
+            <hr/>
         
         </div>
     </div>
@@ -297,7 +310,7 @@
 
 
     {{-- Filtros --}}
-    <div class="px-4 pt-4 pb-2">
+    <div class="px-4 pt-2 pb-4">
 
         <div class="row gx-2">
 
@@ -384,7 +397,7 @@
 
     <hr/>
 
-    <h6 class="card-body mb-0 py-1">Categoría: {{ $categoriaActual == 0 ? 'Todas' : $categoriaActualname->nombre }}</h6>
+    {{-- <h6 class="card-body mb-0 py-1">Categoría: {{ $categoriaActual == 0 ? 'Todas' : $categoriaActualname->nombre }}</h6> --}}
     <div>
         @if ($productos->count() == 0)
             <div class="card-body text-center">
@@ -393,7 +406,7 @@
         @endif
     </div>
 
-    <h6 class="card-body mb-0 py-1">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }} productos</h6>
+    <h6 class="card-body mb-0 py-1 text-center">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }} productos</h6>
 
     <div id="catalogo-grid" class="card-body">
 

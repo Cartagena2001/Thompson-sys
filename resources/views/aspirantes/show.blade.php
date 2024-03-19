@@ -219,7 +219,7 @@
             var marca = $('#'+check_id).val();
             var clienteid = $('#aspid').val();
 
-            //console.log("marca id: "+marca+" cliente id: "+clienteid);
+            console.log("marca id: "+marca+" cliente id: "+clienteid);
             
             $.ajax({
                 url: "{{ route('aspirante.updmarcas', $aspirante->id) }}",
