@@ -74,9 +74,9 @@ class AdminLtePluginCommand extends Command
         // Fill the available operations handlers.
 
         $this->opHandlers = [
-            'list'    => [$this, 'showPlugins'],
+            'list' => [$this, 'showPlugins'],
             'install' => [$this, 'installPlugins'],
-            'remove'  => [$this, 'removePlugins'],
+            'remove' => [$this, 'removePlugins'],
         ];
 
         // Create the plugins resource instance.
@@ -172,7 +172,6 @@ class AdminLtePluginCommand extends Command
         $bar->start();
 
         foreach ($pluginsKeys as $key) {
-
             // Advance the progress bar one step.
 
             $bar->advance();
@@ -289,7 +288,6 @@ class AdminLtePluginCommand extends Command
         // Install the plugins.
 
         foreach ($pluginsKeys as $pluginKey) {
-
             // Advance the progress bar one step.
 
             $bar->advance();
@@ -385,7 +383,6 @@ class AdminLtePluginCommand extends Command
         // Remove the plugins.
 
         foreach ($pluginsKeys as $pluginKey) {
-
             // Advance the progress bar one step.
 
             $bar->advance();

@@ -69,12 +69,12 @@ class AdminLteStatusCommand extends Command
         // Fill the array with the package resources.
 
         $this->pkgResources = [
-            'assets'       => new AssetsResource(),
-            'config'       => new ConfigResource(),
+            'assets' => new AssetsResource(),
+            'config' => new ConfigResource(),
             'translations' => new TranslationsResource(),
-            'main_views'   => new MainViewsResource(),
-            'auth_views'   => new AuthViewsResource(),
-            'basic_views'  => new BasicViewsResource(),
+            'main_views' => new MainViewsResource(),
+            'auth_views' => new AuthViewsResource(),
+            'basic_views' => new BasicViewsResource(),
             'basic_routes' => new BasicRoutesResource(),
         ];
     }
@@ -144,7 +144,6 @@ class AdminLteStatusCommand extends Command
         $bar->start();
 
         foreach ($this->pkgResources as $name => $resource) {
-
             // Fill the status row of the current resource.
 
             $tblContent[] = [

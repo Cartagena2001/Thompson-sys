@@ -99,7 +99,10 @@ return [
     | Preloader Animation
     |--------------------------------------------------------------------------
     |
-    | Here you can change the preloader animation configuration.
+    | Here you can change the preloader animation configuration. Currently, two
+    | modes are supported: 'fullscreen' for a fullscreen preloader animation
+    | and 'cwrapper' to attach the preloader animation into the content-wrapper
+    | element and avoid overlapping it with the sidebars and the top navbar.
     |
     | For detailed instructions you can look the preloader section here:
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
@@ -108,6 +111,7 @@ return [
 
     'preloader' => [
         'enabled' => true,
+        'mode' => 'fullscreen',
         'img' => [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
             'alt' => 'AdminLTE Preloader Image',
@@ -292,12 +296,12 @@ return [
     'menu' => [
         // Navbar items:
         [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
+            'type' => 'navbar-search',
+            'text' => 'search',
             'topnav_right' => true,
         ],
         [
-            'type'         => 'fullscreen-widget',
+            'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
 
@@ -308,54 +312,54 @@ return [
         ],
         [
             'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'url' => 'admin/blog',
+            'can' => 'manage-blog',
         ],
         [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
+            'text' => 'pages',
+            'url' => 'admin/pages',
+            'icon' => 'far fa-fw fa-file',
+            'label' => 4,
             'label_color' => 'success',
         ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
-            'url'  => 'admin/settings',
+            'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
             'text' => 'change_password',
-            'url'  => 'admin/settings',
+            'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
         [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
+            'text' => 'multilevel',
+            'icon' => 'fas fa-fw fa-share',
             'submenu' => [
                 [
                     'text' => 'level_one',
-                    'url'  => '#',
+                    'url' => '#',
                 ],
                 [
-                    'text'    => 'level_one',
-                    'url'     => '#',
+                    'text' => 'level_one',
+                    'url' => '#',
                     'submenu' => [
                         [
                             'text' => 'level_two',
-                            'url'  => '#',
+                            'url' => '#',
                         ],
                         [
-                            'text'    => 'level_two',
-                            'url'     => '#',
+                            'text' => 'level_two',
+                            'url' => '#',
                             'submenu' => [
                                 [
                                     'text' => 'level_three',
-                                    'url'  => '#',
+                                    'url' => '#',
                                 ],
                                 [
                                     'text' => 'level_three',
-                                    'url'  => '#',
+                                    'url' => '#',
                                 ],
                             ],
                         ],
@@ -363,25 +367,25 @@ return [
                 ],
                 [
                     'text' => 'level_one',
-                    'url'  => '#',
+                    'url' => '#',
                 ],
             ],
         ],
         ['header' => 'labels'],
         [
-            'text'       => 'important',
+            'text' => 'important',
             'icon_color' => 'red',
-            'url'        => '#',
+            'url' => '#',
         ],
         [
-            'text'       => 'warning',
+            'text' => 'warning',
             'icon_color' => 'yellow',
-            'url'        => '#',
+            'url' => '#',
         ],
         [
-            'text'       => 'information',
+            'text' => 'information',
             'icon_color' => 'cyan',
-            'url'        => '#',
+            'url' => '#',
         ],
     ],
 

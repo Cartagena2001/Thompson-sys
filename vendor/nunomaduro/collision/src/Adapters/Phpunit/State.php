@@ -23,7 +23,7 @@ final class State
     /**
      * The current test case class.
      */
-    public string|null $testCaseName;
+    public ?string $testCaseName;
 
     /**
      * The current test case tests.
@@ -67,6 +67,27 @@ final class State
     {
         $this->testCaseName = $test->testCaseName;
 
+        $levels = array_flip([
+            TestResult::PASS,
+            TestResult::RUNS,
+            TestResult::TODO,
+            TestResult::SKIPPED,
+            TestResult::WARN,
+            TestResult::NOTICE,
+            TestResult::DEPRECATED,
+            TestResult::RISKY,
+            TestResult::INCOMPLETE,
+            TestResult::FAIL,
+        ]);
+
+        if (isset($this->testCaseTests[$test->id])) {
+            $existing = $this->testCaseTests[$test->id];
+
+            if ($levels[$existing->type] >= $levels[$test->type]) {
+                return;
+            }
+        }
+
         $this->testCaseTests[$test->id] = $test;
         $this->toBePrintedCaseTests[$test->id] = $test;
 
@@ -97,8 +118,20 @@ final class State
         }
 
         foreach ($this->testCaseTests as $test) {
-            if ($test->type !== TestResult::PASS && $test->type !== TestResult::TODO) {
+            if ($test->type !== TestResult::PASS && $test->type !== TestResult::TODO && $test->type !== TestResult::DEPRECATED && $test->type !== TestResult::NOTICE) {
                 return 'WARN';
+            }
+        }
+
+        foreach ($this->testCaseTests as $test) {
+            if ($test->type === TestResult::NOTICE) {
+                return 'NOTI';
+            }
+        }
+
+        foreach ($this->testCaseTests as $test) {
+            if ($test->type === TestResult::DEPRECATED) {
+                return 'DEPR';
             }
         }
 
@@ -143,7 +176,13 @@ final class State
         }
 
         foreach ($this->testCaseTests as $test) {
-            if ($test->type !== TestResult::PASS && $test->type !== TestResult::TODO) {
+            if ($test->type !== TestResult::PASS && $test->type !== TestResult::TODO && $test->type !== TestResult::DEPRECATED) {
+                return 'yellow';
+            }
+        }
+
+        foreach ($this->testCaseTests as $test) {
+            if ($test->type === TestResult::DEPRECATED) {
                 return 'yellow';
             }
         }
