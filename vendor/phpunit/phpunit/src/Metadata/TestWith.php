@@ -10,17 +10,14 @@
 namespace PHPUnit\Metadata;
 
 /**
- * @psalm-immutable
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
  *
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ * @psalm-immutable
  */
 final class TestWith extends Metadata
 {
     private readonly array $data;
 
-    /**
-     * @psalm-param 0|1 $level
-     */
     protected function __construct(int $level, array $data)
     {
         parent::__construct($level);
@@ -28,9 +25,6 @@ final class TestWith extends Metadata
         $this->data = $data;
     }
 
-    /**
-     * @psalm-assert-if-true TestWith $this
-     */
     public function isTestWith(): bool
     {
         return true;

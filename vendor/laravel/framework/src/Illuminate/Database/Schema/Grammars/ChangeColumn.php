@@ -3,6 +3,7 @@
 namespace Illuminate\Database\Schema\Grammars;
 
 use Doctrine\DBAL\Schema\AbstractSchemaManager as SchemaManager;
+use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use Illuminate\Database\Connection;
@@ -59,7 +60,7 @@ class ChangeColumn
     {
         $current = $schema->introspectTable($grammar->getTablePrefix().$blueprint->getTable());
 
-        return $schema->createComparator()->compareTables(
+        return (new Comparator)->compareTables(
             $current, static::getTableWithColumnChanges($blueprint, $current)
         );
     }
@@ -119,10 +120,6 @@ class ChangeColumn
     protected static function getDoctrineColumnChangeOptions(Fluent $fluent)
     {
         $options = ['type' => static::getDoctrineColumnType($fluent['type'])];
-
-        if (! in_array($fluent['type'], ['smallint', 'integer', 'bigint'])) {
-            $options['autoincrement'] = false;
-        }
 
         if (in_array($fluent['type'], ['tinyText', 'text', 'mediumText', 'longText'])) {
             $options['length'] = static::calculateDoctrineTextLength($fluent['type']);

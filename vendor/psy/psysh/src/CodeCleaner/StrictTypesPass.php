@@ -12,6 +12,7 @@
 namespace Psy\CodeCleaner;
 
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Stmt\Declare_;
 use PhpParser\Node\Stmt\DeclareDeclare;
@@ -34,14 +35,6 @@ class StrictTypesPass extends CodeCleanerPass
     private $strictTypes = false;
 
     /**
-     * @param bool $strictTypes enforce strict types by default
-     */
-    public function __construct(bool $strictTypes = false)
-    {
-        $this->strictTypes = $strictTypes;
-    }
-
-    /**
      * If this is a standalone strict types declaration, remember it for later.
      *
      * Otherwise, apply remembered strict types declaration to to the code until
@@ -60,11 +53,12 @@ class StrictTypesPass extends CodeCleanerPass
         foreach ($nodes as $node) {
             if ($node instanceof Declare_) {
                 foreach ($node->declares as $declare) {
-                    if ($declare->key->toString() === 'strict_types') {
+                    // For PHP Parser 4.x
+                    $declareKey = $declare->key instanceof Identifier ? $declare->key->toString() : $declare->key;
+                    if ($declareKey === 'strict_types') {
                         $value = $declare->value;
-                        // @todo Rename LNumber to Int_ once we drop support for PHP-Parser 4.x
                         if (!$value instanceof LNumber || ($value->value !== 0 && $value->value !== 1)) {
-                            throw new FatalErrorException(self::EXCEPTION_MESSAGE, 0, \E_ERROR, null, $node->getStartLine());
+                            throw new FatalErrorException(self::EXCEPTION_MESSAGE, 0, \E_ERROR, null, $node->getLine());
                         }
 
                         $this->strictTypes = $value->value === 1;
@@ -76,8 +70,6 @@ class StrictTypesPass extends CodeCleanerPass
         if ($prependStrictTypes) {
             $first = \reset($nodes);
             if (!$first instanceof Declare_) {
-                // @todo Switch to PhpParser\Node\DeclareItem once we drop support for PHP-Parser 4.x
-                // @todo Rename LNumber to Int_ once we drop support for PHP-Parser 4.x
                 $declare = new Declare_([new DeclareDeclare('strict_types', new LNumber(1))]);
                 \array_unshift($nodes, $declare);
             }

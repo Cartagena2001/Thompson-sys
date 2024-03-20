@@ -39,7 +39,7 @@ final class DumpCompletionCommand extends Command
 
     private array $supportedShells;
 
-    protected function configure(): void
+    protected function configure()
     {
         $fullCommand = $_SERVER['PHP_SELF'];
         $commandName = basename($fullCommand);
@@ -48,16 +48,14 @@ final class DumpCompletionCommand extends Command
         $shell = $this->guessShell();
         [$rcFile, $completionFile] = match ($shell) {
             'fish' => ['~/.config/fish/config.fish', "/etc/fish/completions/$commandName.fish"],
-            'zsh' => ['~/.zshrc', '$fpath[1]/_'.$commandName],
+            'zsh' => ['~/.zshrc', '$fpath[1]/'.$commandName],
             default => ['~/.bashrc', "/etc/bash_completion.d/$commandName"],
         };
-
-        $supportedShells = implode(', ', $this->getSupportedShells());
 
         $this
             ->setHelp(<<<EOH
 The <info>%command.name%</> command dumps the shell completion script required
-to use shell autocompletion (currently, {$supportedShells} completion are supported).
+to use shell autocompletion (currently, bash and fish completion is supported).
 
 <comment>Static installation
 -------------------</>
@@ -96,7 +94,7 @@ EOH
         if ($input->getOption('debug')) {
             $this->tailDebugLog($commandName, $output);
 
-            return 0;
+            return self::SUCCESS;
         }
 
         $shell = $input->getArgument('shell') ?? self::guessShell();
@@ -113,12 +111,12 @@ EOH
                 $output->writeln(sprintf('<error>Shell not detected, Symfony shell completion only supports "%s").</>', implode('", "', $supportedShells)));
             }
 
-            return 2;
+            return self::INVALID;
         }
 
         $output->write(str_replace(['{{ COMMAND_NAME }}', '{{ VERSION }}'], [$commandName, CompleteCommand::COMPLETION_API_VERSION], file_get_contents($completionFile)));
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private static function guessShell(): string
@@ -143,19 +141,8 @@ EOH
      */
     private function getSupportedShells(): array
     {
-        if (isset($this->supportedShells)) {
-            return $this->supportedShells;
-        }
-
-        $shells = [];
-
-        foreach (new \DirectoryIterator(__DIR__.'/../Resources/') as $file) {
-            if (str_starts_with($file->getBasename(), 'completion.') && $file->isFile()) {
-                $shells[] = $file->getExtension();
-            }
-        }
-        sort($shells);
-
-        return $this->supportedShells = $shells;
+        return $this->supportedShells ??= array_map(function ($f) {
+            return pathinfo($f, \PATHINFO_EXTENSION);
+        }, glob(__DIR__.'/../Resources/completion.*'));
     }
 }

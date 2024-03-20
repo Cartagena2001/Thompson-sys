@@ -3,7 +3,6 @@
 namespace Illuminate\Database\Query\Grammars;
 
 use Illuminate\Database\Query\Builder;
-use Illuminate\Database\Query\JoinLateralClause;
 use Illuminate\Support\Str;
 
 class MySqlGrammar extends Grammar
@@ -24,10 +23,8 @@ class MySqlGrammar extends Grammar
      */
     protected function whereNull(Builder $query, $where)
     {
-        $columnValue = (string) $this->getValue($where['column']);
-
-        if ($this->isJsonSelector($columnValue)) {
-            [$field, $path] = $this->wrapJsonFieldAndPath($columnValue);
+        if ($this->isJsonSelector($where['column'])) {
+            [$field, $path] = $this->wrapJsonFieldAndPath($where['column']);
 
             return '(json_extract('.$field.$path.') is null OR json_type(json_extract('.$field.$path.')) = \'NULL\')';
         }
@@ -44,10 +41,8 @@ class MySqlGrammar extends Grammar
      */
     protected function whereNotNull(Builder $query, $where)
     {
-        $columnValue = (string) $this->getValue($where['column']);
-
-        if ($this->isJsonSelector($columnValue)) {
-            [$field, $path] = $this->wrapJsonFieldAndPath($columnValue);
+        if ($this->isJsonSelector($where['column'])) {
+            [$field, $path] = $this->wrapJsonFieldAndPath($where['column']);
 
             return '(json_extract('.$field.$path.') is not null AND json_type(json_extract('.$field.$path.')) != \'NULL\')';
         }
@@ -105,19 +100,6 @@ class MySqlGrammar extends Grammar
     public function compileInsertOrIgnore(Builder $query, array $values)
     {
         return Str::replaceFirst('insert', 'insert ignore', $this->compileInsert($query, $values));
-    }
-
-    /**
-     * Compile an insert ignore statement using a subquery into SQL.
-     *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  array  $columns
-     * @param  string  $sql
-     * @return string
-     */
-    public function compileInsertOrIgnoreUsing(Builder $query, array $columns, string $sql)
-    {
-        return Str::replaceFirst('insert', 'insert ignore', $this->compileInsertUsing($query, $columns, $sql));
     }
 
     /**
@@ -266,18 +248,6 @@ class MySqlGrammar extends Grammar
         })->implode(', ');
 
         return $sql.$columns;
-    }
-
-    /**
-     * Compile a "lateral join" clause.
-     *
-     * @param  \Illuminate\Database\Query\JoinLateralClause  $join
-     * @param  string  $expression
-     * @return string
-     */
-    public function compileJoinLateral(JoinLateralClause $join, string $expression): string
-    {
-        return trim("{$join->type} join lateral {$expression} on true");
     }
 
     /**

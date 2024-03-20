@@ -11,6 +11,9 @@ namespace PHPUnit\Event\Code;
 
 use const PHP_EOL;
 use PHPUnit\Event\NoPreviousThrowableException;
+use PHPUnit\Framework\Exception;
+use PHPUnit\Util\Filter;
+use PHPUnit\Util\ThrowableToStringMapper;
 
 /**
  * @psalm-immutable
@@ -29,9 +32,30 @@ final class Throwable
     private readonly ?Throwable $previous;
 
     /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     */
+    public static function from(\Throwable $t): self
+    {
+        $previous = $t->getPrevious();
+
+        if ($previous !== null) {
+            $previous = self::from($previous);
+        }
+
+        return new self(
+            $t::class,
+            $t->getMessage(),
+            ThrowableToStringMapper::map($t),
+            Filter::getFilteredStacktrace($t),
+            $previous
+        );
+    }
+
+    /**
      * @psalm-param class-string $className
      */
-    public function __construct(string $className, string $message, string $description, string $stackTrace, ?self $previous)
+    private function __construct(string $className, string $message, string $description, string $stackTrace, ?self $previous)
     {
         $this->className   = $className;
         $this->message     = $message;

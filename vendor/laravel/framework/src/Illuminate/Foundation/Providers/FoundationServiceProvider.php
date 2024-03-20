@@ -13,7 +13,6 @@ use Illuminate\Foundation\Http\HtmlDumper;
 use Illuminate\Foundation\MaintenanceModeManager;
 use Illuminate\Foundation\Precognition;
 use Illuminate\Foundation\Vite;
-use Illuminate\Http\Client\Factory as HttpFactory;
 use Illuminate\Http\Request;
 use Illuminate\Log\Events\MessageLogged;
 use Illuminate\Support\AggregateServiceProvider;
@@ -42,7 +41,6 @@ class FoundationServiceProvider extends AggregateServiceProvider
      * @var array
      */
     public $singletons = [
-        HttpFactory::class => HttpFactory::class,
         Vite::class => Vite::class,
     ];
 
@@ -77,17 +75,17 @@ class FoundationServiceProvider extends AggregateServiceProvider
     }
 
     /**
-     * Register a var dumper (with source) to debug variables.
+     * Register an var dumper (with source) to debug variables.
      *
      * @return void
      */
     public function registerDumper()
     {
-        AbstractCloner::$defaultCasters[ConnectionInterface::class] ??= [StubCaster::class, 'cutInternals'];
-        AbstractCloner::$defaultCasters[Container::class] ??= [StubCaster::class, 'cutInternals'];
-        AbstractCloner::$defaultCasters[Dispatcher::class] ??= [StubCaster::class, 'cutInternals'];
-        AbstractCloner::$defaultCasters[Factory::class] ??= [StubCaster::class, 'cutInternals'];
-        AbstractCloner::$defaultCasters[Grammar::class] ??= [StubCaster::class, 'cutInternals'];
+        AbstractCloner::$defaultCasters[ConnectionInterface::class] = [StubCaster::class, 'cutInternals'];
+        AbstractCloner::$defaultCasters[Container::class] = [StubCaster::class, 'cutInternals'];
+        AbstractCloner::$defaultCasters[Dispatcher::class] = [StubCaster::class, 'cutInternals'];
+        AbstractCloner::$defaultCasters[Factory::class] = [StubCaster::class, 'cutInternals'];
+        AbstractCloner::$defaultCasters[Grammar::class] = [StubCaster::class, 'cutInternals'];
 
         $basePath = $this->app->basePath();
 

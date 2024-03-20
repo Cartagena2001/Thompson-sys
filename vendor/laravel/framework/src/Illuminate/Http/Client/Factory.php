@@ -3,8 +3,6 @@
 namespace Illuminate\Http\Client;
 
 use Closure;
-use GuzzleHttp\Middleware;
-use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 use GuzzleHttp\TransferStats;
@@ -28,20 +26,6 @@ class Factory
      * @var \Illuminate\Contracts\Events\Dispatcher|null
      */
     protected $dispatcher;
-
-    /**
-     * The middleware to apply to every request.
-     *
-     * @var array
-     */
-    protected $globalMiddleware = [];
-
-    /**
-     * The options to apply to every request.
-     *
-     * @var array
-     */
-    protected $globalOptions = [];
 
     /**
      * The stub callables that will handle requests.
@@ -92,58 +76,6 @@ class Factory
     }
 
     /**
-     * Add middleware to apply to every request.
-     *
-     * @param  callable  $middleware
-     * @return $this
-     */
-    public function globalMiddleware($middleware)
-    {
-        $this->globalMiddleware[] = $middleware;
-
-        return $this;
-    }
-
-    /**
-     * Add request middleware to apply to every request.
-     *
-     * @param  callable  $middleware
-     * @return $this
-     */
-    public function globalRequestMiddleware($middleware)
-    {
-        $this->globalMiddleware[] = Middleware::mapRequest($middleware);
-
-        return $this;
-    }
-
-    /**
-     * Add response middleware to apply to every request.
-     *
-     * @param  callable  $middleware
-     * @return $this
-     */
-    public function globalResponseMiddleware($middleware)
-    {
-        $this->globalMiddleware[] = Middleware::mapResponse($middleware);
-
-        return $this;
-    }
-
-    /**
-     * Set the options to apply to every request.
-     *
-     * @param  array  $options
-     * @return $this
-     */
-    public function globalOptions($options)
-    {
-        $this->globalOptions = $options;
-
-        return $this;
-    }
-
-    /**
      * Create a new response instance for use during stubbing.
      *
      * @param  array|string|null  $body
@@ -161,7 +93,9 @@ class Factory
 
         $response = new Psr7Response($status, $headers, $body);
 
-        return Create::promiseFor($response);
+        return class_exists(\GuzzleHttp\Promise\Create::class)
+            ? \GuzzleHttp\Promise\Create::promiseFor($response)
+            : \GuzzleHttp\Promise\promise_for($response);
     }
 
     /**
@@ -420,7 +354,7 @@ class Factory
      */
     protected function newPendingRequest()
     {
-        return (new PendingRequest($this, $this->globalMiddleware))->withOptions($this->globalOptions);
+        return new PendingRequest($this);
     }
 
     /**
@@ -431,16 +365,6 @@ class Factory
     public function getDispatcher()
     {
         return $this->dispatcher;
-    }
-
-    /**
-     * Get the array of global middleware.
-     *
-     * @return array
-     */
-    public function getGlobalMiddleware()
-    {
-        return $this->globalMiddleware;
     }
 
     /**

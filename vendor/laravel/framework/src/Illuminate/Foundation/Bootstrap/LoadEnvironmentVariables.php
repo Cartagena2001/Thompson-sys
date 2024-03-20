@@ -94,7 +94,7 @@ class LoadEnvironmentVariables
      * Write the error information to the screen and exit.
      *
      * @param  \Dotenv\Exception\InvalidFileException  $e
-     * @return never
+     * @return void
      */
     protected function writeErrorAndDie(InvalidFileException $e)
     {

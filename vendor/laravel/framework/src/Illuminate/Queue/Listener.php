@@ -216,7 +216,7 @@ class Listener
     /**
      * Stop listening and bail out of the script.
      *
-     * @return never
+     * @return void
      */
     public function stop()
     {

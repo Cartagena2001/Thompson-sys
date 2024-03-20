@@ -9,7 +9,6 @@
  */
 namespace PHPUnit\Framework\Constraint;
 
-use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\ExpectationFailedException;
 
 /**
@@ -21,7 +20,7 @@ final class TraversableContainsOnly extends Constraint
     private readonly string $type;
 
     /**
-     * @throws Exception
+     * @throws \PHPUnit\Framework\Exception
      */
     public function __construct(string $type, bool $isNativeType = true)
     {
@@ -46,7 +45,7 @@ final class TraversableContainsOnly extends Constraint
      *
      * @throws ExpectationFailedException
      */
-    public function evaluate(mixed $other, string $description = '', bool $returnResult = false): bool
+    public function evaluate(mixed $other, string $description = '', bool $returnResult = false): ?bool
     {
         $success = true;
 
@@ -58,11 +57,15 @@ final class TraversableContainsOnly extends Constraint
             }
         }
 
-        if (!$success && !$returnResult) {
+        if ($returnResult) {
+            return $success;
+        }
+
+        if (!$success) {
             $this->fail($other, $description);
         }
 
-        return $success;
+        return null;
     }
 
     /**

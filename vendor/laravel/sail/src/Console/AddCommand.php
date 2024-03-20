@@ -37,11 +37,11 @@ class AddCommand extends Command
         } elseif ($this->option('no-interaction')) {
             $services = $this->defaultServices;
         } else {
-            $services = $this->gatherServicesInteractively();
+            $services = $this->gatherServicesWithSymfonyMenu();
         }
 
         if ($invalidServices = array_diff($services, $this->services)) {
-            $this->components->error('Invalid services ['.implode(',', $invalidServices).'].');
+            $this->error('Invalid services ['.implode(',', $invalidServices).'].');
 
             return 1;
         }
@@ -50,9 +50,8 @@ class AddCommand extends Command
         $this->replaceEnvVariables($services);
         $this->configurePhpUnit();
 
-        $this->prepareInstallation($services);
+        $this->info('Additional Sail services installed successfully.');
 
-        $this->output->writeln('');
-        $this->components->info('Additional Sail services installed successfully.');
+        $this->prepareInstallation($services);
     }
 }

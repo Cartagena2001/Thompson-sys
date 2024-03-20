@@ -10,8 +10,6 @@
 namespace PHPUnit\TextUI\XmlConfiguration;
 
 use const PHP_VERSION;
-use function array_merge;
-use function array_unique;
 use function explode;
 use function in_array;
 use function is_dir;
@@ -32,18 +30,16 @@ use SebastianBergmann\FileIterator\Facade;
 final class TestSuiteMapper
 {
     /**
-     * @psalm-param non-empty-string $xmlConfigurationFile,
-     *
      * @throws RuntimeException
      * @throws TestDirectoryNotFoundException
      * @throws TestFileNotFoundException
      */
-    public function map(string $xmlConfigurationFile, TestSuiteCollection $configuration, string $filter, string $excludedTestSuites): TestSuiteObject
+    public function map(TestSuiteCollection $configuration, string $filter, string $excludedTestSuites): TestSuiteObject
     {
         try {
             $filterAsArray         = $filter ? explode(',', $filter) : [];
             $excludedFilterAsArray = $excludedTestSuites ? explode(',', $excludedTestSuites) : [];
-            $result                = TestSuiteObject::empty($xmlConfigurationFile);
+            $result                = TestSuiteObject::empty();
 
             foreach ($configuration as $testSuiteConfiguration) {
                 if (!empty($filterAsArray) && !in_array($testSuiteConfiguration->name(), $filterAsArray, true)) {
@@ -54,32 +50,34 @@ final class TestSuiteMapper
                     continue;
                 }
 
+                $testSuite      = TestSuiteObject::empty($testSuiteConfiguration->name());
+                $testSuiteEmpty = true;
+
                 $exclude = [];
 
                 foreach ($testSuiteConfiguration->exclude()->asArray() as $file) {
                     $exclude[] = $file->path();
                 }
 
-                $files = [];
-
                 foreach ($testSuiteConfiguration->directories() as $directory) {
-                    if (!str_contains($directory->path(), '*') && !is_dir($directory->path())) {
-                        throw new TestDirectoryNotFoundException($directory->path());
-                    }
-
                     if (!version_compare(PHP_VERSION, $directory->phpVersion(), $directory->phpVersionOperator()->asString())) {
                         continue;
                     }
 
-                    $files = array_merge(
-                        $files,
-                        (new Facade)->getFilesAsArray(
-                            $directory->path(),
-                            $directory->suffix(),
-                            $directory->prefix(),
-                            $exclude,
-                        ),
+                    $files = (new Facade)->getFilesAsArray(
+                        $directory->path(),
+                        $directory->suffix(),
+                        $directory->prefix(),
+                        $exclude
                     );
+
+                    if (!empty($files)) {
+                        $testSuite->addTestFiles($files);
+
+                        $testSuiteEmpty = false;
+                    } elseif (!str_contains($directory->path(), '*') && !is_dir($directory->path())) {
+                        throw new TestDirectoryNotFoundException($directory->path());
+                    }
                 }
 
                 foreach ($testSuiteConfiguration->files() as $file) {
@@ -91,14 +89,12 @@ final class TestSuiteMapper
                         continue;
                     }
 
-                    $files[] = $file->path();
+                    $testSuite->addTestFile($file->path());
+
+                    $testSuiteEmpty = false;
                 }
 
-                if (!empty($files)) {
-                    $testSuite = TestSuiteObject::empty($testSuiteConfiguration->name());
-
-                    $testSuite->addTestFiles(array_unique($files));
-
+                if (!$testSuiteEmpty) {
                     $result->addTest($testSuite);
                 }
             }
@@ -108,7 +104,7 @@ final class TestSuiteMapper
             throw new RuntimeException(
                 $e->getMessage(),
                 $e->getCode(),
-                $e,
+                $e
             );
         }
     }

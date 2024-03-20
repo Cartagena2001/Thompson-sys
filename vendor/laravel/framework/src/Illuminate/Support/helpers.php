@@ -6,7 +6,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Env;
 use Illuminate\Support\HigherOrderTapProxy;
 use Illuminate\Support\Optional;
-use Illuminate\Support\Sleep;
 use Illuminate\Support\Str;
 
 if (! function_exists('append_config')) {
@@ -91,7 +90,7 @@ if (! function_exists('class_uses_recursive')) {
 
         $results = [];
 
-        foreach (array_reverse(class_parents($class) ?: []) + [$class => $class] as $class) {
+        foreach (array_reverse(class_parents($class)) + [$class => $class] as $class) {
             $results += trait_uses_recursive($class);
         }
 
@@ -121,7 +120,7 @@ if (! function_exists('e')) {
             $value = $value->value;
         }
 
-        return htmlspecialchars($value ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', $doubleEncode);
+        return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8', $doubleEncode);
     }
 }
 
@@ -254,7 +253,7 @@ if (! function_exists('retry')) {
             $sleepMilliseconds = $backoff[$attempts - 1] ?? $sleepMilliseconds;
 
             if ($sleepMilliseconds) {
-                Sleep::usleep(value($sleepMilliseconds, $attempts, $e) * 1000);
+                usleep(value($sleepMilliseconds, $attempts, $e) * 1000);
             }
 
             goto beginning;
@@ -314,14 +313,12 @@ if (! function_exists('throw_if')) {
     /**
      * Throw the given exception if the given condition is true.
      *
-     * @template TException of \Throwable
-     *
      * @param  mixed  $condition
-     * @param  TException|class-string<TException>|string  $exception
+     * @param  \Throwable|string  $exception
      * @param  mixed  ...$parameters
      * @return mixed
      *
-     * @throws TException
+     * @throws \Throwable
      */
     function throw_if($condition, $exception = 'RuntimeException', ...$parameters)
     {
@@ -341,14 +338,12 @@ if (! function_exists('throw_unless')) {
     /**
      * Throw the given exception unless the given condition is true.
      *
-     * @template TException of \Throwable
-     *
      * @param  mixed  $condition
-     * @param  TException|class-string<TException>|string  $exception
+     * @param  \Throwable|string  $exception
      * @param  mixed  ...$parameters
      * @return mixed
      *
-     * @throws TException
+     * @throws \Throwable
      */
     function throw_unless($condition, $exception = 'RuntimeException', ...$parameters)
     {
@@ -362,7 +357,7 @@ if (! function_exists('trait_uses_recursive')) {
     /**
      * Returns all traits used by a trait and its traits.
      *
-     * @param  object|string  $trait
+     * @param  string  $trait
      * @return array
      */
     function trait_uses_recursive($trait)

@@ -71,13 +71,6 @@ class Schedule
     protected $dispatcher;
 
     /**
-     * The cache of mutex results.
-     *
-     * @var array<string, bool>
-     */
-    protected $mutexCache = [];
-
-    /**
      * Create a new schedule instance.
      *
      * @param  \DateTimeZone|string|null  $timezone
@@ -306,7 +299,7 @@ class Schedule
      */
     public function serverShouldRun(Event $event, DateTimeInterface $time)
     {
-        return $this->mutexCache[$event->mutexName()] ??= $this->schedulingMutex->create($event, $time);
+        return $this->schedulingMutex->create($event, $time);
     }
 
     /**

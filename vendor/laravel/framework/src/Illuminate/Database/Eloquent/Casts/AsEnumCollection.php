@@ -30,11 +30,11 @@ class AsEnumCollection implements Castable
 
             public function get($model, $key, $value, $attributes)
             {
-                if (! isset($attributes[$key])) {
+                if (! isset($attributes[$key]) || is_null($attributes[$key])) {
                     return;
                 }
 
-                $data = Json::decode($attributes[$key]);
+                $data = json_decode($attributes[$key], true);
 
                 if (! is_array($data)) {
                     return;
@@ -52,9 +52,9 @@ class AsEnumCollection implements Castable
             public function set($model, $key, $value, $attributes)
             {
                 $value = $value !== null
-                    ? Json::encode((new Collection($value))->map(function ($enum) {
+                    ? (new Collection($value))->map(function ($enum) {
                         return $this->getStorableEnumValue($enum);
-                    })->jsonSerialize())
+                    })->toJson()
                     : null;
 
                 return [$key => $value];

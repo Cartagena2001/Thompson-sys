@@ -33,7 +33,7 @@ final class SummaryPrinter
         if ($result->numberOfTestsRun() === 0) {
             $this->printWithColor(
                 'fg-black, bg-yellow',
-                'No tests executed!',
+                'No tests executed!'
             );
 
             return;
@@ -49,11 +49,9 @@ final class SummaryPrinter
                     $result->numberOfTestsRun(),
                     $result->numberOfTestsRun() === 1 ? '' : 's',
                     $result->numberOfAssertions(),
-                    $result->numberOfAssertions() === 1 ? '' : 's',
-                ),
+                    $result->numberOfAssertions() === 1 ? '' : 's'
+                )
             );
-
-            $this->printNumberOfIssuesIgnoredByBaseline($result);
 
             return;
         }
@@ -64,60 +62,58 @@ final class SummaryPrinter
             if (!$result->hasTestsWithIssues()) {
                 $this->printWithColor(
                     $color,
-                    'OK, but some tests were skipped!',
+                    'OK, but some tests were skipped!'
                 );
             } else {
                 $this->printWithColor(
                     $color,
-                    'OK, but there were issues!',
+                    'OK, but some tests have issues!'
                 );
             }
         } else {
-            if ($result->hasTestErroredEvents() || $result->hasTestTriggeredPhpunitErrorEvents()) {
+            if ($result->hasTestErroredEvents()) {
                 $color = 'fg-white, bg-red';
 
                 $this->printWithColor(
                     $color,
-                    'ERRORS!',
+                    'ERRORS!'
                 );
             } elseif ($result->hasTestFailedEvents()) {
                 $color = 'fg-white, bg-red';
 
                 $this->printWithColor(
                     $color,
-                    'FAILURES!',
+                    'FAILURES!'
                 );
-            } elseif ($result->hasWarnings()) {
+            } elseif ($result->hasWarningEvents()) {
                 $this->printWithColor(
                     $color,
-                    'WARNINGS!',
+                    'WARNINGS!'
                 );
-            } elseif ($result->hasDeprecations()) {
+            } elseif ($result->hasDeprecationEvents()) {
                 $this->printWithColor(
                     $color,
-                    'DEPRECATIONS!',
+                    'DEPRECATIONS!'
                 );
-            } elseif ($result->hasNotices()) {
+            } elseif ($result->hasNoticeEvents()) {
                 $this->printWithColor(
                     $color,
-                    'NOTICES!',
+                    'NOTICES!'
                 );
             }
         }
 
         $this->printCountString($result->numberOfTestsRun(), 'Tests', $color, true);
         $this->printCountString($result->numberOfAssertions(), 'Assertions', $color, true);
-        $this->printCountString($result->numberOfErrors(), 'Errors', $color);
+        $this->printCountString($result->numberOfTestErroredEvents() + $result->numberOfTestsWithTestTriggeredErrorEvents(), 'Errors', $color);
         $this->printCountString($result->numberOfTestFailedEvents(), 'Failures', $color);
-        $this->printCountString($result->numberOfWarnings(), 'Warnings', $color);
-        $this->printCountString($result->numberOfDeprecations(), 'Deprecations', $color);
-        $this->printCountString($result->numberOfNotices(), 'Notices', $color);
+        $this->printCountString($result->numberOfWarningEvents(), 'Warnings', $color);
+        $this->printCountString($result->numberOfDeprecationEvents(), 'Deprecations', $color);
+        $this->printCountString($result->numberOfNoticeEvents(), 'Notices', $color);
         $this->printCountString($result->numberOfTestSuiteSkippedEvents() + $result->numberOfTestSkippedEvents(), 'Skipped', $color);
         $this->printCountString($result->numberOfTestMarkedIncompleteEvents(), 'Incomplete', $color);
         $this->printCountString($result->numberOfTestsWithTestConsideredRiskyEvents(), 'Risky', $color);
         $this->printWithColor($color, '.');
-
-        $this->printNumberOfIssuesIgnoredByBaseline($result);
     }
 
     private function printCountString(int $count, string $name, string $color, bool $always = false): void
@@ -129,9 +125,9 @@ final class SummaryPrinter
                     '%s%s: %d',
                     $this->countPrinted ? ', ' : '',
                     $name,
-                    $count,
+                    $count
                 ),
-                false,
+                false
             );
 
             $this->countPrinted = true;
@@ -148,22 +144,6 @@ final class SummaryPrinter
 
         if ($lf) {
             $this->printer->print(PHP_EOL);
-        }
-    }
-
-    private function printNumberOfIssuesIgnoredByBaseline(TestResult $result): void
-    {
-        if ($result->hasIssuesIgnoredByBaseline()) {
-            $this->printer->print(
-                sprintf(
-                    '%s%d issue%s %s ignored by baseline.%s',
-                    PHP_EOL,
-                    $result->numberOfIssuesIgnoredByBaseline(),
-                    $result->numberOfIssuesIgnoredByBaseline() > 1 ? 's' : '',
-                    $result->numberOfIssuesIgnoredByBaseline() > 1 ? 'were' : 'was',
-                    PHP_EOL,
-                ),
-            );
         }
     }
 }

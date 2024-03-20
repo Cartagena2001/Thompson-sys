@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\Util;
 
+use const DIRECTORY_SEPARATOR;
 use function class_exists;
 use function defined;
 use function dirname;
@@ -37,7 +38,6 @@ use SebastianBergmann\GlobalState\Snapshot;
 use SebastianBergmann\Invoker\Invoker;
 use SebastianBergmann\LinesOfCode\Counter;
 use SebastianBergmann\ObjectEnumerator\Enumerator;
-use SebastianBergmann\ObjectReflector\ObjectReflector;
 use SebastianBergmann\RecursionContext\Context;
 use SebastianBergmann\Template\Template;
 use SebastianBergmann\Timer\Timer;
@@ -120,9 +120,6 @@ final class ExcludeList
         // sebastian/object-enumerator
         Enumerator::class => 1,
 
-        // sebastian/object-reflector
-        ObjectReflector::class => 1,
-
         // sebastian/recursion-context
         Context::class => 1,
 
@@ -141,7 +138,6 @@ final class ExcludeList
      */
     private static array $directories = [];
     private static bool $initialized  = false;
-    private readonly bool $enabled;
 
     /**
      * @psalm-param non-empty-string $directory
@@ -157,15 +153,6 @@ final class ExcludeList
         self::$directories[] = realpath($directory);
     }
 
-    public function __construct(?bool $enabled = null)
-    {
-        if ($enabled === null) {
-            $enabled = !defined('PHPUNIT_TESTSUITE');
-        }
-
-        $this->enabled = $enabled;
-    }
-
     /**
      * @psalm-return list<string>
      */
@@ -178,7 +165,7 @@ final class ExcludeList
 
     public function isExcluded(string $file): bool
     {
-        if (!$this->enabled) {
+        if (defined('PHPUNIT_TESTSUITE')) {
             return false;
         }
 
@@ -213,16 +200,11 @@ final class ExcludeList
             self::$directories[] = $directory;
         }
 
-        /**
-         * Hide process isolation workaround on Windows:
-         * tempnam() prefix is limited to first 3 characters.
-         *
-         * @see https://php.net/manual/en/function.tempnam.php
-         */
-        if (PHP_OS_FAMILY === 'Windows') {
-            // @codeCoverageIgnoreStart
+        // Hide process isolation workaround on Windows.
+        if (DIRECTORY_SEPARATOR === '\\') {
+            // tempnam() prefix is limited to first 3 chars.
+            // @see https://php.net/manual/en/function.tempnam.php
             self::$directories[] = sys_get_temp_dir() . '\\PHP';
-            // @codeCoverageIgnoreEnd
         }
 
         self::$initialized = true;

@@ -3,7 +3,6 @@
 namespace Illuminate\Foundation\Http\Middleware;
 
 use Closure;
-use ErrorException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Http\MaintenanceModeBypassCookie;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -43,30 +42,18 @@ class PreventRequestsDuringMaintenance
      * @return mixed
      *
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-     * @throws \ErrorException
      */
     public function handle($request, Closure $next)
     {
-        if ($this->inExceptArray($request)) {
-            return $next($request);
-        }
-
         if ($this->app->maintenanceMode()->active()) {
-            try {
-                $data = $this->app->maintenanceMode()->data();
-            } catch (ErrorException $exception) {
-                if (! $this->app->maintenanceMode()->active()) {
-                    return $next($request);
-                }
-
-                throw $exception;
-            }
+            $data = $this->app->maintenanceMode()->data();
 
             if (isset($data['secret']) && $request->path() === $data['secret']) {
                 return $this->bypassResponse($data['secret']);
             }
 
-            if ($this->hasValidBypassCookie($request, $data)) {
+            if ($this->hasValidBypassCookie($request, $data) ||
+                $this->inExceptArray($request)) {
                 return $next($request);
             }
 

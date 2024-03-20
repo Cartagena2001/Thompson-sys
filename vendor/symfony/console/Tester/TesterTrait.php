@@ -128,9 +128,9 @@ trait TesterTrait
      *  * verbosity:                 Sets the output verbosity flag
      *  * capture_stderr_separately: Make output of stdOut and stdErr separately available
      */
-    private function initOutput(array $options): void
+    private function initOutput(array $options)
     {
-        $this->captureStreamsIndependently = $options['capture_stderr_separately'] ?? false;
+        $this->captureStreamsIndependently = \array_key_exists('capture_stderr_separately', $options) && $options['capture_stderr_separately'];
         if (!$this->captureStreamsIndependently) {
             $this->output = new StreamOutput(fopen('php://memory', 'w', false));
             if (isset($options['decorated'])) {

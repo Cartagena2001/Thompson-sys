@@ -2,7 +2,6 @@
 
 namespace Illuminate\Validation\Rules;
 
-use BackedEnum;
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
@@ -82,7 +81,7 @@ trait DatabaseRule
      * Set a "where" constraint on the query.
      *
      * @param  \Closure|string  $column
-     * @param  \Illuminate\Contracts\Support\Arrayable|\BackedEnum|\Closure|array|string|int|bool|null  $value
+     * @param  \Illuminate\Contracts\Support\Arrayable|array|string|int|null  $value
      * @return $this
      */
     public function where($column, $value = null)
@@ -99,10 +98,6 @@ trait DatabaseRule
             return $this->whereNull($column);
         }
 
-        if ($value instanceof BackedEnum) {
-            $value = $value->value;
-        }
-
         $this->wheres[] = compact('column', 'value');
 
         return $this;
@@ -112,17 +107,13 @@ trait DatabaseRule
      * Set a "where not" constraint on the query.
      *
      * @param  string  $column
-     * @param  \Illuminate\Contracts\Support\Arrayable|\BackedEnum|array|string  $value
+     * @param  \Illuminate\Contracts\Support\Arrayable|array|string  $value
      * @return $this
      */
     public function whereNot($column, $value)
     {
         if ($value instanceof Arrayable || is_array($value)) {
             return $this->whereNotIn($column, $value);
-        }
-
-        if ($value instanceof BackedEnum) {
-            $value = $value->value;
         }
 
         return $this->where($column, '!'.$value);
@@ -154,7 +145,7 @@ trait DatabaseRule
      * Set a "where in" constraint on the query.
      *
      * @param  string  $column
-     * @param  \Illuminate\Contracts\Support\Arrayable|\BackedEnum|array  $values
+     * @param  \Illuminate\Contracts\Support\Arrayable|array  $values
      * @return $this
      */
     public function whereIn($column, $values)
@@ -168,7 +159,7 @@ trait DatabaseRule
      * Set a "where not in" constraint on the query.
      *
      * @param  string  $column
-     * @param  \Illuminate\Contracts\Support\Arrayable|\BackedEnum|array  $values
+     * @param  \Illuminate\Contracts\Support\Arrayable|array  $values
      * @return $this
      */
     public function whereNotIn($column, $values)

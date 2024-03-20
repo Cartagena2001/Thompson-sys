@@ -15,8 +15,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/sebastianbergmann/php-text-template/issues",
-        "security": "https://github.com/sebastianbergmann/php-text-template/security/policy"
+        "issues": "https://github.com/sebastianbergmann/php-text-template/issues"
     },
     "config": {
         "platform": {

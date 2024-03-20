@@ -19,20 +19,13 @@ use function explode;
 use function file_get_contents;
 use function in_array;
 use function is_file;
-use function preg_replace;
 use function range;
-use function str_ends_with;
-use function str_starts_with;
 use function trim;
 use SebastianBergmann\CodeCoverage\Driver\Driver;
 use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
- *
- * @psalm-import-type XdebugFunctionsCoverageType from \SebastianBergmann\CodeCoverage\Driver\XdebugDriver
- * @psalm-import-type XdebugCodeCoverageWithoutPathCoverageType from \SebastianBergmann\CodeCoverage\Driver\XdebugDriver
- * @psalm-import-type XdebugCodeCoverageWithPathCoverageType from \SebastianBergmann\CodeCoverage\Driver\XdebugDriver
  */
 final class RawCodeCoverageData
 {
@@ -42,41 +35,26 @@ final class RawCodeCoverageData
     private static array $emptyLineCache = [];
 
     /**
-     * @psalm-var XdebugCodeCoverageWithoutPathCoverageType
+     * @see https://xdebug.org/docs/code_coverage for format
      */
     private array $lineCoverage;
 
     /**
-     * @psalm-var array<string, XdebugFunctionsCoverageType>
+     * @see https://xdebug.org/docs/code_coverage for format
      */
     private array $functionCoverage;
 
-    /**
-     * @psalm-param XdebugCodeCoverageWithoutPathCoverageType $rawCoverage
-     */
     public static function fromXdebugWithoutPathCoverage(array $rawCoverage): self
     {
         return new self($rawCoverage, []);
     }
 
-    /**
-     * @psalm-param XdebugCodeCoverageWithPathCoverageType $rawCoverage
-     */
     public static function fromXdebugWithPathCoverage(array $rawCoverage): self
     {
         $lineCoverage     = [];
         $functionCoverage = [];
 
         foreach ($rawCoverage as $file => $fileCoverageData) {
-            // Xdebug annotates the function name of traits, strip that off
-            foreach ($fileCoverageData['functions'] as $existingKey => $data) {
-                if (str_ends_with($existingKey, '}') && !str_starts_with($existingKey, '{')) { // don't want to catch {main}
-                    $newKey                                 = preg_replace('/\{.*}$/', '', $existingKey);
-                    $fileCoverageData['functions'][$newKey] = $data;
-                    unset($fileCoverageData['functions'][$existingKey]);
-                }
-            }
-
             $lineCoverage[$file]     = $fileCoverageData['lines'];
             $functionCoverage[$file] = $fileCoverageData['functions'];
         }
@@ -95,10 +73,6 @@ final class RawCodeCoverageData
         return new self([$filename => $lineCoverage], []);
     }
 
-    /**
-     * @psalm-param XdebugCodeCoverageWithoutPathCoverageType $lineCoverage
-     * @psalm-param array<string, XdebugFunctionsCoverageType> $functionCoverage
-     */
     private function __construct(array $lineCoverage, array $functionCoverage)
     {
         $this->lineCoverage     = $lineCoverage;
@@ -112,17 +86,11 @@ final class RawCodeCoverageData
         $this->lineCoverage = $this->functionCoverage = [];
     }
 
-    /**
-     * @psalm-return XdebugCodeCoverageWithoutPathCoverageType
-     */
     public function lineCoverage(): array
     {
         return $this->lineCoverage;
     }
 
-    /**
-     * @psalm-return array<string, XdebugFunctionsCoverageType>
-     */
     public function functionCoverage(): array
     {
         return $this->functionCoverage;
@@ -144,7 +112,7 @@ final class RawCodeCoverageData
 
         $this->lineCoverage[$filename] = array_intersect_key(
             $this->lineCoverage[$filename],
-            array_flip($lines),
+            array_flip($lines)
         );
     }
 
@@ -223,7 +191,7 @@ final class RawCodeCoverageData
 
         $this->lineCoverage[$filename] = array_diff_key(
             $this->lineCoverage[$filename],
-            array_flip($lines),
+            array_flip($lines)
         );
 
         if (isset($this->functionCoverage[$filename])) {

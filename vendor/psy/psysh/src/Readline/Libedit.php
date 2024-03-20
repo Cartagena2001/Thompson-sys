@@ -63,7 +63,6 @@ class Libedit extends GNUReadline
 
         // decode the line
         $history = \array_map([$this, 'parseHistoryLine'], $history);
-
         // filter empty lines & comments
         return \array_values(\array_filter($history));
     }

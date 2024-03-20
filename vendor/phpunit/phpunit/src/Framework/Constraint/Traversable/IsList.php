@@ -22,7 +22,7 @@ final class IsList extends Constraint
      */
     public function toString(): string
     {
-        return 'is a list';
+        return 'is list';
     }
 
     /**
@@ -46,6 +46,6 @@ final class IsList extends Constraint
      */
     protected function failureDescription(mixed $other): string
     {
-        return $this->valueToTypeStringFragment($other) . $this->toString(true);
+        return 'an array ' . $this->toString();
     }
 }

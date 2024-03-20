@@ -3,7 +3,7 @@
 namespace Illuminate\Database\Eloquent\Relations\Concerns;
 
 use BackedEnum;
-use InvalidArgumentException;
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use UnitEnum;
 
 trait InteractsWithDictionary
@@ -14,7 +14,7 @@ trait InteractsWithDictionary
      * @param  mixed  $attribute
      * @return mixed
      *
-     * @throws \InvalidArgumentException
+     * @throws \Doctrine\Instantiator\Exception\InvalidArgumentException
      */
     protected function getDictionaryKey($attribute)
     {
@@ -23,7 +23,8 @@ trait InteractsWithDictionary
                 return $attribute->__toString();
             }
 
-            if ($attribute instanceof UnitEnum) {
+            if (function_exists('enum_exists') &&
+                $attribute instanceof UnitEnum) {
                 return $attribute instanceof BackedEnum ? $attribute->value : $attribute->name;
             }
 

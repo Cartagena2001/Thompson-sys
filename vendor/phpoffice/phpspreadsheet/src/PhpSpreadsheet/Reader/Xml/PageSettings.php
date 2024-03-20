@@ -2,7 +2,6 @@
 
 namespace PhpOffice\PhpSpreadsheet\Reader\Xml;
 
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx\Namespaces;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use SimpleXMLElement;
@@ -15,9 +14,9 @@ class PageSettings
      */
     private $printSettings;
 
-    public function __construct(SimpleXMLElement $xmlX)
+    public function __construct(SimpleXMLElement $xmlX, array $namespaces)
     {
-        $printSettings = $this->pageSetup($xmlX, $this->getPrintDefaults());
+        $printSettings = $this->pageSetup($xmlX, $namespaces, $this->getPrintDefaults());
         $this->printSettings = $this->printSetup($xmlX, $printSettings);
     }
 
@@ -57,13 +56,13 @@ class PageSettings
         ];
     }
 
-    private function pageSetup(SimpleXMLElement $xmlX, stdClass $printDefaults): stdClass
+    private function pageSetup(SimpleXMLElement $xmlX, array $namespaces, stdClass $printDefaults): stdClass
     {
         if (isset($xmlX->WorksheetOptions->PageSetup)) {
             foreach ($xmlX->WorksheetOptions->PageSetup as $pageSetupData) {
                 foreach ($pageSetupData as $pageSetupKey => $pageSetupValue) {
                     /** @scrutinizer ignore-call */
-                    $pageSetupAttributes = $pageSetupValue->attributes(Namespaces::URN_EXCEL);
+                    $pageSetupAttributes = $pageSetupValue->attributes($namespaces['x']);
                     if ($pageSetupAttributes !== null) {
                         switch ($pageSetupKey) {
                             case 'Layout':

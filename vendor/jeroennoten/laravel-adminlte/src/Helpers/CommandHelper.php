@@ -61,6 +61,7 @@ class CommandHelper
         // Copy the source files to destination.
 
         while (($file = readdir($dirHandler)) !== false) {
+
             // Check if this file should be ignored.
 
             $filesToIgnore = array_merge($ignores, ['.', '..']);
@@ -113,6 +114,7 @@ class CommandHelper
         // Now, compare the folders.
 
         while (($file = readdir($dirHandler)) !== false) {
+
             // Check if this file should be ignored.
 
             $filesToIgnore = array_merge($ignores, ['.', '..']);

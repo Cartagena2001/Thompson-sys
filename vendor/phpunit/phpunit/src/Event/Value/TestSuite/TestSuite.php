@@ -9,7 +9,16 @@
  */
 namespace PHPUnit\Event\TestSuite;
 
+use function explode;
 use PHPUnit\Event\Code\TestCollection;
+use PHPUnit\Event\RuntimeException;
+use PHPUnit\Framework\DataProviderTestSuite;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestSuite as FrameworkTestSuite;
+use PHPUnit\Runner\PhptTestCase;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
 
 /**
  * @psalm-immutable
@@ -18,16 +27,90 @@ use PHPUnit\Event\Code\TestCollection;
  */
 abstract class TestSuite
 {
-    /**
-     * @psalm-var non-empty-string
-     */
     private readonly string $name;
     private readonly int $count;
     private readonly TestCollection $tests;
 
     /**
-     * @psalm-param non-empty-string $name
+     * @throws RuntimeException
      */
+    public static function fromTestSuite(FrameworkTestSuite $testSuite): self
+    {
+        $groups = [];
+
+        foreach ($testSuite->getGroupDetails() as $groupName => $tests) {
+            if (!isset($groups[$groupName])) {
+                $groups[$groupName] = [];
+            }
+
+            foreach ($tests as $test) {
+                $groups[$groupName][] = $test::class;
+            }
+        }
+
+        $tests = [];
+
+        foreach ($testSuite->tests() as $test) {
+            if ($test instanceof TestCase || $test instanceof PhptTestCase) {
+                $tests[] = $test->valueObjectForEvents();
+            }
+        }
+
+        if ($testSuite instanceof DataProviderTestSuite) {
+            [$className, $methodName] = explode('::', $testSuite->getName());
+
+            try {
+                $reflector = new ReflectionMethod($className, $methodName);
+
+                return new TestSuiteForTestMethodWithDataProvider(
+                    $testSuite->getName(),
+                    $testSuite->count(),
+                    TestCollection::fromArray($tests),
+                    $className,
+                    $methodName,
+                    $reflector->getFileName(),
+                    $reflector->getStartLine(),
+                );
+                // @codeCoverageIgnoreStart
+            } catch (ReflectionException $e) {
+                throw new RuntimeException(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    $e
+                );
+            }
+            // @codeCoverageIgnoreEnd
+        }
+
+        if ($testSuite->isForTestClass()) {
+            try {
+                $reflector = new ReflectionClass($testSuite->getName());
+
+                return new TestSuiteForTestClass(
+                    $testSuite->getName(),
+                    $testSuite->count(),
+                    TestCollection::fromArray($tests),
+                    $reflector->getFileName(),
+                    $reflector->getStartLine(),
+                );
+                // @codeCoverageIgnoreStart
+            } catch (ReflectionException $e) {
+                throw new RuntimeException(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    $e
+                );
+            }
+            // @codeCoverageIgnoreEnd
+        }
+
+        return new TestSuiteWithName(
+            $testSuite->getName(),
+            $testSuite->count(),
+            TestCollection::fromArray($tests),
+        );
+    }
+
     public function __construct(string $name, int $size, TestCollection $tests)
     {
         $this->name  = $name;
@@ -35,9 +118,6 @@ abstract class TestSuite
         $this->tests = $tests;
     }
 
-    /**
-     * @psalm-return non-empty-string
-     */
     public function name(): string
     {
         return $this->name;

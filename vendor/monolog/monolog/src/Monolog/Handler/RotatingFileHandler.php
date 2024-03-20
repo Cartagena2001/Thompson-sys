@@ -43,12 +43,13 @@ class RotatingFileHandler extends StreamHandler
      * @param int|null $filePermission Optional file permissions (default (0644) are only for owner read/write)
      * @param bool     $useLocking     Try to lock log file before doing any writes
      */
-    public function __construct(string $filename, int $maxFiles = 0, int|string|Level $level = Level::Debug, bool $bubble = true, ?int $filePermission = null, bool $useLocking = false, string $dateFormat = self::FILE_PER_DAY, string $filenameFormat  = '{filename}-{date}')
+    public function __construct(string $filename, int $maxFiles = 0, int|string|Level $level = Level::Debug, bool $bubble = true, ?int $filePermission = null, bool $useLocking = false)
     {
         $this->filename = Utils::canonicalizePath($filename);
         $this->maxFiles = $maxFiles;
-        $this->setFilenameFormat($filenameFormat, $dateFormat);
-        $this->nextRotation = $this->getNextRotation();
+        $this->nextRotation = new \DateTimeImmutable('tomorrow');
+        $this->filenameFormat = '{filename}-{date}';
+        $this->dateFormat = static::FILE_PER_DAY;
 
         parent::__construct($this->getTimedFilename(), $level, $bubble, $filePermission, $useLocking);
     }
@@ -77,18 +78,23 @@ class RotatingFileHandler extends StreamHandler
         }
     }
 
-    /**
-     * @return $this
-     */
     public function setFilenameFormat(string $filenameFormat, string $dateFormat): self
     {
-        $this->setDateFormat($dateFormat);
+        if (0 === preg_match('{^[Yy](([/_.-]?m)([/_.-]?d)?)?$}', $dateFormat)) {
+            throw new InvalidArgumentException(
+                'Invalid date format - format must be one of '.
+                'RotatingFileHandler::FILE_PER_DAY ("Y-m-d"), RotatingFileHandler::FILE_PER_MONTH ("Y-m") '.
+                'or RotatingFileHandler::FILE_PER_YEAR ("Y"), or you can set one of the '.
+                'date formats using slashes, underscores and/or dots instead of dashes.'
+            );
+        }
         if (substr_count($filenameFormat, '{date}') === 0) {
             throw new InvalidArgumentException(
                 'Invalid filename format - format must contain at least `{date}`, because otherwise rotating is impossible.'
             );
         }
         $this->filenameFormat = $filenameFormat;
+        $this->dateFormat = $dateFormat;
         $this->url = $this->getTimedFilename();
         $this->close();
 
@@ -120,7 +126,7 @@ class RotatingFileHandler extends StreamHandler
     {
         // update filename
         $this->url = $this->getTimedFilename();
-        $this->nextRotation = $this->getNextRotation();
+        $this->nextRotation = new \DateTimeImmutable('tomorrow');
 
         // skip GC of old logs if files are unlimited
         if (0 === $this->maxFiles) {
@@ -191,27 +197,5 @@ class RotatingFileHandler extends StreamHandler
         }
 
         return $glob;
-    }
-
-    protected function setDateFormat(string $dateFormat): void
-    {
-        if (0 === preg_match('{^[Yy](([/_.-]?m)([/_.-]?d)?)?$}', $dateFormat)) {
-            throw new InvalidArgumentException(
-                'Invalid date format - format must be one of '.
-                'RotatingFileHandler::FILE_PER_DAY ("Y-m-d"), RotatingFileHandler::FILE_PER_MONTH ("Y-m") '.
-                'or RotatingFileHandler::FILE_PER_YEAR ("Y"), or you can set one of the '.
-                'date formats using slashes, underscores and/or dots instead of dashes.'
-            );
-        }
-        $this->dateFormat = $dateFormat;
-    }
-
-    protected function getNextRotation(): \DateTimeImmutable
-    {
-        return match (str_replace(['/','_','.'], '-', $this->dateFormat)) {
-            self::FILE_PER_MONTH => (new \DateTimeImmutable('first day of next month'))->setTime(0, 0, 0),
-            self::FILE_PER_YEAR => (new \DateTimeImmutable('first day of January next year'))->setTime(0, 0, 0),
-            default => (new \DateTimeImmutable('tomorrow'))->setTime(0, 0, 0),
-        };
     }
 }

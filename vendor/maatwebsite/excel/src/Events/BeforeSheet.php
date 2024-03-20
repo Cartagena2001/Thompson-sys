@@ -12,13 +12,18 @@ class BeforeSheet extends Event
     public $sheet;
 
     /**
+     * @var object
+     */
+    private $exportable;
+
+    /**
      * @param  Sheet  $sheet
      * @param  object  $exportable
      */
     public function __construct(Sheet $sheet, $exportable)
     {
         $this->sheet       = $sheet;
-        parent::__construct($exportable);
+        $this->exportable  = $exportable;
     }
 
     /**
@@ -27,6 +32,14 @@ class BeforeSheet extends Event
     public function getSheet(): Sheet
     {
         return $this->sheet;
+    }
+
+    /**
+     * @return object
+     */
+    public function getConcernable()
+    {
+        return $this->exportable;
     }
 
     /**

@@ -430,7 +430,7 @@ class Xls extends BaseReader
      */
     public function canRead(string $filename): bool
     {
-        if (File::testFileNoThrow($filename) === false) {
+        if (!File::testFileNoThrow($filename)) {
             return false;
         }
 
@@ -440,9 +440,6 @@ class Xls extends BaseReader
 
             // get excel data
             $ole->read($filename);
-            if ($ole->wrkbook === null) {
-                throw new Exception('The filename ' . $filename . ' is not recognised as a Spreadsheet file');
-            }
 
             return true;
         } catch (PhpSpreadsheetException $e) {
@@ -452,7 +449,7 @@ class Xls extends BaseReader
 
     public function setCodepage(string $codepage): void
     {
-        if (CodePage::validate($codepage) === false) {
+        if (!CodePage::validate($codepage)) {
             throw new PhpSpreadsheetException('Unknown codepage: ' . $codepage);
         }
 
@@ -1100,7 +1097,7 @@ class Xls extends BaseReader
             // treat OBJ records
             foreach ($this->objs as $n => $obj) {
                 // the first shape container never has a corresponding OBJ record, hence $n + 1
-                if (isset($allSpContainers[$n + 1])) {
+                if (isset($allSpContainers[$n + 1]) && is_object($allSpContainers[$n + 1])) {
                     $spContainer = $allSpContainers[$n + 1];
 
                     // we skip all spContainers that are a part of a group shape since we cannot yet handle those

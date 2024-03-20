@@ -263,20 +263,6 @@ class FilesystemAdapter implements CloudFilesystemContract
     }
 
     /**
-     * Get the contents of a file as decoded JSON.
-     *
-     * @param  string  $path
-     * @param  int  $flags
-     * @return array|null
-     */
-    public function json($path, $flags = 0)
-    {
-        $content = $this->get($path);
-
-        return is_null($content) ? null : json_decode($content, true, 512, $flags);
-    }
-
-    /**
      * Create a streamed response for a given file.
      *
      * @param  string  $path
@@ -289,8 +275,13 @@ class FilesystemAdapter implements CloudFilesystemContract
     {
         $response = new StreamedResponse;
 
-        $headers['Content-Type'] ??= $this->mimeType($path);
-        $headers['Content-Length'] ??= $this->size($path);
+        if (! array_key_exists('Content-Type', $headers)) {
+            $headers['Content-Type'] = $this->mimeType($path);
+        }
+
+        if (! array_key_exists('Content-Length', $headers)) {
+            $headers['Content-Length'] = $this->size($path);
+        }
 
         if (! array_key_exists('Content-Disposition', $headers)) {
             $filename = $name ?? basename($path);
@@ -978,7 +969,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      *
      * @throws \BadMethodCallException
      */
-    public function __call($method, $parameters)
+    public function __call($method, array $parameters)
     {
         if (static::hasMacro($method)) {
             return $this->macroCall($method, $parameters);

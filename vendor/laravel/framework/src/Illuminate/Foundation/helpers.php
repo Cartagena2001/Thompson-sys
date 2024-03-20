@@ -109,7 +109,7 @@ if (! function_exists('app')) {
      *
      * @param  string|null  $abstract
      * @param  array  $parameters
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed
+     * @return mixed|\Illuminate\Contracts\Foundation\Application
      */
     function app($abstract = null, array $parameters = [])
     {
@@ -226,13 +226,15 @@ if (! function_exists('cache')) {
      *
      * If an array is passed, we'll assume you want to put to the cache.
      *
-     * @param  mixed  ...$arguments  key|key,default|data,expiration|null
+     * @param  dynamic  key|key,default|data,expiration|null
      * @return mixed|\Illuminate\Cache\CacheManager
      *
      * @throws \InvalidArgumentException
      */
-    function cache(...$arguments)
+    function cache()
     {
+        $arguments = func_get_args();
+
         if (empty($arguments)) {
             return app('cache');
         }
@@ -323,7 +325,7 @@ if (! function_exists('csrf_field')) {
      */
     function csrf_field()
     {
-        return new HtmlString('<input type="hidden" name="_token" value="'.csrf_token().'" autocomplete="off">');
+        return new HtmlString('<input type="hidden" name="_token" value="'.csrf_token().'">');
     }
 }
 
@@ -610,7 +612,7 @@ if (! function_exists('precognitive')) {
         });
 
         if (request()->isPrecognitive()) {
-            abort(204, headers: ['Precognition-Success' => 'true']);
+            abort(204);
         }
 
         return $payload;
@@ -727,13 +729,10 @@ if (! function_exists('rescue')) {
     /**
      * Catch a potential exception and return a default value.
      *
-     * @template TRescueValue
-     * @template TRescueFallback
-     *
-     * @param  callable(): TRescueValue  $callback
-     * @param  (callable(\Throwable): TRescueFallback)|TRescueFallback  $rescue
+     * @param  callable  $callback
+     * @param  mixed  $rescue
      * @param  bool|callable  $report
-     * @return TRescueValue|TRescueFallback
+     * @return mixed
      */
     function rescue(callable $callback, $rescue = null, $report = true)
     {
@@ -801,7 +800,7 @@ if (! function_exists('route')) {
     /**
      * Generate the URL to a named route.
      *
-     * @param  string  $name
+     * @param  array|string  $name
      * @param  mixed  $parameters
      * @param  bool  $absolute
      * @return string
@@ -929,7 +928,7 @@ if (! function_exists('trans_choice')) {
      * Translates the given message based on a count.
      *
      * @param  string  $key
-     * @param  \Countable|int|float|array  $number
+     * @param  \Countable|int|array  $number
      * @param  array  $replace
      * @param  string|null  $locale
      * @return string

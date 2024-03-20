@@ -6,7 +6,6 @@ use Illuminate\Console\OutputStyle;
 use Illuminate\Console\QuestionHelper;
 use ReflectionClass;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
-
 use function Termwind\render;
 use function Termwind\renderUsing;
 
@@ -107,6 +106,8 @@ abstract class Component
         $property = with(new ReflectionClass(OutputStyle::class))
             ->getParentClass()
             ->getProperty('questionHelper');
+
+        $property->setAccessible(true);
 
         $currentHelper = $property->isInitialized($this->output)
             ? $property->getValue($this->output)

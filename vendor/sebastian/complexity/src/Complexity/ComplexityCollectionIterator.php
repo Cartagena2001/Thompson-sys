@@ -16,7 +16,7 @@ final class ComplexityCollectionIterator implements Iterator
     /**
      * @psalm-var list<Complexity>
      */
-    private readonly array $items;
+    private array $items;
     private int $position = 0;
 
     public function __construct(ComplexityCollection $items)

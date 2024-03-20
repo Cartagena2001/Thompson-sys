@@ -49,26 +49,9 @@ class Notification extends Facade
      */
     public static function fake()
     {
-        return tap(new NotificationFake, function ($fake) {
-            static::swap($fake);
-        });
-    }
+        static::swap($fake = new NotificationFake);
 
-    /**
-     * Begin sending a notification to an anonymous notifiable on the given channels.
-     *
-     * @param  array  $channels
-     * @return \Illuminate\Notifications\AnonymousNotifiable
-     */
-    public static function routes(array $channels)
-    {
-        $notifiable = new AnonymousNotifiable;
-
-        foreach ($channels as $channel => $route) {
-            $notifiable->route($channel, $route);
-        }
-
-        return $notifiable;
+        return $fake;
     }
 
     /**

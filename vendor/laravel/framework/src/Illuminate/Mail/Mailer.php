@@ -2,7 +2,6 @@
 
 namespace Illuminate\Mail;
 
-use Closure;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Mail\Mailable as MailableContract;
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
@@ -253,38 +252,7 @@ class Mailer implements MailerContract, MailQueueContract
 
         $data['message'] = $this->createMessage();
 
-        return $this->replaceEmbeddedAttachments(
-            $this->renderView($view ?: $plain, $data),
-            $data['message']->getSymfonyMessage()->getAttachments()
-        );
-    }
-
-    /**
-     * Replace the embedded image attachments with raw, inline image data for browser rendering.
-     *
-     * @param  string  $renderedView
-     * @param  array  $attachments
-     * @return string
-     */
-    protected function replaceEmbeddedAttachments(string $renderedView, array $attachments)
-    {
-        if (preg_match_all('/<img.+?src=[\'"]cid:([^\'"]+)[\'"].*?>/i', $renderedView, $matches)) {
-            foreach (array_unique($matches[1]) as $image) {
-                foreach ($attachments as $attachment) {
-                    if ($attachment->getFilename() === $image) {
-                        $renderedView = str_replace(
-                            'cid:'.$image,
-                            'data:'.$attachment->getContentType().';base64,'.$attachment->bodyToString(),
-                            $renderedView
-                        );
-
-                        break;
-                    }
-                }
-            }
-        }
-
-        return $renderedView;
+        return $this->renderView($view ?: $plain, $data);
     }
 
     /**
@@ -360,14 +328,14 @@ class Mailer implements MailerContract, MailQueueContract
     /**
      * Parse the given view name or array.
      *
-     * @param  \Closure|array|string  $view
+     * @param  string|array  $view
      * @return array
      *
      * @throws \InvalidArgumentException
      */
     protected function parseView($view)
     {
-        if (is_string($view) || $view instanceof Closure) {
+        if (is_string($view)) {
             return [$view, null, null];
         }
 
@@ -420,14 +388,12 @@ class Mailer implements MailerContract, MailQueueContract
     /**
      * Render the given view.
      *
-     * @param  \Closure|string  $view
+     * @param  string  $view
      * @param  array  $data
      * @return string
      */
     protected function renderView($view, $data)
     {
-        $view = value($view, $data);
-
         return $view instanceof Htmlable
                         ? $view->toHtml()
                         : $this->views->make($view, $data)->render();

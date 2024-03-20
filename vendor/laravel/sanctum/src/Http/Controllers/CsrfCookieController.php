@@ -12,14 +12,14 @@ class CsrfCookieController
      * Return an empty response simply to trigger the storage of the CSRF cookie in the browser.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
     {
         if ($request->expectsJson()) {
-            return new JsonResponse(status: 204);
+            return new JsonResponse(null, 204);
         }
 
-        return new Response(status: 204);
+        return new Response('', 204);
     }
 }

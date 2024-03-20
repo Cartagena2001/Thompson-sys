@@ -1,5 +1,4 @@
 @inject('layoutHelper', 'JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper')
-@inject('preloaderHelper', 'JeroenNoten\LaravelAdminLte\Helpers\preloaderHelper')
 
 @if($layoutHelper->isLayoutTopnavEnabled())
     @php( $def_container_class = 'container' )
@@ -8,12 +7,7 @@
 @endif
 
 {{-- Default Content Wrapper --}}
-<div class="{{ $layoutHelper->makeContentWrapperClasses() }}">
-
-    {{-- Preloader Animation (cwrapper mode) --}}
-    @if($preloaderHelper->isPreloaderEnabled('cwrapper'))
-        @include('adminlte::partials.common.preloader')
-    @endif
+<div class="content-wrapper {{ config('adminlte.classes_content_wrapper', '') }}">
 
     {{-- Content Header --}}
     @hasSection('content_header')
@@ -27,7 +21,6 @@
     {{-- Main Content --}}
     <div class="content">
         <div class="{{ config('adminlte.classes_content') ?: $def_container_class }}">
-            @stack('content')
             @yield('content')
         </div>
     </div>

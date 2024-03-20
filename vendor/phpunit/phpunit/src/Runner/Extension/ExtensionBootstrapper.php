@@ -13,11 +13,14 @@ use function assert;
 use function class_exists;
 use function class_implements;
 use function in_array;
-use function sprintf;
-use PHPUnit\Event\Facade as EventFacade;
+use PHPUnit\Event;
+use PHPUnit\Runner\ClassCannotBeInstantiatedException;
+use PHPUnit\Runner\ClassDoesNotExistException;
+use PHPUnit\Runner\ClassDoesNotImplementExtensionInterfaceException;
+use PHPUnit\Runner\Exception;
 use PHPUnit\TextUI\Configuration\Configuration;
 use ReflectionClass;
-use Throwable;
+use ReflectionException;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -36,57 +39,34 @@ final class ExtensionBootstrapper
     /**
      * @psalm-param class-string $className
      * @psalm-param array<string, string> $parameters
+     *
+     * @throws Exception
      */
     public function bootstrap(string $className, array $parameters): void
     {
         if (!class_exists($className)) {
-            EventFacade::emitter()->testRunnerTriggeredWarning(
-                sprintf(
-                    'Cannot bootstrap extension because class %s does not exist',
-                    $className,
-                ),
-            );
-
-            return;
+            throw new ClassDoesNotExistException($className);
         }
 
         if (!in_array(Extension::class, class_implements($className), true)) {
-            EventFacade::emitter()->testRunnerTriggeredWarning(
-                sprintf(
-                    'Cannot bootstrap extension because class %s does not implement interface %s',
-                    $className,
-                    Extension::class,
-                ),
-            );
-
-            return;
+            throw new ClassDoesNotImplementExtensionInterfaceException($className);
         }
 
         try {
             $instance = (new ReflectionClass($className))->newInstance();
-
-            assert($instance instanceof Extension);
-
-            $instance->bootstrap(
-                $this->configuration,
-                $this->facade,
-                ParameterCollection::fromArray($parameters),
-            );
-        } catch (Throwable $t) {
-            EventFacade::emitter()->testRunnerTriggeredWarning(
-                sprintf(
-                    'Bootstrapping of extension %s failed: %s%s%s',
-                    $className,
-                    $t->getMessage(),
-                    PHP_EOL,
-                    $t->getTraceAsString(),
-                ),
-            );
-
-            return;
+        } catch (ReflectionException $e) {
+            throw new ClassCannotBeInstantiatedException($className, $e);
         }
 
-        EventFacade::emitter()->testRunnerBootstrappedExtension(
+        assert($instance instanceof Extension);
+
+        $instance->bootstrap(
+            $this->configuration,
+            $this->facade,
+            ParameterCollection::fromArray($parameters),
+        );
+
+        Event\Facade::emitter()->testRunnerBootstrappedExtension(
             $className,
             $parameters,
         );

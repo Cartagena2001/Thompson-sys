@@ -14,8 +14,6 @@ namespace Psy\CodeCleaner;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Expr\AssignRef;
-use PhpParser\Node\Stmt\Foreach_;
 use Psy\Exception\FatalErrorException;
 
 /**
@@ -36,7 +34,7 @@ class EmptyArrayDimFetchPass extends CodeCleanerPass
     }
 
     /**
-     * @throws FatalErrorException if the user used empty array dim fetch outside of assignment
+     * @throws FatalErrorException if the user used empty empty array dim fetch outside of assignment
      *
      * @param Node $node
      *
@@ -46,20 +44,11 @@ class EmptyArrayDimFetchPass extends CodeCleanerPass
     {
         if ($node instanceof Assign && $node->var instanceof ArrayDimFetch) {
             $this->theseOnesAreFine[] = $node->var;
-        } elseif ($node instanceof AssignRef && $node->expr instanceof ArrayDimFetch) {
-            $this->theseOnesAreFine[] = $node->expr;
-        } elseif ($node instanceof Foreach_ && $node->valueVar instanceof ArrayDimFetch) {
-            $this->theseOnesAreFine[] = $node->valueVar;
-        } elseif ($node instanceof ArrayDimFetch && $node->var instanceof ArrayDimFetch) {
-            // $a[]['b'] = 'c'
-            if (\in_array($node, $this->theseOnesAreFine)) {
-                $this->theseOnesAreFine[] = $node->var;
-            }
         }
 
         if ($node instanceof ArrayDimFetch && $node->dim === null) {
             if (!\in_array($node, $this->theseOnesAreFine)) {
-                throw new FatalErrorException(self::EXCEPTION_MESSAGE, $node->getStartLine());
+                throw new FatalErrorException(self::EXCEPTION_MESSAGE, $node->getLine());
             }
         }
     }

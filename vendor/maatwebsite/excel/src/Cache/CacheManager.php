@@ -59,15 +59,13 @@ class CacheManager extends Manager
         if (!InstalledVersions::satisfies(new VersionParser, 'psr/simple-cache', '^3.0')) {
             return new BatchCacheDeprecated(
                 $this->createIlluminateDriver(),
-                $this->createMemoryDriver(),
-                config('excel.cache.ttl')
+                $this->createMemoryDriver()
             );
         }
 
         return new BatchCache(
             $this->createIlluminateDriver(),
-            $this->createMemoryDriver(),
-            config('excel.cache.ttl')
+            $this->createMemoryDriver()
         );
     }
 

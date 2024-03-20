@@ -15,11 +15,9 @@ use function date;
 use function dirname;
 use function str_ends_with;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
-use SebastianBergmann\CodeCoverage\FileCouldNotBeWrittenException;
 use SebastianBergmann\CodeCoverage\Node\Directory as DirectoryNode;
 use SebastianBergmann\CodeCoverage\Report\Thresholds;
 use SebastianBergmann\CodeCoverage\Util\Filesystem;
-use SebastianBergmann\Template\Exception;
 use SebastianBergmann\Template\Template;
 
 final class Facade
@@ -50,7 +48,7 @@ final class Facade
             $this->generator,
             $date,
             $this->thresholds,
-            $coverage->collectsBranchAndPathCoverage(),
+            $coverage->collectsBranchAndPathCoverage()
         );
 
         $directory = new Directory(
@@ -58,7 +56,7 @@ final class Facade
             $this->generator,
             $date,
             $this->thresholds,
-            $coverage->collectsBranchAndPathCoverage(),
+            $coverage->collectsBranchAndPathCoverage()
         );
 
         $file = new File(
@@ -66,7 +64,7 @@ final class Facade
             $this->generator,
             $date,
             $this->thresholds,
-            $coverage->collectsBranchAndPathCoverage(),
+            $coverage->collectsBranchAndPathCoverage()
         );
 
         $directory->render($report, $target . 'index.html');
@@ -126,18 +124,10 @@ final class Facade
                 'success-high'   => $this->colors->successHigh(),
                 'warning'        => $this->colors->warning(),
                 'danger'         => $this->colors->danger(),
-            ],
+            ]
         );
 
-        try {
-            $template->renderTo($this->directory($target . '_css') . 'style.css');
-        } catch (Exception $e) {
-            throw new FileCouldNotBeWrittenException(
-                $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        $template->renderTo($this->directory($target . '_css') . 'style.css');
     }
 
     private function directory(string $directory): string

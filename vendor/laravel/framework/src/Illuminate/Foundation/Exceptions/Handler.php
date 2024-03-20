@@ -6,9 +6,6 @@ use Closure;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Cache\RateLimiter;
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Cache\RateLimiting\Unlimited;
 use Illuminate\Console\View\Components\BulletList;
 use Illuminate\Console\View\Components\Error;
 use Illuminate\Contracts\Container\Container;
@@ -27,7 +24,6 @@ use Illuminate\Routing\Router;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Lottery;
 use Illuminate\Support\Reflector;
 use Illuminate\Support\Traits\ReflectsClosures;
 use Illuminate\Support\ViewErrorBag;
@@ -46,7 +42,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
-use WeakMap;
 
 class Handler implements ExceptionHandlerContract
 {
@@ -95,13 +90,6 @@ class Handler implements ExceptionHandlerContract
     protected $exceptionMap = [];
 
     /**
-     * Indicates that throttled keys should be hashed.
-     *
-     * @var bool
-     */
-    protected $hashThrottleKeys = true;
-
-    /**
      * A list of the internal exception types that should not be reported.
      *
      * @var array<int, class-string<\Throwable>>
@@ -132,20 +120,6 @@ class Handler implements ExceptionHandlerContract
     ];
 
     /**
-     * Indicates that an exception instance should only be reported once.
-     *
-     * @var bool
-     */
-    protected $withoutDuplicates = false;
-
-    /**
-     * The already reported exception map.
-     *
-     * @var \WeakMap
-     */
-    protected $reportedExceptionMap;
-
-    /**
      * Create a new exception handler instance.
      *
      * @param  \Illuminate\Contracts\Container\Container  $container
@@ -154,8 +128,6 @@ class Handler implements ExceptionHandlerContract
     public function __construct(Container $container)
     {
         $this->container = $container;
-
-        $this->reportedExceptionMap = new WeakMap;
 
         $this->register();
     }
@@ -275,21 +247,6 @@ class Handler implements ExceptionHandlerContract
             return;
         }
 
-        $this->reportThrowable($e);
-    }
-
-    /**
-     * Reports error based on report method on exception or to logger.
-     *
-     * @param  \Throwable  $e
-     * @return void
-     *
-     * @throws \Throwable
-     */
-    protected function reportThrowable(Throwable $e): void
-    {
-        $this->reportedExceptionMap[$e] = true;
-
         if (Reflector::isCallable($reportCallable = [$e, 'report']) &&
             $this->container->call($reportCallable) !== false) {
             return;
@@ -302,8 +259,8 @@ class Handler implements ExceptionHandlerContract
         }
 
         try {
-            $logger = $this->newLogger();
-        } catch (Exception) {
+            $logger = $this->container->make(LoggerInterface::class);
+        } catch (Exception $ex) {
             throw $e;
         }
 
@@ -337,43 +294,9 @@ class Handler implements ExceptionHandlerContract
      */
     protected function shouldntReport(Throwable $e)
     {
-        if ($this->withoutDuplicates && ($this->reportedExceptionMap[$e] ?? false)) {
-            return true;
-        }
-
         $dontReport = array_merge($this->dontReport, $this->internalDontReport);
 
-        if (! is_null(Arr::first($dontReport, fn ($type) => $e instanceof $type))) {
-            return true;
-        }
-
-        return rescue(fn () => with($this->throttle($e), function ($throttle) use ($e) {
-            if ($throttle instanceof Unlimited || $throttle === null) {
-                return false;
-            }
-
-            if ($throttle instanceof Lottery) {
-                return ! $throttle($e);
-            }
-
-            return ! $this->container->make(RateLimiter::class)->attempt(
-                with($throttle->key ?: 'illuminate:foundation:exceptions:'.$e::class, fn ($key) => $this->hashThrottleKeys ? md5($key) : $key),
-                $throttle->maxAttempts,
-                fn () => true,
-                60 * $throttle->decayMinutes
-            );
-        }), rescue: false, report: false);
-    }
-
-    /**
-     * Throttle the given exception.
-     *
-     * @param  \Throwable  $e
-     * @return \Illuminate\Support\Lottery|\Illuminate\Cache\RateLimiting\Limit|null
-     */
-    protected function throttle(Throwable $e)
-    {
-        return Limit::none();
+        return ! is_null(Arr::first($dontReport, fn ($type) => $e instanceof $type));
     }
 
     /**
@@ -434,7 +357,7 @@ class Handler implements ExceptionHandlerContract
             return array_filter([
                 'userId' => Auth::id(),
             ]);
-        } catch (Throwable) {
+        } catch (Throwable $e) {
             return [];
         }
     }
@@ -450,8 +373,6 @@ class Handler implements ExceptionHandlerContract
      */
     public function render($request, Throwable $e)
     {
-        $e = $this->mapException($e);
-
         if (method_exists($e, 'render') && $response = $e->render($request)) {
             return Router::toResponse($request, $response);
         }
@@ -460,7 +381,7 @@ class Handler implements ExceptionHandlerContract
             return $e->toResponse($request);
         }
 
-        $e = $this->prepareException($e);
+        $e = $this->prepareException($this->mapException($e));
 
         if ($response = $this->renderViaCallbacks($request, $e)) {
             return $response;
@@ -547,7 +468,7 @@ class Handler implements ExceptionHandlerContract
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Throwable  $e
-     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function renderExceptionResponse($request, Throwable $e)
     {
@@ -561,7 +482,7 @@ class Handler implements ExceptionHandlerContract
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
@@ -593,7 +514,7 @@ class Handler implements ExceptionHandlerContract
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Validation\ValidationException  $exception
-     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
     protected function invalid($request, ValidationException $exception)
     {
@@ -634,7 +555,7 @@ class Handler implements ExceptionHandlerContract
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Throwable  $e
-     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function prepareResponse($request, Throwable $e)
     {
@@ -719,16 +640,10 @@ class Handler implements ExceptionHandlerContract
         $this->registerErrorViewPaths();
 
         if ($view = $this->getHttpExceptionView($e)) {
-            try {
-                return response()->view($view, [
-                    'errors' => new ViewErrorBag,
-                    'exception' => $e,
-                ], $e->getStatusCode(), $e->getHeaders());
-            } catch (Throwable $t) {
-                config('app.debug') && throw $t;
-
-                $this->report($t);
-            }
+            return response()->view($view, [
+                'errors' => new ViewErrorBag,
+                'exception' => $e,
+            ], $e->getStatusCode(), $e->getHeaders());
         }
 
         return $this->convertExceptionToResponse($e);
@@ -772,7 +687,7 @@ class Handler implements ExceptionHandlerContract
      *
      * @param  \Symfony\Component\HttpFoundation\Response  $response
      * @param  \Throwable  $e
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
     protected function toIlluminateResponse($response, Throwable $e)
     {
@@ -843,7 +758,7 @@ class Handler implements ExceptionHandlerContract
                 $message .= '. Did you mean one of these?';
 
                 with(new Error($output))->render($message);
-                with(new BulletList($output))->render($alternatives);
+                with(new BulletList($output))->render($e->getAlternatives());
 
                 $output->writeln('');
             } else {
@@ -857,18 +772,6 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
-     * Do not report duplicate exceptions.
-     *
-     * @return $this
-     */
-    public function dontReportDuplicates()
-    {
-        $this->withoutDuplicates = true;
-
-        return $this;
-    }
-
-    /**
      * Determine if the given exception is an HTTP exception.
      *
      * @param  \Throwable  $e
@@ -877,15 +780,5 @@ class Handler implements ExceptionHandlerContract
     protected function isHttpException(Throwable $e)
     {
         return $e instanceof HttpExceptionInterface;
-    }
-
-    /**
-     * Create a new logger instance.
-     *
-     * @return \Psr\Log\LoggerInterface
-     */
-    protected function newLogger()
-    {
-        return $this->container->make(LoggerInterface::class);
     }
 }

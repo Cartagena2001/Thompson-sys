@@ -37,16 +37,16 @@ abstract class TransportFactoryTestCase extends TestCase
 
     abstract public function getFactory(): TransportFactoryInterface;
 
-    abstract public static function supportsProvider(): iterable;
+    abstract public function supportsProvider(): iterable;
 
-    abstract public static function createProvider(): iterable;
+    abstract public function createProvider(): iterable;
 
-    public static function unsupportedSchemeProvider(): iterable
+    public function unsupportedSchemeProvider(): iterable
     {
         return [];
     }
 
-    public static function incompleteDsnProvider(): iterable
+    public function incompleteDsnProvider(): iterable
     {
         return [];
     }
@@ -77,7 +77,7 @@ abstract class TransportFactoryTestCase extends TestCase
     /**
      * @dataProvider unsupportedSchemeProvider
      */
-    public function testUnsupportedSchemeException(Dsn $dsn, ?string $message = null)
+    public function testUnsupportedSchemeException(Dsn $dsn, string $message = null)
     {
         $factory = $this->getFactory();
 

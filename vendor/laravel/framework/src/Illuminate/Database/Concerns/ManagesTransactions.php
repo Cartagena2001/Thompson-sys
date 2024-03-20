@@ -41,8 +41,6 @@ trait ManagesTransactions
                 continue;
             }
 
-            $levelBeingCommitted = $this->transactions;
-
             try {
                 if ($this->transactions == 1) {
                     $this->fireConnectionEvent('committing');
@@ -50,6 +48,10 @@ trait ManagesTransactions
                 }
 
                 $this->transactions = max(0, $this->transactions - 1);
+
+                if ($this->afterCommitCallbacksShouldBeExecuted()) {
+                    $this->transactionsManager?->commit($this->getName());
+                }
             } catch (Throwable $e) {
                 $this->handleCommitTransactionException(
                     $e, $currentAttempt, $attempts
@@ -57,12 +59,6 @@ trait ManagesTransactions
 
                 continue;
             }
-
-            $this->transactionsManager?->commit(
-                $this->getName(),
-                $levelBeingCommitted,
-                $this->transactions
-            );
 
             $this->fireConnectionEvent('committed');
 
@@ -118,10 +114,6 @@ trait ManagesTransactions
      */
     public function beginTransaction()
     {
-        foreach ($this->beforeStartingTransaction as $callback) {
-            $callback($this);
-        }
-
         $this->createTransaction();
 
         $this->transactions++;
@@ -202,16 +194,25 @@ trait ManagesTransactions
             $this->getPdo()->commit();
         }
 
-        [$levelBeingCommitted, $this->transactions] = [
-            $this->transactions,
-            max(0, $this->transactions - 1),
-        ];
+        $this->transactions = max(0, $this->transactions - 1);
 
-        $this->transactionsManager?->commit(
-            $this->getName(), $levelBeingCommitted, $this->transactions
-        );
+        if ($this->afterCommitCallbacksShouldBeExecuted()) {
+            $this->transactionsManager?->commit($this->getName());
+        }
 
         $this->fireConnectionEvent('committed');
+    }
+
+    /**
+     * Determine if after commit callbacks should be executed.
+     *
+     * @return bool
+     */
+    protected function afterCommitCallbacksShouldBeExecuted()
+    {
+        return $this->transactions == 0 ||
+            ($this->transactionsManager &&
+             $this->transactionsManager->callbackApplicableTransactions()->count() === 1);
     }
 
     /**

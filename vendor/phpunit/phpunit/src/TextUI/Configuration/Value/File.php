@@ -16,22 +16,13 @@ namespace PHPUnit\TextUI\Configuration;
  */
 final class File
 {
-    /**
-     * @psalm-var non-empty-string
-     */
     private readonly string $path;
 
-    /**
-     * @psalm-param non-empty-string $path
-     */
     public function __construct(string $path)
     {
         $this->path = $path;
     }
 
-    /**
-     * @psalm-return non-empty-string
-     */
     public function path(): string
     {
         return $this->path;

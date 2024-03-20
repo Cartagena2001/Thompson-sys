@@ -203,14 +203,6 @@ class Spreadsheet implements JsonSerializable
      */
     private $tabRatio = 600;
 
-    /** @var Theme */
-    private $theme;
-
-    public function getTheme(): Theme
-    {
-        return $this->theme;
-    }
-
     /**
      * The workbook has macros ?
      *
@@ -484,7 +476,6 @@ class Spreadsheet implements JsonSerializable
     {
         $this->uniqueID = uniqid('', true);
         $this->calculationEngine = new Calculation($this);
-        $this->theme = new Theme();
 
         // Initialise worksheet collection and add one worksheet
         $this->workSheetCollection = [];
@@ -1662,27 +1653,5 @@ class Spreadsheet implements JsonSerializable
     public function jsonSerialize(): mixed
     {
         throw new Exception('Spreadsheet objects cannot be json encoded');
-    }
-
-    public function resetThemeFonts(): void
-    {
-        $majorFontLatin = $this->theme->getMajorFontLatin();
-        $minorFontLatin = $this->theme->getMinorFontLatin();
-        foreach ($this->cellXfCollection as $cellStyleXf) {
-            $scheme = $cellStyleXf->getFont()->getScheme();
-            if ($scheme === 'major') {
-                $cellStyleXf->getFont()->setName($majorFontLatin)->setScheme($scheme);
-            } elseif ($scheme === 'minor') {
-                $cellStyleXf->getFont()->setName($minorFontLatin)->setScheme($scheme);
-            }
-        }
-        foreach ($this->cellStyleXfCollection as $cellStyleXf) {
-            $scheme = $cellStyleXf->getFont()->getScheme();
-            if ($scheme === 'major') {
-                $cellStyleXf->getFont()->setName($majorFontLatin)->setScheme($scheme);
-            } elseif ($scheme === 'minor') {
-                $cellStyleXf->getFont()->setName($minorFontLatin)->setScheme($scheme);
-            }
-        }
     }
 }

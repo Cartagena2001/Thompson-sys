@@ -34,10 +34,7 @@ class LocaleSwitcher implements LocaleAwareInterface
 
     public function setLocale(string $locale): void
     {
-        if (class_exists(\Locale::class)) {
-            \Locale::setDefault($locale);
-        }
-        $this->locale = $locale;
+        \Locale::setDefault($this->locale = $locale);
         $this->requestContext?->setParameter('_locale', $locale);
 
         foreach ($this->localeAwareServices as $service) {
@@ -55,7 +52,7 @@ class LocaleSwitcher implements LocaleAwareInterface
      *
      * @template T
      *
-     * @param callable(string $locale):T $callback
+     * @param callable():T $callback
      *
      * @return T
      */
@@ -65,7 +62,7 @@ class LocaleSwitcher implements LocaleAwareInterface
         $this->setLocale($locale);
 
         try {
-            return $callback($locale);
+            return $callback();
         } finally {
             $this->setLocale($original);
         }

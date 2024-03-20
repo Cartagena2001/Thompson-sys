@@ -71,9 +71,6 @@ class Cell
      */
     private $formulaAttributes;
 
-    /** @var IgnoredErrors */
-    private $ignoredErrors;
-
     /**
      * Update the cell into the cell collection.
      *
@@ -122,7 +119,6 @@ class Cell
         } elseif (self::getValueBinder()->bindValue($this, $value) === false) {
             throw new Exception('Value could not be bound to cell.');
         }
-        $this->ignoredErrors = new IgnoredErrors();
     }
 
     /**
@@ -395,9 +391,7 @@ class Cell
                 }
 
                 throw new \PhpOffice\PhpSpreadsheet\Calculation\Exception(
-                    $this->getWorksheet()->getTitle() . '!' . $this->getCoordinate() . ' -> ' . $ex->getMessage(),
-                    $ex->getCode(),
-                    $ex
+                    $this->getWorksheet()->getTitle() . '!' . $this->getCoordinate() . ' -> ' . $ex->getMessage()
                 );
             }
 
@@ -799,10 +793,5 @@ class Cell
     public function __toString()
     {
         return (string) $this->getValue();
-    }
-
-    public function getIgnoredErrors(): IgnoredErrors
-    {
-        return $this->ignoredErrors;
     }
 }

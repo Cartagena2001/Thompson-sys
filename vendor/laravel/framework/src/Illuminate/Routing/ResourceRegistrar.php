@@ -2,6 +2,7 @@
 
 namespace Illuminate\Routing;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class ResourceRegistrar
@@ -148,12 +149,6 @@ class ResourceRegistrar
 
         $defaults = $this->singletonResourceDefaults;
 
-        if (isset($options['creatable'])) {
-            $defaults = array_merge($defaults, ['create', 'store', 'destroy']);
-        } elseif (isset($options['destroyable'])) {
-            $defaults = array_merge($defaults, ['destroy']);
-        }
-
         $collection = new RouteCollection;
 
         $resourceMethods = $this->getResourceMethods($defaults, $options);
@@ -179,7 +174,7 @@ class ResourceRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Router
+     * @return void
      */
     protected function prefixedResource($name, $controller, array $options)
     {
@@ -201,7 +196,7 @@ class ResourceRegistrar
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options
-     * @return \Illuminate\Routing\Router
+     * @return void
      */
     protected function prefixedSingleton($name, $controller, array $options)
     {
@@ -254,7 +249,25 @@ class ResourceRegistrar
             $methods = array_diff($methods, (array) $options['except']);
         }
 
-        return array_values($methods);
+        if (isset($options['creatable'])) {
+            $methods = isset($options['apiSingleton'])
+                            ? array_merge(['store', 'destroy'], $methods)
+                            : array_merge(['create', 'store', 'destroy'], $methods);
+
+            return $this->getResourceMethods(
+                $methods, array_values(Arr::except($options, ['creatable']))
+            );
+        }
+
+        if (isset($options['destroyable'])) {
+            $methods = array_merge(['destroy'], $methods);
+
+            return $this->getResourceMethods(
+                $methods, array_values(Arr::except($options, ['destroyable']))
+            );
+        }
+
+        return $methods;
     }
 
     /**
@@ -477,6 +490,7 @@ class ResourceRegistrar
      * Add the update method for a singleton route.
      *
      * @param  string  $name
+     * @param  string  $base
      * @param  string  $controller
      * @param  array  $options
      * @return \Illuminate\Routing\Route
@@ -707,8 +721,8 @@ class ResourceRegistrar
     {
         if (empty($verbs)) {
             return static::$verbs;
+        } else {
+            static::$verbs = array_merge(static::$verbs, $verbs);
         }
-
-        static::$verbs = array_merge(static::$verbs, $verbs);
     }
 }

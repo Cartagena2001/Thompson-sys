@@ -10,21 +10,14 @@
 namespace PHPUnit\Metadata;
 
 /**
- * @psalm-immutable
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
  *
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ * @psalm-immutable
  */
 final class ExcludeGlobalVariableFromBackup extends Metadata
 {
-    /**
-     * @psalm-var non-empty-string
-     */
     private readonly string $globalVariableName;
 
-    /**
-     * @psalm-param 0|1 $level
-     * @psalm-param non-empty-string $globalVariableName
-     */
     protected function __construct(int $level, string $globalVariableName)
     {
         parent::__construct($level);
@@ -32,17 +25,11 @@ final class ExcludeGlobalVariableFromBackup extends Metadata
         $this->globalVariableName = $globalVariableName;
     }
 
-    /**
-     * @psalm-assert-if-true ExcludeGlobalVariableFromBackup $this
-     */
     public function isExcludeGlobalVariableFromBackup(): bool
     {
         return true;
     }
 
-    /**
-     * @psalm-return non-empty-string
-     */
     public function globalVariableName(): string
     {
         return $this->globalVariableName;

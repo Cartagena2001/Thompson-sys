@@ -10,8 +10,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use function Laravel\Prompts\multiselect;
-
 #[AsCommand(name: 'make:model')]
 class ModelMakeCommand extends GeneratorCommand
 {
@@ -110,6 +108,7 @@ class ModelMakeCommand extends GeneratorCommand
         $this->call('make:migration', [
             'name' => "create_{$table}_table",
             '--create' => $table,
+            '--fullpath' => true,
         ]);
     }
 
@@ -143,8 +142,6 @@ class ModelMakeCommand extends GeneratorCommand
             '--model' => $this->option('resource') || $this->option('api') ? $modelName : null,
             '--api' => $this->option('api'),
             '--requests' => $this->option('requests') || $this->option('all'),
-            '--test' => $this->option('test'),
-            '--pest' => $this->option('pest'),
         ]));
     }
 
@@ -241,13 +238,22 @@ class ModelMakeCommand extends GeneratorCommand
             return;
         }
 
-        collect(multiselect('Would you like any of the following?', [
-            'seed' => 'Database Seeder',
-            'factory' => 'Factory',
-            'requests' => 'Form Requests',
-            'migration' => 'Migration',
-            'policy' => 'Policy',
-            'resource' => 'Resource Controller',
-        ]))->each(fn ($option) => $input->setOption($option, true));
+        collect($this->components->choice('Would you like any of the following?', [
+            'none',
+            'all',
+            'factory',
+            'form requests',
+            'migration',
+            'policy',
+            'resource controller',
+            'seed',
+        ], default: 0, multiple: true))
+        ->reject('none')
+        ->map(fn ($option) => match ($option) {
+            'resource controller' => 'resource',
+            'form requests' => 'requests',
+            default => $option,
+        })
+        ->each(fn ($option) => $input->setOption($option, true));
     }
 }

@@ -60,30 +60,22 @@ final class ListTestsAsXmlCommand implements Command
                 }
 
                 $writer->startElement('testCaseMethod');
-                $writer->writeAttribute('id', $test->valueObjectForEvents()->id());
                 $writer->writeAttribute('name', $test->name());
                 $writer->writeAttribute('groups', implode(',', $test->groups()));
 
-                /**
-                 * @deprecated https://github.com/sebastianbergmann/phpunit/issues/5481
-                 */
                 if (!empty($test->dataSetAsString())) {
                     $writer->writeAttribute(
                         'dataSet',
                         str_replace(
                             ' with data set ',
                             '',
-                            $test->dataSetAsString(),
-                        ),
+                            $test->dataSetAsString()
+                        )
                     );
                 }
 
                 $writer->endElement();
-
-                continue;
-            }
-
-            if ($test instanceof PhptTestCase) {
+            } elseif ($test instanceof PhptTestCase) {
                 if ($currentTestCase !== null) {
                     $writer->endElement();
 
@@ -106,7 +98,7 @@ final class ListTestsAsXmlCommand implements Command
 
         $buffer .= sprintf(
             'Wrote list of tests that would have been run to %s' . PHP_EOL,
-            $this->filename,
+            $this->filename
         );
 
         return Result::from($buffer);

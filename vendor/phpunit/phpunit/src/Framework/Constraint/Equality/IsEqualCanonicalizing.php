@@ -14,7 +14,6 @@ use function sprintf;
 use function str_contains;
 use function trim;
 use PHPUnit\Framework\ExpectationFailedException;
-use PHPUnit\Util\Exporter;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Comparator\Factory as ComparatorFactory;
 
@@ -56,7 +55,7 @@ final class IsEqualCanonicalizing extends Constraint
         try {
             $comparator = $comparatorFactory->getComparatorFor(
                 $this->value,
-                $other,
+                $other
             );
 
             $comparator->assertEquals(
@@ -64,6 +63,7 @@ final class IsEqualCanonicalizing extends Constraint
                 $other,
                 0.0,
                 true,
+                false
             );
         } catch (ComparisonFailure $f) {
             if ($returnResult) {
@@ -72,7 +72,7 @@ final class IsEqualCanonicalizing extends Constraint
 
             throw new ExpectationFailedException(
                 trim($description . "\n" . $f->getMessage()),
-                $f,
+                $f
             );
         }
 
@@ -82,7 +82,7 @@ final class IsEqualCanonicalizing extends Constraint
     /**
      * Returns a string representation of the constraint.
      */
-    public function toString(bool $exportObjects = false): string
+    public function toString(): string
     {
         if (is_string($this->value)) {
             if (str_contains($this->value, "\n")) {
@@ -91,13 +91,13 @@ final class IsEqualCanonicalizing extends Constraint
 
             return sprintf(
                 "is equal to '%s'",
-                $this->value,
+                $this->value
             );
         }
 
         return sprintf(
             'is equal to %s',
-            Exporter::export($this->value, $exportObjects),
+            $this->exporter()->export($this->value)
         );
     }
 }

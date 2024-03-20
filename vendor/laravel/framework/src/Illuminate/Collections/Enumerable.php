@@ -12,8 +12,7 @@ use Traversable;
 
 /**
  * @template TKey of array-key
- *
- * @template-covariant TValue
+ * @template TValue
  *
  * @extends \Illuminate\Contracts\Support\Arrayable<TKey, TValue>
  * @extends \IteratorAggregate<TKey, TValue>
@@ -550,7 +549,7 @@ interface Enumerable extends Arrayable, Countable, IteratorAggregate, Jsonable, 
     /**
      * Concatenate values of a given key as a string.
      *
-     * @param  callable|string  $value
+     * @param  string  $value
      * @param  string|null  $glue
      * @return string
      */
@@ -1079,10 +1078,8 @@ interface Enumerable extends Arrayable, Countable, IteratorAggregate, Jsonable, 
     /**
      * Pass the collection into a new class.
      *
-     * @template TPipeIntoValue
-     *
-     * @param  class-string<TPipeIntoValue>  $class
-     * @return TPipeIntoValue
+     * @param  class-string  $class
+     * @return mixed
      */
     public function pipeInto($class);
 

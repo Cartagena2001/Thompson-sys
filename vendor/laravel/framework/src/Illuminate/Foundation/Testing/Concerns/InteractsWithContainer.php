@@ -5,7 +5,6 @@ namespace Illuminate\Foundation\Testing\Concerns;
 use Closure;
 use Illuminate\Foundation\Mix;
 use Illuminate\Foundation\Vite;
-use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\HtmlString;
 use Mockery;
 
@@ -111,16 +110,14 @@ trait InteractsWithContainer
             $this->originalVite = app(Vite::class);
         }
 
-        Facade::clearResolvedInstance(Vite::class);
-
-        $this->swap(Vite::class, new class extends Vite
+        $this->swap(Vite::class, new class
         {
-            public function __invoke($entrypoints, $buildDirectory = null)
+            public function __invoke()
             {
-                return new HtmlString('');
+                return '';
             }
 
-            public function __call($method, $parameters)
+            public function __call($name, $arguments)
             {
                 return '';
             }
@@ -130,37 +127,32 @@ trait InteractsWithContainer
                 return '';
             }
 
-            public function useIntegrityKey($key)
+            public function useIntegrityKey()
             {
                 return $this;
             }
 
-            public function useBuildDirectory($path)
+            public function useBuildDirectory()
             {
                 return $this;
             }
 
-            public function useHotFile($path)
+            public function useHotFile()
             {
                 return $this;
             }
 
-            public function withEntryPoints($entryPoints)
+            public function withEntryPoints()
             {
                 return $this;
             }
 
-            public function useScriptTagAttributes($attributes)
+            public function useScriptTagAttributes()
             {
                 return $this;
             }
 
-            public function useStyleTagAttributes($attributes)
-            {
-                return $this;
-            }
-
-            public function usePreloadTagAttributes($attributes)
+            public function useStyleTagAttributes()
             {
                 return $this;
             }
@@ -168,21 +160,6 @@ trait InteractsWithContainer
             public function preloadedAssets()
             {
                 return [];
-            }
-
-            public function reactRefresh()
-            {
-                return '';
-            }
-
-            public function content($asset, $buildDirectory = null)
-            {
-                return '';
-            }
-
-            public function asset($asset, $buildDirectory = null)
-            {
-                return '';
             }
         });
 

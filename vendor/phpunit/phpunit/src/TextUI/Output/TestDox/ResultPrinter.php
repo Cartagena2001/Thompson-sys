@@ -12,17 +12,21 @@ namespace PHPUnit\TextUI\Output\TestDox;
 use const PHP_EOL;
 use function array_map;
 use function assert;
+use function count;
 use function explode;
 use function implode;
 use function preg_match;
 use function preg_split;
 use function rtrim;
+use function sprintf;
 use function str_starts_with;
 use function trim;
 use PHPUnit\Event\Code\Throwable;
+use PHPUnit\Event\TestData\NoDataSetFromDataProviderException;
 use PHPUnit\Framework\TestStatus\TestStatus;
 use PHPUnit\Logging\TestDox\TestResult as TestDoxTestResult;
 use PHPUnit\Logging\TestDox\TestResultCollection;
+use PHPUnit\TestRunner\TestResult\TestResult;
 use PHPUnit\TextUI\Output\Printer;
 use PHPUnit\Util\Color;
 
@@ -43,7 +47,7 @@ final class ResultPrinter
     /**
      * @psalm-param array<string, TestResultCollection> $tests
      */
-    public function print(array $tests): void
+    public function print(array $tests, TestResult $result): void
     {
         foreach ($tests as $prettifiedClassName => $_tests) {
             $this->printPrettifiedClassName($prettifiedClassName);
@@ -54,6 +58,8 @@ final class ResultPrinter
 
             $this->printer->print(PHP_EOL);
         }
+
+        $this->printTestRunnerWarningsAndDeprecations($result);
     }
 
     public function flush(): void
@@ -75,12 +81,18 @@ final class ResultPrinter
         $this->printer->print($buffer . PHP_EOL);
     }
 
+    /**
+     * @throws NoDataSetFromDataProviderException
+     */
     private function printTestResult(TestDoxTestResult $test): void
     {
         $this->printTestResultHeader($test);
         $this->printTestResultBody($test);
     }
 
+    /**
+     * @throws NoDataSetFromDataProviderException
+     */
     private function printTestResultHeader(TestDoxTestResult $test): void
     {
         $buffer = ' ' . $this->symbolFor($test->status()) . ' ';
@@ -89,8 +101,8 @@ final class ResultPrinter
             $this->printer->print(
                 Color::colorizeTextBox(
                     $this->colorFor($test->status()),
-                    $buffer,
-                ),
+                    $buffer
+                )
             );
         } else {
             $this->printer->print($buffer);
@@ -119,8 +131,8 @@ final class ResultPrinter
         $this->printer->print(
             $this->prefixLines(
                 $this->prefixFor('start', $test->status()),
-                '',
-            ),
+                ''
+            )
         );
 
         $this->printer->print(PHP_EOL);
@@ -133,8 +145,8 @@ final class ResultPrinter
         $this->printer->print(
             $this->prefixLines(
                 $this->prefixFor('last', $test->status()),
-                '',
-            ),
+                ''
+            )
         );
 
         $this->printer->print(PHP_EOL);
@@ -153,7 +165,7 @@ final class ResultPrinter
         if (!empty($message) && $this->colors) {
             ['message' => $message, 'diff' => $diff] = $this->colorizeMessageAndDiff(
                 $message,
-                $this->messageColorFor($test->status()),
+                $this->messageColorFor($test->status())
             );
         }
 
@@ -161,8 +173,8 @@ final class ResultPrinter
             $this->printer->print(
                 $this->prefixLines(
                     $this->prefixFor('message', $test->status()),
-                    $message,
-                ),
+                    $message
+                )
             );
 
             $this->printer->print(PHP_EOL);
@@ -172,8 +184,8 @@ final class ResultPrinter
             $this->printer->print(
                 $this->prefixLines(
                     $this->prefixFor('diff', $test->status()),
-                    $diff,
-                ),
+                    $diff
+                )
             );
 
             $this->printer->print(PHP_EOL);
@@ -187,7 +199,7 @@ final class ResultPrinter
             }
 
             $this->printer->print(
-                $this->prefixLines($prefix, PHP_EOL . $stackTrace),
+                $this->prefixLines($prefix, PHP_EOL . $stackTrace)
             );
         }
     }
@@ -265,8 +277,8 @@ final class ResultPrinter
             PHP_EOL,
             array_map(
                 static fn (string $line) => '   ' . $prefix . ($line ? ' ' . $line : ''),
-                preg_split('/\r\n|\r|\n/', $message),
-            ),
+                preg_split('/\r\n|\r|\n/', $message)
+            )
         );
     }
 
@@ -287,8 +299,8 @@ final class ResultPrinter
                 'message' => '├',
                 'diff'    => '┊',
                 'trace'   => '╵',
-                'last'    => '┴',
-            },
+                'last'    => '┴'
+            }
         );
     }
 
@@ -310,7 +322,7 @@ final class ResultPrinter
             return 'fg-cyan';
         }
 
-        if ($status->isIncomplete() || $status->isDeprecation() || $status->isNotice() || $status->isRisky() || $status->isWarning()) {
+        if ($status->isRisky() || $status->isIncomplete() || $status->isWarning()) {
             return 'fg-yellow';
         }
 
@@ -335,7 +347,7 @@ final class ResultPrinter
             return 'fg-cyan';
         }
 
-        if ($status->isIncomplete() || $status->isDeprecation() || $status->isNotice() || $status->isRisky() || $status->isWarning()) {
+        if ($status->isRisky() || $status->isIncomplete() || $status->isWarning()) {
             return 'fg-yellow';
         }
 
@@ -356,14 +368,84 @@ final class ResultPrinter
             return '↩';
         }
 
-        if ($status->isDeprecation() || $status->isNotice() || $status->isRisky() || $status->isWarning()) {
-            return '⚠';
+        if ($status->isRisky()) {
+            return '☢';
         }
 
         if ($status->isIncomplete()) {
             return '∅';
         }
 
+        if ($status->isWarning()) {
+            return '⚠';
+        }
+
         return '?';
+    }
+
+    private function printTestRunnerWarningsAndDeprecations(TestResult $result): void
+    {
+        if (!$result->hasTestRunnerTriggeredWarningEvents() &&
+            !$result->hasTestRunnerTriggeredDeprecationEvents()) {
+            return;
+        }
+
+        if ($result->hasTestRunnerTriggeredWarningEvents()) {
+            $warnings = [];
+
+            foreach ($result->testRunnerTriggeredWarningEvents() as $warning) {
+                $warnings[] = $warning->message();
+            }
+
+            $this->printList($warnings, 'test runner warning');
+        }
+
+        if ($result->hasTestRunnerTriggeredDeprecationEvents()) {
+            $deprecations = [];
+
+            foreach ($result->testRunnerTriggeredWarningEvents() as $deprecation) {
+                $deprecations[] = $deprecation->message();
+            }
+
+            $this->printList($deprecations, 'test runner deprecation');
+        }
+    }
+
+    /**
+     * @psalm-param list<string> $elements
+     */
+    private function printList(array $elements, string $type): void
+    {
+        $count = count($elements);
+
+        $this->printer->print(
+            sprintf(
+                "There %s %d %s%s:\n\n",
+                ($count === 1) ? 'was' : 'were',
+                $count,
+                $type,
+                ($count === 1) ? '' : 's'
+            )
+        );
+
+        $i = 1;
+
+        foreach ($elements as $element) {
+            $this->printListElement($i++, $element);
+        }
+
+        $this->printer->print("\n");
+    }
+
+    private function printListElement(int $number, string $text): void
+    {
+        $this->printer->print(
+            sprintf(
+                "%s%d) %s\n",
+                $number > 1 ? "\n" : '',
+                $number,
+                trim($text),
+            )
+        );
     }
 }

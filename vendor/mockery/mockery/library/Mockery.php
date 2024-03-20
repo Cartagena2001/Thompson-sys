@@ -1,11 +1,21 @@
 <?php
-
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery
  *
- * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://github.com/padraic/mockery/blob/master/LICENSE
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to padraic@php.net so we can send you a copy immediately.
+ *
+ * @category   Mockery
+ * @package    Mockery
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 use Mockery\ClosureWrapper;
@@ -17,9 +27,7 @@ use Mockery\Generator\MockNameBuilder;
 use Mockery\Generator\StringManipulationGenerator;
 use Mockery\Loader\EvalLoader;
 use Mockery\Loader\Loader;
-use Mockery\Matcher\IsEqual;
-use Mockery\Matcher\IsSame;
-use Mockery\Matcher\MatcherInterface;
+use Mockery\Matcher\MatcherAbstract;
 use Mockery\Reflector;
 
 class Mockery
@@ -465,28 +473,6 @@ class Mockery
     }
 
     /**
-     * Return instance of IsEqual matcher.
-     *
-     * @template TExpected
-     * @param TExpected $expected
-     */
-    public static function isEqual($expected): IsEqual
-    {
-        return new IsEqual($expected);
-    }
-
-    /**
-     * Return instance of IsSame matcher.
-     *
-     * @template TExpected
-     * @param TExpected $expected
-     */
-    public static function isSame($expected): IsSame
-    {
-        return new IsSame($expected);
-    }
-
-    /**
      * Return instance of NOT matcher.
      *
      * @param mixed $expected
@@ -582,7 +568,7 @@ class Mockery
      */
     private static function formatArgument($argument, $depth = 0)
     {
-        if ($argument instanceof MatcherInterface) {
+        if ($argument instanceof MatcherAbstract) {
             return (string) $argument;
         }
 

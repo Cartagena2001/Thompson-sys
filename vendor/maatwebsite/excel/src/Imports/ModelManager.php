@@ -4,14 +4,12 @@ namespace Maatwebsite\Excel\Imports;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\PersistRelations;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithUpsertColumns;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Exceptions\RowSkippedException;
-use Maatwebsite\Excel\Imports\Persistence\CascadePersistManager;
 use Maatwebsite\Excel\Validators\RowValidator;
 use Maatwebsite\Excel\Validators\ValidationException;
 use Throwable;
@@ -33,17 +31,11 @@ class ModelManager
     private $remembersRowNumber = false;
 
     /**
-     * @var CascadePersistManager
-     */
-    private $cascade;
-
-    /**
      * @param  RowValidator  $validator
      */
-    public function __construct(RowValidator $validator, CascadePersistManager $cascade)
+    public function __construct(RowValidator $validator)
     {
         $this->validator = $validator;
-        $this->cascade   = $cascade;
     }
 
     /**
@@ -96,7 +88,13 @@ class ModelManager
             $import->rememberRowNumber($rowNumber);
         }
 
-        return Collection::wrap($import->model($attributes));
+        $model = $import->model($attributes);
+
+        if (null !== $model) {
+            return \is_array($model) ? new Collection($model) : new Collection([$model]);
+        }
+
+        return new Collection([]);
     }
 
     /**
@@ -121,13 +119,15 @@ class ModelManager
                              $import->uniqueBy(),
                              $import instanceof WithUpsertColumns ? $import->upsertColumns() : null
                          );
-
-                         return;
+                     } else {
+                         $model::query()->insert($models->toArray());
                      }
-
-                     $model::query()->insert($models->toArray());
                  } catch (Throwable $e) {
-                     $this->handleException($import, $e);
+                     if ($import instanceof SkipsOnError) {
+                         $import->onError($e);
+                     } else {
+                         throw $e;
+                     }
                  }
              });
     }
@@ -148,17 +148,15 @@ class ModelManager
                                 $import->uniqueBy(),
                                 $import instanceof WithUpsertColumns ? $import->upsertColumns() : null
                             );
-
-                            return;
-                        }
-
-                        if ($import instanceof PersistRelations) {
-                            $this->cascade->persist($model);
                         } else {
                             $model->saveOrFail();
                         }
                     } catch (Throwable $e) {
-                        $this->handleException($import, $e);
+                        if ($import instanceof SkipsOnError) {
+                            $import->onError($e);
+                        } else {
+                            throw $e;
+                        }
                     }
                 });
             });
@@ -213,14 +211,5 @@ class ModelManager
     private function rows(): Collection
     {
         return new Collection($this->rows);
-    }
-
-    private function handleException(ToModel $import, Throwable $e): void
-    {
-        if (!$import instanceof SkipsOnError) {
-            throw $e;
-        }
-
-        $import->onError($e);
     }
 }

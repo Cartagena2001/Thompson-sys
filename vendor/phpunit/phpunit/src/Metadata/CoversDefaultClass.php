@@ -10,9 +10,9 @@
 namespace PHPUnit\Metadata;
 
 /**
- * @psalm-immutable
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
  *
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ * @psalm-immutable
  */
 final class CoversDefaultClass extends Metadata
 {
@@ -22,7 +22,6 @@ final class CoversDefaultClass extends Metadata
     private readonly string $className;
 
     /**
-     * @psalm-param 0|1 $level
      * @psalm-param class-string $className
      */
     protected function __construct(int $level, string $className)
@@ -32,9 +31,6 @@ final class CoversDefaultClass extends Metadata
         $this->className = $className;
     }
 
-    /**
-     * @psalm-assert-if-true CoversDefaultClass $this
-     */
     public function isCoversDefaultClass(): bool
     {
         return true;

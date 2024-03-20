@@ -28,6 +28,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  * A test case to ease testing a translation provider factory.
  *
  * @author Mathieu Santostefano <msantostefano@protonmail.com>
+ *
+ * @internal
  */
 abstract class ProviderFactoryTestCase extends TestCase
 {
@@ -43,17 +45,17 @@ abstract class ProviderFactoryTestCase extends TestCase
     /**
      * @return iterable<array{0: bool, 1: string}>
      */
-    abstract public static function supportsProvider(): iterable;
+    abstract public function supportsProvider(): iterable;
 
     /**
-     * @return iterable<array{0: string, 1: string}>
+     * @return iterable<array{0: string, 1: string, 2: TransportInterface}>
      */
-    abstract public static function createProvider(): iterable;
+    abstract public function createProvider(): iterable;
 
     /**
      * @return iterable<array{0: string, 1: string|null}>
      */
-    public static function unsupportedSchemeProvider(): iterable
+    public function unsupportedSchemeProvider(): iterable
     {
         return [];
     }
@@ -61,7 +63,7 @@ abstract class ProviderFactoryTestCase extends TestCase
     /**
      * @return iterable<array{0: string, 1: string|null}>
      */
-    public static function incompleteDsnProvider(): iterable
+    public function incompleteDsnProvider(): iterable
     {
         return [];
     }
@@ -90,7 +92,7 @@ abstract class ProviderFactoryTestCase extends TestCase
     /**
      * @dataProvider unsupportedSchemeProvider
      */
-    public function testUnsupportedSchemeException(string $dsn, ?string $message = null)
+    public function testUnsupportedSchemeException(string $dsn, string $message = null)
     {
         $factory = $this->createFactory();
 
@@ -107,7 +109,7 @@ abstract class ProviderFactoryTestCase extends TestCase
     /**
      * @dataProvider incompleteDsnProvider
      */
-    public function testIncompleteDsnException(string $dsn, ?string $message = null)
+    public function testIncompleteDsnException(string $dsn, string $message = null)
     {
         $factory = $this->createFactory();
 

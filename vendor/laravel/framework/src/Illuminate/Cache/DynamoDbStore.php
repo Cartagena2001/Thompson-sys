@@ -129,10 +129,6 @@ class DynamoDbStore implements LockProvider, Store
      */
     public function many(array $keys)
     {
-        if (count($keys) === 0) {
-            return [];
-        }
-
         $prefixedKeys = array_map(function ($key) {
             return $this->prefix.$key;
         }, $keys);
@@ -223,10 +219,6 @@ class DynamoDbStore implements LockProvider, Store
      */
     public function putMany(array $values, $seconds)
     {
-        if (count($values) === 0) {
-            return true;
-        }
-
         $expiration = $this->toTimestamp($seconds);
 
         $this->dynamo->batchWriteItem([
@@ -285,7 +277,7 @@ class DynamoDbStore implements LockProvider, Store
                 ],
                 'ExpressionAttributeValues' => [
                     ':now' => [
-                        'N' => (string) $this->currentTime(),
+                        'N' => (string) Carbon::now()->getTimestamp(),
                     ],
                 ],
             ]);
@@ -326,7 +318,7 @@ class DynamoDbStore implements LockProvider, Store
                 ],
                 'ExpressionAttributeValues' => [
                     ':now' => [
-                        'N' => (string) $this->currentTime(),
+                        'N' => (string) Carbon::now()->getTimestamp(),
                     ],
                     ':amount' => [
                         'N' => (string) $value,
@@ -371,7 +363,7 @@ class DynamoDbStore implements LockProvider, Store
                 ],
                 'ExpressionAttributeValues' => [
                     ':now' => [
-                        'N' => (string) $this->currentTime(),
+                        'N' => (string) Carbon::now()->getTimestamp(),
                     ],
                     ':amount' => [
                         'N' => (string) $value,
@@ -469,7 +461,7 @@ class DynamoDbStore implements LockProvider, Store
     {
         return $seconds > 0
                     ? $this->availableAt($seconds)
-                    : $this->currentTime();
+                    : Carbon::now()->getTimestamp();
     }
 
     /**

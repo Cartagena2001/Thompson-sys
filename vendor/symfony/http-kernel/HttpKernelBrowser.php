@@ -36,7 +36,7 @@ class HttpKernelBrowser extends AbstractBrowser
     /**
      * @param array $server The server parameters (equivalent of $_SERVER)
      */
-    public function __construct(HttpKernelInterface $kernel, array $server = [], ?History $history = null, ?CookieJar $cookieJar = null)
+    public function __construct(HttpKernelInterface $kernel, array $server = [], History $history = null, CookieJar $cookieJar = null)
     {
         // These class properties must be set before calling the parent constructor, as it may depend on it.
         $this->kernel = $kernel;
@@ -47,8 +47,6 @@ class HttpKernelBrowser extends AbstractBrowser
 
     /**
      * Sets whether to catch exceptions when the kernel is handling a request.
-     *
-     * @return void
      */
     public function catchExceptions(bool $catchExceptions)
     {
@@ -112,9 +110,6 @@ EOF;
         return $code.$this->getHandleScript();
     }
 
-    /**
-     * @return string
-     */
     protected function getHandleScript()
     {
         return <<<'EOF'

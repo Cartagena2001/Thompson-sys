@@ -7,8 +7,6 @@ use Closure;
 use DateTimeInterface;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Console\Command;
-use Illuminate\Console\Events\CommandFinished;
-use Illuminate\Console\Events\CommandStarting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Console\Kernel as KernelContract;
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -20,11 +18,6 @@ use Illuminate\Support\Env;
 use Illuminate\Support\InteractsWithTime;
 use Illuminate\Support\Str;
 use ReflectionClass;
-use SplFileInfo;
-use Symfony\Component\Console\ConsoleEvents;
-use Symfony\Component\Console\Event\ConsoleCommandEvent;
-use Symfony\Component\Console\Event\ConsoleTerminateEvent;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Finder\Finder;
 use Throwable;
 
@@ -45,13 +38,6 @@ class Kernel implements KernelContract
      * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $events;
-
-    /**
-     * The Symfony event dispatcher implementation.
-     *
-     * @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface|null
-     */
-    protected $symfonyDispatcher;
 
     /**
      * The Artisan application instance.
@@ -120,40 +106,8 @@ class Kernel implements KernelContract
         $this->events = $events;
 
         $this->app->booted(function () {
-            if (! $this->app->runningUnitTests()) {
-                $this->rerouteSymfonyCommandEvents();
-            }
-
             $this->defineConsoleSchedule();
         });
-    }
-
-    /**
-     * Re-route the Symfony command events to their Laravel counterparts.
-     *
-     * @internal
-     *
-     * @return $this
-     */
-    public function rerouteSymfonyCommandEvents()
-    {
-        if (is_null($this->symfonyDispatcher)) {
-            $this->symfonyDispatcher = new EventDispatcher;
-
-            $this->symfonyDispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $event) {
-                $this->events->dispatch(
-                    new CommandStarting($event->getCommand()->getName(), $event->getInput(), $event->getOutput())
-                );
-            });
-
-            $this->symfonyDispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event) {
-                $this->events->dispatch(
-                    new CommandFinished($event->getCommand()->getName(), $event->getInput(), $event->getOutput(), $event->getExitCode())
-                );
-            });
-        }
-
-        return $this;
     }
 
     /**
@@ -218,12 +172,6 @@ class Kernel implements KernelContract
     public function terminate($input, $status)
     {
         $this->app->terminate();
-
-        if ($this->commandStartedAt === null) {
-            return;
-        }
-
-        $this->commandStartedAt->setTimezone($this->app['config']->get('app.timezone') ?? 'UTC');
 
         foreach ($this->commandLifecycleDurationHandlers as ['threshold' => $threshold, 'handler' => $handler]) {
             $end ??= Carbon::now();
@@ -340,8 +288,12 @@ class Kernel implements KernelContract
 
         $namespace = $this->app->getNamespace();
 
-        foreach (Finder::create()->in($paths)->files() as $file) {
-            $command = $this->commandClassFromFile($file, $namespace);
+        foreach ((new Finder)->in($paths)->files() as $command) {
+            $command = $namespace.str_replace(
+                ['/', '.php'],
+                ['\\', ''],
+                Str::after($command->getRealPath(), realpath(app_path()).DIRECTORY_SEPARATOR)
+            );
 
             if (is_subclass_of($command, Command::class) &&
                 ! (new ReflectionClass($command))->isAbstract()) {
@@ -350,22 +302,6 @@ class Kernel implements KernelContract
                 });
             }
         }
-    }
-
-    /**
-     * Extract the command class name from the given file path.
-     *
-     * @param  \SplFileInfo  $file
-     * @param  string  $namespace
-     * @return string
-     */
-    protected function commandClassFromFile(SplFileInfo $file, string $namespace): string
-    {
-        return $namespace.str_replace(
-            ['/', '.php'],
-            ['\\', ''],
-            Str::after($file->getRealPath(), realpath(app_path()).DIRECTORY_SEPARATOR)
-        );
     }
 
     /**
@@ -481,11 +417,6 @@ class Kernel implements KernelContract
             $this->artisan = (new Artisan($this->app, $this->events, $this->app->version()))
                                     ->resolveCommands($this->commands)
                                     ->setContainerCommandLoader();
-
-            if ($this->symfonyDispatcher instanceof EventDispatcher) {
-                $this->artisan->setDispatcher($this->symfonyDispatcher);
-                $this->artisan->setSignalsToDispatchEvent();
-            }
         }
 
         return $this->artisan;
@@ -494,7 +425,7 @@ class Kernel implements KernelContract
     /**
      * Set the Artisan application instance.
      *
-     * @param  \Illuminate\Console\Application|null  $artisan
+     * @param  \Illuminate\Console\Application  $artisan
      * @return void
      */
     public function setArtisan($artisan)

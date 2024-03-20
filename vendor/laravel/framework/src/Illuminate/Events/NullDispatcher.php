@@ -57,7 +57,7 @@ class NullDispatcher implements DispatcherContract
      *
      * @param  string|object  $event
      * @param  mixed  $payload
-     * @return mixed
+     * @return array|null
      */
     public function until($event, $payload = [])
     {

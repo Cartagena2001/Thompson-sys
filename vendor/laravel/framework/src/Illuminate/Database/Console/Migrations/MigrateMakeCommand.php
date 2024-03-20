@@ -39,8 +39,6 @@ class MigrateMakeCommand extends BaseCommand implements PromptsForMissingInput
      * The Composer instance.
      *
      * @var \Illuminate\Support\Composer
-     *
-     * @deprecated Will be removed in a future Laravel version.
      */
     protected $composer;
 
@@ -95,6 +93,8 @@ class MigrateMakeCommand extends BaseCommand implements PromptsForMissingInput
         // the migration out, we will dump-autoload for the entire framework to
         // make sure that the migrations are registered by the class loaders.
         $this->writeMigration($name, $table, $create);
+
+        $this->composer->dumpAutoloads();
     }
 
     /**
@@ -103,7 +103,7 @@ class MigrateMakeCommand extends BaseCommand implements PromptsForMissingInput
      * @param  string  $name
      * @param  string  $table
      * @param  bool  $create
-     * @return void
+     * @return string
      */
     protected function writeMigration($name, $table, $create)
     {
@@ -138,7 +138,7 @@ class MigrateMakeCommand extends BaseCommand implements PromptsForMissingInput
     protected function promptForMissingArgumentsUsing()
     {
         return [
-            'name' => ['What should the migration be named?', 'E.g. create_flights_table'],
+            'name' => 'What should the migration be named?',
         ];
     }
 }

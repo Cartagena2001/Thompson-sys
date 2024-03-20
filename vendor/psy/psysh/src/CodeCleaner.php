@@ -25,6 +25,7 @@ use Psy\CodeCleaner\FinalClassPass;
 use Psy\CodeCleaner\FunctionContextPass;
 use Psy\CodeCleaner\FunctionReturnInWriteContextPass;
 use Psy\CodeCleaner\ImplicitReturnPass;
+use Psy\CodeCleaner\InstanceOfPass;
 use Psy\CodeCleaner\IssetPass;
 use Psy\CodeCleaner\LabelContextPass;
 use Psy\CodeCleaner\LeavePsyshAlonePass;
@@ -49,8 +50,6 @@ use Psy\Exception\ParseErrorException;
 class CodeCleaner
 {
     private $yolo = false;
-    private $strictTypes = false;
-
     private $parser;
     private $printer;
     private $traverser;
@@ -59,18 +58,21 @@ class CodeCleaner
     /**
      * CodeCleaner constructor.
      *
-     * @param Parser|null        $parser      A PhpParser Parser instance. One will be created if not explicitly supplied
-     * @param Printer|null       $printer     A PhpParser Printer instance. One will be created if not explicitly supplied
-     * @param NodeTraverser|null $traverser   A PhpParser NodeTraverser instance. One will be created if not explicitly supplied
-     * @param bool               $yolo        run without input validation
-     * @param bool               $strictTypes enforce strict types by default
+     * @param Parser|null        $parser    A PhpParser Parser instance. One will be created if not explicitly supplied
+     * @param Printer|null       $printer   A PhpParser Printer instance. One will be created if not explicitly supplied
+     * @param NodeTraverser|null $traverser A PhpParser NodeTraverser instance. One will be created if not explicitly supplied
+     * @param bool               $yolo      run without input validation
      */
-    public function __construct(?Parser $parser = null, ?Printer $printer = null, ?NodeTraverser $traverser = null, bool $yolo = false, bool $strictTypes = false)
+    public function __construct(Parser $parser = null, Printer $printer = null, NodeTraverser $traverser = null, bool $yolo = false)
     {
         $this->yolo = $yolo;
-        $this->strictTypes = $strictTypes;
 
-        $this->parser = $parser ?? (new ParserFactory())->createParser();
+        if ($parser === null) {
+            $parserFactory = new ParserFactory();
+            $parser = $parserFactory->createParser();
+        }
+
+        $this->parser = $parser;
         $this->printer = $printer ?: new Printer();
         $this->traverser = $traverser ?: new NodeTraverser();
 
@@ -114,6 +116,7 @@ class CodeCleaner
             new FinalClassPass(),
             new FunctionContextPass(),
             new FunctionReturnInWriteContextPass(),
+            new InstanceOfPass(),
             new IssetPass(),
             new LabelContextPass(),
             new LeavePsyshAlonePass(),
@@ -131,7 +134,7 @@ class CodeCleaner
             new MagicConstantsPass(),
             $namespacePass,           // must run after the implicit return pass
             new RequirePass(),
-            new StrictTypesPass($this->strictTypes),
+            new StrictTypesPass(),
 
             // Namespace-aware validation (which depends on aforementioned shenanigans)
             new ValidClassNamePass(),
@@ -165,7 +168,7 @@ class CodeCleaner
             new MagicConstantsPass(),
             $namespacePass,           // must run after the implicit return pass
             new RequirePass(),
-            new StrictTypesPass($this->strictTypes),
+            new StrictTypesPass(),
         ];
     }
 
@@ -197,7 +200,6 @@ class CodeCleaner
             }
 
             // Set up a clean traverser for just these code cleaner passes
-            // @todo Pass visitors directly to once we drop support for PHP-Parser 4.x
             $traverser = new NodeTraverser();
             foreach ($passes as $pass) {
                 $traverser->addVisitor($pass);
@@ -284,7 +286,7 @@ class CodeCleaner
      *
      * @param array|null $namespace (default: null)
      */
-    public function setNamespace(?array $namespace = null)
+    public function setNamespace(array $namespace = null)
     {
         $this->namespace = $namespace;
     }

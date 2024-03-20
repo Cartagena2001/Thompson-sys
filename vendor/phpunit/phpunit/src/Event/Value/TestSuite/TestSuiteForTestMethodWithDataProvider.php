@@ -22,18 +22,12 @@ final class TestSuiteForTestMethodWithDataProvider extends TestSuite
      * @psalm-var class-string
      */
     private readonly string $className;
-
-    /**
-     * @psalm-var non-empty-string
-     */
     private readonly string $methodName;
     private readonly string $file;
     private readonly int $line;
 
     /**
-     * @psalm-param non-empty-string $name
-     * @psalm-param class-string $className
-     * @psalm-param non-empty-string $methodName
+     * @psalm-param class-string $name
      */
     public function __construct(string $name, int $size, TestCollection $tests, string $className, string $methodName, string $file, int $line)
     {
@@ -53,9 +47,6 @@ final class TestSuiteForTestMethodWithDataProvider extends TestSuite
         return $this->className;
     }
 
-    /**
-     * @psalm-return non-empty-string
-     */
     public function methodName(): string
     {
         return $this->methodName;

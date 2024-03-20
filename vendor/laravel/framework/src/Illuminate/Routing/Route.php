@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Route as SymfonyRoute;
 
 class Route
 {
-    use CreatesRegularExpressionRouteConstraints, FiltersControllerMiddleware, Macroable, ResolvesRouteDependencies;
+    use CreatesRegularExpressionRouteConstraints, Macroable, RouteDependencyResolverTrait;
 
     /**
      * The URI pattern the route responds to.
@@ -268,10 +268,6 @@ class Route
      */
     public function getController()
     {
-        if (! $this->isControllerAction()) {
-            return null;
-        }
-
         if (! $this->controller) {
             $class = $this->getControllerClass();
 
@@ -284,11 +280,11 @@ class Route
     /**
      * Get the controller class used for the route.
      *
-     * @return string|null
+     * @return string
      */
     public function getControllerClass()
     {
-        return $this->isControllerAction() ? $this->parseControllerCallback()[0] : null;
+        return $this->parseControllerCallback()[0];
     }
 
     /**
@@ -577,13 +573,13 @@ class Route
      * Get the parent parameter of the given parameter.
      *
      * @param  string  $parameter
-     * @return string|null
+     * @return string
      */
     public function parentOfParameter($parameter)
     {
         $key = array_search($parameter, array_keys($this->parameters));
 
-        if ($key === 0 || $key === false) {
+        if ($key === 0) {
             return;
         }
 
@@ -1118,7 +1114,7 @@ class Route
     protected function staticallyProvidedControllerMiddleware(string $class, string $method)
     {
         return collect($class::middleware())->reject(function ($middleware) use ($method) {
-            return static::methodExcludedByOptions(
+            return $this->controllerDispatcher()::methodExcludedByOptions(
                 $method, ['only' => $middleware->only, 'except' => $middleware->except]
             );
         })->map->middleware->values()->all();
@@ -1140,7 +1136,7 @@ class Route
     }
 
     /**
-     * Get the middleware that should be removed from the route.
+     * Get the middleware should be removed from the route.
      *
      * @return array
      */

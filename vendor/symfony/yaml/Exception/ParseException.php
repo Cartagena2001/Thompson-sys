@@ -29,7 +29,7 @@ class ParseException extends RuntimeException
      * @param string|null $snippet    The snippet of code near the problem
      * @param string|null $parsedFile The file name where the error occurred
      */
-    public function __construct(string $message, int $parsedLine = -1, ?string $snippet = null, ?string $parsedFile = null, ?\Throwable $previous = null)
+    public function __construct(string $message, int $parsedLine = -1, string $snippet = null, string $parsedFile = null, \Throwable $previous = null)
     {
         $this->parsedFile = $parsedFile;
         $this->parsedLine = $parsedLine;
@@ -51,8 +51,6 @@ class ParseException extends RuntimeException
 
     /**
      * Sets the snippet of code near the error.
-     *
-     * @return void
      */
     public function setSnippet(string $snippet)
     {
@@ -73,8 +71,6 @@ class ParseException extends RuntimeException
 
     /**
      * Sets the filename where the error occurred.
-     *
-     * @return void
      */
     public function setParsedFile(string $parsedFile)
     {
@@ -93,8 +89,6 @@ class ParseException extends RuntimeException
 
     /**
      * Sets the line where the error occurred.
-     *
-     * @return void
      */
     public function setParsedLine(int $parsedLine)
     {
@@ -103,7 +97,7 @@ class ParseException extends RuntimeException
         $this->updateRepr();
     }
 
-    private function updateRepr(): void
+    private function updateRepr()
     {
         $this->message = $this->rawMessage;
 

@@ -12,32 +12,12 @@
 
         {{-- Box title --}}
         @isset($title)
-            <span class="info-box-text">
-
-                @if(isset($url) && $urlTarget == 'title')
-                    <a class="info-box-url text-reset" href="{{ $url }}">
-                        <u>{{ $title }}</u>
-                    </a>
-                @else
-                    {{ $title }}
-                @endif
-
-            </span>
+            <span class="info-box-text">{{ $title }}</span>
         @endisset
 
         {{-- Box short text --}}
         @isset($text)
-            <span class="info-box-number">
-
-                @if(isset($url) && $urlTarget == 'text')
-                    <a class="info-box-url text-reset" href="{{ $url }}">
-                        <u>{{ $text }}</u>
-                    </a>
-                @else
-                    {{ $text }}
-                @endif
-
-            </span>
+            <span class="info-box-number">{{ $text }}</span>
         @endisset
 
         {{-- Box progress bar --}}
@@ -106,10 +86,6 @@
 
             if (data.description) {
                 t.find('.progress-description').html(data.description);
-            }
-
-            if (data.url) {
-                t.find('.info-box-url').attr('href', data.url);
             }
 
             // Update progress bar.

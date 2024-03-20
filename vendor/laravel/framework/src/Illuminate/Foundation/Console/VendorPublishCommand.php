@@ -15,9 +15,6 @@ use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\Visibility;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-use function Laravel\Prompts\search;
-use function Laravel\Prompts\select;
-
 #[AsCommand(name: 'vendor:publish')]
 class VendorPublishCommand extends Command
 {
@@ -115,23 +112,10 @@ class VendorPublishCommand extends Command
      */
     protected function promptForProviderOrTag()
     {
-        $choices = $this->publishableChoices();
-
-        $choice = windows_os()
-            ? select(
-                "Which provider or tag's files would you like to publish?",
-                $choices,
-                scroll: 15,
-            )
-            : search(
-                label: "Which provider or tag's files would you like to publish?",
-                placeholder: 'Search...',
-                options: fn ($search) => array_values(array_filter(
-                    $choices,
-                    fn ($choice) => str_contains(strtolower($choice), strtolower($search))
-                )),
-                scroll: 15,
-            );
+        $choice = $this->components->choice(
+            "Which provider or tag's files would you like to publish?",
+            $choices = $this->publishableChoices()
+        );
 
         if ($choice == $choices[0] || is_null($choice)) {
             return;
@@ -148,7 +132,7 @@ class VendorPublishCommand extends Command
     protected function publishableChoices()
     {
         return array_merge(
-            ['All providers and tags'],
+            ['<comment>Publish files from all providers and tags listed below</comment>'],
             preg_filter('/^/', '<fg=gray>Provider:</> ', Arr::sort(ServiceProvider::publishableProviders())),
             preg_filter('/^/', '<fg=gray>Tag:</> ', Arr::sort(ServiceProvider::publishableGroups()))
         );
@@ -179,6 +163,8 @@ class VendorPublishCommand extends Command
      */
     protected function publishTag($tag)
     {
+        $published = false;
+
         $pathsToPublish = $this->pathsToPublish($tag);
 
         if ($publishing = count($pathsToPublish) > 0) {

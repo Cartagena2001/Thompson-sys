@@ -67,7 +67,6 @@ class Configuration
         'requireSemicolons',
         'runtimeDir',
         'startupMessage',
-        'strictTypes',
         'theme',
         'updateCheck',
         'useBracketedPaste',
@@ -100,7 +99,6 @@ class Configuration
     private $pipedOutput;
     private $rawOutput = false;
     private $requireSemicolons = false;
-    private $strictTypes = false;
     private $useUnicode;
     private $useTabCompletion;
     private $newMatchers = [];
@@ -129,7 +127,6 @@ class Configuration
     private $presenter;
     private $autoCompleter;
     private $checker;
-    /** @deprecated */
     private $prompt;
     private $configPaths;
 
@@ -149,8 +146,6 @@ class Configuration
             $this->configFile = $config['configFile'];
         } elseif (isset($_SERVER['PSYSH_CONFIG']) && $_SERVER['PSYSH_CONFIG']) {
             $this->configFile = $_SERVER['PSYSH_CONFIG'];
-        } elseif (\PHP_SAPI === 'cli-server' && ($configFile = \getenv('PSYSH_CONFIG'))) {
-            $this->configFile = $configFile;
         }
 
         // legacy baseDir option
@@ -965,22 +960,6 @@ class Configuration
     }
 
     /**
-     * Enable or disable strict types enforcement.
-     */
-    public function setStrictTypes($strictTypes)
-    {
-        $this->strictTypes = (bool) $strictTypes;
-    }
-
-    /**
-     * Check whether to enforce strict types.
-     */
-    public function strictTypes(): bool
-    {
-        return $this->strictTypes;
-    }
-
-    /**
      * Enable or disable Unicode in PsySH specific output.
      *
      * Note that this does not disable Unicode output in general, it just makes
@@ -1056,7 +1035,7 @@ class Configuration
     public function getCodeCleaner(): CodeCleaner
     {
         if (!isset($this->cleaner)) {
-            $this->cleaner = new CodeCleaner(null, null, null, $this->yolo(), $this->strictTypes());
+            $this->cleaner = new CodeCleaner(null, null, null, $this->yolo());
         }
 
         return $this->cleaner;
@@ -1097,8 +1076,6 @@ class Configuration
      */
     public function setTabCompletion(bool $useTabCompletion)
     {
-        @\trigger_error('`setTabCompletion` is deprecated; call `setUseTabCompletion` instead.', \E_USER_DEPRECATED);
-
         $this->setUseTabCompletion($useTabCompletion);
     }
 
@@ -1120,8 +1097,6 @@ class Configuration
      */
     public function getTabCompletion(): bool
     {
-        @\trigger_error('`getTabCompletion` is deprecated; call `useTabCompletion` instead.', \E_USER_DEPRECATED);
-
         return $this->useTabCompletion();
     }
 
@@ -1253,16 +1228,6 @@ class Configuration
                 $this->pager = $pager;
             } elseif ($less = $this->configPaths->which('less')) {
                 // check for the presence of less...
-
-                // n.b. The busybox less implementation is a bit broken, so
-                // let's not use it by default.
-                //
-                // See https://github.com/bobthecow/psysh/issues/778
-                $link = @\readlink($less);
-                if ($link !== false && \strpos($link, 'busybox') !== false) {
-                    return false;
-                }
-
                 $this->pager = $less.' -R -F -X';
             }
         }
@@ -1297,8 +1262,6 @@ class Configuration
      */
     public function getTabCompletionMatchers(): array
     {
-        @\trigger_error('`getTabCompletionMatchers` is no longer used.', \E_USER_DEPRECATED);
-
         return [];
     }
 
@@ -1339,8 +1302,6 @@ class Configuration
      */
     public function addTabCompletionMatchers(array $matchers)
     {
-        @\trigger_error('`addTabCompletionMatchers` is deprecated; call `addMatchers` instead.', \E_USER_DEPRECATED);
-
         $this->addMatchers($matchers);
     }
 
@@ -1667,19 +1628,11 @@ class Configuration
     /**
      * Set the prompt.
      *
-     * @deprecated The `prompt` configuration has been replaced by Themes and support will
-     * eventually be removed. In the meantime, prompt is applied first by the Theme, then overridden
-     * by any explicitly defined prompt.
-     *
-     * Note that providing a prompt but not a theme config will implicitly use the `classic` theme.
+     * @param string $prompt
      */
     public function setPrompt(string $prompt)
     {
         $this->prompt = $prompt;
-
-        if (isset($this->theme)) {
-            $this->theme->setPrompt($prompt);
-        }
     }
 
     /**
@@ -1723,10 +1676,6 @@ class Configuration
 
         $this->theme = $theme;
 
-        if (isset($this->prompt)) {
-            $this->theme->setPrompt($this->prompt);
-        }
-
         if (isset($this->output)) {
             $this->output->setTheme($theme);
             $this->applyFormatterStyles();
@@ -1739,12 +1688,7 @@ class Configuration
     public function theme(): Theme
     {
         if (!isset($this->theme)) {
-            // If a prompt is explicitly set, and a theme is not, base it on the `classic` theme.
-            $this->theme = $this->prompt ? new Theme('classic') : new Theme();
-        }
-
-        if (isset($this->prompt)) {
-            $this->theme->setPrompt($this->prompt);
+            $this->theme = new Theme();
         }
 
         return $this->theme;

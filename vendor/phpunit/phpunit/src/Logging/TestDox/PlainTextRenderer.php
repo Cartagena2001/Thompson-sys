@@ -26,11 +26,11 @@ final class PlainTextRenderer
         foreach ($tests as $prettifiedClassName => $_tests) {
             $buffer .= $prettifiedClassName . "\n";
 
-            foreach ($this->reduce($_tests) as $prettifiedMethodName => $outcome) {
+            foreach ($_tests as $test) {
                 $buffer .= sprintf(
                     ' [%s] %s' . "\n",
-                    $outcome,
-                    $prettifiedMethodName,
+                    $test->status()->isSuccess() ? 'x' : ' ',
+                    $test->test()->testDox()->prettifiedMethodName()
                 );
             }
 
@@ -38,40 +38,5 @@ final class PlainTextRenderer
         }
 
         return $buffer;
-    }
-
-    /**
-     * @psalm-return array<string, 'x'|' '>
-     */
-    private function reduce(TestResultCollection $tests): array
-    {
-        $result = [];
-
-        foreach ($tests as $test) {
-            $prettifiedMethodName = $test->test()->testDox()->prettifiedMethodName();
-
-            $success = true;
-
-            if ($test->status()->isError() ||
-                $test->status()->isFailure() ||
-                $test->status()->isIncomplete() ||
-                $test->status()->isSkipped()) {
-                $success = false;
-            }
-
-            if (!isset($result[$prettifiedMethodName])) {
-                $result[$prettifiedMethodName] = $success ? 'x' : ' ';
-
-                continue;
-            }
-
-            if ($success) {
-                continue;
-            }
-
-            $result[$prettifiedMethodName] = ' ';
-        }
-
-        return $result;
     }
 }
