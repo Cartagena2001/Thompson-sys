@@ -360,7 +360,7 @@
 
                 <hr />
 
-                <form method="POST" action="{{ route('user.password.update') }}" role="form" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('user.password.update', $usuario->id) }}" role="form" enctype="multipart/form-data">
                     @csrf
 
                     <div class="col-auto align-self-center mt-2 mb-3 text-center">

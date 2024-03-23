@@ -387,4 +387,27 @@ Class UsersController extends Controller
         return redirect()->route('users.index')->with('success', 'Datos de usuario actualizados con éxito');
     }
 
+
+    // funcion para actualizar la contraseña del usuario
+    public function passwordUpdate(Request $request, $id)
+    {
+
+        $user = User::find($id);
+
+        //validar contraseña
+        $this->validate($request, [
+            'password' => 'required|confirmed|min:6'
+        ]);
+        
+        $user->password = bcrypt($request->get('password'));
+        $user->save();
+
+        //$user->password = bcrypt($request->get('password'));
+        //$user->update();
+
+        //redireccionar
+        return redirect()->route('users.index')->with('toast_success', 'Contraseña actualizada correctamente');
+    }
+
+
 }

@@ -169,11 +169,11 @@ class AspirantesController extends Controller
 /*
         $request->validate([
             'marca' => 'required|string',
-            'clienteid' => 'required|numeric',
+            'cliente' => 'required|numeric',
         ]);
 */
 
-        $clienteID = $request->cliente; //0,1,2,3
+        $clienteID = $request->cliente; //1 2 o 3...
         //$clienteID = trim(strstr( $request->cliente, "_" ), "_");
         //$clienteUptM = User::find($clienteID);
 
@@ -181,17 +181,23 @@ class AspirantesController extends Controller
 
         $marcasUDT = "";
 
-        $marcasInput = $request->marca; 
-        $marcasBD = $clienteUptM->marcas;
+        $marcasInput = strval($request->marca); 
+        $marcasBD = strval($clienteUptM->marcas);
 
-        if ( str_contains($marcasBD, $marcasInput) ) {
+        //return response()->json('id marca check: '.$marcasInput.' ids marcas en bd: '.$marcasBD);
 
-            $marcasUDT = str_replace($marcasInput, '', $marcasBD);
+        //return response()->json(str_contains($marcasBD, $marcasInput)); 
+        //$flag = str_contains($marcasBD, $marcasInput);
+
+        if ( strpos($marcasBD, $marcasInput) == true ) {
+
+            $marcasUDT = str_replace($marcasInput, '', $marcasBD);  
 
             $clienteUptM->marcas = $marcasUDT;
             $clienteUptM->update();
 
-           return response()->json($clienteUptM->marcas);
+           //return response()->json($clienteUptM->marcas);
+           return response()->json('found: '.str_replace($marcasInput, '', $marcasBD));
 
         } else {
 
@@ -199,7 +205,8 @@ class AspirantesController extends Controller
 
             $clienteUptM->update();
 
-            return response()->json($clienteUptM->marcas);
+            //return response()->json($clienteUptM->marcas);
+            return response()->json('not found: '.$marcasBD.$marcasInput);
         }
 
     }

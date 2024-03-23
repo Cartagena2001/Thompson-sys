@@ -163,6 +163,7 @@ class PerfilController extends Controller
         $user = auth()->User();
 
         if ( $request->get('negTipo') == 'persona') {
+            
             //persona natural no inscrita en CNR
             //validar los datos
             $request->validate([
@@ -175,6 +176,12 @@ class PerfilController extends Controller
                 'telefono' => 'string|min:8|max:9',
                 'g-recaptcha-response' => 'recaptcha'    
             ]);
+
+            $user->nrc = null;
+            $user->nit = null;
+            $user->razon_social = null;
+            $user->giro = null;
+            $user->nombre_empresa = null;
 
         } else {
             //negocio/empresa inscrita en CNR
@@ -194,6 +201,12 @@ class PerfilController extends Controller
                 'telefono' => 'string|min:8|max:9',
                 'g-recaptcha-response' => 'recaptcha'     
             ]);
+
+            $user->nrc = $request->get('nrc');
+            $user->nit = $request->get('nit');
+            $user->razon_social = $request->get('razon_social');
+            $user->giro = $request->get('giro');
+            $user->nombre_empresa = $request->get('nombre_empresa');
         }
 
         //almacenar datos
@@ -210,14 +223,9 @@ class PerfilController extends Controller
         $user->usr_tipo = $request->get('negTipo');
         $user->dui = $request->get('dui');
         $user->whatsapp = $request->get('whatsapp');
-        $user->nrc = $request->get('nrc');
-        $user->nit = $request->get('nit');
-        $user->razon_social = $request->get('razon_social');
         $user->direccion = $request->get('direccion');
         $user->municipio = $request->get('municipio');
         $user->departamento = $request->get('departamento');
-        $user->giro = $request->get('giro');
-        $user->nombre_empresa = $request->get('nombre_empresa');
         $user->website = $request->get('website');
         $user->telefono = $request->get('telefono');
         

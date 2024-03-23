@@ -10,6 +10,46 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.js"></script>
 
+    <style type="text/css">
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        table {
+            display: flex;
+            flex-flow: column;
+            width: 100%;
+            height: 600px;
+            
+        }
+
+        thead {
+            padding-right: 13px;
+            flex: 0 0 auto;
+        }
+
+        tfoot {
+            padding-right: 13px;
+            flex: 0 0 auto;
+        }
+
+        tbody {
+            flex: 1 1 auto;
+            display: block;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        tr {
+            width: 100%;
+            display: table;
+            table-layout: fixed;
+        }        
+
+    </style>
+
     {{-- Titulo --}}
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
         <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png);"></div>
@@ -17,7 +57,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="text-center">📥 Resumen orden de Compra 📥</h1>
-                    <p class="mt-4 mb-4 text-center">Administración de órdenes de compra de productos en venta en la Tienda <b>rtelsalvador.</b> <br/>Aquí podrás encontrar todas las órdenes de compra de tus clientes y podrás gestionarlas.</p>
+                    <p class="mt-4 mb-4 text-center">Administración de órdenes de compra de productos en venta en la Tienda <b>Accumetric El Salvador.</b> <br/>Aquí podrás encontrar todas las órdenes de compra de tus clientes y podrás gestionarlas.</p>
                 </div>
                 <div class="text-center mb-4">
                     <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/ordenes/oficina') }}"><span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block"> Volver Atrás</span></a>
@@ -86,6 +126,8 @@
                         </thead>
 
                         <tbody>
+
+                            
                             @foreach ($detalle as $detalles)
                                 <tr class="pb-5">
                                     <td class="text-start">{{ $detalles->producto->OEM }}</td>
@@ -105,25 +147,37 @@
 
                                     <td class="text-center">{{ $detalles->cantidad * $detalles->producto->unidad_por_caja }}</td>
                                     
-                                    @if ( $orden->estado != 'Pendiente' )
-                                        <td class="text-center">{{ $detalles->cantidad_despachada }}</td>
-                                        <td class="text-center">{{ $detalles->n_bulto }}</td>
-                                    @elseif ( $orden->estado == 'Proceso' )
-                                        <td class="flex-center">
-                                            <input id="cantd_{{ $detalles->producto->id }}" name="cantd" class="form-control text-center" type="text" value="{{ $detalles->cantidad_despachada }}" placeholder="0" onchange="updateCantD(this.id)" style="max-width: 80px;" />
+                                    @if ( $orden->estado == 'Proceso' )
+                                        
+                                        <td>
+                                            <input id="cantd_{{ $detalles->producto->id }}" name="cantd_{{ $detalles->id }}" class="form-control text-center" type="text" value="{{ $detalles->cantidad_despachada }}" placeholder="0" onchange="updateCantD(this.id, this.name)" style="max-width: 80px; margin: 0 auto;" />
+                                            <br> 
+                                            <div class="alert alert-success" role="alert" id="successMsg3" style="display: none" >Cantidad despachada actualizada con éxito.</div>
                                         </td>
-                                        <td class="flex-center">
-                                            <input id="nbulto_{{ $detalles->producto->id }}" name="nbulto" class="form-control text-center" type="text" value="{{ $detalles->n_bulto }}" placeholder="0" onchange="updateNb(this.id)" style="max-width: 80px;" />
+
+                                        <td>
+                                            <input id="nbulto_{{ $detalles->producto->id }}" name="nbulto_{{ $detalles->id }}" class="form-control text-center" type="text" value="{{ $detalles->n_bulto }}" placeholder="0" onchange="updateNb(this.id, this.name)" style="max-width: 80px; margin: 0 auto" />
+                                            <br> 
+                                            <div class="alert alert-success" role="alert" id="successMsg4" style="display: none" >Cantidad de bultos actualizada con éxito.</div>
                                         </td>
+
                                     @endif
 
                                     <td class="text-center">{{ number_format(($detalles->precio), 2, '.', ','); }} $</td>
+                                    
                                     @if ( Auth::user()->rol_id != 3 )
-                                        <td class="text-center">{{ number_format(($detalles->cantidad * $detalles->precio), 2, '.', ','); }} $</td>
-                                    @endif 
+                                        <td class="text-center">
+                                            {{ number_format(($detalles->cantidad * $detalles->precio), 2, '.', ','); }} $
+                                        </td>
+                                    @endif
+
                                 </tr>
                             @endforeach
 
+                        </tbody>
+
+                        <tfoot>
+                            
                             @php
                                 $subtotal = 0;
                                 $iva = 0.13;
@@ -175,8 +229,8 @@
                                     <td class="text-start" style="font-weight: 600;">Total:</td> 
                                     <td class="text-end">{{ number_format($total, 2, '.', ',');  }} $</td>
                                 </tr>
+                        </tfoot>
 
-                        </tbody>
                     </table>
                 </div>
 
@@ -257,43 +311,43 @@
                     <div class="row mt-4">
                         <h4 class="text-center mb-4">Actualizar estado de la Orden:</h4>
 
-                        <div class="col-md-6 text-end">
+                        <div class="col-md-6 text-end estadobtns">
                             @if ($orden->estado == 'Pendiente')
                                 <form action="{{ route('ordenes.enProceso', $orden->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
-                                    <button class="btn btn-info p-3 w-100" type="submit">Actualizar a: En Proceso</button>
+                                    <button class="btn btn-proceso p-3 w-100" type="submit">Actualizar a: En Proceso</button>
                                 </form>
                             @elseif($orden->estado == 'Proceso')
                                 <form action="{{ route('ordenes.preparada', $orden->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
-                                    <button class="btn btn-info p-3 w-100" type="submit">Actualizar a: Preparada</button>
+                                    <button class="btn btn-preparada p-3 w-100" type="submit">Actualizar a: Preparada</button>
                                 </form>
                              @elseif($orden->estado == 'Preparada')
                                 <form action="{{ route('ordenes.espera', $orden->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
-                                    <button class="btn btn-info p-3 w-100" type="submit">Actualizar a: En Espera</button>
+                                    <button class="btn btn-espera p-3 w-100" type="submit">Actualizar a: En Espera</button>
                                 </form>
                             @elseif($orden->estado == 'Espera')
                                 <form action="{{ route('ordenes.pagada', $orden->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
-                                    <button class="btn btn-info p-3 w-100" type="submit">Actualizar a: Pagada</button>
+                                    <button class="btn btn-pagada p-3 w-100" type="submit">Actualizar a: Pagada</button>
                                 </form>
                             @elseif($orden->estado == 'Pagada')
                                 <form action="{{ route('ordenes.finalizada', $orden->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
-                                    <button class="btn btn-info p-3 w-100" type="submit">Actualizar a: Finalizada</button>
+                                    <button class="btn btn-finalizada p-3 w-100" type="submit">Actualizar a: Finalizada</button>
                                 </form>
                             @endif
                         </div>
             @endif
 
             @if ($orden->estado != 'Cancelada' && $orden->estado != 'Finalizada')
-                <div class="col-md-6 text-start">
+                <div class="col-md-6 text-start estadobtns">
                     <form action="{{ route('ordenes.cancelada', $orden->id) }}" method="POST">
                         @csrf
                         @method('PUT')
@@ -309,6 +363,7 @@
     </div>
 
     <script>
+
         document.getElementById('imprimir_btn').addEventListener('click', function() {
             var contenidoImprimir = document.getElementById('contenido-imprimir').innerHTML;
 
@@ -363,6 +418,53 @@
             });
             
         }
+
+        function updateCantD(prod_id, ordd_id) {
+
+            var CantD = $('#'+prod_id).val();
+            //var OrdIDD = ordd_id;
+
+            $.ajax({
+                url: "{{ route('producto.updateCantD') }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&cantidad_despachada=" + CantD + "&producto_id=" + prod_id + "&ordend_id=" + ordd_id,
+
+                success: function(response){
+                    $('#successMsg3').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg1').text(response.responseJSON.errors.CantD);
+                    $('#ErrorMsg2').text(response.responseJSON.errors.prod_id);
+                },
+            });
+            
+        }
+
+        function updateNb(prod_id, ordd_id) {
+
+            var nBulto = $('#'+prod_id).val();
+            //var OrdIDD = ordd_id;
+
+            $.ajax({
+                url: "{{ route('producto.updateNb') }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&n_bulto=" + nBulto + "&producto_id=" + prod_id + "&ordend_id=" + ordd_id,
+
+                success: function(response){
+                    $('#successMsg4').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg1').text(response.responseJSON.errors.nBulto);
+                    $('#ErrorMsg2').text(response.responseJSON.errors.prod_id);
+                },
+            });
+            
+        }
+
     </script>
 
 @endsection

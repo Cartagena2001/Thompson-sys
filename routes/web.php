@@ -59,6 +59,10 @@ Route::resource('/dashboard/marcas', App\Http\Controllers\MarcaController::class
 Route::resource('/dashboard/categorias', App\Http\Controllers\CategoriaController::class)->middleware('auth');
 Route::post('producto.updateUbiBO', [App\Http\Controllers\ProductoController::class, 'updateUbiBO'])->name('producto.updateUbiBO')->middleware('auth');
 Route::post('producto.updateUbiOF', [App\Http\Controllers\ProductoController::class, 'updateUbiOF'])->name('producto.updateUbiOF')->middleware('auth');
+
+Route::post('producto.updateCantD', [App\Http\Controllers\ProductoController::class, 'updateCantD'])->name('producto.updateCantD')->middleware('auth');
+Route::post('producto.updateNb', [App\Http\Controllers\ProductoController::class, 'updateNb'])->name('producto.updateNb')->middleware('auth');
+
 Route::resource('/dashboard/productos', App\Http\Controllers\ProductoController::class)->middleware('auth');
 
 
@@ -96,7 +100,7 @@ Route::post('/dashboard/aspirantes/{id}', [App\Http\Controllers\AspirantesContro
 
 //Rutas para aspirantes II
 Route::get('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'indexInfoSent'])->name('info.enviada')->middleware('auth');
-Route::patch('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscrip.load')->middleware('auth');
+Route::post('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscrip.load')->middleware('auth');
 
 
 //Rutas Contactos
@@ -117,6 +121,7 @@ Route::put('/dashboard/clientes/precioop/{id}', [App\Http\Controllers\ClientesCo
 
 //Marcas autorizadas
 Route::get('/dashboard/permisos', [App\Http\Controllers\ClientesController::class, 'admPermMarca'])->name('clientes.marcasasoc')->middleware('auth');
+
 Route::post('/dashboard/permisos', [App\Http\Controllers\ClientesController::class, 'updateMarcas'])->name('clientes.marcaUpdate')->middleware('auth');
 
 
@@ -188,12 +193,15 @@ Route::patch('/configuracion/users/create', [App\Http\Controllers\UsersControlle
 Route::get('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'edit'])->name('users.edit')->middleware('auth');
 
 Route::put('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'update'])->name('users.update')->middleware('auth');
-Route::post('/configuracion/users/edit', [App\Http\Controllers\PerfilController::class, 'passwordUpdate'])->name('user.password.update')->middleware('auth');
+
+Route::post('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'passwordUpdate'])->name('user.password.update')->middleware('auth');
 
 
 
 
 
+Route::get('send-php-mailer',[PHPMailerController::class, 'index'])->name('send.php.mailer')->middleware('auth');
+Route::post('send-php-mailer-submit',[PHPMailerController::class, 'sendEmail'])->name('send.php.mailer.submit')->middleware('auth');
 
 
 

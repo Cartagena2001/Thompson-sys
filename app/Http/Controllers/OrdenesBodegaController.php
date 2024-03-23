@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Orden;
 use App\Models\OrdenDetalle;
+use App\Models\Producto;
 use App\Models\User;
 
 class OrdenesBodegaController extends Controller
@@ -13,6 +14,7 @@ class OrdenesBodegaController extends Controller
     public function index()
     {
         $ordenes = Orden::Paginate(1000000000);
+        $ordenes = Orden::where('estatus', 'aspirante')->orWhere('estatus', 'rechazado')->paginate(1000000000);
         $users = User::all();
 
         return view('ordenes.index-bodega' , compact('ordenes' , 'users'));

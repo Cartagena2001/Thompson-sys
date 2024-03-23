@@ -3,6 +3,49 @@
 @section('content')
 @section('title', 'Carrito de compras')
 
+<style type="text/css">
+
+    table {
+      border-collapse: collapse;
+      min-width: 800px !important;
+      width: 100% !important;
+    }
+
+    table {
+        display: flex;
+        flex-flow: column;
+        min-width: 800px !important;
+        width: 100% !important;
+        min-height: 250px;
+        
+    }
+
+    thead {
+        padding-right: 13px;
+        flex: 0 0 auto;
+    }
+
+    tfoot {
+        padding-right: 13px;
+        flex: 0 0 auto;
+    }
+
+    tbody {
+        flex: 1 1 auto;
+        display: block;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    tr {
+        min-width: 800px !important;
+        width: 100% !important;
+        display: table;
+        table-layout: fixed;
+    }        
+
+</style>
+
 {{-- Titulo --}}
 <div class="card mb-3">
     <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
@@ -34,6 +77,7 @@
                 @endif
                 <tr>
                     <th>ID</th>
+                    <th>OEM</th>
                     <th>Producto</th>
                     <th>Marca</th>
                     <th class="text-center"># Cajas 📦</th>
@@ -45,30 +89,27 @@
             <tbody>
                 @foreach (session('cart', []) as $item)
                     <tr>
-                        <td style="font-size: 13px">{{ $item['producto_id'] }}</td>
-                        <td style="font-size: 13px">{{ $item['nombre'] }}</td>
-                        <td style="font-size: 13px">{{ $item['marca'] }}</td>
-                        <td style="font-size: 13px" class="text-center">
+                        <td style="font-size: 10px">{{ $item['producto_id'] }}</td>
+                        <td style="font-size: 10px">{{ $item['producto_oem'] }}</td>
+                        <td style="font-size: 10px">{{ $item['nombre'] }}</td>
+                        <td style="font-size: 10px">{{ $item['marca'] }}</td>
+                        <td style="font-size: 10px" class="flex-center">
                             <form action="{{ route('carrito.update', $item['producto_id']) }}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="row">
                                     <div class="input-group" data-quantity="data-quantity">
                                         <input type="hidden" id="{{ $item['producto_id'] }}" name="producto_id" value="{{ $item['producto_id'] }}">
-                                        <div class="input-group-append">
+                                        <div class="flex-center"> {{-- input-group-append --}}
                                             
-                                            <button class="btn btn-outline-secondary btn-menos" type="button">-</button>
+                                           {{-- <button class="btn btn-outline-secondary btn-menos" type="button">-</button> --}}
                                             
-                                            <input id="cantidad_{{ $item['producto_id'] }}" class="btn btn-outline-secondary cantidad px-2" type="number" name="cantidad" value="{{ $item['cantidad'] }}" min="1" max="{{ $item['existencia'] }}" {{-- onchange="udpCarrito(this.id)" --}} readonly>
+                                            <input id="cantidad_{{ $item['producto_id'] }}" class="btn btn-outline-secondary cantidad px-2" type="number" name="cantidad" value="{{ $item['cantidad'] }}" min="1" max="{{ $item['existencia'] }}" {{-- onchange="udpCarrito(this.id)" --}} >
                                             
-                                            <button class="btn btn-outline-secondary btn-mas" type="button">+</button>
+                                           {{--<button class="btn btn-outline-secondary btn-mas" type="button">+</button> --}}
                                             
-                                             
-                                            <button type="submit" class="btn btn-sm btn-primary">
-                                                <i class="fas fa-sync-alt"></i> Actualizar cantidad
-                                            </button>
+                                           <button style="height: 35px; border-radius: 6px;" type="submit" class="btn btn-sm btn-primary ms-1" title="Actualizar cantidad"><i class="fas fa-sync-alt"></i></button> 
                                             
-
                                         </div>
                                         <br/>
                                         @error('cantidad')
@@ -78,14 +119,14 @@
                                 </div>
                             </form>
                         </td>
-                        <td style="font-size: 13px" class="text-center">{{ number_format(($item['precio_f'] * $item['unidad_caja']), 2, '.', ','); }} $</td>
-                        <td style="font-size: 13px" class="text-center">{{ number_format(($item['precio_f'] * $item['cantidad'] * $item['unidad_caja']), 2, '.', ','); }} $</td>
-                        <td style="font-size: 13px" class="text-center">
+                        <td style="font-size: 10px" class="text-center">{{ number_format(($item['precio_f'] * $item['unidad_caja']), 2, '.', ','); }} $</td>
+                        <td style="font-size: 10px" class="text-center">{{ number_format(($item['precio_f'] * $item['cantidad'] * $item['unidad_caja']), 2, '.', ','); }} $</td>
+                        <td style="font-size: 10px" class="text-center">
                             <form action="{{ route('carrito.delete', $item['producto_id']) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="producto_id" value="{{ $item['producto_id'] }}">
-                                <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i> Quitar producto</button>
+                                <button style="height: 35px; border-radius: 6px;" type="submit" class="btn btn-sm btn-primary" title="Quitar producto"><i class="fas fa-trash-alt"></i></button>
                             </form>
                         </td>
                     </tr>
@@ -98,21 +139,21 @@
 
     <div class="d-flex justify-content-between">
 
-        <div class="col-2">
+        <div class="col-4 col-sm-6 col-lg-6">
             <div class="col-auto px-2 px-md-3 mt-3">
-                <a class="btn btn-primary" href="javascript:history.back()" style="width: 160px;">
+                <a class="btn btn-primary" href="javascript:history.back()" style="width: 150px;">
                     <span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block">Seguir comprando</span>
                 </a>
             </div>
             <div class="col-auto px-2 px-md-3 mt-3">
                 <form action="{{ route('carrito.clear') }}" method="POST">
                     @csrf
-                    <button type="submit" class="btn btn-primary" style="width: 160px;"><i class="fas fa-trash-alt"></i> &nbsp;Vaciar carrito</button>
+                    <button type="submit" class="btn btn-primary" style="width: 150px;"><i class="fas fa-trash-alt"></i> <span class="d-none d-sm-inline-block">&nbsp;Vaciar carrito</span></button>
                 </form>
             </div>
         </div>
 
-        <div class="col-3">
+        <div class="col-8 col-sm-6 col-lg-6">
             <div class="col-auto px-2 px-md-3 mt-3">
                 @php
                     $total = 0;
@@ -120,9 +161,9 @@
                     foreach ($cart as $item) {
                         $total += $item['precio_f'] * $item['cantidad'] * $item['unidad_caja'];
                     }
-                    echo '<h3 class="text-center" style="font-size: 22px;">Subtotal: ' . number_format($total, 2, '.', ',') . ' $</h3>';
+                    echo '<h3 class="text-end" style="font-size: 22px;">Subtotal:</br/> ' . number_format($total, 2, '.', ',') . ' US$</h3>';
                 @endphp
-                <div class="col-auto px-2 px-md-3 mt-3 text-center">
+                <div class="col-auto px-2 px-md-3 mt-3 text-end">
                     <form action="{{ route('carrito.validar') }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-success">
@@ -138,6 +179,7 @@
 
     <script>
 
+        /*
         var btnMas = document.querySelectorAll('.btn-mas');
         var btnMenos = document.querySelectorAll('.btn-menos');
         var inputCantidad = document.querySelectorAll('.cantidad');
@@ -159,6 +201,7 @@
                 }
             });
         }
+        */
 
 
         function updtCarrito(cant_id) {
@@ -166,7 +209,7 @@
             var qty = $('#'+cant_id).val();
             var prodid = cant_id.slice(cant_id.indexOf('_') + 1);
             
-            console.log(prodid);
+            //console.log(prodid);
 
             $.ajax({
                 url: "{{ route('carrito.update',"+prodid+") }}",
@@ -176,7 +219,7 @@
 
                 success: function(response){
                     $('#successMsg').show();
-                    console.log(response);
+                    //console.log(response);
                 },
                 error: function(response) {
                     $('#ErrorMsg1').text(response.responseJSON.errors.qty);

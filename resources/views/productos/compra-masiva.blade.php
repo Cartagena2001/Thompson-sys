@@ -3,6 +3,8 @@
 @section('content')
 @section('title', 'Catálogo para compra masiva')
 
+<button onclick="topFunction()" id="toTopBtn" title="Ir a arriba"><i style="" class="fa-solid fas fa-arrow-up"></i></button>
+
 <?php
     $carrito = session('cart', []);
     $cart = session()->get('cart', []);
@@ -332,7 +334,7 @@
         
     }
 
-
+    /*
     window.onscroll = function() {myFunction()};
 
     var header = document.getElementById("summary");
@@ -353,6 +355,7 @@
         sumdet.classList.add("col-lg-4");
       }
     }
+    */
 
     function filterBrand(filterid) {
 
@@ -403,6 +406,28 @@
     };
 
     new Glide(".glide", config).mount();
+</script>
+
+<script>
+// Get the button
+let mybutton = document.getElementById("toTopBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
 </script>
 
 @endsection
