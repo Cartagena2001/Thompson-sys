@@ -340,7 +340,7 @@
                                 <div>
                                 @foreach ($marcas as $marca)
                                     <label for="{{ $marca->nombre }}-{{ $marca->id }}_{{ $usuario->id }}">
-                                        <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $usuario->id }}" type="checkbox" value="{{ $marca->id }}" name="marks[]" onclick="asignarMarca (this.id)" @if ( str_contains( $usuario->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
+                                        <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $usuario->id }}" type="checkbox" value="{{ $marca->id }}" name="marks[]" onclick="updateMarca (this.id)" @if ( str_contains( $usuario->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
 
                                     </label>
                                     <br/>
@@ -396,29 +396,51 @@
 
     <script>
 
-        function asignarMarca(check_id) {
+        // function asignarMarca(check_id) {
 
-            var marca = $('#'+check_id).val();
-            var clienteid = check_id;
+        //     var marca = $('#'+check_id).val();
+        //     var clienteid = check_id;
 
-            //console.log("marca id: "+marca+" cliente id: "+clienteid);
+        //     //console.log("marca id: "+marca+" cliente id: "+clienteid);
             
+        //     $.ajax({
+        //         url: "{{ route('clientes.marcaUpdate') }}",
+        //         type: "POST",
+        //         data:
+        //             "_token=" + "{{ csrf_token() }}" + "&marca=" + marca + "&cliente=" + clienteid,
+
+        //         success: function(response){
+        //             $('#successMsg').show();
+        //             console.log(response);
+        //         },
+        //         error: function(response) {
+        //             $('#ErrorMsg1').text(response.responseJSON.errors.marca);
+        //             $('#ErrorMsg2').text(response.responseJSON.errors.cliente);
+        //         },
+        //     });
+            
+        // }
+
+        function updateMarca(check_id){
+            var estadoUpdate = $('#'+check_id).prop('checked');
+            var clienteid = check_id;
+            // console.log("estado: "+estado);
+
             $.ajax({
                 url: "{{ route('clientes.marcaUpdate') }}",
                 type: "POST",
                 data:
-                    "_token=" + "{{ csrf_token() }}" + "&marca=" + marca + "&cliente=" + clienteid,
+                    "_token=" + "{{ csrf_token() }}" + "&marcaUpdate=" + $('#'+check_id).val() + "&cliente=" + check_id + "&estadoUpdate=" + estadoUpdate,
 
                 success: function(response){
                     $('#successMsg').show();
                     console.log(response);
                 },
                 error: function(response) {
-                    $('#ErrorMsg1').text(response.responseJSON.errors.marca);
+                    $('#ErrorMsg1').text(response.responseJSON.errors.marcaUpdate);
                     $('#ErrorMsg2').text(response.responseJSON.errors.cliente);
                 },
-            });
-            
+            })
         }
 
 

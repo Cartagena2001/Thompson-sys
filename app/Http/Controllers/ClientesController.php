@@ -82,42 +82,70 @@ Class ClientesController extends Controller
     }
 
 
+//     public function updateMarca(Request $request){
+
+// /*
+//         $request->validate([
+//             'marca'          => 'required', 
+//             'cliente'         => 'required|email',
+//             //'mobile'        => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+
+//         ]);
+// */
+//         $clienteID = trim(strstr( $request->cliente, "_" ), "_");
+//         $clienteUptM = User::find($clienteID);
+
+//         $marcasUDT = "";
+
+//         $marcasInput = $request->marca; 
+//         $marcasBD = $clienteUptM->marcas;
+
+//         if ( str_contains($marcasBD, $marcasInput) ) {
+
+//             $marcasUDT = str_replace($marcasInput, '', $marcasBD);
+
+//             $clienteUptM->marcas = $marcasUDT;
+//             $clienteUptM->update();
+
+//            return response()->json($clienteUptM->marcas);
+
+//         } else {
+
+//             $clienteUptM->marcas = $marcasBD.$marcasInput;
+
+//             $clienteUptM->update();
+
+//             return response()->json($clienteUptM->marcas);
+//         }
+
+//     }
+
     public function updateMarcas(Request $request){
-
-/*
-        $request->validate([
-            'marca'          => 'required',
-            'cliente'         => 'required|email',
-            //'mobile'        => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-
-        ]);
-*/
+        //se obtiene el id del cliente y las marcas del cliente
         $clienteID = trim(strstr( $request->cliente, "_" ), "_");
         $clienteUptM = User::find($clienteID);
+        $marcasCliente = $clienteUptM->marcas;
+        //var_dump($marcasCliente);
 
-        $marcasUDT = "";
 
-        $marcasInput = $request->marca; 
-        $marcasBD = $clienteUptM->marcas;
+        //obtener el estado de la marca si es true o false
+        $marcaUpdate = $request->marcaUpdate;
+        $estadoUpdate = $request->estadoUpdate;
+        //var_dump($marcaUpdate . " " . $estadoUpdate);
 
-        if ( str_contains($marcasBD, $marcasInput) ) {
-
-            $marcasUDT = str_replace($marcasInput, '', $marcasBD);
-
-            $clienteUptM->marcas = $marcasUDT;
+        //si el estado es true se agrega la marca al cliente si es false se elimina
+        if ($estadoUpdate == 'true') {
+            $clienteUptM->marcas = $marcasCliente.$marcaUpdate;
+            //verificar que no alla nigun valor repetido en el campo marcas del cliente y si lo hay eliminarlo
+            $clienteUptM->marcas = implode('', array_unique(str_split($clienteUptM->marcas)));
             $clienteUptM->update();
-
-           return response()->json($clienteUptM->marcas);
-
+            return response()->json($clienteUptM->marcas);
         } else {
-
-            $clienteUptM->marcas = $marcasBD.$marcasInput;
-
+            $clienteUptM->marcas = str_replace($marcaUpdate, '', $marcasCliente);
+            $clienteUptM->marcas = implode('', array_unique(str_split($clienteUptM->marcas)));
             $clienteUptM->update();
-
             return response()->json($clienteUptM->marcas);
         }
-
     }
 
 }
