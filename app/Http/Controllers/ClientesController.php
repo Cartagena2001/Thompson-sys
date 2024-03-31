@@ -9,6 +9,8 @@ use App\Models\Rol;
 use App\Models\Marca;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Str;
+
 Class ClientesController extends Controller
 {
     /**
@@ -82,45 +84,45 @@ Class ClientesController extends Controller
     }
 
 
-//     public function updateMarca(Request $request){
-
-// /*
-//         $request->validate([
-//             'marca'          => 'required', 
-//             'cliente'         => 'required|email',
-//             //'mobile'        => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-
-//         ]);
-// */
-//         $clienteID = trim(strstr( $request->cliente, "_" ), "_");
-//         $clienteUptM = User::find($clienteID);
-
-//         $marcasUDT = "";
-
-//         $marcasInput = $request->marca; 
-//         $marcasBD = $clienteUptM->marcas;
-
-//         if ( str_contains($marcasBD, $marcasInput) ) {
-
-//             $marcasUDT = str_replace($marcasInput, '', $marcasBD);
-
-//             $clienteUptM->marcas = $marcasUDT;
-//             $clienteUptM->update();
-
-//            return response()->json($clienteUptM->marcas);
-
-//         } else {
-
-//             $clienteUptM->marcas = $marcasBD.$marcasInput;
-
-//             $clienteUptM->update();
-
-//             return response()->json($clienteUptM->marcas);
-//         }
-
-//     }
-
     public function updateMarcas(Request $request){
+
+/*
+        $request->validate([
+            'marca'          => 'required', 
+            'cliente'         => 'required|email',
+            //'mobile'        => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+
+        ]);
+*/
+        $clienteID = trim(strstr( $request->cliente, "_" ), "_");
+        $clienteUptM = User::find($clienteID);
+
+        $marcasUDT = "";
+
+        $marcasInput = $request->marca; 
+        $marcasBD = $clienteUptM->marcas;
+
+        if ( Str::contains($marcasBD, $marcasInput) ) {   
+
+            $marcasUDT = str_replace($marcasInput, '', $marcasBD);
+
+            $clienteUptM->marcas = $marcasUDT;
+            $clienteUptM->update();
+
+           return response()->json($clienteUptM->marcas);
+
+        } else {
+
+            $clienteUptM->marcas = $marcasBD.$marcasInput;
+
+            $clienteUptM->update();
+
+            return response()->json($clienteUptM->marcas);
+        }
+
+    }
+
+/*    public function updateMarcas(Request $request){
         //se obtiene el id del cliente y las marcas del cliente
         $clienteID = trim(strstr( $request->cliente, "_" ), "_");
         $clienteUptM = User::find($clienteID);
@@ -146,6 +148,6 @@ Class ClientesController extends Controller
             $clienteUptM->update();
             return response()->json($clienteUptM->marcas);
         }
-    }
+    }*/
 
 }
