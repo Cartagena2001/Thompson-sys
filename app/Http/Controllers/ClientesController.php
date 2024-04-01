@@ -120,4 +120,84 @@ Class ClientesController extends Controller
 
     }
 
+
+/*
+    public function updateMarcas(Request $request){
+
+        $clienteID = trim(strstr( $request->cliente, "_" ), "_");
+        $clienteUptM = User::find($clienteID);
+
+
+        //return response()->json("cliente ID inside: ".$clienteID." ");
+
+        
+        $marcasUDT = "";
+
+        $marcasInput = $request->marca; 
+        $marcasBD = $clienteUptM->marcas;
+        
+
+        //return response()->json("marca ID inside: ".$marcasInput." marcas actuales del cliente ".$clienteID.": ".$marcasBD);
+
+        //return response()->json("str_contains(".$marcasBD.", ".$marcasInput.") = ".str_contains($marcasBD, $marcasInput));
+
+        
+        if ( str_contains($clienteUptM->marcas, $marcasInput) == 1 ) {   
+
+            $marcasUDT = str_replace($marcasInput, '', $clienteUptM->marcas);
+
+            $clienteUptM->marcas = $marcasUDT;
+            $clienteUptM->update();
+
+           //return response()->json($clienteUptM->marcas);
+           return response()->json(
+
+            "cliente ID inside: ".$clienteID." 
+
+            <br/>
+
+            marca ID inside: ".$marcasInput." marcas actuales del cliente ID ".$clienteID." : ".$marcasBD.", 
+
+                str_contains(".$marcasBD.", ".$marcasInput.") = ".str_contains($marcasBD, $marcasInput)."
+
+            <br/>
+            
+            entró al IF
+            
+            <br/>
+
+            marcas finales: ".$marcasUDT );
+
+        } else {
+
+            $clienteUptM->marcas = $clienteUptM->marcas.$marcasInput;
+
+            $clienteUptM->update();
+
+            //return response()->json($clienteUptM->marcas);
+            return response()->json(
+            
+            "cliente ID inside: ".$clienteID." 
+
+            <br/>
+
+            marca ID inside: ".$marcasInput.", marcas actuales del cliente ID ".$clienteID." : ".$marcasBD.",
+
+              str_contains(".$marcasBD.", ".$marcasInput.") = ".str_contains($marcasBD, $marcasInput)."
+
+            <br/>
+            
+            entró al ELSE
+
+            <br/>
+
+            marcas finales: ".$clienteUptM->marcas );
+        }
+        
+
+    }
+
+*/
+
+
 }
