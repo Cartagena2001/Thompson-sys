@@ -83,7 +83,16 @@ Route::put('/dashboard/ordenes/oficina/cancelada/{id}', [App\Http\Controllers\Or
 Route::put('/dashboard/ordenes/oficina/uploadCif/{id}', [App\Http\Controllers\OrdenesController::class, 'upload'])->name('ordenecif.upload')->middleware('auth');
 Route::put('/dashboard/ordenes/oficina/uploadHoj/{id}', [App\Http\Controllers\OrdenesController::class, 'uploadBod'])->name('ordenehoj.upload')->middleware('auth');
 
+Route::put('/dashboard/ordenes/oficina/uploadCompP/{id}', [App\Http\Controllers\OrdenesController::class, 'uploadComp'])->name('compPago.upload')->middleware('auth');
+
+
 Route::resource('/dashboard/ordenes/bodega', App\Http\Controllers\OrdenesBodegaController::class)->middleware('auth');
+Route::put('/dashboard/ordenes/bodega/preparada/{id}', [App\Http\Controllers\OrdenesBodegaController::class, 'preparada'])->name('ordenes.preparadaB')->middleware('auth');
+Route::put('/dashboard/ordenes/bodega/finalizada/{id}', [App\Http\Controllers\OrdenesBodegaController::class, 'finalizada'])->name('ordenes.finalizadaB')->middleware('auth');
+
+Route::put('/dashboard/ordenes/bodega/uploadHoj/{id}', [App\Http\Controllers\OrdenesBodegaController::class, 'uploadBod'])->name('ordenehoj.uploadB')->middleware('auth');
+
+
 
 //Rutas para aspirantes
 Route::get('/dashboard/aspirantes', [App\Http\Controllers\AspirantesController::class, 'index'])->name('aspirantes.index')->middleware('auth');

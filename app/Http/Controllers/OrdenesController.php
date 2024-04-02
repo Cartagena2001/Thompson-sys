@@ -85,30 +85,17 @@ class OrdenesController extends Controller
     }
 
 
-    public function uploadBod(Request $request, $id){
-
-        //validar los datos
-        $request->validate([
-
-            'notas_bodega' => 'string|max:250',
-            'bulto' => 'string|max:9',
-            'paleta' => 'string|max:9',
-
-        ]);
+    public function uploadComp(Request $request, $id){
 
         $orden = Orden::find($id);
 
         //almacenar datos
-        if ($request->hasFile('hoja_salida_href')) {
-            $file = $request->file('hoja_salida_href');
-            $file->move(public_path() . '/assets/img/hojas_sal/', $file->getClientOriginalName());
-            $orden->hoja_salida_href = '/assets/img/hojas_sal/' . $file->getClientOriginalName();
+        if ($request->hasFile('comprobante_pago_href')) {
+            $file = $request->file('comprobante_pago_href');
+            $file->move(public_path() . '/assets/img/comp_pago/', $file->getClientOriginalName());
+            $orden->comprobante_pago_href = '/assets/img/comp_pago/' . $file->getClientOriginalName();
         }
 
-        $orden->notas_bodega = $request->get('notas_bodega');
-        $orden->bulto = $request->get('bulto');
-        $orden->paleta = $request->get('paleta');
-        
         $orden->update();
 
         //buscar el detalle de la orden
@@ -121,7 +108,7 @@ class OrdenesController extends Controller
             $item->producto = $item->Producto;
         }
 
-        return view('ordenes.show-bodega' , compact('orden', 'detalle'));
+        return view('ordenes.show-oficina' , compact('orden', 'detalle'));
     }
 
 

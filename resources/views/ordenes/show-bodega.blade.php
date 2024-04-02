@@ -16,11 +16,11 @@
         <div class="card-body position-relative mt-4">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="text-center">📥 Resumen Órden de Compra 📥</h1>
-                    <p class="mt-4 mb-4 text-center">Administración de órdenes de compra de productos en venta en la Tienda <b>rtelsalvador.</b> <br/>Aquí podrás encontrar todas las órdenes de compra de tus clientes y podrás gestionarlas.</p>
+                    <h1 class="text-center">📥 Resumen orden de compra 📥</h1>
+                    <p class="mt-4 mb-4 text-center">Detalle de la orden de compra, acá podrás encontrar toda la información relevante de la orden de compra seleccionada.</p>
                 </div>
                 <div class="text-center mb-4">
-                    <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/ordenes') }}"><span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block"> Volver Atrás</span></a>
+                    <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/ordenes/bodega') }}"><span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block"> Volver Atrás</span></a>
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
                         <span class="rt-color-2"># Factura:</span> <span class="">{{ $orden->corr }}</span><br>
                         <span class="rt-color-2">Fecha/Hora:</span> <span class="">{{ \Carbon\Carbon::parse($orden->created_at)->format('d/m/Y, h:m:s a') }}</span><br>
                         <span class="rt-color-2">Notas:</span> <span>{{ $orden->notas }}</span><br>
-                        <span class="rt-color-2">Estado:</span> <span class="text-warning">{{ $orden->estado }}</span>
+                        <span class="rt-color-2">Estado:</span> <span class="text-warning">{{ $orden->estado }} @if ($orden->estado == 'Pagada') <span>(DESPACHO AUTORIZADO)</span> @endif</span>
                     </div>
                     
                 </div>
@@ -69,23 +69,17 @@
                     <table id="table_detalle" class="table display">
                         <thead>
                             <tr>
+
                                 <th class="text-start">OEM</th>
                                 <th class="text-start">Producto</th>
                                 <th class="text-center">Ubicación (Bodega)</th>
                                 <th class="text-center">Ubicación (Oficina)</th>
                                 <th class="text-center">Cantidad (Solicitada)</th>
 
-                                @if ( Auth::user()->rol_id == 0 && $orden->estado != 'Pendiente' || Auth::user()->rol_id == 1 && $orden->estado != 'Pendiente' )
+                                @if ( $orden->estado == 'Proceso' || $orden->estado == 'Preparada' || $orden->estado == 'Espera' )
                                     <th class="text-center">Cantidad (Despachada)</th>
                                     <th class="text-center"># Bultos</th>
                                 @endif
-
-                                @if ( Auth::user()->rol_id == 3 && $orden->estado == 'Proceso' )
-                                    <th class="text-center">Cantidad (Despachada)</th>
-                                    <th class="text-center"># Bultos</th>
-                                @endif
-
-
 
                                 <th class="text-center">Precio (caja)</th>
                                 
@@ -99,39 +93,33 @@
 
                             @foreach ($detalle as $detalles)
                                 <tr class="pb-5">
+
                                     <td class="text-start">{{ $detalles->producto->OEM }}</td>
                                     <td class="text-start">{{ $detalles->producto->nombre }}</td>
 
-                                    <td class="text-start">
-                                        @if (Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1) 
-                                            <input id="ubbo_{{ $detalles->producto->id }}" name="ubbo" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_bodega }}" placeholder="A-00-00" onchange="updateUbiBo(this.id)" /> 
-                                        @else 
-                                            {{ $detalles->producto->ubicacion_bodega }}  
-                                        @endif 
-                                        <br> 
-                                        <div class="alert alert-success" role="alert" id="successMsg1" style="display: none" >Ubicación actualizada con éxito.</div>
+                                    <td class="text-center">
+                                        {{ $detalles->producto->ubicacion_bodega }}  
                                     </td>
 
-                                    <td class="text-start">@if (Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1) <input id="ubof_{{ $detalles->producto->id }}" name="ubof" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_oficina }}" placeholder="OF-00" onchange="updateUbiOf(this.id)" /> @else {{ $detalles->producto->ubicacion_oficina }} @endif 
-                                        <br> <div class="alert alert-success" role="alert" id="successMsg2" style="display: none" > Ubicación actualizada con éxito.
+                                    <td class="text-center">
+                                        {{ $detalles->producto->ubicacion_oficina }}
                                     </td>
 
-                                    <td class="text-center">{{ $detalles->cantidad * $detalles->producto->unidad_por_caja }}</td>
+                                    <td class="text-center">
+                                        {{ $detalles->cantidad * $detalles->producto->unidad_por_caja }}
+                                    </td>
                                     
-                                    @if ( Auth::user()->rol_id == 0 && $orden->estado != 'Pendiente' || Auth::user()->rol_id == 1 && $orden->estado != 'Pendiente' )
-                                        <td class="text-center">{{ $detalles->cantidad_despachada }}</td>
-                                        <td class="text-center">{{ $detalles->n_bulto }}</td>
-                                    @endif
-
-                                    @if ( Auth::user()->rol_id == 3 && $orden->estado == 'Proceso' )
-                                        <td class="flex-center">
-                                            <input id="nbulto_{{ $detalles->producto->id }}" name="nbulto" class="form-control text-center" type="text" value="{{ $detalles->n_bulto }}" placeholder="0" onchange="updateNb(this.id)" style="max-width: 80px;" />
+                                    @if ( $orden->estado == 'Proceso' || $orden->estado == 'Preparada' || $orden->estado == 'Espera' )
+                                        <td>
+                                            <input id="cantd_{{ $detalles->producto->id }}" name="cantd_{{ $detalles->id }}" class="form-control text-center" type="text" value="{{ $detalles->cantidad_despachada }}" placeholder="0" onchange="updateCantD(this.id, this.name)" style="max-width: 80px; margin: 0 auto;" />
+                                            <br> 
+                                            <div class="alert alert-success" role="alert" id="successMsg3" style="display: none" >Cantidad despachada actualizada con éxito.</div>
                                         </td>
-                                    @endif
 
-                                    @if ( Auth::user()->rol_id == 3 && $orden->estado == 'Proceso' )
-                                        <td class="flex-center">
-                                            <input id="cantd_{{ $detalles->producto->id }}" name="cantd" class="form-control text-center" type="text" value="{{ $detalles->cantidad_despachada }}" placeholder="0" onchange="updateCantD(this.id)" style="max-width: 80px;" />
+                                        <td>
+                                            <input id="nbulto_{{ $detalles->producto->id }}" name="nbulto_{{ $detalles->id }}" class="form-control text-center" type="text" value="{{ $detalles->n_bulto }}" placeholder="0" onchange="updateNb(this.id, this.name)" style="max-width: 80px; margin: 0 auto" />
+                                            <br> 
+                                            <div class="alert alert-success" role="alert" id="successMsg4" style="display: none" >Cantidad de bultos actualizada con éxito.</div>
                                         </td>
                                     @endif
 
@@ -203,78 +191,9 @@
             </div>
 
 
-            @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
+            @if ( Auth::user()->rol_id == 3 )
 
-            <form method="POST" action="{{ route('ordenecif.upload', $orden->id) }}" role="form" enctype="multipart/form-data">
-                {{ method_field('PUT') }}
-                @csrf
-
-                @if ( !$orden->estado == 'Pendiente' || !$orden->estado == 'Proceso' )
-                    <div class="mt-3 col-auto text-center col-4 mx-auto">
-                        <label for="factura_href">Adjuntar Factura/Crédito Fiscal: </label>
-                        <br/>
-                        <a href="{{ $orden->factura_href }}" title="Ver Factura" target="_blank"><img class="rounded mt-2" src="{{ $orden->factura_href }}" alt="factura-img" width="400"></a>
-                        <br/>
-                        <br/>
-                        <input class="form-control" type="file" name="factura_href" id="factura_href" value="{{ $orden->factura_href }}">  
-                        <br/>
-                        @error('factura_href')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                        @enderror
-                    </div>
-                @endif
-
-                <div class="row mb-2">  
-
-                    @if ( !$orden->estado == 'Pendiente' || !$orden->estado == 'Proceso' )
-                        <div class="col-6">
-                            <label for="corr"># de Factura: </label>
-                            <input class="form-control" type="text" name="corr" id="corr" value="{{ $orden->corr }}" maxlength="24" placeholder="-">
-                            @error('corr')
-                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    @endif
-                    
-                    <div class="col-6">
-                        <label for="ubicacion">Ubicación (Despacho): </label>
-                        
-                        <select name="ubicacion" id="ubicacion" class="form-control">
-                            <option value="Ambas">Ambas</option>
-                            <option value="Oficina">Oficina</option>
-                            <option value="Bodega">Bodega</option> 
-                        </select>
-
-                        {{-- <input class="form-control" type="text" name="ubicacion" id="ubicacion" value="{{ $orden->ubicacion }}" maxlength="7" placeholder="-"> --}}
-                        
-                        @error('ubicacion')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                </div>
-
-               <div class="row mb-2">
-
-                    <div class="col-12">
-                        <label for="notas">Notas (Oficina): </label>
-                        <textarea class="form-control" type="text" name="notas" id="notas" rows="4" cols="50" maxlength="250" placeholder="-">{{ $orden->notas }}</textarea>
-                        @error('notas')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                </div>
-
-                <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">
-                    <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Guardar</button>
-                </div>
-
-            </form>
-
-            @elseif ( Auth::user()->rol_id == 3 )
-
-            <form method="POST" action="{{ route('ordenehoj.upload', $orden->id) }}" role="form" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('ordenehoj.uploadB', $orden->id) }}" role="form" enctype="multipart/form-data">
                 {{ method_field('PUT') }}
                 @csrf
 
@@ -343,49 +262,25 @@
                     <div class="row mt-4">
                         <h4 class="text-center mb-4">Actualizar estado de la Orden:</h4>
 
-                        <div class="col-md-6 text-end">
-                            @if ($orden->estado == 'Pendiente')
-                                <form action="{{ route('ordenes.enProceso', $orden->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <button class="btn btn-info p-3 w-100" type="submit">Actualizar a: En Proceso</button>
-                                </form>
-                            @elseif($orden->estado == 'Proceso')
-                                <form action="{{ route('ordenes.preparada', $orden->id) }}" method="POST">
+                        <div class="col-md-12 text-end">
+                            @if ($orden->estado == 'Proceso')
+                                <form action="{{ route('ordenes.preparadaB', $orden->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <button class="btn btn-info p-3 w-100" type="submit">Actualizar a: Preparada</button>
                                 </form>
-                             @elseif($orden->estado == 'Preparada')
-                                <form action="{{ route('ordenes.espera', $orden->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <button class="btn btn-info p-3 w-100" type="submit">Actualizar a: En Espera</button>
-                                </form>
+                            @elseif($orden->estado == 'Preparada')
+                                <h2 class="text-center">A LA ESPERA DE INDICACIONES DESDE OFICINA</h2>
                             @elseif($orden->estado == 'Espera')
-                                <form action="{{ route('ordenes.pagada', $orden->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <button class="btn btn-info p-3 w-100" type="submit">Actualizar a: Pagada</button>
-                                </form>
+                                <h2 class="text-center">A LA ESPERA DE INDICACIONES DESDE OFICINA</h2>
                             @elseif($orden->estado == 'Pagada')
-                                <form action="{{ route('ordenes.finalizada', $orden->id) }}" method="POST">
+                                <form action="{{ route('ordenes.finalizadaB', $orden->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <button class="btn btn-info p-3 w-100" type="submit">Actualizar a: Finalizada</button>
                                 </form>
                             @endif
                         </div>
-            @endif
-
-            @if ($orden->estado != 'Cancelada' && $orden->estado != 'Finalizada')
-                <div class="col-md-6 text-start">
-                    <form action="{{ route('ordenes.cancelada', $orden->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <button class="btn btn-primary p-3 w-100" type="submit">Cancelar Orden</button>
-                    </form>
-                 </div>
             @endif
                        
                  </div>  
@@ -444,6 +339,52 @@
                 },
                 error: function(response) {
                     $('#ErrorMsg1').text(response.responseJSON.errors.ubiOf);
+                    $('#ErrorMsg2').text(response.responseJSON.errors.prod_id);
+                },
+            });
+            
+        }
+
+        function updateCantD(prod_id, ordd_id) {
+
+            var CantD = $('#'+prod_id).val();
+            //var OrdIDD = ordd_id;
+
+            $.ajax({
+                url: "{{ route('producto.updateCantD') }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&cantidad_despachada=" + CantD + "&producto_id=" + prod_id + "&ordend_id=" + ordd_id,
+
+                success: function(response){
+                    $('#successMsg3').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg1').text(response.responseJSON.errors.CantD);
+                    $('#ErrorMsg2').text(response.responseJSON.errors.prod_id);
+                },
+            });
+            
+        }
+
+        function updateNb(prod_id, ordd_id) {
+
+            var nBulto = $('#'+prod_id).val();
+            //var OrdIDD = ordd_id;
+
+            $.ajax({
+                url: "{{ route('producto.updateNb') }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&n_bulto=" + nBulto + "&producto_id=" + prod_id + "&ordend_id=" + ordd_id,
+
+                success: function(response){
+                    $('#successMsg4').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg1').text(response.responseJSON.errors.nBulto);
                     $('#ErrorMsg2').text(response.responseJSON.errors.prod_id);
                 },
             });

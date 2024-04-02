@@ -7,16 +7,40 @@
 
     @foreach ($marcas as $brand)
 
+
+      <?php
+/*
+      $categorias = Categoria::whereIn('id', function($query) use ($brand->id){
+                  $query->select('categoria_id')->from('marca_cat')->whereIn('marca_id', [$brand->id]);
+              })->get();
+  */    
+      ?>
+
+
     <div class="card mb-3">
 
         <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
         
         <div class="card-body position-relative">
+
             <div class="row">
-                <div id="brand-list" class="col-lg-12">
+                <div class="col-lg-3">
                   <a style="margin: 0 auto;" href="{{ url( '/dashboard/tienda?marca='.$brand->id.'&categoria=0') }}">
-                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="max-width: 180px; margin: 0 auto;"/>
+                    <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="max-width: 180px; width: 100%; margin: 0 auto; display: block;"/>
                   </a>
+                </div>
+
+                <div class="col-lg-9">
+                  <p class="text-justify mt-2 me-2" style="color: #000;">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+
+                  <p><b>Categorías</b>:
+
+
+                      {{--   @foreach ($categorias as $cat)
+                            {{ $cat->nombre }}
+                        @endforeach
+                        --}}
+                  </p>
                 </div>
 
             </div>

@@ -68,6 +68,7 @@ class HomeController extends Controller
             ];
         });
 
+
         if ($user->estatus == "aspirante" || $user->estatus == "rechazado") {
 
             return view('aspirantes.form-inscripcion', compact('user'));

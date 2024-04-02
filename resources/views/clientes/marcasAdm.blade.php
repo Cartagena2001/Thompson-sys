@@ -97,7 +97,7 @@
                                     <div>
                                 @foreach ($marcas as $marca)
                                     <label for="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}">
-                                        <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}" type="checkbox" name="marks[]" value="{{ $marca->id }}" onclick="asignarMarca (this.id)" @if ( str_contains( $cliente->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
+                                        <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}" type="checkbox" name="marks[]" value="{{ $marca->id }}" onclick="updateMarca (this.id)" @if ( str_contains( $cliente->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
 
                                     </label>
                                     <br/>
@@ -140,29 +140,26 @@
             });
         });
 
-        function asignarMarca(check_id) {
-
-            var marca = $('#'+check_id).val();
+        function updateMarca(check_id){
+            var estadoUpdate = $('#'+check_id).prop('checked');
             var clienteid = check_id;
+            // console.log("estado: "+estado);
 
-            //console.log("marca id: "+marca+" cliente id: "+clienteid);
-            
             $.ajax({
                 url: "{{ route('clientes.marcaUpdate') }}",
                 type: "POST",
                 data:
-                    "_token=" + "{{ csrf_token() }}" + "&marca=" + marca + "&cliente=" + clienteid,
+                    "_token=" + "{{ csrf_token() }}" + "&marcaUpdate=" + $('#'+check_id).val() + "&cliente=" + check_id + "&estadoUpdate=" + estadoUpdate,
 
                 success: function(response){
                     $('#successMsg').show();
                     console.log(response);
                 },
                 error: function(response) {
-                    $('#ErrorMsg1').text(response.responseJSON.errors.marca);
+                    $('#ErrorMsg1').text(response.responseJSON.errors.marcaUpdate);
                     $('#ErrorMsg2').text(response.responseJSON.errors.cliente);
                 },
-            });
-            
+            })
         }
        
       </script>

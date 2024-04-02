@@ -57,7 +57,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="text-center">📥 Resumen orden de Compra 📥</h1>
-                    <p class="mt-4 mb-4 text-center">Administración de órdenes de compra de productos en venta en la Tienda <b>Accumetric El Salvador.</b> <br/>Aquí podrás encontrar todas las órdenes de compra de tus clientes y podrás gestionarlas.</p>
+                    <p class="mt-4 mb-4 text-center">Detalle de la orden de compra, acá podrás encontrar toda la información relevante de la orden de compra seleccionada.</p>
                 </div>
                 <div class="text-center mb-4">
                     <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/ordenes/oficina') }}"><span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block"> Volver Atrás</span></a>
@@ -134,20 +134,32 @@
                                     <td class="text-start">{{ $detalles->producto->nombre }}</td>
 
                                     <td class="text-start">
-                                        <input id="ubbo_{{ $detalles->producto->id }}" name="ubbo" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_bodega }}" placeholder="A-00-00" onchange="updateUbiBo(this.id)" /> 
-                                        <br> 
-                                        <div class="alert alert-success" role="alert" id="successMsg1" style="display: none" >Ubicación actualizada con éxito.</div>
+
+                                        @if ( $orden->estado != 'Finalizada' )
+                                            <input id="ubbo_{{ $detalles->producto->id }}" name="ubbo" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_bodega }}" placeholder="A-00-00" onchange="updateUbiBo(this.id)" /> 
+                                            <br> 
+                                            <div class="alert alert-success" role="alert" id="successMsg1" style="display: none" >Ubicación actualizada con éxito.</div>
+                                        @else
+                                          <span style="display: block;" class="text-center">{{ $detalles->producto->ubicacion_bodega }} </span>       
+                                        @endif
+
                                     </td>
 
                                     <td class="text-start">
-                                        <input id="ubof_{{ $detalles->producto->id }}" name="ubof" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_oficina }}" placeholder="OF-00" onchange="updateUbiOf(this.id)" /> 
-                                        <br> 
-                                        <div class="alert alert-success" role="alert" id="successMsg2" style="display: none" > Ubicación actualizada con éxito.</div>
+
+                                        @if ( $orden->estado != 'Finalizada' )
+                                            <input id="ubof_{{ $detalles->producto->id }}" name="ubof" class="form-control" type="text" value="{{ $detalles->producto->ubicacion_oficina }}" placeholder="OF-00" onchange="updateUbiOf(this.id)" /> 
+                                            <br> 
+                                            <div class="alert alert-success" role="alert" id="successMsg2" style="display: none" > Ubicación actualizada con éxito.</div>
+                                        @else
+                                          <span style="display: block;" class="text-center">{{ $detalles->producto->ubicacion_oficina }} </span>    
+                                        @endif
+
                                     </td>
 
                                     <td class="text-center">{{ $detalles->cantidad * $detalles->producto->unidad_por_caja }}</td>
                                     
-                                    @if ( $orden->estado == 'Proceso' )
+                                    @if ( $orden->estado == 'Proceso' || $orden->estado == 'Preparada' || $orden->estado == 'Espera' )
                                         
                                         <td>
                                             <input id="cantd_{{ $detalles->producto->id }}" name="cantd_{{ $detalles->id }}" class="form-control text-center" type="text" value="{{ $detalles->cantidad_despachada }}" placeholder="0" onchange="updateCantD(this.id, this.name)" style="max-width: 80px; margin: 0 auto;" />
@@ -160,7 +172,10 @@
                                             <br> 
                                             <div class="alert alert-success" role="alert" id="successMsg4" style="display: none" >Cantidad de bultos actualizada con éxito.</div>
                                         </td>
-
+                                    
+                                    @elseif ( $orden->estado == 'Pagada' )
+                                        <td><span style="display: block;" class="text-center">{{ $detalles->cantidad_despachada }}</span></td>
+                                        <td><span style="display: block;" class="text-center">{{ $detalles->n_bulto }}</span></td>
                                     @endif
 
                                     <td class="text-center">{{ number_format(($detalles->precio), 2, '.', ','); }} $</td>
@@ -236,12 +251,120 @@
 
             </div>
 
+            @if ( $orden->estado == 'Preparada' || $orden->estado == 'Espera' || $orden->estado == 'Pagada' )
+
+            <form method="POST" action="{{ route('ordenehoj.upload', $orden->id) }}" role="form" enctype="multipart/form-data">
+                {{ method_field('PUT') }}
+                @csrf
+
+                @if ( $orden->estado == 'Pagada' )
+                    <div class="mt-3 col-auto text-center col-4 mx-auto">
+                        <label for="hoja_salida_href">Adjuntar Hoja de Salida: </label>
+                        <br/>
+                        <a href="{{ $orden->hoja_salida_href }}" title="Ver Hoja de Salida" target="_blank"><img class="rounded mt-2" src="{{ $orden->hoja_salida_href }}" alt="hoja-salida-img" width="400"></a>
+                        <br/>
+                        <br/>
+                        <input class="form-control" type="file" name="hoja_salida_href" id="hoja_salida_href" value="{{ $orden->hoja_salida_href }}">  
+                        <br/>
+                        @error('hoja_salida_href')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                @endif
+
+                <div class="row mb-2">  
+
+                    <div class="col-6">
+                        <label for="bulto"># bulto: </label>
+                        <input class="form-control" type="text" name="bulto" id="bulto" value="{{ $orden->bulto }}" maxlength="9" placeholder="-">
+                        @error('bulto')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-6">
+                        <label for="paleta"># paleta: </label>
+                        <input class="form-control" type="text" name="paleta" id="paleta" value="{{ $orden->paleta }}" maxlength="9" placeholder="-">
+                        @error('paleta')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                </div>
+
+               <div class="row mb-2">
+
+                    <div class="col-12">
+                        <label for="notas_bodega">Notas (Bodega): </label>
+                        <textarea class="form-control" type="text" name="notas_bodega" id="notas_bodega" rows="4" cols="50" maxlength="250" placeholder="-">{{ $orden->notas_bodega }}</textarea>
+                        @error('notas_bodega')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                </div>
+
+                <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">
+                    <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Guardar</button>
+                </div>
+
+            </form>
+
+            @endif
+
+            
+
+            @if ( $orden->estado == 'Finalizada' )
+
+
+                <div class="mt-3 col-auto text-center col-4 mx-auto">
+                    <label for="hoja_salida_href">Hoja de Salida: </label>
+                    <br/>
+                    <a href="{{ $orden->hoja_salida_href }}" title="Ver Hoja de Salida" target="_blank">
+                        <img class="rounded mt-2" src="{{ $orden->hoja_salida_href }}" alt="hoja-salida-img" width="400">
+                    </a>
+                    <br>
+                </div>
+ 
+
+                <div class="row mb-2">  
+
+                    <div class="col-6">
+                        <label for="bulto"># bulto: </label>
+                        <input class="form-control" type="text" id="bulto" value="{{ $orden->bulto }}" readonly>
+
+                    </div>
+
+                    <div class="col-6">
+                        <label for="paleta"># paleta: </label>
+                        <input class="form-control" type="text" id="paleta" value="{{ $orden->paleta }}" readonly>
+
+                    </div>
+
+                </div>
+
+               <div class="row mb-2">
+
+                    <div class="col-12">
+                        <label for="notas_bodega">Notas (Bodega): </label>
+                        <textarea class="form-control" type="text" id="notas_bodega" rows="4" cols="50" maxlength="250" placeholder="-" readonly>{{ $orden->notas_bodega }}</textarea>
+                    </div>
+
+                </div>
+
+                <br>
+                <hr/>
+
+            @endif
+
+
+
 
             <form method="POST" action="{{ route('ordenecif.upload', $orden->id) }}" role="form" enctype="multipart/form-data">
                 {{ method_field('PUT') }}
                 @csrf
 
-                @if ( !$orden->estado == 'Pendiente' || !$orden->estado == 'Proceso' )
+                @if ( $orden->estado == 'Espera' || $orden->estado == 'Pagada' || $orden->estado == 'Finalizada' )
                     <div class="mt-3 col-auto text-center col-4 mx-auto">
                         <label for="factura_href">Adjuntar Factura/Crédito Fiscal: </label>
                         <br/>
@@ -258,7 +381,7 @@
 
                 <div class="row mb-2">  
 
-                    @if ( !$orden->estado == 'Pendiente' || !$orden->estado == 'Proceso' )
+                    @if ( $orden->estado == 'Espera' || $orden->estado == 'Pagada' || $orden->estado == 'Finalizada' )
                         <div class="col-6">
                             <label for="corr"># de Factura: </label>
                             <input class="form-control" type="text" name="corr" id="corr" value="{{ $orden->corr }}" maxlength="24" placeholder="-">
@@ -270,16 +393,23 @@
                     
                     <div class="col-6">
                         <label for="ubicacion">Ubicación (Despacho): </label>
-                        
-                        <select name="ubicacion" id="ubicacion" class="form-control">
-                            <option value="Ambas" @if ( $orden->ubicacion == 'Ambas') ) selected @endif >Ambas</option>
-                            <option value="Oficina" @if ( $orden->ubicacion == 'Oficina') ) selected @endif >Oficina</option>
-                            <option value="Bodega" @if ( $orden->ubicacion == 'Bodega') ) selected @endif >Bodega</option> 
-                        </select>
 
-                        @error('ubicacion')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                        @enderror
+                        @if ( $orden->estado != 'Finalizada' )
+
+                            <select name="ubicacion" id="ubicacion" class="form-control">
+                                <option value="Ambas" @if ( $orden->ubicacion == 'Ambas') ) selected @endif >Ambas</option>
+                                <option value="Oficina" @if ( $orden->ubicacion == 'Oficina') ) selected @endif >Oficina</option>
+                                <option value="Bodega" @if ( $orden->ubicacion == 'Bodega') ) selected @endif >Bodega</option> 
+                            </select>
+
+                            @error('ubicacion')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
+                        
+                        @else
+                            <input class="form-control" type="text" name="ubicacion" id="ubicacion" value="{{ $orden->ubicacion }}" maxlength="24" readonly>
+
+                        @endif
                     </div>
 
                 </div>
@@ -301,6 +431,45 @@
                 </div>
 
             </form>
+
+
+            @if ( $orden->estado == 'Finalizada' )
+
+                <hr/>
+
+                <form method="POST" action="{{ route('compPago.upload', $orden->id) }}" role="form" enctype="multipart/form-data">
+                    {{ method_field('PUT') }}
+                    @csrf
+
+                        <div class="mt-3 col-auto text-center col-4 mx-auto">
+                            <label for="comprobante_pago_href">Adjuntar Comprobante de pago: </label>
+                            <br/>
+                            <a href="{{ $orden->comprobante_pago_href }}" title="Ver Comprobante de Pago" target="_blank"><img class="rounded mt-2" src="{{ $orden->comprobante_pago_href }}" alt="comp-pago-img" width="400"></a>
+                            <br/>
+                            <br/>
+                            <input class="form-control" type="file" name="comprobante_pago_href" id="comprobante_pago_href" value="{{ $orden->comprobante_pago_href }}">  
+                            <br/>
+                            @error('comprobante_pago_href')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                    <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">
+                        <button type="submit" href="" class="btn btn-primary btn-sm"><i class="far fa-save"></i> Guardar</button>
+                    </div>
+
+                </form>
+
+                <hr/>
+
+            @endif
+
+
+
+
+
+
+
 
 
             <div class="row mb-4">

@@ -315,17 +315,16 @@
                                 echo "Todas";
                             } else {
                                 
-                                foreach ($marcas as $marca) {
+                                foreach ($categorias as $categoria) {
                                     
-                                    if ( $marca->id == $categoriaActual ) {
-                                        echo $marca->nombre;
+                                    if ( $categoria->id == $categoriaActual ) {
+                                        echo $categoria->nombre;
                                     }
                                 }
                             }  
                         ?>
 
-
-                        {{-- $categoriaActual == 0 ? 'Todas' : $categoriaActualname->nombre --}} </a>
+                        </a>
                 </h6>
         
                         
@@ -372,28 +371,9 @@
                     <select style="height: 36px; border-radius: 5px;" id="categoria-filter" name="categoria" class="form-select form-select-sm" aria-label="Bulk actions" onchange="filterCat(this.id)" >
 
                         <option value="0" @if ($categoriaActual == 0) selected @endif >Todas</option>
-
-                        @foreach ($categorias as $cat)
-
-                        @php
                         
-                        var_dump($cat->pivot);
-
-                        @endphp
-                            <option style="text-transform: lowercase;" 
-
-                                    value="@if( isset($cat->pivot) ){{ $cat->pivot->categoria_id }}@else{{ $cat->id }}@endif"
-
-
-                                    @if ( isset($cat->pivot) )
-                                        @if ( $cat->pivot->categoria_id == $categoriaActual ) 
-                                            selected
-                                        @endif 
-                                    @else
-                                        @if ( $cat->id == $categoriaActual ) 
-                                            selected
-                                        @endif
-                                    @endif >{{ $cat->nombre }}</option>
+                        @foreach ($categorias as $cat)
+                            <option value="{{ $cat->id }}" @if ($cat->id == $categoriaActual) selected @endif >{{ $cat->nombre }}</option>
                         @endforeach
 
                     </select>

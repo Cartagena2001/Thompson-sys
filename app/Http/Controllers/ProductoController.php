@@ -9,6 +9,7 @@ use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Marca;
 use App\Models\EstadoProducto;
+use App\Models\OrdenDetalle;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Imports\ProductoImport;
@@ -397,14 +398,18 @@ class ProductoController extends Controller
 
         $ordenDID = trim(strstr( $request->ordend_id, "_" ), "_");
 
+        //return response()->json("producto ID: ".$productoID." orden ID: ".$ordenDID);
+
         $ordenDet = OrdenDetalle::find($ordenDID);
+
+        //return response()->json("cantidad_despachada: ".$ordenDet->cantidad_despachada);
 
         //almacenar datos
         $ordenDet->cantidad_despachada = $request->cantidad_despachada;
 
         $ordenDet->update();
 
-        //return view('ordenes.show')->with('success');
+        return response()->json($ordenDet->cantidad_despachada);
     }
 
     public function updateNb(Request $request)
@@ -422,11 +427,11 @@ class ProductoController extends Controller
         $ordenDet = OrdenDetalle::find($ordenDID);
 
         //almacenar datos
-        $ordenDet->ubicacion_oficina = $request->n_bulto;
+        $ordenDet->n_bulto = $request->n_bulto;
 
         $ordenDet->update();
 
-        //return view('ordenes.show')->with('success');
+        return response()->json($ordenDet->n_bulto);
     }
 
     /**
