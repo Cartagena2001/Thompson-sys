@@ -289,10 +289,47 @@
                 <h6 class="px-2 mb-2" style="text-transform: uppercase;">
                     <a href="{{ url('/home') }}" role="button" aria-haspopup="true" aria-expanded="false">🏠 Inicio</a> /
                     <a href="{{ url('/dashboard/tienda') }}" role="button" aria-haspopup="true" aria-expanded="false">Tienda</a> /
-                    <a aria-haspopup="true" aria-expanded="false"> {{ $marcaActual == 0 ? 'Todas' : 'marca' }}</a> / 
-                    <a aria-haspopup="true" aria-expanded="false"> {{ $categoriaActual == 0 ? 'Todas' : $categoriaActualname->nombre }} </a>
+                    
+                    <a aria-haspopup="true" aria-expanded="false" href=""> 
+
+                        <?php 
+                            if ( $marcaActual == 0 ) {
+                                echo "Todas";
+                            } else {
+                                
+                                foreach ($marcas as $marca) {
+                                    
+                                    if ( $marca->id == $marcaActual ) {
+                                        echo $marca->nombre;
+                                    }
+                                }
+                            }  
+                        ?>
+                    
+                    </a> / 
+                    
+                    <a aria-haspopup="true" aria-expanded="false" href=""> 
+
+                        <?php 
+                            if ( $categoriaActual == 0 ) {
+                                echo "Todas";
+                            } else {
+                                
+                                foreach ($marcas as $marca) {
+                                    
+                                    if ( $marca->id == $categoriaActual ) {
+                                        echo $marca->nombre;
+                                    }
+                                }
+                            }  
+                        ?>
+
+
+                        {{-- $categoriaActual == 0 ? 'Todas' : $categoriaActualname->nombre --}} </a>
                 </h6>
         
+                        
+
             </div>
 
             <div class="col-6 col-md-6">

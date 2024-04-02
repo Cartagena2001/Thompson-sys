@@ -115,7 +115,7 @@
  
                     @foreach ($marcas as $marca)
                         <label for="marca-{{ $marca->nombre }}">
-                            <input id="marca-{{ $marca->nombre }}" type="checkbox" name="marks[]" value="{{ $marca->id }}" onclick="asignarMarca (this.id)" @if ( str_contains( $aspirante->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
+                            <input id="marca-{{ $marca->nombre }}" type="checkbox" name="marks[]" value="{{ $marca->id }}" onclick="updateMarca (this.id)" @if ( str_contains( $aspirante->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
 
                         </label>
                         <br/>
@@ -213,7 +213,7 @@
 
 
     <script type="text/javascript">
-
+/*
         function asignarMarca(check_id) {
 
             var marca = $('#'+check_id).val();
@@ -238,7 +238,30 @@
             });
             
         }
-       
+*/
+
+        function updateMarca(check_id){
+            
+            var estadoUpdate = $('#'+check_id).prop('checked');
+            var clienteid = check_id;
+            // console.log("estado: "+estado);
+
+            $.ajax({
+                url: "{{ route('aspirante.updmarcas', $aspirante->id) }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&marcaUpdate=" + $('#'+check_id).val() + "&cliente=" + check_id + "&estadoUpdate=" + estadoUpdate,
+
+                success: function(response){
+                    $('#successMsg').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg1').text(response.responseJSON.errors.marcaUpdate);
+                    $('#ErrorMsg2').text(response.responseJSON.errors.cliente);
+                },
+            })
+        }     
       </script>
 
 @endsection

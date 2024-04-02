@@ -163,7 +163,7 @@ class AspirantesController extends Controller
     }
 
 
-    public function updateMarcas(Request $request, $id)
+    public function updateMarcasssssss(Request $request, $id)
     {
 
 /*
@@ -211,6 +211,34 @@ class AspirantesController extends Controller
 
     }
 
+    public function updateMarcas(Request $request, $id){
+        //se obtiene el id del cliente y las marcas del cliente
+        //$clienteID = trim(strstr( $request->cliente, "_" ), "_");
+        $clienteID = $id;
+        $clienteUptM = User::find($clienteID);
+        $marcasCliente = $clienteUptM->marcas;
+        //var_dump($marcasCliente);
+
+
+        //obtener el estado de la marca si es true o false
+        $marcaUpdate = $request->marcaUpdate;
+        $estadoUpdate = $request->estadoUpdate;
+        //var_dump($marcaUpdate . " " . $estadoUpdate);
+
+        //si el estado es true se agrega la marca al cliente si es false se elimina
+        if ($estadoUpdate == 'true') {
+            $clienteUptM->marcas = $marcasCliente.$marcaUpdate;
+            //verificar que no alla nigun valor repetido en el campo marcas del cliente y si lo hay eliminarlo
+            $clienteUptM->marcas = implode('', array_unique(str_split($clienteUptM->marcas)));
+            $clienteUptM->update();
+            return response()->json($clienteUptM->marcas);
+        } else {
+            $clienteUptM->marcas = str_replace($marcaUpdate, '', $marcasCliente);
+            $clienteUptM->marcas = implode('', array_unique(str_split($clienteUptM->marcas)));
+            $clienteUptM->update();
+            return response()->json($clienteUptM->marcas);
+        }
+    }
 
     //actualizar lista de precios a taller
     public function taller($id){

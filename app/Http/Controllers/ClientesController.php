@@ -83,17 +83,17 @@ Class ClientesController extends Controller
         return view('clientes.marcasAdm', compact('clientes', 'marcas'));
     }
 
-
+/*
     public function updateMarcas(Request $request){
 
-/*
+
         $request->validate([
             'marca'          => 'required', 
             'cliente'         => 'required|email',
             //'mobile'        => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
 
         ]);
-*/
+
         $clienteID = trim(strstr( $request->cliente, "_" ), "_");
         $clienteUptM = User::find($clienteID);
 
@@ -121,8 +121,9 @@ Class ClientesController extends Controller
         }
 
     }
+*/
 
-/*    public function updateMarcas(Request $request){
+    public function updateMarcas(Request $request){
         //se obtiene el id del cliente y las marcas del cliente
         $clienteID = trim(strstr( $request->cliente, "_" ), "_");
         $clienteUptM = User::find($clienteID);
@@ -148,6 +149,6 @@ Class ClientesController extends Controller
             $clienteUptM->update();
             return response()->json($clienteUptM->marcas);
         }
-    }*/
+    }
 
 }
