@@ -71,7 +71,7 @@ class HomeController extends Controller
 
         if ($user->estatus == "aspirante" || $user->estatus == "rechazado") {
 
-            return view('aspirantes.form-inscripcion', compact('user'));
+            return view('aspirantes.form-inscripcion', compact('user', 'marcas'));
         } else {
             //estatus = aprobado
             //dd($topProductos);
