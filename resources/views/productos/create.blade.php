@@ -10,9 +10,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="text-center">🏷️ Productos 🏷️</h1>
-                    <p class="mt-4 mb-4 text-center">Administración de productos para Tienda <b>rtelsalvador.</b> Aquí podrás encontrar todos los
-                    productos disponibles y gestionar las existencias, editar,
-                    agregar y desactivar productos.
+                    <p class="mt-4 mb-4 text-center">Administración de productos.<br/>
+                        Aquí podrás agregar un nuevo producto asignando su marca, existencias, procedencia, adjuntar imágenes, documentos y más.
                     </p>
                 </div>
                 <div class="text-center mb-4">

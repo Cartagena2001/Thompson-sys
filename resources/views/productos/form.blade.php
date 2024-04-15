@@ -31,7 +31,7 @@
         </div>
 
         <div class="mb-3">
-            {{ Form::label('caracteristicas', 'Caracteristicas: *', ['class' => 'form-label']) }}
+            {{ Form::label('caracteristicas', 'Características: *', ['class' => 'form-label']) }}
             {{ Form::textarea('caracteristicas', $producto->caracteristicas, ['class' => 'form-control', 'rows' => '4', 'placeholder' => '-']) }}
         </div>
         
@@ -216,19 +216,18 @@
 
     <div class="mb-3">
         {{ Form::label('hoja_seguridad', 'Hoja de seguridad (.pdf):', ['class' => 'form-label']) }}
-        {{ Form::hidden('hoja_seguridad', $producto->hoja_seguridad, ['id' => 'hoja_seguridad']) }}
         {{ Form::file('hoja_seguridad', ['class' => 'form-control', 'placeholder' => '']) }}
         @if ($producto->hoja_seguridad != null)
-            <a href="{{ asset(''.$producto->hoja_seguridad) }}" target="_blank">Ver archivo 📃 </a>
+            <a href="{{ url('storage/assets/pdf/productos/'.$producto->hoja_seguridad) }}" target="_blank">Ver archivo 📃 </a>
         @endif
     </div>
 
     <div class="mb-3">
         {{ Form::label('ficha_tecnica_href', 'Ficha técnica del producto (.pdf):', ['class' => 'form-label']) }}
-        {{ Form::hidden('ficha_tecnica_href', $producto->ficha_tecnica_href, ['id' => 'ficha_tecnica_herf']) }}
         {{ Form::file('ficha_tecnica_href', ['class' => 'form-control', 'placeholder' => '']) }}
         @if ($producto->ficha_tecnica_href != null)
-            <a href="{{ asset(''.$producto->ficha_tecnica_href) }}" target="_blank">Ver archivo 📃</a>
+            <a href="{{ url('storage/assets/pdf/productos/'.$producto->ficha_tecnica_href) }}" target="_blank">Ver archivo 📃</a>
+           
         @endif
     </div>
 
@@ -237,56 +236,50 @@
 
     <div class="mb-3">
         {{ Form::label('imagen_1_src', 'Imagen principal (800x800px | .jpg, .jpeg, .png): *', ['class' => 'form-label']) }}
-        {{ Form::hidden('imagen_1_src', $producto->imagen_1_src, ['id' => 'imagen_1_src']) }}
         {{ Form::file('imagen_1_src', ['class' => 'form-control', 'placeholder' => '']) }}
         {{-- mostrar imagen del producto con una etiqueta img comprobar si hay imagen para mostrar --}}
         @if ($producto->imagen_1_src)
-            <img src="{{ $producto->imagen_1_src }}" alt="" width="100px">
+            <img src="{{ url('storage/assets/img/products/'.$producto->imagen_1_src) }}" alt="" width="100px" alt="img-1">
         @endif
     </div>
 
     <div class="mb-3">
         {{ Form::label('imagen_2_src', 'Imagen #2 (800x800px | .jpg, .jpeg, .png):', ['class' => 'form-label']) }}
-        {{ Form::hidden('imagen_2_src', $producto->imagen_2_src, ['id' => 'imagen_2_src']) }}
         {{ Form::file('imagen_2_src', ['class' => 'form-control', 'placeholder' => '']) }}
         @if ($producto->imagen_2_src)
-            <img src="{{ $producto->imagen_2_src }}" alt="" width="100px">
+            <img src="{{ url('storage/assets/img/products/'.$producto->imagen_2_src) }}" alt="" width="100px">
         @endif
     </div>
 
     <div class="mb-3">
         {{ Form::label('imagen_3_src', 'Imagen #3 (800x800px | .jpg, .jpeg, .png):', ['class' => 'form-label']) }}
-        {{ Form::hidden('imagen_3_src', $producto->imagen_3_src, ['id' => 'imagen_3_src']) }}
         {{ Form::file('imagen_3_src', ['class' => 'form-control', 'placeholder' => '']) }}
         @if ($producto->imagen_3_src)
-            <img src="{{ $producto->imagen_3_src }}" alt="" width="100px">
+            <img src="{{ url('storage/assets/img/products/'.$producto->imagen_3_src) }}" alt="" width="100px">
         @endif
     </div>
 
     <div class="mb-3">
         {{ Form::label('imagen_4_src', 'Imagen #4 (800x800px | .jpg, .jpeg, .png):', ['class' => 'form-label']) }}
-        {{ Form::hidden('imagen_4_src', $producto->imagen_4_src, ['id' => 'imagen_4_src']) }}
         {{ Form::file('imagen_4_src', ['class' => 'form-control', 'placeholder' => '']) }}
         @if ($producto->imagen_4_src)
-            <img src="{{ $producto->imagen_4_src }}" alt="" width="100px">
+            <img src="{{ url('storage/assets/img/products/'.$producto->imagen_4_src) }}" alt="" width="100px">
         @endif
     </div>
 
     <div class="mb-3">
         {{ Form::label('imagen_5_src', 'Imagen #5 (800x800px | .jpg, .jpeg, .png):', ['class' => 'form-label']) }}
-        {{ Form::hidden('imagen_5_src', $producto->imagen_5_src, ['id' => 'imagen_5_src']) }}
         {{ Form::file('imagen_5_src', ['class' => 'form-control', 'placeholder' => '']) }}
         @if ($producto->imagen_5_src)
-            <img src="{{ $producto->imagen_5_src }}" alt="" width="100px">
+            <img src="{{ url('storage/assets/img/products/'.$producto->imagen_5_src) }}" alt="" width="100px">
         @endif
     </div>
 
     <div class="mb-3">
         {{ Form::label('imagen_6_src', 'Imagen #6 (800x800px | .jpg, .jpeg, .png):', ['class' => 'form-label']) }}
-        {{ Form::hidden('imagen_6_src', $producto->imagen_6_src, ['id' => 'imagen_6_src']) }}
         {{ Form::file('imagen_6_src', ['class' => 'form-control', 'placeholder' => '']) }}
         @if ($producto->imagen_6_src)
-            <img src="{{ $producto->imagen_6_src }}" alt="" width="100px">
+            <img src="{{ url('storage/assets/img/products/'.$producto->imagen_6_src) }}" alt="" width="100px">
         @endif
     </div>
 

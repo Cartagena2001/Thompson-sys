@@ -46,18 +46,37 @@ class MarcaController extends Controller
         //validar campos
         $request->validate([
             'nombre' => 'required',
+            'descripcion' => 'required',
             'estado' => 'required',
+            'logo_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
         ]);
+
         //almacenar datos
         $reg = new Marca();
         $reg->nombre = $request->get('nombre');
+        $reg->descripcion = $request->get('descripcion');
         $reg->estado = $request->get('estado');
-        //subir archivos imagenes
+        
+        //subir logo
         if ($request->hasFile('logo_src')) {
-            $file = $request->file('logo_src');
-            $file->move(public_path() . '/assets/img/logos/', $file->getClientOriginalName());
-            $reg->logo_src = '/assets/img/logos/' . $file->getClientOriginalName();
+            
+            if ($request->file('logo_src')->isValid()){
+                
+                $file = $request->file('logo_src');
+
+                $nombreMarca = $reg->nombre.'-logo-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/public/assets/img/logos/', $nombreMarca);
+
+                $reg->logo_src = $nombreMarca;  
+
+            } else {
+
+                return redirect()->route('marcas.edit')->with('success', 'Ha ocurrido un error al cargar el logo');
+            }
+
         }
+
         $reg->save();
       
         //redireccionar
@@ -100,17 +119,38 @@ class MarcaController extends Controller
         //validar campos
         $request->validate([
             'nombre' => 'required',
+            'descripcion' => 'required',
             'estado' => 'required',
+            'logo_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
         ]);
+
         //almacenar datos
         $marca->nombre = $request->get('nombre');
+        $marca->descripcion = $request->get('descripcion');
         $marca->estado = $request->get('estado');
+
+        //subir logo
         if ($request->hasFile('logo_src')) {
-            $file = $request->file('logo_src');
-            $file->move(public_path() . '/assets/img/logos/', $file->getClientOriginalName());
-            $marca->logo_src = '/assets/img/logos/' . $file->getClientOriginalName();
+            
+            if ($request->file('logo_src')->isValid()){
+                
+                $file = $request->file('logo_src');
+
+                $nombreMarca = $marca->nombre.'-logo-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/public/assets/img/logos/', $nombreMarca);
+
+                $marca->logo_src = $nombreMarca;  
+
+            } else {
+
+                return redirect()->route('marcas.edit')->with('success', 'Ha ocurrido un error al cargar el logo');
+            }
+
         }
+
         $marca->update();
+
         //redireccionar
         return redirect()->route('marcas.index')->with('success', 'Marca ha sido editada con éxito');
     }

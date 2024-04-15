@@ -76,7 +76,7 @@
                     @foreach ($marcas as $brand)
                         
                         <li class="glide__slide text-center">
-                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+                            <img src="{{ url('storage/assets/img/logos/'.$brand->logo_src) }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
                         </li>
 
                     @endforeach
@@ -161,7 +161,7 @@
                     @foreach ($marcas as $brand)
                         
                         <li class="glide__slide text-center">
-                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+                            <img src="{{ url('storage/assets/img/logos/'.$brand->logo_src) }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
                         </li>
 
                     @endforeach
@@ -246,7 +246,7 @@
                     @foreach ($marcas as $brand)
                         
                         <li class="glide__slide text-center">
-                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+                            <img src="{{ url('storage/assets/img/logos/'.$brand->logo_src) }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
                         </li>
 
                     @endforeach
@@ -435,23 +435,23 @@
                         //hacer un if para ver si el producto tiene imagen o no
                         if ($producto->imagen_1_src != null) {
 
-                            $imagen = "{$producto->imagen_1_src}";
+                            $imagen = url('storage/assets/img/products/'.$producto->imagen_1_src);
 
                         } elseif ($producto->marca->nombre == 'TEMCO') {
 
-                            $imagen = '../../../assets/img/logos/temco-surplus-logo.png';
+                            $imagen = url('storage/assets/img/logos/temco-surplus-logo.png');
                         
                         } elseif ($producto->marca->nombre == 'CTI') {
                             
-                            $imagen = '../../../assets/img/logos/cti.jpg';
+                            $imagen = url('storage/assets/img/logos/cti.jpg');
                         
                         } elseif ($producto->marca->nombre == 'ECOM') { 
                             
-                            $imagen = '../../../assets/img/logos/ecom.jpg';
+                            $imagen = url('storage/assets/img/logos/ecom.jpg');
                         
                         } else {
 
-                            $imagen = '../../../assets/img/products/demo-product-img.jpg';
+                            $imagen = url('storage/assets/img/logos/demo-product-img.jpg');
 
                         }  
                 ?>

@@ -17,18 +17,21 @@ class MarcaSeeder extends Seeder
 
         Marca::create([
             'nombre' => 'TEMCO',
+            'descripcion' => 'Lorem Ipsum',
             'estado' => 'Activo',
             'logo_src' => '',
         ]);
 
         Marca::create([
             'nombre' => 'CTI',
+            'descripcion' => 'Lorem Ipsum',
             'estado' => 'Activo',
             'logo_src' => '',
         ]);
 
         Marca::create([
             'nombre' => 'ECOM',
+            'descripcion' => 'Lorem Ipsum',
             'estado' => 'Activo',
             'logo_src' => '',
         ]);

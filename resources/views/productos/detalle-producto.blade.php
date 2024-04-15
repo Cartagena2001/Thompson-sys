@@ -10,25 +10,25 @@
     //hacer un if para ver si el producto tiene imagen o no
     if ($producto->imagen_1_src != null) {
 
-        $imagen = "{$producto->imagen_1_src}";
+        $imagen = url('storage/assets/img/products/'.$producto->imagen_1_src);
 
     } elseif ($producto->marca->nombre == 'TEMCO') {
 
-        $imagen = '../../../assets/img/logos/temco-surplus-logo.png';
+        $imagen = url('storage/assets/img/logos/temco-surplus-logo.png');
     
     } elseif ($producto->marca->nombre == 'CTI') {
         
-        $imagen = '../../../assets/img/logos/cti.jpg';
+        $imagen = url('storage/assets/img/logos/cti.jpg');
     
     } elseif ($producto->marca->nombre == 'ECOM') { 
         
-        $imagen = '../../../assets/img/logos/ecom.jpg';
+        $imagen = url('storage/assets/img/logos/ecom.jpg');
     
     } else {
 
-        $imagen = '../../../assets/img/products/demo-product-img.jpg';
+        $imagen = url('storage/assets/img/logos/demo-product-img.jpg');
 
-    }  
+    } 
 
 ?>
 
@@ -125,14 +125,15 @@
 
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ $imagen }}" alt="{{ $producto->nombre }}-1">
+                                                <img class="img-fluid" src="{{ url('storage/assets/img/products/'.$imagen) }}" alt="{{ $producto->nombre }}-1">
                                             </div>
                                         </div>
 
                                     @if ($producto->imagen_2_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ $producto->imagen_2_src }}" alt="{{ $producto->nombre }}-2">
+                                                <img class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_2_src) }}" alt="{{ $producto->nombre }}-2">
+
                                             </div>
                                         </div>
                                     @endif
@@ -140,7 +141,7 @@
                                     @if ($producto->imagen_3_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ $producto->imagen_3_src }}" alt="{{ $producto->nombre }}-3">
+                                                <img class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_3_src) }}" alt="{{ $producto->nombre }}-3">
                                             </div>
                                         </div>
                                     @endif
@@ -148,7 +149,7 @@
                                     @if ($producto->imagen_4_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ $producto->imagen_4_src }}" alt="{{ $producto->nombre }}-4">
+                                                <img class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_4_src) }}" alt="{{ $producto->nombre }}-4">
                                             </div>
                                         </div>
                                     @endif
@@ -156,7 +157,7 @@
                                     @if ($producto->imagen_5_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ $producto->imagen_5_src }}" alt="{{ $producto->nombre }}-5">
+                                                <img class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_5_src) }}" alt="{{ $producto->nombre }}-5">
                                             </div>
                                         </div>
                                     @endif
@@ -164,7 +165,7 @@
                                     @if ($producto->imagen_6_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ $producto->imagen_6_src }}" alt="{{ $producto->nombre }}-6">
+                                                <img class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_6_src) }}" alt="{{ $producto->nombre }}-6">
                                             </div>
                                         </div>
                                     @endif
@@ -189,13 +190,13 @@
                                 <div class="swiper-wrapper">
 
                                     <div class="swiper-slide">
-                                        <img src="{{ $imagen }}" alt="" />
+                                        <img src="{{ url('storage/assets/img/products/'.$imagen) }}" alt="" />
                                     </div>
 
                                 @if ($producto->imagen_2_src != null)
                                     
                                     <div class="swiper-slide">
-                                        <img src="{{ $producto->imagen_2_src }}" alt="" />
+                                        <img src="{{ url('storage/assets/img/products/'.$producto->imagen_2_src) }}" alt="" />
                                     </div>
 
                                 @endif
@@ -203,7 +204,7 @@
                                 @if ($producto->imagen_3_src != null)
 
                                     <div class="swiper-slide">
-                                        <img src="{{ $producto->imagen_3_src }}" alt="" />
+                                        <img src="{{ url('storage/assets/img/products/'.$producto->imagen_3_src) }}" alt="" />
                                     </div>
 
                                 @endif
@@ -211,7 +212,7 @@
                                 @if ($producto->imagen_4_src != null)
 
                                     <div class="swiper-slide">
-                                        <img src="{{ $producto->imagen_4_src }}" alt="" />
+                                        <img src="{{ url('storage/assets/img/products/'.$producto->imagen_4_src) }}" alt="" />
                                     </div>
 
                                 @endif
@@ -219,7 +220,7 @@
                                 @if ($producto->imagen_5_src != null)
 
                                     <div class="swiper-slide">
-                                        <img src="{{ $producto->imagen_5_src }}" alt="" />
+                                        <img src="{{ url('storage/assets/img/products/'.$producto->imagen_5_src) }}" alt="" />
                                     </div>
 
                                 @endif
@@ -227,7 +228,7 @@
                                 @if ($producto->imagen_6_src != null)
 
                                     <div class="swiper-slide">
-                                        <img src="{{ $producto->imagen_6_src }}" alt="" />
+                                        <img src="{{ url('storage/assets/img/products/'.$producto->imagen_6_src) }}" alt="" />
                                     </div>
 
                                 @endif
@@ -301,12 +302,12 @@
 
                 <div class="mt-3 mb-4 d-block">
                     @if( $producto->ficha_tecnica_href != null )
-                        <span class="rt-color-2 font-weight-bold">🧾️ Ficha Técnica: <a href="{{ $producto->ficha_tecnica_href }}" title="Leer" target="_blank">ver pdf</a></span>
+                        <span class="rt-color-2 font-weight-bold">🧾️ Ficha Técnica: <a href="{{ url('storage/assets/pdf/productos/'.$producto->ficha_tecnica_href) }}" title="Leer" target="_blank">ver pdf</a></span>
                         <br/> 
                     @endif
 
                     @if( $producto->hoja_seguridad != null )
-                        <span class="rt-color-2 font-weight-bold">📋 Hoja de Seguridad: <a href="{{ $producto->hoja_seguridad }}" title="Leer" target="_blank">ver pdf</a></span>
+                        <span class="rt-color-2 font-weight-bold">📋 Hoja de Seguridad: <a href="{{ url('storage/assets/pdf/productos/'.$producto->hoja_seguridad) }}" title="Leer" target="_blank">ver pdf</a></span>
                     @endif
                 </div>
 

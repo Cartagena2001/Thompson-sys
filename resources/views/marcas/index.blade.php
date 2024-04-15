@@ -99,7 +99,7 @@
                                 <td>{{ $marca->id }}</td>
                                 <td>{{ $marca->nombre }}</td>
                                 <td>{{ $marca->estado }}</td>
-                                <td><img width="100" class="w-20" src="{{ $marca->logo_src }}" alt="{{ $marca->nombre }}"></td>
+                                <td><img width="100" class="w-20" src="{{ url('storage/assets/img/logos/'.$marca->logo_src) }}" alt="{{ $marca->nombre }}"></td>
                                 <td class="text-center">
                                     <form action="{{ route('marcas.destroy', $marca->id) }}" method="POST">
                                         <a href="{{ route('marcas.edit', $marca->id) }}">

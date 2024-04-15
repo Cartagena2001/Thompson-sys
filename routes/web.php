@@ -207,6 +207,13 @@ Route::post('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersControl
 
 
 
+//Ruta para acceder archivos privados (descargar)
+//Route::get('/file/download/{file}', [App\Http\Controllers\FileAccessController::class, 'download']);
+
+//Ruta para acceder archivos privados (ver)
+//Route::get('/file/serve/{file}', [App\Http\Controllers\FileAccessController::class, 'serve']);
+
+
 
 
 Route::get('send-php-mailer',[PHPMailerController::class, 'index'])->name('send.php.mailer')->middleware('auth');
