@@ -125,14 +125,14 @@
 
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ url('storage/assets/img/products/'.$imagen) }}" alt="{{ $producto->nombre }}-1">
+                                                <img class="img-fluid" src="{{ url($imagen) }}" alt="{{ $producto->nombre }}-1">
                                             </div>
                                         </div>
 
                                     @if ($producto->imagen_2_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_2_src) }}" alt="{{ $producto->nombre }}-2">
+                                                <img class="img-fluid" src="{{ asset('storage/assets/img/products/'.$producto->imagen_2_src) }}" alt="{{ $producto->nombre }}-2">
 
                                             </div>
                                         </div>
@@ -141,7 +141,7 @@
                                     @if ($producto->imagen_3_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_3_src) }}" alt="{{ $producto->nombre }}-3">
+                                                <img class="img-fluid" src="{{ asset('storage/assets/img/products/'.$producto->imagen_3_src) }}" alt="{{ $producto->nombre }}-3">
                                             </div>
                                         </div>
                                     @endif
@@ -190,7 +190,7 @@
                                 <div class="swiper-wrapper">
 
                                     <div class="swiper-slide">
-                                        <img src="{{ url('storage/assets/img/products/'.$imagen) }}" alt="" />
+                                        <img src="{{ url($imagen) }}" alt="" />
                                     </div>
 
                                 @if ($producto->imagen_2_src != null)
