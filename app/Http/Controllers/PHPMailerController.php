@@ -49,14 +49,21 @@ class PHPMailerController extends Controller {
         try {
 
             /* Email SMTP Settings */
-            $mail->SMTPDebug = 1;
-            $mail->isSMTP();
-            $mail->Host = env('MAIL_HOST');
+            $mail->SMTPDebug = 3;
+            // $mail->isSMTP();
+            // $mail->Host = env('MAIL_HOST');
+            // $mail->SMTPAuth = true;
+            // $mail->Username = env('MAIL_USERNAME');
+            // $mail->Password = env('MAIL_PASSWORD');
+            // $mail->SMTPSecure = env('MAIL_ENCRYPTION');
+
+            $mail->Host = 'p3plmcpnl492651.prod.phx3.secureserver.net';
             $mail->SMTPAuth = true;
-            $mail->Username = env('MAIL_USERNAME');
-            $mail->Password = env('MAIL_PASSWORD');
-            $mail->SMTPSecure = env('MAIL_ENCRYPTION');
-            $mail->Port = env('MAIL_PORT');                          // port - 587/465
+            $mail->Username = 'notificaciones@rtelsalvador.com';
+            $mail->Password = '24fm2l$PX_5(';
+            $mail->SMTPSecure = 'ssl';
+
+            $mail->Port = 465;                          // port - 587/465
             //$mail->CharSet = 'UTF-8';
             //$mail->Encoding = 'base64';
 
