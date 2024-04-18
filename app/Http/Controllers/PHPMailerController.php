@@ -43,8 +43,8 @@ class PHPMailerController extends Controller {
 
         ]);
         /*/
-
-        require base_path("vendor/autoload.php");
+        requ
+ire base_path("vendor/autoload.php");
 
         $mail = new PHPMailer(true);     // Passing `true` enables exceptions
 
@@ -60,14 +60,7 @@ class PHPMailerController extends Controller {
             $mail->Password = config('phpmailerconf.password'); //env('MAIL_PASSWORD');
             $mail->SMTPSecure = config('phpmailerconf.encryption'); //env('MAIL_ENCRYPTION');
             $mail->Port = config('phpmailerconf.port'); //env('MAIL_PORT');                          // port - 587/465
-
-            // $mail->Host = 'p3plmcpnl492651.prod.phx3.secureserver.net';
-            // $mail->SMTPAuth = true;
-            // $mail->Username = 'notificaciones@rtelsalvador.com';
-            // $mail->Password = '24fm2l$PX_5(';
-            // $mail->SMTPSecure = 'ssl';
-            // $mail->Port = 465;                          // port - 587/465
-
+            $mail->SMTPKeepAlive = true;
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
 

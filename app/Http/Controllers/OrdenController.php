@@ -283,15 +283,15 @@ class OrdenController extends Controller
         try {
 
             // Email server settings
-            $mail->SMTPDebug = 0;
+            $mail->SMTPDebug = 1;
             $mail->isSMTP();
-            $mail->Host = env('MAIL_HOST');             //  smtp host
+
+            $mail->Host = config('phpmailerconf.host'); //env('MAIL_HOST');
             $mail->SMTPAuth = true;
-            $mail->Username = env('MAIL_USERNAME');   //  sender username
-            $mail->Password = env('MAIL_PASSWORD');       // sender password
-            $mail->SMTPSecure = env('MAIL_ENCRYPTION');    // encryption - ssl/tls
-            //$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // encryption - ssl/tls
-            $mail->Port = env('MAIL_PORT');           // port - 587/465
+            $mail->Username = config('phpmailerconf.username'); //env('MAIL_USERNAME');
+            $mail->Password = config('phpmailerconf.password'); //env('MAIL_PASSWORD');
+            $mail->SMTPSecure = config('phpmailerconf.encryption'); //env('MAIL_ENCRYPTION');
+            $mail->Port = config('phpmailerconf.port'); //env('MAIL_PORT');                          // port - 587/465
             $mail->SMTPKeepAlive = true;
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
