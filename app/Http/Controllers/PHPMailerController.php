@@ -49,7 +49,7 @@ class PHPMailerController extends Controller {
         try {
 
             /* Email SMTP Settings */
-            $mail->SMTPDebug = 2;
+            $mail->SMTPDebug = 1;
             $mail->isSMTP();
             $mail->Host = env('MAIL_HOST');
             $mail->SMTPAuth = true;
