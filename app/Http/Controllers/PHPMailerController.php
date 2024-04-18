@@ -56,13 +56,13 @@ class PHPMailerController extends Controller {
             $mail->SMTPAuth = true;
             $mail->Username = env('MAIL_USERNAME');
             $mail->Password = env('MAIL_PASSWORD');
-            $mail->SMTPSecure = env('MAIL_ENCRYPTION');
+            // $mail->SMTPSecure = env('MAIL_ENCRYPTION');
 
             // $mail->Host = 'p3plmcpnl492651.prod.phx3.secureserver.net';
             // $mail->SMTPAuth = true;
             // $mail->Username = 'notificaciones@rtelsalvador.com';
             // $mail->Password = '24fm2l$PX_5(';
-            // $mail->SMTPSecure = 'ssl';
+            $mail->SMTPSecure = 'ssl';
 
             $mail->Port = 465;                          // port - 587/465
             //$mail->CharSet = 'UTF-8';
