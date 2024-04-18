@@ -9,6 +9,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
+use Config;
+
 use Illuminate\Support\Collection;
 
 class PHPMailerController extends Controller {
@@ -51,20 +53,20 @@ class PHPMailerController extends Controller {
             /* Email SMTP Settings */
             $mail->SMTPDebug = 3;
             $mail->isSMTP();
-/*
-            $mail->Host = config('mail.host'); //env('MAIL_HOST');
+
+            $mail->Host = config('phpmailerconf.host'); //env('MAIL_HOST');
             $mail->SMTPAuth = true;
-            $mail->Username = config('mail.username'); //env('MAIL_USERNAME');
-            $mail->Password = config('mail.password'); //env('MAIL_PASSWORD');
-            $mail->SMTPSecure = config('mail.encryption'); //env('MAIL_ENCRYPTION');
-            $mail->Port = config('mail.port'); //env('MAIL_PORT');                          // port - 587/465
-*/
-            $mail->Host = 'p3plmcpnl492651.prod.phx3.secureserver.net';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'notificaciones@rtelsalvador.com';
-            $mail->Password = '24fm2l$PX_5(';
-            $mail->SMTPSecure = 'ssl';
-            $mail->Port = 465;                          // port - 587/465
+            $mail->Username = config('phpmailerconf.username'); //env('MAIL_USERNAME');
+            $mail->Password = config('phpmailerconf.password'); //env('MAIL_PASSWORD');
+            $mail->SMTPSecure = config('phpmailerconf.encryption'); //env('MAIL_ENCRYPTION');
+            $mail->Port = config('phpmailerconf.port'); //env('MAIL_PORT');                          // port - 587/465
+
+            // $mail->Host = 'p3plmcpnl492651.prod.phx3.secureserver.net';
+            // $mail->SMTPAuth = true;
+            // $mail->Username = 'notificaciones@rtelsalvador.com';
+            // $mail->Password = '24fm2l$PX_5(';
+            // $mail->SMTPSecure = 'ssl';
+            // $mail->Port = 465;                          // port - 587/465
 
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
