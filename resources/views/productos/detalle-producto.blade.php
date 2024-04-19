@@ -104,8 +104,6 @@
 
     <div class="col-auto px-2 px-md-3 mt-3 text-center">
         <a class="btn btn-sm btn-primary" href="javascript:history.back()"><span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block"> Volver Atrás</span></a>
-
-        {{ dd(storage_path()) }}
     </div>
 
     <hr/>
