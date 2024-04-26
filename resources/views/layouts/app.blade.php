@@ -116,7 +116,9 @@
 
                         <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/configuracion/users') !== false ? 'active-menu' : '' }}" href="{{ url('/configuracion/users') }}">Usuarios</a>
 
-                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/configuracion/bitacora') !== false ? 'active-menu' : '' }}" href="{{ url('/configuracion/bitacora') }}">Bitácora<span class="badge rounded-pill ms-2 badge-soft-success">Actualizado</span></a>
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/configuracion/email-test') !== false ? 'active-menu' : '' }}" href="{{ url('/configuracion/email-test') }}">Email Test<span class="badge rounded-pill ms-2 badge-soft-success">Nuevo</span></a>
+
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/configuracion/bitacora') !== false ? 'active-menu' : '' }}" href="{{ url('/configuracion/bitacora') }}">Bitácora<span class="badge rounded-pill ms-2 badge-soft-success">Nuevo</span></a>
 
                           @endif
 
@@ -186,7 +188,7 @@
                         <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/permisos') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/permisos') }}">
                           <i class="fas fa-lock-open"></i> Autorizar Marcas</a>
 
-                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/permisos') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/permisos') }}">
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/contactos') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/contactos') }}">
                           <i class="fas fa-user-plus"></i> Contactos 
                           <?php
                               $msjNew = DB::table('contacto')

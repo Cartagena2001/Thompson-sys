@@ -215,6 +215,6 @@ Route::post('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersControl
 
 
 
-
-Route::get('send-php-mailer',[PHPMailerController::class, 'index'])->name('send.php.mailer')->middleware('auth');
-Route::post('send-php-mailer-submit',[PHPMailerController::class, 'sendEmail'])->name('send.php.mailer.submit')->middleware('verified');
+//Test para enviar correos
+Route::get('/configuracion/email-test',[PHPMailerController::class, 'index'])->name('send.php.mailer')->middleware('auth');
+Route::post('/configuracion/send',[PHPMailerController::class, 'sendEmail'])->name('send.php.mailer.submit')->middleware('verified');

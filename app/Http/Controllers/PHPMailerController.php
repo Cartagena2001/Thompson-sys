@@ -43,8 +43,7 @@ class PHPMailerController extends Controller {
 
         ]);
         /*/
-        requ
-ire base_path("vendor/autoload.php");
+        require base_path("vendor/autoload.php");
 
         $mail = new PHPMailer(true);     // Passing `true` enables exceptions
 

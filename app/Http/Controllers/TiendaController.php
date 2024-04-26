@@ -268,7 +268,8 @@ class TiendaController extends Controller
         $categoriaActual = 0;
         $marcaActual = 0;
 
-        //if ver si esta selecionado el filtro de marca
+
+        //if ver si esta selecionado el filtro de marca y no categoria
         if( $request->input('marca') > 0 && $request->input('categoria') == 0 ){
 
             $marca_id = $request->input('marca'); //name devuelve el ID de la marca
@@ -277,17 +278,20 @@ class TiendaController extends Controller
             $productos = Producto::where('marca_id', $marca_id)
                                  ->where('estado_producto_id', 1)
                                  ->whereNot('existencia', 0)
+                                 ->where('imagen_1_src', '!=', null)
                                  ->paginate(1000000000);
             
             $marca = Marca::find($marca_id);
 
-            //$categorias = $marca->Categoria()->get();
-
-            $marcaActual = $request->input('marca');
-
+            $marcaActual = $marca_id;
+            
+            $categorias = Categoria::whereIn('id', function($query) use ($marcaActual){
+                $query->select('categoria_id')->from('marca_cat')->whereIn('marca_id', [$marcaActual]);
+            })->get();
+            
             $categoriaActual = 0;
 
-        } //if ver si esta selecionado el filtro de categoria
+        } //if ver si esta selecionado el filtro de categoria y marca no
         elseif ( $request->input('categoria') > 0 && $request->input('marca') == 0 ){
 
             $categoria_id = $request->input('categoria'); //name devuelve el ID de categoría
@@ -296,26 +300,124 @@ class TiendaController extends Controller
             $productos = Producto::where('categoria_id', $categoria_id)
                                  ->where('estado_producto_id', 1)
                                  ->whereNot('existencia', 0)
+                                 ->where('imagen_1_src', '!=', null)
                                  ->paginate(1000000000);
 
             $categoria = Categoria::find($categoria_id);
 
-            //$marcas = $categoria->Marca()->get();
+            $categoriaActual = $categoria_id;
+
+            $marcas = Marca::whereIn('id', function($query) use ($categoriaActual){
+                $query->select('marca_id')->from('marca_cat')->whereIn('categoria_id', [$categoriaActual]);
+            })->get();
 
             $marcaActual = 0;
-            $categoriaActual = $categoria_id; 
+             
+        } //if ver si esta selecionado el filtro de marca y cambio de categoria o viceversa
+        elseif ( $request->input('categoria') > 0 && $request->input('marca') > 0 ){
 
+            $marca_id = $request->input('marca'); //name devuelve el ID de la marca
+
+            $categoria_id = $request->input('categoria'); //name devuelve el ID de categoría
+            
+            //devuelve los productos según la marca seleccionada en filtro  
+            $productos = Producto::where('marca_id', $marca_id)
+                                 ->where('categoria_id', $categoria_id)
+                                 ->where('estado_producto_id', 1)
+                                 ->whereNot('existencia', 0)
+                                 ->where('imagen_1_src', '!=', null)
+                                 ->paginate(1000000000);
+            
+            $marca = Marca::find($marca_id);
+            $categoria = Categoria::find($categoria_id);
+
+            $marcaActual = $marca_id;
+            
+            $categorias = Categoria::whereIn('id', function($query) use ($marcaActual){
+                $query->select('categoria_id')->from('marca_cat')->whereIn('marca_id', [$marcaActual]);
+            })->get();
+            
+            $categoriaActual = $categoria_id;
+             
         } elseif ( $request->input('categoria') == 0 && $request->input('marca') == 0) {
             //$marcas = Marca::all();
             //$categorias = Categoria::all();
             $categoriaActual = 0;
             $marcaActual = 0;  
         }
+        //fin filtros cat y marca
 
+
+        //if ver si esta selecionado el filtro busq por OEM
+        if( $request->input('busq') != null || $request->input('busq') != '' ){
+
+            //pero 1ro valida si es un cliente
+            if ( $usr->rol_id == 2) {
+
+                $busqOEM = $request->input('busq');
+
+                //devuelve los productos que coincidan con el OEM ingresado en filtro
+                $productos = Producto::whereHas('marca', function($query){
+                    $query->where('estado', "Activo");
+                })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->where('oem', 'like', '%'.$busqOEM.'%')->where('imagen_1_src', '!=', null)->paginate(1000000000);
+
+                $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
+                $categorias = Categoria::all();
+                //$categorias = Categoria::wherePivot('marca_id', 1)->get();
+
+            } else {
+
+                $busqOEM = $request->input('busq');
+
+                //devuelve los productos que coincidan con el OEM ingresado en filtro
+                $productos = Producto::whereHas('marca', function($query){
+                    $query->where('estado', "Activo");
+                })->where('oem', 'like', '%'.$busqOEM.'%')->where('imagen_1_src', '!=', null)->paginate(1000000000);
+
+                $marcas = Marca::all();
+                $categorias = Categoria::all();
+                $categoriaActual = 0;
+                $marcaActual = 0;
+            }    
+        }//fin filtro busq OEM
+
+
+        //if ver si esta selecionado el filtro busq por Nombre
+        if( $request->input('busqN') != null || $request->input('busqN') != '' ){
+
+            //pero 1ro valida si es un cliente
+            if ( $usr->rol_id == 2) {
+
+                $busqNombre = $request->input('busqN');
+
+                //devuelve los productos que coincidan con el nombre ingresado en filtro
+                $productos = Producto::whereHas('marca', function($query){
+                    $query->where('estado', "Activo");
+                })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->where('nombre', 'like', '%'.$busqNombre.'%')->where('imagen_1_src', '!=', null)->paginate(1000000000);
+
+                $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
+                $categorias = Categoria::all();
+                //$categorias = Categoria::wherePivot('marca_id', 1)->get();
+
+            } else {
+
+                $busqNombre = $request->input('busqN');
+
+                //devuelve los productos que coincidan con el OEM ingresado en filtro
+                $productos = Producto::whereHas('marca', function($query){
+                    $query->where('estado', "Activo");
+                })->where('nombre', 'like', '%'.$busqNombre.'%')->where('imagen_1_src', '!=', null)->paginate(1000000000);
+
+                $marcas = Marca::all();
+                $categorias = Categoria::all();
+                $categoriaActual = 0;
+                $marcaActual = 0;
+            }    
+        }//fin filtro busq Nombre
 
         $categoriaActualname = null;
         //obtener el nombre de la categoria actual para mostrarlo en el titulo de la pagina
-        
+
         if($categoriaActual != null){
             $categoriaActualname = Categoria::find($categoriaActual);
         }else{
