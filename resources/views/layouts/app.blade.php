@@ -135,6 +135,8 @@
                     <div class="dropdown-menu dropdown-caret dropdown-menu-card border-0 mt-0" aria-labelledby="documentations">
                       <div class="bg-white dark__bg-1000 rounded-3 py-2">
                         
+                        <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/catalogo') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/catalogo') }}"><i class="fas fa-th-large"></i> Catálogo<span class="badge rounded-pill ms-2 badge-soft-success">Nuevo</span></a>
+
                         <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/tienda') }}"><i class="fas fa-shopping-basket"></i> Catálogo/Compra</a>
 
                         <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/compra-masiva') }}"><i class="fas fa-box-open"></i> Compra Rápida</a>
