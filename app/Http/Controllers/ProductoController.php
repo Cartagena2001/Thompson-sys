@@ -9,6 +9,7 @@ use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Marca;
 use App\Models\EstadoProducto;
+use App\Models\Orden;
 use App\Models\OrdenDetalle;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -97,7 +98,8 @@ class ProductoController extends Controller
         $reg = new Producto();
 
         // Quita espacios y los sustituye por "-" y luego quita caracteres especiales
-        $reg->OEM = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->get('OEM'))); 
+        $reg->OEM = $request->get('OEM');
+        $productoOEM = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->get('OEM'))); 
 
         $reg->nombre = $request->get('nombre');
         $reg->setSlugAttribute($request->get('nombre'));
@@ -160,7 +162,7 @@ class ProductoController extends Controller
 
                 $file = $request->file('hoja_seguridad');
 
-                $nombreHS = $reg->OEM.'-hoja-de-seguridad-'.'.'.$file->extension();
+                $nombreHS = $productoOEM.'-hoja-de-seguridad-'.'.'.$file->extension();
 
                 $path = $file->storeAs('/public/assets/pdf/productos/', $nombreHS);
 
@@ -180,7 +182,7 @@ class ProductoController extends Controller
 
                 $file = $request->file('ficha_tecnica_href');
 
-                $nombreFT = $reg->OEM.'-ficha-tecnica-'.'.'.$file->extension();
+                $nombreFT = $productoOEM.'-ficha-tecnica-'.'.'.$file->extension();
 
                 $path = $file->storeAs('/public/assets/pdf/productos/', $nombreFT);
 
@@ -201,7 +203,7 @@ class ProductoController extends Controller
                 
                 $file = $request->file('imagen_1_src');
 
-                $nombreIMG1 = $reg->OEM.'-img-1-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                $nombreIMG1 = $productoOEM.'-img-1-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
                 
                 $path = $file->storeAs('/public/assets/img/products/', $nombreIMG1);
 
@@ -220,7 +222,7 @@ class ProductoController extends Controller
                 
                 $file = $request->file('imagen_2_src');
 
-                $nombreIMG2 = $reg->OEM.'-img-2-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                $nombreIMG2 = $productoOEM.'-img-2-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
                 
                 $path = $file->storeAs('/public/assets/img/products/', $nombreIMG2);
 
@@ -239,7 +241,7 @@ class ProductoController extends Controller
                 
                 $file = $request->file('imagen_3_src');
 
-                $nombreIMG3 = $reg->OEM.'-img-3-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                $nombreIMG3 = $productoOEM.'-img-3-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
                 
                 $path = $file->storeAs('/public/assets/img/products/', $nombreIMG3);
 
@@ -258,7 +260,7 @@ class ProductoController extends Controller
                 
                 $file = $request->file('imagen_4_src');
 
-                $nombreIMG4 = $reg->OEM.'-img-4-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                $nombreIMG4 = $productoOEM.'-img-4-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
                 
                 $path = $file->storeAs('/public/assets/img/products/', $nombreIMG4);
 
@@ -277,7 +279,7 @@ class ProductoController extends Controller
                 
                 $file = $request->file('imagen_5_src');
 
-                $nombreIMG5 = $reg->OEM.'-img-5-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                $nombreIMG5 = $productoOEM.'-img-5-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
                 
                 $path = $file->storeAs('/public/assets/img/products/', $nombreIMG5);
 
@@ -296,7 +298,7 @@ class ProductoController extends Controller
                 
                 $file = $request->file('imagen_6_src');
 
-                $nombreIMG6 = $reg->OEM.'-img-6-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                $nombreIMG6 = $productoOEM.'-img-6-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
                 
                 $path = $file->storeAs('/public/assets/img/products/', $nombreIMG6);
 
@@ -398,7 +400,9 @@ class ProductoController extends Controller
         //almacenar datos
         
         // Quita espacios y los sustituye por "-" y luego quita caracteres especiales
-        $producto->OEM = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->get('OEM')));
+        $producto->OEM = $request->get('OEM');
+        $productoOEM = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->get('OEM')));
+
         $producto->lote = $request->get('lote');
         $producto->nombre = $request->get('nombre');
         $producto->marca_id = $request->get('marca_id');
@@ -440,7 +444,7 @@ class ProductoController extends Controller
 
                 $file = $request->file('hoja_seguridad');
 
-                $nombreHS = $producto->OEM.'-hoja-de-seguridad-'.'.'.$file->extension();
+                $nombreHS = $productoOEM.'-hoja-de-seguridad-'.'.'.$file->extension();
 
                 $path = $file->storeAs('/public/assets/pdf/productos/', $nombreHS);
 
@@ -461,7 +465,7 @@ class ProductoController extends Controller
 
                 $file = $request->file('ficha_tecnica_href');
 
-                $nombreFT = $producto->OEM.'-ficha-tecnica-'.'.'.$file->extension();
+                $nombreFT = $productoOEM.'-ficha-tecnica-'.'.'.$file->extension();
 
                 $path = $file->storeAs('/public/assets/pdf/productos/', $nombreFT);
 
@@ -483,7 +487,7 @@ class ProductoController extends Controller
                 
                 $file = $request->file('imagen_1_src');
 
-                $nombreIMG1 = $producto->OEM.'-img-1-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                $nombreIMG1 = $productoOEM.'-img-1-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
                 
                 $path = $file->storeAs('/public/assets/img/products/', $nombreIMG1);
 
@@ -502,7 +506,7 @@ class ProductoController extends Controller
                 
                 $file = $request->file('imagen_2_src');
 
-                $nombreIMG2 = $producto->OEM.'-img-2-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                $nombreIMG2 = $productoOEM.'-img-2-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
                 
                 $path = $file->storeAs('/public/assets/img/products/', $nombreIMG2);
 
@@ -521,7 +525,7 @@ class ProductoController extends Controller
                 
                 $file = $request->file('imagen_3_src');
 
-                $nombreIMG3 = $producto->OEM.'-img-3-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                $nombreIMG3 = $productoOEM.'-img-3-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
                 
                 $path = $file->storeAs('/public/assets/img/products/', $nombreIMG3);
 
@@ -540,7 +544,7 @@ class ProductoController extends Controller
                 
                 $file = $request->file('imagen_4_src');
 
-                $nombreIMG4 = $producto->OEM.'-img-4-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                $nombreIMG4 = $productoOEM.'-img-4-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
                 
                 $path = $file->storeAs('/public/assets/img/products/', $nombreIMG4);
 
@@ -559,7 +563,7 @@ class ProductoController extends Controller
                 
                 $file = $request->file('imagen_5_src');
 
-                $nombreIMG5 = $producto->OEM.'-img-5-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                $nombreIMG5 = $productoOEM.'-img-5-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
                 
                 $path = $file->storeAs('/public/assets/img/products/', $nombreIMG5);
 
@@ -578,7 +582,7 @@ class ProductoController extends Controller
                 
                 $file = $request->file('imagen_6_src');
 
-                $nombreIMG6 = $producto->OEM.'-img-6-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                $nombreIMG6 = $productoOEM.'-img-6-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
                 
                 $path = $file->storeAs('/public/assets/img/products/', $nombreIMG6);
 
@@ -652,12 +656,49 @@ class ProductoController extends Controller
 
         $ordenDet = OrdenDetalle::find($ordenDID);
 
+        $prodOrdd = OrdenDetalle::where('orden_id', $ordenDet->orden_id)->get();
+        
+        $orden =  Orden::find($ordenDet->orden_id);
+
+        $cantidadDespachada = 0;
+
         //return response()->json("cantidad_despachada: ".$ordenDet->cantidad_despachada);
 
-        //almacenar datos
-        $ordenDet->cantidad_despachada = $request->cantidad_despachada;
+        //validar la cantidad despachada
+        if ( $request->cantidad_despachada < 0 ) {
 
-        $ordenDet->update();
+            $cantidadDespachada = 0;
+            $ordenDet->cantidad_despachada = $cantidadDespachada;
+            $ordenDet->update();
+
+        } elseif ( $request->cantidad_despachada > $ordenDet->cantidad) {
+            
+            $cantidadDespachada = $ordenDet->cantidad;
+            $ordenDet->cantidad_despachada = $cantidadDespachada;
+            $ordenDet->update();
+
+        } else {
+
+            $ordenDet->cantidad_despachada = $request->cantidad_despachada;
+            $ordenDet->update();
+
+        }
+
+        $totalN = 0;
+
+        //actualizar el total de la orden
+        foreach ($prodOrdd as $producto) {
+            
+            if ( is_null($producto->cantidad_despachada) ) {
+                $totalN = $totalN + ($producto->cantidad_despachada * $producto->precio);
+            } else {
+                $totalN = $totalN + ($producto->cantidad * $producto->precio);
+            }
+            
+        }
+
+        //$orden->total = $totalN;
+        //$orden->update(); 
 
         return response()->json($ordenDet->cantidad_despachada);
     }

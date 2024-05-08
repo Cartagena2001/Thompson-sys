@@ -29,7 +29,7 @@
     {{-- Cards de informacion --}}
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
 
-        <button id="imprimir_btn" class="btn btn-sm btn-primary" type="button"><i class="fas fa-print"></i> Imprimir detalle de la órden</button>
+        <button id="imprimir_btn" class="btn btn-sm btn-primary" type="button"><i class="fas fa-print"></i> Imprimir detalle de la orden</button>
 
         <div class="card-body">
 

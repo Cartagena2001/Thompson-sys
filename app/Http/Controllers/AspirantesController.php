@@ -11,6 +11,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
+use Config;
+
 class AspirantesController extends Controller
 {
     public function index()
@@ -45,10 +47,10 @@ class AspirantesController extends Controller
         
         //Envio de notificación por correo al aspirante ahora cliente
         $emailRecipientClient = $aspirante->email;
-        $emailSubjectClient = 'Bienvenido'.$aspirante->name.' - Tienda RTElSalvador';
+        $emailSubjectClient = 'Bienvenido'.$aspirante->name.' - Tienda Accumetric El Salvador';
         $emailBodyClient = " 
                         <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
                         </div>
 
                         <br/>
@@ -67,7 +69,7 @@ class AspirantesController extends Controller
                         ";
                         
         $replyToEmailClient = "oficina@rtelsalvador.com";
-        $replyToNameClient = "Representaciones Thompson";
+        $replyToNameClient = "Accumetric El Salvador";
 
         $estado1 = $this->sendMail($mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
 
@@ -92,10 +94,10 @@ class AspirantesController extends Controller
             } 
         } 
 
-        $emailSubjectOff = 'Confirmación de aprobación de aspirante a cliente - RTElSalvador';
+        $emailSubjectOff = 'Confirmación de aprobación de aspirante a cliente - Tienda Accumetric El Salvador';
         $emailBodyOff = " 
                         <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
                         </div>
 
                         <br/>

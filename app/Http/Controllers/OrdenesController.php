@@ -13,6 +13,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
+use Config;
+
 class OrdenesController extends Controller
 {
 

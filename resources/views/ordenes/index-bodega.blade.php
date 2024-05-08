@@ -167,7 +167,7 @@
                         <option value="Espera">En Espera</option>
                         <option value="Pagada">Pagadas</option>
                         <option value="Finalizada">Finalizadas</option>
-                        <option value="Cancelada">Canceladas</option>
+                   {{-- <option value="Cancelada">Canceladas</option> --}}
                     </select>
                     </label>
                     <button style="height: 38px; position: relative; bottom: 2px;" class="btn btn-primary" id="limpiar_filtro">Limpiar Filtro</button>
@@ -180,7 +180,7 @@
 
         <div class="card-body">
             <div class="table-responsive scrollbar">
-                <table id="table_productos" class="table display">
+                <table id="table_productos" class="table display" data-order='[[ 1, "desc" ]]'>
                     <thead>
                         <tr>
                             <th scope="col">ID</th>

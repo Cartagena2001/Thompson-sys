@@ -17,6 +17,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
+use Config;
+
 class PerfilController extends Controller
 {
 
@@ -238,16 +240,16 @@ class PerfilController extends Controller
 
         //Envio de notificación por correo al cliente
         $emailRecipientClient = $request->get('email');
-        $emailSubjectClient = 'Formulario de Registro de Usuario - RTElSalvador';
+        $emailSubjectClient = 'Formulario de Registro de Usuario - Tienda Accumetric El Salvador';
         $emailBodyClient = " 
                         <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
                         </div>
 
                         <br/>
                         <br/>
 
-                        <p><b>¡TUS DATOS HAN SIDO ENVIADOS CON EXITO!</b></p>
+                        <p><b>¡TUS DATOS HAN SIDO ENVIADOS CON ÉXITO!</b></p>
                         
                         <br/>
 
@@ -269,16 +271,16 @@ class PerfilController extends Controller
                         ";
                         
         $replyToEmailClient = "oficina@rtelsalvador.com";
-        $replyToNameClient = "Representaciones Thompson";
+        $replyToNameClient = "Accumetric El Salvador - Oficina";
 
         $estado1 = $this->sendMail($mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
 
         //Envio de notificación por correo a oficina
         $emailRecipientOffice = "oficina@rtelsalvador.com";
-        $emailSubjectOffice = 'Nuevo Aspirante - Formulario de Registro - RTElSalvador';
+        $emailSubjectOffice = 'Nuevo Aspirante - Formulario de Registro - Accumetric El Salvador';
         $emailBodyOffice = " 
                         <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
                         </div>
 
                         <br/>
@@ -375,7 +377,7 @@ class PerfilController extends Controller
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
 
-            $mail->setFrom('notificaciones@rtelsalvador.com', 'Representaciones Thompson');
+            $mail->setFrom('notificaciones@rtelsalvador.com', 'Accumetric El Salvador');
             $mail->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
             //$mail->addCC($request->emailCc);
             //$mail->addBCC($request->emailBcc);

@@ -181,7 +181,7 @@
                                     <td class="text-center">{{ number_format(($detalles->precio), 2, '.', ','); }} $</td>
                                     
                                     @if ( Auth::user()->rol_id != 3 )
-                                        <td class="text-center">
+                                        <td id="subtotalp" class="text-center">
                                             {{ number_format(($detalles->cantidad * $detalles->precio), 2, '.', ','); }} $
                                         </td>
                                     @endif
@@ -216,7 +216,7 @@
                                     <td></td>
                                     @endif
                                     <td class="text-start" style="font-weight: 600;">Subtotal:</td> 
-                                    <td class="text-end">{{ number_format($subtotal, 2, '.', ',');  }} $</td> 
+                                    <td id="subtotalt" class="text-end">{{ number_format($subtotal, 2, '.', ',');  }} $</td> 
                                 </tr>
                                 <tr>
                                     <td></td>
@@ -229,7 +229,7 @@
                                     <td></td>
                                     @endif
                                     <td class="text-start" style="font-weight: 600;">IVA (13%):</td> 
-                                    <td class="text-end">{{ number_format(($subtotal * $iva), 2, '.', ',');  }} $</td> 
+                                    <td id="ivaa" class="text-end">{{ number_format(($subtotal * $iva), 2, '.', ',');  }} $</td> 
                                 </tr>
                                 <tr>
                                     <td></td>
@@ -242,7 +242,7 @@
                                     <td></td>
                                     @endif
                                     <td class="text-start" style="font-weight: 600;">Total:</td> 
-                                    <td class="text-end">{{ number_format($total, 2, '.', ',');  }} $</td>
+                                    <td id="gtotal" class="text-end">{{ number_format($total, 2, '.', ',');  }} $</td>
                                 </tr>
                         </tfoot>
 
@@ -601,6 +601,12 @@
 
                 success: function(response){
                     $('#successMsg3').show();
+
+                    $("#subtotalp").load(location.href+" #subtotalp>*","");
+                    $("#subtotalt").load(location.href+" #subtotalt>*","");
+                    $("#ivaa").load(location.href+" #ivaa>*","");
+                    $("#gtotal").load(location.href+" #gtotal>*","");
+                    
                     console.log(response);
                 },
                 error: function(response) {

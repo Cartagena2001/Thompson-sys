@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use App\Models\Contacto;
 use RealRashid\SweetAlert\Facades\Alert;
 
+use Config;
+
 
 class ContactoController extends Controller
 {

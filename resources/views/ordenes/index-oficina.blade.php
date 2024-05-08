@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@section('title', 'Listado de ordenes')
+@section('title', 'Listado de órdenes')
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.css" />
@@ -199,7 +199,7 @@
 
         <div class="card-body">
             <div class="table-responsive scrollbar">
-                <table id="table_productos" class="table display">
+                <table id="table_productos" class="table display" data-order='[[ 1, "desc" ]]'>
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
