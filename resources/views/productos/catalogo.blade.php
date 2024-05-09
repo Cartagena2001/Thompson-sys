@@ -189,7 +189,7 @@
         @endif
     </div>
 
-    <h6 class="card-body mb-0 py-1 text-center">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }} productos</h6>>
+    <h6 class="card-body mb-0 py-1 text-center">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }} productos</h6>
 
     <div id="catalogo-grid" class="card-body">
 
@@ -222,7 +222,7 @@
                         }  
                 ?>
 
-                <div class="mb-4 col-md-12 col-lg-3">
+                <div class="mb-4 col-6 col-sm-4 col-md-4 col-lg-4 col-xl-3">
 
                     <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
                         <div class="overflow-hidden">
