@@ -158,7 +158,7 @@
 
                     <label for="busq">Búsqueda - OEM: </label>
                     <div style="display: flex;">    
-                        <input class="form-control" type="text" name="busq" id="busq" value="{{ old('busq', request()->input('busq')) }}" maxlength="20" placeholder="Buscar por OEM..." style="vertical-align: middle;"><button id="btn-filter-oem" class="btn btn-sm btn-primary" type="submit" style="vertical-align: middle;"><i class="fas fa-search"></i></button>
+                        <input class="form-control" type="text" name="busq" id="busq" value="{{ old('busq', request()->input('busq')) }}" maxlength="45" placeholder="Buscar por OEM..." style="vertical-align: middle;"><button id="btn-filter-oem" class="btn btn-sm btn-primary" type="submit" style="vertical-align: middle;"><i class="fas fa-search"></i></button>
                     </div>                           
                 </form>
 
@@ -168,7 +168,7 @@
 
                     <label for="busq">Búsqueda / Nombre: </label>
                     <div style="display: flex;">    
-                        <input class="form-control" type="text" name="busqN" id="busqN" value="{{ old('busqN', request()->input('busqN')) }}" maxlength="35" placeholder="Buscar por Nombre..." style="vertical-align: middle;"><button id="btn-filter-nom" class="btn btn-sm btn-primary" type="submit" style="vertical-align: middle;"><i class="fas fa-search"></i></button>
+                        <input class="form-control" type="text" name="busqN" id="busqN" value="{{ old('busqN', request()->input('busqN')) }}" maxlength="150" placeholder="Buscar por Nombre..." style="vertical-align: middle;"><button id="btn-filter-nom" class="btn btn-sm btn-primary" type="submit" style="vertical-align: middle;"><i class="fas fa-search"></i></button>
                     </div>                           
                 </form>
 
