@@ -341,9 +341,9 @@
                 $('#nombre_empresa').attr("readonly", true);
                 $('#nombre_empresa').css("background-color", "gainsboro");
                 
-                $('#website').val('-');
+                //$('#website').val('-');
 
-                $('#telefono').val('-');
+                //$('#telefono').val('-');
 
             }
             
