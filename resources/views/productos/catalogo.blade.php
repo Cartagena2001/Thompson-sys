@@ -57,7 +57,7 @@
 
         <div class="row gx-2">
 
-            <div class="col-6 col-md-6">
+            <div class="col-12 col-md-12">
 
                 <h6 class="px-2 mb-2" style="text-transform: uppercase;">
                     <a href="{{ url('/home') }}" role="button" aria-haspopup="true" aria-expanded="false">🏠 Inicio</a> /
@@ -67,7 +67,7 @@
 
                         <?php 
                             if ( $marcaActual == 0 ) {
-                                echo "Todas";
+                                echo "Marcas";
                             } else {
                                 
                                 foreach ($marcas as $marca) {
@@ -85,7 +85,7 @@
 
                         <?php 
                             if ( $categoriaActual == 0 ) {
-                                echo "Todas";
+                                echo "categorías";
                             } else {
                                 
                                 foreach ($categorias as $categoria) {
