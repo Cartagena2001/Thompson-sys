@@ -148,7 +148,7 @@ class UsuarioSeeder extends Seeder
                       'razon_social' => 'juan perez s.a. de c.v.',
                       'dui' => '01356898-0',
                       'giro' => 'venta de repuestos para vehiculos',
-                      'marcas' => '0,',  
+                      'marcas' => '0',  
                       'municipio' => 'San Salvador/San Salvador Centro', 
                       'departamento' => 'San Salvador', 
                       'password' => bcrypt('user123456*'), 
