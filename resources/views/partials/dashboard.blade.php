@@ -23,18 +23,26 @@
                 <div class="col-lg-9">
                   <p class="text-justify mt-2 me-2" style="color: #000;">{{ $brand->descripcion }}</p>
 
-
-
-
-              
-
-                  <p><b>Categorías</b>:
-
-
-                      {{--   @foreach ($categorias as $cat)
-                            {{ $cat->nombre }}
+                  <p style="color: #000;"><b>Categorías</b>:  
+                      @if ($brand->nombre == 'TEMCO')
+                        
+                        @foreach ($categoriasT as $cat1)
+                            <a href="/dashboard/catalogo?marca={{ $brand->id }}&categoria={{ $cat1->id }}">{{ $cat1->nombre }}, </a>
                         @endforeach
-                        --}}
+
+                      @elseif ($brand->nombre == 'CTI')
+
+                        @foreach ($categoriasC as $cat2)
+                            <a href="/dashboard/catalogo?marca={{ $brand->id }}&categoria={{ $cat2->id }}"> {{ $cat2->nombre }}, </a>
+                        @endforeach
+
+                      @else
+                        
+                        @foreach ($categoriasE as $cat3)
+                            <a href="/dashboard/catalogo?marca={{ $brand->id }}&categoria={{ $cat3->id }}">{{ $cat3->nombre }}, </a>
+                        @endforeach
+
+                      @endif
                   </p>
                 </div>
 
@@ -43,7 +51,7 @@
 
       </div>
 
-      @endforeach
+    @endforeach
 
     </div>
 

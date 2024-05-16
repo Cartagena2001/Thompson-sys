@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Marca;
+use App\Models\Categoria;
 use App\Models\CMS;
 use App\Models\Orden;
 use App\Models\OrdenDetalle;
@@ -37,6 +38,27 @@ class HomeController extends Controller
 
         $marcasAuto = $user->marcas;
         $marcasAutorizadas = str_split($marcasAuto);
+
+
+
+        $marcaTemco = 1;
+        $marcaCTI = 2;
+        $marcaEcom = 3;
+            
+        $categoriasT = Categoria::whereIn('id', function($query) use ($marcaTemco){
+            $query->select('categoria_id')->from('marca_cat')->whereIn('marca_id', [$marcaTemco]);
+        })->get();
+
+        $categoriasC = Categoria::whereIn('id', function($query) use ($marcaCTI){
+            $query->select('categoria_id')->from('marca_cat')->whereIn('marca_id', [$marcaCTI]);
+        })->get();
+
+        $categoriasE = Categoria::whereIn('id', function($query) use ($marcaEcom){
+            $query->select('categoria_id')->from('marca_cat')->whereIn('marca_id', [$marcaEcom]);
+        })->get();
+
+
+
 
         $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
 
@@ -75,7 +97,7 @@ class HomeController extends Controller
         } else {
             //estatus = aprobado
             //dd($topProductos);
-            return view('home',  compact('marcas', 'cat_mod', 'mant_mod', 'topProductos'));
+            return view('home',  compact('marcas', 'cat_mod', 'mant_mod', 'topProductos', 'categoriasT', 'categoriasC', 'categoriasE'));
         }
     }
 
