@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File; 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
 use App\Models\User;
 
@@ -33,17 +35,53 @@ class FileAccessController extends Controller
     // In FileAccessController.php
     public function serve(Request $request)
     {
-        if(Auth::user() && Auth::id() === $file->user->id) {
-            // Here we don't use the Storage facade that assumes the storage/app folder
-            // So filename should be a relative path inside storage to your file like 'app/userfiles/report1253.pdf'
-            
-            $filepath = storage_path($file->filename);
-            
-            return response()->file($filepath);
+        if (Auth::check()) { 
 
-        }else{
+            $usr = auth()->User();
+
+            //if(Auth::user() && Auth::id() === $file->user->id) {
+
+            if($usr->rol_id === 0 || $usr->rol_id === 1) {
+                // Here we don't use the Storage facade that assumes the storage/app folder
+                // So filename should be a relative path inside storage to your file like 'app/userfiles/report1253.pdf'
+                
+                $filepath = Storage::path( '/private/'.$request->data );
+                
+                return response()->file($filepath);
+
+
+                /*
+                try {
+
+                    $filepath = Storage::path( '/private/'.$request->data );
+
+                    return response()->file($filepath);
+
+                } catch (Exception $e) {
+
+                    Log::debug($e->getMessage());
+
+                    //echo 'Message: ' .$e->getMessage();
+
+                    return false;
+                }
+                */
+
+                
+                            
+                
+
+            } elseif( $usr->rol_id === 2 ) {
+
+
+
+            } else{
+                return abort('404');
+            }
+        } else {
             return abort('404');
         }
+
     }
 
 

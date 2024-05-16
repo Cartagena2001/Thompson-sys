@@ -242,9 +242,15 @@ class TiendaController extends Controller
         //pero 1ro valida si es un cliente
         if ( $usr->rol_id == 2) {
 
+            /*
             $productos = Producto::whereHas('marca', function($query){
                 $query->where('estado', "Activo");
             })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->paginate(1000000000);
+            */
+            
+            $productos = Producto::whereHas('marca', function($query){
+                $query->where('estado', "Activo");
+            })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->where('imagen_1_src', '!=', null)->paginate(1000000000);
 
             $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
             $categorias = Categoria::all();

@@ -4,6 +4,8 @@
 
 @section('title', 'Catálogo')
 
+<button onclick="topFunction()" id="toTopBtn" title="Ir a arriba"><i style="" class="fa-solid fas fa-arrow-up"></i></button>
+
 {{-- Marcas --}}
 <div class="card mb-3">
 

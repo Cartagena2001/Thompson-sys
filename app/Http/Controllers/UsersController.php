@@ -129,9 +129,22 @@ Class UsersController extends Controller
 
         //almacenar datos
         if ($request->hasFile('imagen_perfil_src')) {
-            $file = $request->file('imagen_perfil_src');
-            $file->move(public_path() . '/assets/img/perfil-user/', $file->getClientOriginalName());
-            $user->imagen_perfil_src = '/assets/img/perfil-user/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_perfil_src')->isValid()){
+                
+                $file = $request->file('imagen_perfil_src');
+
+                $imgPerfil = $request->get('dui').'_img-perfil-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/private/perfil-user/', $imgPerfil);
+
+                $user->imagen_perfil_src = $imgPerfil;  
+
+            } else {
+
+                return redirect()->route('users.index')->with('success', 'Ha ocurrido un error al cargar la imagen de perfil');
+            }
+
         }
 
         $user->cliente_id_interno = $request->get('cliente_id_interno');
@@ -187,18 +200,23 @@ Class UsersController extends Controller
         $user->website = $request->get('website');
         $user->telefono = $request->get('telefono');
 
+        /*
         if(in_array('0', $request->get('marcas'))){
-            $user->marcas = '0,';
+            $user->marcas = '0';
         }else{
             $marcasList = implode(",", $request->get('marcas'));
             $user->marcas = $marcasList;
         }
+        */
+
+        $marcasList = implode("", $request->get('marcas'));
+        $user->marcas = $marcasList;
 
         $user->password = bcrypt($request->get('password'));
 
         $user->form_status = "none"; // none, sent, pending
 
-        $user->fecha_registro = \Carbon\Carbon::now()->addDays(4)->toDateTimeString();
+        $user->fecha_registro = \Carbon\Carbon::now()->toDateTimeString();
 
         $user->visto = 'visto'; // nuevo, visto 
         
@@ -305,9 +323,22 @@ Class UsersController extends Controller
 
         //almacenar datos
         if ($request->hasFile('imagen_perfil_src')) {
-            $file = $request->file('imagen_perfil_src');
-            $file->move(public_path() . '/assets/img/perfil-user/', $file->getClientOriginalName());
-            $user->imagen_perfil_src = '/assets/img/perfil-user/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_perfil_src')->isValid()){
+                
+                $file = $request->file('imagen_perfil_src');
+
+                $imgPerfil = $request->get('dui').'_img-perfil-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/private/perfil-user/', $imgPerfil);
+
+                $user->imagen_perfil_src = $imgPerfil;  
+
+            } else {
+
+                return redirect()->route('users.index')->with('success', 'Ha ocurrido un error al cargar la imagen de perfil');
+            }
+
         }
 
         $user->cliente_id_interno = $request->get('cliente_id_interno');
@@ -406,7 +437,7 @@ Class UsersController extends Controller
         //$user->update();
 
         //redireccionar
-        return redirect()->route('users.index')->with('toast_success', 'Contraseña actualizada correctamente');
+        return redirect()->route('users.index')->with('success', 'Contraseña actualizada correctamente');
     }
 
 

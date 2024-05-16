@@ -211,11 +211,26 @@ class PerfilController extends Controller
             $user->nombre_empresa = $request->get('nombre_empresa');
         }
 
+
+
         //almacenar datos
         if ($request->hasFile('imagen_perfil_src')) {
-            $file = $request->file('imagen_perfil_src');
-            $file->move(public_path() . '/assets/img/perfil-user/', $file->getClientOriginalName());
-            $user->imagen_perfil_src = '/assets/img/perfil-user/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_perfil_src')->isValid()){
+                
+                $file = $request->file('imagen_perfil_src');
+
+                $imgPerfil = $request->get('dui').'_img-perfil-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/private/perfil-user/', $imgPerfil);
+
+                $user->imagen_perfil_src = $imgPerfil;  
+
+            } else {
+
+                return redirect()->route('info.enviada')->with('toast_success', 'Ha ocurrido un error al cargar la imagen de perfil');
+            }
+
         }
 
         $user->form_status = 'sent'; //bandera para controlar el estado del llenado del formulario
