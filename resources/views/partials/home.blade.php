@@ -25,7 +25,7 @@
                   data-pos="a"
                   data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
                   data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
-                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:380;sp:1300;sR:380;"
                   data-frame_999="o:0;st:w;sR:6250;"
                   style="z-index:13;"
                 ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/taw-flag.png') }}" data-no-retina> 
@@ -39,7 +39,7 @@
                   data-pos="a"
                   data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
                   data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
-                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:380;sp:1300;sR:380;"
                   data-frame_999="o:0;st:w;sR:6250;"
                   style="z-index:12;"
                 ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/kra-flag.png') }}" data-no-retina> 
@@ -53,7 +53,7 @@
                   data-pos="a"
                   data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
                   data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
-                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:380;sp:1300;sR:380;"
                   data-frame_999="o:0;st:w;sR:6250;"
                   style="z-index:11;"
                 ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/jpn-flag.png') }}" data-no-retina> 
@@ -67,7 +67,7 @@
                   data-pos="a"
                   data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
                   data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
-                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:380;sp:1300;sR:380;"
                   data-frame_999="o:0;st:w;sR:6250;"
                   style="z-index:10;"
                 ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/slv-flag.png') }}" data-no-retina> 
@@ -81,7 +81,7 @@
                   data-pos="a"
                   data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
                   data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
-                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:380;sp:1300;sR:380;"
                   data-frame_999="o:0;st:w;sR:6250;"
                   style="z-index:9;"
                 ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/col-flag.png') }}" data-no-retina> 
@@ -95,7 +95,7 @@
                   data-pos="a"
                   data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
                   data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
-                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:380;sp:1300;sR:380;"
                   data-frame_999="o:0;st:w;sR:6250;"
                   style="z-index:8;"
                 ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/mex-flag.png') }}" data-no-retina> 
@@ -109,7 +109,7 @@
                   data-pos="a"
                   data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
                   data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
-                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:380;sp:1300;sR:380;"
                   data-frame_999="o:0;st:w;sR:6250;"
                   style="z-index:7;"
                 ><img src="{{ URL('assets/revs6/assets/dummy.png') }}" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/usa-flag.png') }}" data-no-retina> 
@@ -123,7 +123,7 @@
                   data-pos="a"
                   data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
                   data-dim="w:59px,43px,42px,35px;h:42px,30px,29px,24px;"
-                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                  data-frame_1="x:0,0,0px,0px;y:0,0,0px,0px;e:power2.inOut;st:380;sp:1300;sR:380;"
                   data-frame_999="o:0;st:w;sR:6250;"
                   style="z-index:6;"
                 ><img src="{{ URL('assets/revs6/assets/dummy.png') }}png" alt="" class="tp-rs-img rs-lazyload" width="140" height="100" data-lazyload="{{ URL('assets/revs6/assets/chn-flag.png') }}" data-no-retina> 
@@ -152,7 +152,7 @@
                   data-text="s:98,98,60,43;l:105,105,64,45;fw:500;a:center;"
                   data-dim="w:246,246,auto,auto;"
                   data-tst="c:#fcfcfc;"
-                  data-frame_1="e:power2.inOut;st:2000;sp:1500;sR:1990;"
+                  data-frame_1="e:power2.inOut;st:400;sp:1500;sR:390;"
                   data-frame_999="o:0;st:w;sR:5500;"
                   style="z-index:7;font-family:'Fira Sans';"
                 >100% 
@@ -167,7 +167,7 @@
                   data-pos="a"
                   data-text="w:nowrap;s:27,27,20,14;l:33,33,24,17;fw:500;a:center;"
                   data-dim="w:245,245,180px,128px;"
-                  data-frame_1="e:power2.inOut;st:2000;sp:1500;sR:1990;"
+                  data-frame_1="e:power2.inOut;st:400;sp:1500;sR:390;"
                   data-frame_999="o:0;st:w;sR:5500;"
                   style="z-index:6;font-family:'Fira Sans';text-transform:uppercase;"
                 >CALIDAD Y GARANTÍA 
@@ -195,7 +195,7 @@
                 data-xy="x:l,l,c,c;xo:900px,493px,0,0;y:t,t,m,m;yo:267px,257px,23px,25px;"
                 data-text="w:nowrap;s:23,23,20,14;l:28,28,24,17;ls:2px,2px,0px,0px;fw:400,400,500,500;a:center;"
                 data-dim="w:573px,573px,400px,271px;h:59px,59px,auto,auto;"
-                data-frame_1="e:power2.inOut;st:2000;sp:1500;sR:2000;"
+                data-frame_1="e:power2.inOut;st:400;sp:1500;sR:400;"
                 data-frame_999="o:0;st:w;sR:5500;"
                 style="z-index:8;font-family:'Fira Sans';text-transform:uppercase;"
               >Optimiza tu Cadena de Suministros <br />
@@ -209,7 +209,7 @@ con Representaciones Thompson
                 data-xy="x:c;xo:-371px,-358px,0,0;y:t,m,m,m;yo:258px,0,-50px,-35px;"
                 data-text="w:normal;s:20,14,11,5;l:0,18,14,7;"
                 data-dim="w:301px,220px,180px,151px;h:145px,106px,86px,73px;"
-                data-frame_1="e:power2.inOut;st:1450;sp:1300;sR:1450;"
+                data-frame_1="e:power2.inOut;st:380;sp:1300;sR:380;"
                 data-frame_999="o:0;st:w;sR:6250;"
                 style="z-index:10;"
               ><img src="{{ URL('assets/revs6/assets/dummy.png') }}png" alt="" class="tp-rs-img rs-lazyload" width="4301" height="2075" data-lazyload="{{ URL('assets/revs6/assets/logo-RT-nn.png') }}" data-no-retina> 
@@ -223,7 +223,7 @@ con Representaciones Thompson
                 data-xy="x:l,l,c,c;xo:922px,523px,0,0;y:t,t,m,m;yo:204px,194px,-117px,-87px;"
                 data-text="w:nowrap;s:43,43,20,14;l:52,52,24,17;fw:500;a:left,left,center,center;"
                 data-dim="w:537,537,272px,192px;h:52,52,auto,auto;"
-                data-frame_1="e:power2.inOut;st:2000;sp:1500;sR:2000;"
+                data-frame_1="e:power2.inOut;st:400;sp:1500;sR:400;"
                 data-frame_999="o:0;st:w;sR:5500;"
                 style="z-index:9;font-family:'Fira Sans';text-transform:uppercase;"
               >Expandiendo Fronteras 
