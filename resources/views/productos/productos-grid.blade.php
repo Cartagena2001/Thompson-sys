@@ -294,7 +294,7 @@
 
                         <?php 
                             if ( $marcaActual == 0 ) {
-                                echo "Todas";
+                                echo "Marcas";
                             } else {
                                 
                                 foreach ($marcas as $marca) {
@@ -312,7 +312,7 @@
 
                         <?php 
                             if ( $categoriaActual == 0 ) {
-                                echo "Todas";
+                                echo "Categorias";
                             } else {
                                 
                                 foreach ($categorias as $categoria) {

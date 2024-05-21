@@ -61,7 +61,7 @@
 
                 <h6 class="px-2 mb-2" style="text-transform: uppercase;">
                     <a href="{{ url('/home') }}" role="button" aria-haspopup="true" aria-expanded="false">🏠 Inicio</a> /
-                    <a href="{{ url('/dashboard/tienda') }}" role="button" aria-haspopup="true" aria-expanded="false">Tienda</a> /
+                    <a href="{{ url('/dashboard/catalogo') }}" role="button" aria-haspopup="true" aria-expanded="false">Tienda</a> /
                     
                     <a aria-haspopup="true" aria-expanded="false" href=""> 
 
