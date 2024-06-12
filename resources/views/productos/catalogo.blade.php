@@ -231,7 +231,7 @@
 
                             <div class="position-relative rounded-top overflow-hidden div-tienda" style="position: relative;">
                                 
-                                <a tabindex="-1" class="d-block" href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}">
+                                <a tabindex="-1" class="d-block" href="{{ route('catalogo.show', [$producto->id, $producto->slug]) }}">
                                     <img class="rounded-top" src="{{ $imagen }}" alt="img-producto-thumbnail" />
                                 </a>
 
@@ -247,7 +247,7 @@
 
                             <div class="p-2">
 
-                                <h5 style="min-height: 55px;" class="fs--1 text-start"><a tabindex="-1" class="text-dark" href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}">{{ $producto->nombre }}</a></h5>
+                                <h5 style="min-height: 55px;" class="fs--1 text-start"><a tabindex="-1" class="text-dark" href="{{ route('catalogo.show', [$producto->id, $producto->slug]) }}">{{ $producto->nombre }}</a></h5>
 
                                 @if ($producto->marca->nombre == 'TEMCO')
                                     <span class="rt-color-2 font-weight-bold" style="font-size: 12px;"></span><span style="font-size: 12px;">{{ Str::limit($producto->descripcion, 100, '...') }}|</span> 

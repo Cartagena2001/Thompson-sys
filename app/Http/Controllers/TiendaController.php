@@ -34,7 +34,7 @@ class TiendaController extends Controller
         if ( $usr->rol_id == 2) {
 
             $productos = Producto::whereHas('marca', function($query){
-                $query->where('estado', "Activo");
+                $query->where('estado_producto_id', 1);
             })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->where('imagen_1_src', '!=', null)->paginate(1000000000);
 
             $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
@@ -43,9 +43,13 @@ class TiendaController extends Controller
 
         } else {
 
+            /*
             $productos = Producto::whereHas('marca', function($query){
-                $query->where('estado', "Activo");
+                $query->where('estado_producto_id', 1)
             })->where('imagen_1_src', '!=', null)->paginate(1000000000);
+            */
+
+            $productos = Producto::where('imagen_1_src', '!=', null)->paginate(1000000000);
 
             $marcas = Marca::all();
             $categorias = Categoria::all();
@@ -65,12 +69,19 @@ class TiendaController extends Controller
 
             $marca_id = $request->input('marca'); //name devuelve el ID de la marca
             
-            //devuelve los productos según la marca seleccionada en filtro  
-            $productos = Producto::where('marca_id', $marca_id)
-                                 ->where('estado_producto_id', 1)
-                                 ->whereNot('existencia', 0)
-                                 ->where('imagen_1_src', '!=', null)
-                                 ->paginate(1000000000);
+            //devuelve los productos según la marca seleccionada en filtro
+            //pero 1ro valida si es un cliente
+            if ( $usr->rol_id == 2) {  
+                $productos = Producto::where('marca_id', $marca_id)
+                                     ->where('estado_producto_id', 1)
+                                     ->whereNot('existencia', 0)
+                                     ->where('imagen_1_src', '!=', null)
+                                     ->paginate(1000000000);
+            } else {
+                $productos = Producto::where('marca_id', $marca_id)
+                                     ->where('imagen_1_src', '!=', null)
+                                     ->paginate(1000000000);
+            }
             
             $marca = Marca::find($marca_id);
 
@@ -87,12 +98,20 @@ class TiendaController extends Controller
 
             $categoria_id = $request->input('categoria'); //name devuelve el ID de categoría
             
-            //devuelve los productos según la categoria seleccionada en filtro   
-            $productos = Producto::where('categoria_id', $categoria_id)
-                                 ->where('estado_producto_id', 1)
-                                 ->whereNot('existencia', 0)
-                                 ->where('imagen_1_src', '!=', null)
-                                 ->paginate(1000000000);
+            //devuelve los productos según la categoria seleccionada en filtro 
+            //pero 1ro valida si es un cliente
+            if ( $usr->rol_id == 2) {   
+                $productos = Producto::where('categoria_id', $categoria_id)
+                                     ->where('estado_producto_id', 1)
+                                     ->whereNot('existencia', 0)
+                                     ->where('imagen_1_src', '!=', null)
+                                     ->where('estado', "Activo")
+                                     ->paginate(1000000000);
+            } else {
+                $productos = Producto::where('marca_id', $marca_id)
+                                     ->where('imagen_1_src', '!=', null)
+                                     ->paginate(1000000000);
+            }
 
             $categoria = Categoria::find($categoria_id);
 
@@ -117,6 +136,7 @@ class TiendaController extends Controller
                                  ->where('estado_producto_id', 1)
                                  ->whereNot('existencia', 0)
                                  ->where('imagen_1_src', '!=', null)
+                                 ->where('estado', "Activo")
                                  ->paginate(1000000000);
             
             $marca = Marca::find($marca_id);
@@ -250,7 +270,7 @@ class TiendaController extends Controller
             
             $productos = Producto::whereHas('marca', function($query){
                 $query->where('estado', "Activo");
-            })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->where('imagen_1_src', '!=', null)->paginate(1000000000);
+            })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->where('imagen_1_src', '!=', null)->where('estado_producto_id', 1)->paginate(1000000000);
 
             $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
             $categorias = Categoria::all();
@@ -280,13 +300,25 @@ class TiendaController extends Controller
 
             $marca_id = $request->input('marca'); //name devuelve el ID de la marca
             
-            //devuelve los productos según la marca seleccionada en filtro  
-            $productos = Producto::where('marca_id', $marca_id)
-                                 ->where('estado_producto_id', 1)
-                                 ->whereNot('existencia', 0)
-                                 ->where('imagen_1_src', '!=', null)
-                                 ->paginate(1000000000);
-            
+            //devuelve los productos según la marca seleccionada en filtro
+
+            //pero 1ro valida si es un cliente
+            if ( $usr->rol_id == 2) {
+
+                $productos = Producto::where('marca_id', $marca_id)
+                                     ->where('estado_producto_id', 1)
+                                     ->whereNot('existencia', 0)
+                                     ->where('imagen_1_src', '!=', null)
+                                     ->paginate(1000000000);
+            } else {
+
+                $productos = Producto::where('marca_id', $marca_id)
+                                     ->where('estado_producto_id', 1)
+                                     ->whereNot('existencia', 0)
+                                     ->where('imagen_1_src', '!=', null)
+                                     ->paginate(1000000000);
+            }
+
             $marca = Marca::find($marca_id);
 
             $marcaActual = $marca_id;
@@ -302,12 +334,25 @@ class TiendaController extends Controller
 
             $categoria_id = $request->input('categoria'); //name devuelve el ID de categoría
             
-            //devuelve los productos según la categoria seleccionada en filtro   
-            $productos = Producto::where('categoria_id', $categoria_id)
+
+            //pero 1ro valida si es un cliente
+            if ( $usr->rol_id == 2) {
+
+                //devuelve los productos según la categoria seleccionada en filtro   
+                $productos = Producto::where('categoria_id', $categoria_id)
                                  ->where('estado_producto_id', 1)
                                  ->whereNot('existencia', 0)
                                  ->where('imagen_1_src', '!=', null)
                                  ->paginate(1000000000);
+            } else {
+
+                //devuelve los productos según la categoria seleccionada en filtro   
+                $productos = Producto::where('categoria_id', $categoria_id)
+                                 ->where('estado_producto_id', 1)
+                                 ->whereNot('existencia', 0)
+                                 ->where('imagen_1_src', '!=', null)
+                                 ->paginate(1000000000);
+            }
 
             $categoria = Categoria::find($categoria_id);
 
@@ -325,14 +370,27 @@ class TiendaController extends Controller
             $marca_id = $request->input('marca'); //name devuelve el ID de la marca
 
             $categoria_id = $request->input('categoria'); //name devuelve el ID de categoría
-            
-            //devuelve los productos según la marca seleccionada en filtro  
-            $productos = Producto::where('marca_id', $marca_id)
+
+            //pero 1ro valida si es un cliente
+            if ( $usr->rol_id == 2) {
+
+                //devuelve los productos según la marca seleccionada en filtro  
+                $productos = Producto::where('marca_id', $marca_id)
                                  ->where('categoria_id', $categoria_id)
                                  ->where('estado_producto_id', 1)
                                  ->whereNot('existencia', 0)
                                  ->where('imagen_1_src', '!=', null)
                                  ->paginate(1000000000);
+            } else {
+ 
+                //devuelve los productos según la marca seleccionada en filtro  
+                $productos = Producto::where('marca_id', $marca_id)
+                                 ->where('categoria_id', $categoria_id)
+                                 ->where('estado_producto_id', 1)
+                                 ->whereNot('existencia', 0)
+                                 ->where('imagen_1_src', '!=', null)
+                                 ->paginate(1000000000);
+            }
             
             $marca = Marca::find($marca_id);
             $categoria = Categoria::find($categoria_id);
@@ -365,7 +423,7 @@ class TiendaController extends Controller
                 //devuelve los productos que coincidan con el OEM ingresado en filtro
                 $productos = Producto::whereHas('marca', function($query){
                     $query->where('estado', "Activo");
-                })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->where('oem', 'like', '%'.$busqOEM.'%')->where('imagen_1_src', '!=', null)->paginate(1000000000);
+                })->whereIn('marca_id', $marcasAutorizadas)->where('estado_producto_id', 1)->where('existencia', '>', 0)->where('oem', 'like', '%'.$busqOEM.'%')->where('imagen_1_src', '!=', null)->paginate(1000000000);
 
                 $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
                 $categorias = Categoria::all();
@@ -399,7 +457,7 @@ class TiendaController extends Controller
                 //devuelve los productos que coincidan con el nombre ingresado en filtro
                 $productos = Producto::whereHas('marca', function($query){
                     $query->where('estado', "Activo");
-                })->whereIn('marca_id', $marcasAutorizadas)->where('existencia', '>', 0)->where('nombre', 'like', '%'.$busqNombre.'%')->where('imagen_1_src', '!=', null)->paginate(1000000000);
+                })->whereIn('marca_id', $marcasAutorizadas)->where('estado_producto_id', 1)->where('existencia', '>', 0)->where('nombre', 'like', '%'.$busqNombre.'%')->where('imagen_1_src', '!=', null)->paginate(1000000000);
 
                 $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
                 $categorias = Categoria::all();
