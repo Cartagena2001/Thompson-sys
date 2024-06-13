@@ -140,9 +140,9 @@
                     <thead>
                         <tr>
                             <th class="text-center" scope="col">ID</th>
+                            <th class="text-center" scope="col">NRC</th>
                             <th scope="col">Nombre del cliente</th>
                             <th scope="col">Empresa</th>
-                            <th class="text-center" scope="col">NRC</th>
                             <th class="text-center" scope="col">Lista de Precios</th>
                             <th class="text-center" scope="col">Acciones</th>
                         </tr>
@@ -151,9 +151,9 @@
                         @foreach ($clientes as $cliente)
                             <tr>
                                 <td class="text-center">{{ $cliente->id }}</td>
+                                <td class="text-center">{{ $cliente->nrc }}</td>
                                 <td>{{ $cliente->name }}</td>
                                 <td>{{ $cliente->nombre_empresa }}</td>
-                                <td class="text-center">{{ $cliente->nrc }}</td>
                                 <td class="text-center">
                                 <?php
                                     

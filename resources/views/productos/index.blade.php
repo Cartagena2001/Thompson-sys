@@ -177,10 +177,10 @@
                 <thead>
                     <tr class="tbl-p">
                         <th scope="col">ID</th>
+                        <th scope="col">OEM</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Descripción</th>
                         <th scope="col">Marca</th>
-                        <th scope="col">OEM</th>
                         <th scope="col">Categoría</th>
                         <th scope="col">Precio</th>
                         <th scope="col">Unidades 📦</th>
@@ -192,10 +192,10 @@
                     @foreach ($productos as $producto)
                         <tr class="tbl-p">
                             <td>{{ $producto->id }}</td>
+                            <td>{{ $producto->OEM }}</td>
                             <td>{{ $producto->nombre }}</td>
                             <td>{{ Str::limit($producto->descripcion, 100, '...') }}</td>
                             <td>{{ $producto->marca->nombre }}</td>
-                            <td>{{ $producto->OEM }}</td>
                             <td>{{ $producto->categoria->nombre }}</td>
                             <td>${{ $producto->precio_1 }}</td>
                             <td>{{ $producto->unidad_por_caja }}</td>

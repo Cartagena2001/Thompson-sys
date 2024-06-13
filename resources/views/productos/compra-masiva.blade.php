@@ -198,9 +198,9 @@
                 <thead>
                     <tr>
                         <th class="text-center" scope="col">ID</th>
+                        <th class="text-start ms-1" scope="col">OEM</th>
                         <th scope="col">Nombre</th>
                         <th class="text-center" scope="col">Marca</th>
-                        <th class="text-center" scope="col">OEM</th>
                         <th class="text-center" scope="col">Categoría</th>
                         <th class="text-center" style="width: 100px;" scope="col">Precio 📦</th>
                         <th class="text-center" style="width: 100px;" scope="col"># unidades en caja</th>
@@ -215,11 +215,11 @@
                     @foreach ($productos as $producto)
                         <tr>
                             <td class="text-center">{{ $producto->id }}</td>
+                            <td class="text-start ms-1">{{ $producto->OEM }}</td>
                             <td><a tabindex="-1" style="color: #5e6e82;" class=""
                                     href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Ver producto">{{ $producto->nombre }}</a></td>
                             <td class="text-center">{{ $producto->marca->nombre }}</td>
-                            <td class="text-center">{{ $producto->OEM }}</td>
                             <td class="text-center">{{ $producto->categoria->nombre }}</td>
                             <td class="text-center">${{ $producto->precio_1 * $producto->unidad_por_caja  }}</td>
                             <td class="text-center">{{ $producto->unidad_por_caja }}</td>
@@ -229,7 +229,7 @@
                                     {{-- <input type="hidden" name="producto_id" value="{{ $producto->id }}"> --}}
                                     <div class="input-group-append flex-center">
 
-                                        <input class="btn btn-outline-secondary text-center" style="width: 100px;" type="number" name="cantidad" value="{{ isset($cart[$producto->id]['cantidad']) ? $cart[$producto->id]['cantidad'] : 0 }}" id="{{ $producto->id }}" min="1" max="{{ $producto->existencia }}" placeholder="0" onchange="agregarCarrito(this.id)">
+                                        <input class="btn btn-outline-secondary text-center" style="width: 100px;" type="number" name="cantidad" value="{{ isset($cart[$producto->id]['cantidad']) ? $cart[$producto->id]['cantidad'] : '' }}" id="{{ $producto->id }}" min="1" max="{{ $producto->existencia }}" placeholder="0" onchange="agregarCarrito(this.id)">
 
                                         <br/>
                                         <span class="text-danger" id="ErrorMsg1"></span>
