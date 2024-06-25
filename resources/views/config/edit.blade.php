@@ -141,7 +141,7 @@
 
                         <div class="col-6">
                             <label for="email">Correo Electrónico: *</label>
-                            <input class="form-control" type="email" id="email" name="email" value="{{ $usuario->email }}" maxlength="250" placeholder="tucorreo@email.com" readonly>
+                            <input class="form-control" type="email" id="email" name="email" value="{{ $usuario->email }}" maxlength="90" placeholder="tucorreo@email.com" required>
                             @error('email')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror
@@ -161,7 +161,7 @@
 
                         <div class="col-6">
                             <label for="whatsapp">Celular/Núm. WhatsApp: </label>
-                            <input class="form-control" type="text" name="whatsapp" id="whatsapp" value="{{ $usuario->whatsapp }}" minlength="9" maxlength="9" placeholder="0000-0000">
+                            <input class="form-control" type="text" name="whatsapp" id="whatsapp" value="{{ $usuario->whatsapp }}" minlength="8" maxlength="9" placeholder="0000-0000">
                             @error('whatsapp')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror
@@ -314,7 +314,7 @@
 
                         <div class="col-6">
                             <label for="telefono">Teléfono: </label>
-                            <input class="form-control" type="text" name="telefono" id="telefono" value="{{ $usuario->telefono }}" minlength="9" maxlength="9" placeholder="0000-0000">
+                            <input class="form-control" type="text" name="telefono" id="telefono" value="{{ $usuario->telefono }}" minlength="8" maxlength="9" placeholder="0000-0000">
                             @error('telefono')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror
@@ -367,21 +367,48 @@
                         <h4 class="mb-0" data-anchor="data-anchor">🔑 Credenciales:</h4>
                     </div>
 
-                    <div class="col-12 flex-center">
-                        <div>
-                    
-                        <label for="password">Nueva Contraseña: </label>
-                        <input class="form-control" type="password" name="password" id="password" value="" maxlength="12" required>
+                    <div class="col-12 col-sm-4 offset-sm-4">
 
-                        @if ($errors->has('password'))
-                            <div class="alert alert-danger mt-1 mb-1">{{ $errors->first('password') }}</div>
-                        @endif
+                        <label for="password">Nueva Contraseña: </label>
+                        <div class="input-group mb-4">
+                            
+                            <input id="password" type="password" name="password" class="form-control" value="" maxlength="12" required>
+
+                            <div class="input-group-append">
+                                <div class="input-group-text" style="padding: 10px 10px;">
+                                    <span title="Mostrar/Ocultar" onclick="revealPass()" style="color: red; cursor: pointer;" class="fas fa-eye"></span>
+                                </div>
+                            </div>
+
+                            <div class="input-group-append">
+                                <div class="input-group-text" style="padding: 10px 10px;">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+
+                            @if ($errors->has('password'))
+                                <div class="alert alert-danger mt-1 mb-1">{{ $errors->first('password') }}</div>
+                            @endif
+                        </div>
 
                         <label for="password_confirmation">Confirmar Contraseña: </label>
-                        <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" value="" maxlength="12" required>
+                        <div class="input-group mb-4">
+                            
+                            <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" value="" maxlength="12" required>
 
+                            <div class="input-group-append">
+                                <div class="input-group-text" style="padding: 10px 10px;">
+                                    <span title="Mostrar/Ocultar" onclick="revealPassc()" style="color: red; cursor: pointer;" class="fas fa-eye"></span>
+                                </div>
+                            </div>
+
+                            <div class="input-group-append">
+                                <div class="input-group-text" style="padding: 10px 10px;">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="mt-4 mb-4 col-auto text-center col-4 mx-auto">
@@ -562,5 +589,27 @@
 
 
       </script>
+
+        <script type="text/javascript">
+
+            function revealPass() {
+              var x = document.getElementById("password");
+              if (x.type === "password") {
+                x.type = "text";
+              } else {
+                x.type = "password";
+              }
+            }
+
+            function revealPassc() {
+              var x = document.getElementById("password_confirmation");
+              if (x.type === "password") {
+                x.type = "text";
+              } else {
+                x.type = "password";
+              }
+            }
+
+        </script>
 
 @endsection

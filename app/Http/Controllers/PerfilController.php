@@ -63,7 +63,7 @@ class PerfilController extends Controller
                 //'giro' => 'required|max:180',
                 //'nombre_empresa' => 'required|max:34',
                 'website' => 'required|max:34',
-                'telefono' => 'required|string|min:9|max:9'
+                'telefono' => 'required|string|min:8|max:9'
             ]);
 
         } elseif ( $user->rol_id == 0 || $user->rol_id == 1 ) {
@@ -72,6 +72,8 @@ class PerfilController extends Controller
             $request->validate([
                 'name' => 'required|max:100',
                 'dui' => 'required|unique:users,dui,'.$user->id.'|min:10|max:10',
+                //'email' => 'required|email|unique:users,email,'.$user->email.'|max:100',
+                //'email' => 'required|email|max:100|unique:users',
                 'whatsapp' => 'required|min:9|max:9',
                 'nrc' => 'required|unique:users,nrc,'.$user->id.'|min:8|max:10',
                 'nit' => 'required|unique:users,nit,'.$user->id.'|min:17|max:17',
@@ -82,7 +84,7 @@ class PerfilController extends Controller
                 'giro' => 'required|max:180',
                 'nombre_empresa' => 'required|max:34',
                 'website' => 'required|max:34',
-                'telefono' => 'required|string|min:9|max:9'
+                'telefono' => 'required|string|min:8|max:9'
             ]);
 
             $user->name = $request->get('name');
@@ -152,7 +154,8 @@ class PerfilController extends Controller
 
             return view('aspirantes.form-inscripcion', compact('user'));
         } else {
-            return view('home', compact('user'));
+            //return view('home', compact('user'));
+            return redirect()->route('home')->with('toast_success', 'BIENVENIDO');
         }
   
     }

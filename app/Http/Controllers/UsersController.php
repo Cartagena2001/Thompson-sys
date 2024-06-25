@@ -266,7 +266,7 @@ Class UsersController extends Controller
                 'boletin' => 'required|numeric|max:1',
                 'estatus' => 'required|string|max:14',
                 'name' => 'required|max:100',
-                //'email' => 'required|email|max:250|unique:users',
+                'email' => 'required|email|max:100|unique:users',
                 'dui' => 'required|unique:users,dui,'.$user->id.'|min:9|max:10',
                 'whatsapp' => 'required|min:8|max:9',
                 'notas' => 'string|max:280',
@@ -296,7 +296,7 @@ Class UsersController extends Controller
                 'boletin' => 'required|numeric|max:1',
                 'estatus' => 'required|string|max:14',
                 'name' => 'required|max:100',
-                //'email' => 'required|email|max:250|unique:users',
+                'email' => 'required|email|max:100|unique:users',
                 'dui' => 'required|unique:users,dui,'.$user->id.'|min:9|max:10',
                 'whatsapp' => 'required|min:8|max:9',
                 'notas' => 'string|max:280',
@@ -385,7 +385,7 @@ Class UsersController extends Controller
 
         $user->name = $request->get('name');
 
-        //$user->email = $request->get('email');
+        $user->email = $request->get('email');
         $user->usr_tipo = $request->get('negTipo');
         $user->dui = $request->get('dui');
         $user->whatsapp = $request->get('whatsapp');

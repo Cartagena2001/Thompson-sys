@@ -74,7 +74,10 @@
 
                         <div class="col-6">
                             <label for="email">Correo Electrónico: </label>
-                            <input class="form-control" type="text" id="email" value="{{ $user->email }}" readonly>
+                            <input class="form-control" type="email" id="email" value="{{ $user->email }}" maxlength="90" readonly>
+                            @error('email')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                     </div>
@@ -102,7 +105,7 @@
 
                         <div class="col-6">
                             <label for="whatsapp">Celular/Núm. WhatsApp: </label>
-                            <input class="form-control" type="text" name="whatsapp" id="whatsapp" value="{{ $user->whatsapp }}" minlength="9" maxlength="9" placeholder="0000-0000">
+                            <input class="form-control" type="text" name="whatsapp" id="whatsapp" value="{{ $user->whatsapp }}" minlength="8" maxlength="9" placeholder="0000-0000">
                             @error('whatsapp')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror
@@ -286,7 +289,7 @@
 
                         <div class="col-6">
                             <label for="telefono">Teléfono: </label>
-                            <input class="form-control" type="text" name="telefono" id="telefono" value="{{ $user->telefono }}" minlength="9" maxlength="9" placeholder="0000-0000">
+                            <input class="form-control" type="text" name="telefono" id="telefono" value="{{ $user->telefono }}" minlength="8" maxlength="9" placeholder="0000-0000">
                             @error('telefono')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror
@@ -309,20 +312,46 @@
 
                     <hr />
 
-                    <div class="col-12 flex-center">
+                    <div class="col-12 col-sm-4 offset-sm-4">
 
-                        <div>
-                    
                         <label for="password">Nueva Contraseña: </label>
-                        <input class="form-control" type="password" name="password" id="password" value="" maxlength="12" required>
+                        <div class="input-group mb-4">
+                            
+                            <input id="password" type="password" name="password" class="form-control" value="" maxlength="12" required>
 
-                        @if ($errors->has('password'))
-                            <div class="alert alert-danger mt-1 mb-1">{{ $errors->first('password') }}</div>
-                        @endif
+                            <div class="input-group-append">
+                                <div class="input-group-text" style="padding: 10px 10px;">
+                                    <span title="Mostrar/Ocultar" onclick="revealPass()" style="color: red; cursor: pointer;" class="fas fa-eye"></span>
+                                </div>
+                            </div>
+
+                            <div class="input-group-append">
+                                <div class="input-group-text" style="padding: 10px 10px;">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+
+                            @if ($errors->has('password'))
+                                <div class="alert alert-danger mt-1 mb-1">{{ $errors->first('password') }}</div>
+                            @endif
+                        </div>
 
                         <label for="password_confirmation">Confirmar Contraseña: </label>
-                        <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" value="" maxlength="12" required>
+                        <div class="input-group mb-4">
+                            
+                            <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" value="" maxlength="12" required>
 
+                            <div class="input-group-append">
+                                <div class="input-group-text" style="padding: 10px 10px;">
+                                    <span title="Mostrar/Ocultar" onclick="revealPassc()" style="color: red; cursor: pointer;" class="fas fa-eye"></span>
+                                </div>
+                            </div>
+
+                            <div class="input-group-append">
+                                <div class="input-group-text" style="padding: 10px 10px;">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -337,5 +366,27 @@
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+
+        function revealPass() {
+          var x = document.getElementById("password");
+          if (x.type === "password") {
+            x.type = "text";
+          } else {
+            x.type = "password";
+          }
+        }
+
+        function revealPassc() {
+          var x = document.getElementById("password_confirmation");
+          if (x.type === "password") {
+            x.type = "text";
+          } else {
+            x.type = "password";
+          }
+        }
+
+    </script>
 
 @endsection

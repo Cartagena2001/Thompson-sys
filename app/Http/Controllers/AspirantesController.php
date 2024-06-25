@@ -97,7 +97,7 @@ class AspirantesController extends Controller
         $emailSubjectOff = 'Confirmación de aprobación de aspirante a cliente - Tienda Accumetric El Salvador';
         $emailBodyOff = " 
                         <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
+                            <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
                         </div>
 
                         <br/>

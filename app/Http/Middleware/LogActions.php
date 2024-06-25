@@ -18,28 +18,32 @@ class LogActions
     public function handle(Request $request, Closure $next): Response
     {
 
-        $response = $next($request);
+        if ($_SERVER['REQUEST_METHOD']!='OPTIONS') {
 
-        $user = $request->user();
-        $action = $request->route()->getActionMethod();
+            $response = $next($request);
 
-        $routeName = Route::currentRouteName();
-        $routeAction = Route::currentRouteAction();
-        $routeUri = $request->path();
+            $user = $request->user();
+            $action = $request->route()->getActionMethod();
 
-        $routeInfo = "Ruta: $routeName ($routeAction) - $routeUri";
+            $routeName = Route::currentRouteName();
+            $routeAction = Route::currentRouteAction();
+            $routeUri = $request->path();
 
-        if (!$user || !in_array($user->rol_id, [0, 1])) {
-            return $response;
+            $routeInfo = "Ruta: $routeName ($routeAction) - $routeUri";
+
+            if (!$user || !in_array($user->rol_id, [0, 1])) {
+                return $response;
+            }
+
+            bitacora::create([
+                'user_id' => $user->id,
+                'accion' => $action . ' - ' . $routeUri,
+                'hora_fecha' => now(),
+                'descripcion' => "El usuario {$user->name} realizó la acción {$action}. $routeInfo",
+            ]);
         }
-
-        bitacora::create([
-            'user_id' => $user->id,
-            'accion' => $action . ' - ' . $routeUri,
-            'hora_fecha' => now(),
-            'descripcion' => "El usuario {$user->name} realizó la acción {$action}. $routeInfo",
-        ]);
-
         return $next($request);
+        
     }
+
 }

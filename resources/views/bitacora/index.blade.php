@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="text-center">🕵 Bitácora del Sistema 🕵</h1>
-                    <p class="mt-4 mb-4 text-center">En esta sección podrás encontrar el listado de eventos en los cuales ha participado un usuario administrador del sistema ò usuario de bodega.</p>
+                    <p class="mt-4 mb-4 text-center">En esta sección podrás encontrar el listado de eventos en los cuales ha participado un usuario administrador del sistema o usuario de bodega.</p>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
                                 <td>{{ $registro->user->name }}</td>
                                 <td>{{ $registro->accion }}</td>
                                 <td>{{ $registro->descripcion }}</td>
-                                <td>{{ $registro->hora_fecha }}</td>
+                                <td>{{ \Carbon\Carbon::parse($registro->hora_fecha)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>
 
                                 {{-- 
                                 <td class="text-end">

@@ -254,7 +254,7 @@
 
                             <div class="col-6">
                                 <label for="telefono">Teléfono: </label>
-                                <input class="form-control" type="text" name="telefono" id="telefono" value="{{ $user->telefono }}" placeholder="0000-0000" minlength="8" maxlength="8" required>
+                                <input class="form-control" type="text" name="telefono" id="telefono" value="{{ $user->telefono }}" placeholder="0000-0000" minlength="8" maxlength="9" required>
                                 @error('telefono')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror

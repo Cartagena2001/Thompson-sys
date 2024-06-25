@@ -125,14 +125,14 @@
 
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ $imagen }}" alt="{{ $producto->nombre }}-1">
+                                                <img style="user-select: none;" class="img-fluid" src="{{ $imagen }}" alt="{{ $producto->nombre }}-1">
                                             </div>
                                         </div>
 
                                     @if ($producto->imagen_2_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ asset('storage/assets/img/products/'.$producto->imagen_2_src) }}" alt="{{ $producto->nombre }}-2">
+                                                <img style="user-select: none;" class="img-fluid" src="{{ asset('storage/assets/img/products/'.$producto->imagen_2_src) }}" alt="{{ $producto->nombre }}-2">
 
                                             </div>
                                         </div>
@@ -141,7 +141,7 @@
                                     @if ($producto->imagen_3_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ asset('storage/assets/img/products/'.$producto->imagen_3_src) }}" alt="{{ $producto->nombre }}-3">
+                                                <img style="user-select: none;" class="img-fluid" src="{{ asset('storage/assets/img/products/'.$producto->imagen_3_src) }}" alt="{{ $producto->nombre }}-3">
                                             </div>
                                         </div>
                                     @endif
@@ -149,7 +149,7 @@
                                     @if ($producto->imagen_4_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_4_src) }}" alt="{{ $producto->nombre }}-4">
+                                                <img style="user-select: none;" class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_4_src) }}" alt="{{ $producto->nombre }}-4">
                                             </div>
                                         </div>
                                     @endif
@@ -157,7 +157,7 @@
                                     @if ($producto->imagen_5_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_5_src) }}" alt="{{ $producto->nombre }}-5">
+                                                <img style="user-select: none;" class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_5_src) }}" alt="{{ $producto->nombre }}-5">
                                             </div>
                                         </div>
                                     @endif
@@ -165,7 +165,7 @@
                                     @if ($producto->imagen_6_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_6_src) }}" alt="{{ $producto->nombre }}-6">
+                                                <img style="user-select: none;" class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_6_src) }}" alt="{{ $producto->nombre }}-6">
                                             </div>
                                         </div>
                                     @endif
