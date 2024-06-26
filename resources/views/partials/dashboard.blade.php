@@ -161,28 +161,11 @@
   @else
 
     {{-- Dashboard Bodega --}}
-  
+    
+    
     <div class="row g-3 mb-3">
       
-      <div class="col-md-6">
-        <div class="card h-md-100 ecommerce-card-min-width">
-          <div class="card-header pb-0">
-            <h6 class="mb-0 mt-2 d-flex align-items-center">Ventas Semanales</h6>
-          </div>
-
-          <div class="card-body d-flex flex-column justify-content-end">
-            <div class="row">
-              <div class="col">
-                <p class="font-sans-serif lh-1 mb-1 fs-4 total-ventas-semana">$0.00</p>
-              </div>
-            </div>
-            <div class="mt-3" id="chart_ventas_semanales"></div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="col-md-6">
+      <div class="col-md-12">
         <div class="card h-md-100">
 
           <div class="card-header pb-0">
@@ -205,56 +188,16 @@
 
     <div class="row g-3 mb-3">
 
-    <div class="col-md-6 mb-3">
+      <div class="col-md-12 mb-3">
         <div class="card h-lg-100 overflow-hidden">
           <div class="card-body p-0">
-            <div class="table-responsive scrollbar">
-              <table class="table table-dashboard mb-0 table-borderless fs--1 border-200">
-                <thead class="bg-light">
-                  <tr class="text-900">
-                    <th>Top 10 Productos Mejor Vendidos</th>
-                    <th class="text-end">Ingresos totales recaudados por producto</th>
-                  </tr>
-                </thead>
-                <tbody>
-                @foreach ($topProductos as $producto)
-                    <tr class="border-bottom border-200">
-                        <td>
-                            <div class="d-flex align-items-center position-relative">
-                                <!-- Aquí puedes ajustar la ruta de la imagen según tus necesidades -->
-                                <img class="rounded-1 border border-200" src="{{ $producto['imagen_1_src'] }}" width="60" alt="" />
-                                <div class="flex-1 ms-3">
-                                    <h6 class="mb-1 fw-semi-bold"><a class="text-dark stretched-link">{{ $producto['nombre'] }}</a></h6>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="align-middle text-end fw-semi-bold">$ {{ number_format($producto['total_ventas'], 2) }}</td>
-                    </tr>
-                @endforeach
-                </tbody>
-              </table>
-            </div>
+            <img src="{{ URL('assets/img/imgs/warehouse-img-0.png') }}" style="width: 100%;" alt="img-bg" />
           </div>
         </div>
       </div>
-
-      <div class="col-md-6 mb-3">
-        <div class="card h-lg-100">
-          <div class="card-header">
-            <div class="row flex-between-center">
-              <div class="col-auto">
-                <h6 class="mb-0">Ventas Totales</h6>
-                <span>Observa tus ventas realizadas por mes durante el año {{ date('Y') }}</span>
-              </div>
-            </div>
-          </div>
-          <div class="card-body h-100 pe-0">
-            <div class="mt-3" id="chart_ventas_totales"></div>
-          </div>
-        </div>
-      </div>
-
+      
     </div>
+
 
   @endif
 

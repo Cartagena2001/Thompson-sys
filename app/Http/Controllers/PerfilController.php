@@ -53,7 +53,7 @@ class PerfilController extends Controller
             $request->validate([
                 //'name' => 'required|max:100',
                 //'dui' => 'required|unique:users,dui,'.$user->id.'|min:10|max:10',
-                'whatsapp' => 'required|min:9|max:9',
+                'whatsapp' => 'required|min:8|max:9',
                 //'nrc' => 'required|unique:users,nrc,'.$user->id.'|min:8|max:10',
                 //'nit' => 'required|unique:users,nit,'.$user->id.'|min:17|max:17',
                 //'razon_social' => 'required|max:34',
@@ -71,10 +71,10 @@ class PerfilController extends Controller
             //validar los datos si es superAdmin o Admin
             $request->validate([
                 'name' => 'required|max:100',
-                'dui' => 'required|unique:users,dui,'.$user->id.'|min:10|max:10',
+                'dui' => 'required|unique:users,dui,'.$user->id.'|min:9|max:10',
                 //'email' => 'required|email|unique:users,email,'.$user->email.'|max:100',
                 //'email' => 'required|email|max:100|unique:users',
-                'whatsapp' => 'required|min:9|max:9',
+                'whatsapp' => 'required|min:8|max:9',
                 'nrc' => 'required|unique:users,nrc,'.$user->id.'|min:8|max:10',
                 'nit' => 'required|unique:users,nit,'.$user->id.'|min:17|max:17',
                 'razon_social' => 'required|max:34',

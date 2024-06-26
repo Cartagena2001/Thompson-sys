@@ -107,6 +107,8 @@ Route::put('/dashboard/aspirantes/precioop/{id}', [App\Http\Controllers\Aspirant
 
 Route::post('/dashboard/aspirantes/{id}', [App\Http\Controllers\AspirantesController::class, 'updateMarcas'])->name('aspirante.updmarcas')->middleware('auth');
 
+Route::post('/dashboard/aspirantes/mod/{id}', [App\Http\Controllers\AspirantesController::class, 'actModCat'])->name('aspirante.actModCat')->middleware('auth');
+
 //Rutas para aspirantes II
 Route::get('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'indexInfoSent'])->name('info.enviada')->middleware('auth');
 Route::post('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscrip.load')->middleware('auth');
@@ -132,6 +134,8 @@ Route::put('/dashboard/clientes/precioop/{id}', [App\Http\Controllers\ClientesCo
 Route::get('/dashboard/permisos', [App\Http\Controllers\ClientesController::class, 'admPermMarca'])->name('clientes.marcasasoc')->middleware('auth');
 
 Route::post('/dashboard/permisos', [App\Http\Controllers\ClientesController::class, 'updateMarcas'])->name('clientes.marcaUpdate')->middleware('auth');
+
+Route::post('/dashboard/clientes/mod/{id}', [App\Http\Controllers\ClientesController::class, 'actModCat'])->name('clientes.actModCat')->middleware('auth');
 
 
 //Rutas para tienda

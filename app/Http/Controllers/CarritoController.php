@@ -298,6 +298,8 @@ class CarritoController extends Controller
         
         } else {
 
+            $totalOrder = 0;
+
             //validar cantidades de producto requeridas respecto de la existencia
             foreach ($cart as $producto) {
                 
@@ -305,6 +307,8 @@ class CarritoController extends Controller
                 $cantidad = $producto['cantidad']; //cantidad de cajas de X producto ordenada
                 $precio = $producto['precio_f'] * $producto['unidad_caja']; //precio por caja
                 $descuento = 0; //registro de algùn descuento aplicado
+
+                $totalOrder += $producto['precio_f'] * $producto['cantidad'] * $producto['unidad_caja'];
 
                 //Verifica si cantidad seleccionada puede cubrirse con existencia
                 $productostock = Producto::find($producto['producto_id']);
@@ -316,8 +320,14 @@ class CarritoController extends Controller
                     session()->put('cart', $cart);
 
                     return redirect()->route('carrito.index')->with('info', 'No hay existencias suficientes para cubrir tu orden de: '.'<br/><br/>'.$producto['nombre']);
-                } 
+                }
 
+            }
+
+            //Compra mínima de 100$ -> a futuro parametrizable
+            if ( $totalOrder < 100 ) {
+
+                return redirect()->route('carrito.index')->with('info', 'La compra mínima es de 100.00 US$, porfavor agrega algunos productos más.');
             }
 
             return view('orden.index', compact('usuarios'));

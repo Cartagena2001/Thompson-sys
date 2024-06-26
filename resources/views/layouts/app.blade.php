@@ -69,7 +69,7 @@
 
 <body class="test">
 
-
+ 
 
     <header class="sticky-menu">
 
@@ -259,8 +259,12 @@
 
                           @if ( $catalog_mode == 0 )
 
+                             @if ( Auth::user()->cat_mod == 0 )
+
                             <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/perfil/ordenes') !== false ? 'active-menu' : '' }}" href="{{ url('/perfil/ordenes') }}">
                             <i class="fas fa-truck-loading"></i> Mis Órdenes</a>
+                            
+                            @endif
 
                           @endif
 
@@ -282,11 +286,15 @@
 
                           @if ( $catalog_mode == 0 )
 
+                            @if ( Auth::user()->cat_mod == 0 )
+
                             <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/tienda') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/tienda') }}">
                             <i class="fas fa-shopping-basket"></i> Catálogo/Compra</a>
 
                             <a class="dropdown-item link-600 fw-medium {{ strpos(request()->url(), '/dashboard/compra-masiva') !== false ? 'active-menu' : '' }}" href="{{ url('/dashboard/compra-masiva') }}">
                             <i class="fas fa-box-open"></i> Compra Rápida</a>
+                            
+                            @endif
 
                           @endif
 
@@ -379,7 +387,10 @@
                   <div class="dropdown-divider"></div>
 
                   <a class="dropdown-item" href="{{ url('/perfil/configuracion') }}">Perfil y Cuenta</a>
+                  
+                  @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
                   <a class="dropdown-item" href="{{ url('/configuracion/bitacora') }}">Bitácora</a>
+                  @endif
 
                   <div class="dropdown-divider"></div>
 
@@ -420,33 +431,37 @@
                     ->get();
                 ?>
 
-            @elseif ( Auth::user()->rol_id == 2 && $catalog_mode == 0)
+            @elseif ( Auth::user()->rol_id == 2 && $catalog_mode == 0 )
 
                 {{-- CART CLIENTE --}}
 
-                <li class="nav-item d-sm-block"> {{-- d-none --}}
+                @if ( Auth::user()->cat_mod == 0 )
 
-                  <a id="hcart" class="nav-link px-0" href="{{ url('/carrito') }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Procesar Órden...">
-                      <?php
-                          $carrito = session('cart', []);
-                          $cart = session()->get('cart', []);
+                  <li class="nav-item d-sm-block"> {{-- d-none --}}
 
-                          $cantidad = 0;
-                          
-                          foreach ($carrito as $item) {
-                              $cantidad += $item['cantidad'];
-                          }
-                      ?>
-                    <i style="font-size: 26px; margin: 0px 5px; color: #fff;" class="fa-solid fa-cart-shopping"></i><sup style="top: -20px;">{{ $cantidad }}</sup>
-                  </a>
+                    <a id="hcart" class="nav-link px-0" href="{{ url('/carrito') }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Procesar Órden...">
+                        <?php
+                            $carrito = session('cart', []);
+                            $cart = session()->get('cart', []);
 
-                </li>
+                            $cantidad = 0;
+                            
+                            foreach ($carrito as $item) {
+                                $cantidad += $item['cantidad'];
+                            }
+                        ?>
+                      <i style="font-size: 26px; margin: 0px 5px; color: #fff;" class="fa-solid fa-cart-shopping"></i><sup style="top: -20px;">{{ $cantidad }}</sup>
+                    </a>
 
-                <?php
-                    $productosDisponibles = DB::table('producto')
-                    ->where('estado_producto_id', '1')
-                    ->get();
-                ?>
+                  </li>
+
+                  <?php
+                      $productosDisponibles = DB::table('producto')
+                      ->where('estado_producto_id', '1')
+                      ->get();
+                  ?>
+
+                @endif
 
             @endif
 

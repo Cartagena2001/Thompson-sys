@@ -88,7 +88,7 @@
 
                         <div class="col-6">
                             <label for="dui">DUI: </label>
-                            <input class="form-control" type="text" name="dui" id="dui" value="{{ $user->dui }}" minlength="10" maxlength="10" placeholder="00000000-0">
+                            <input class="form-control" type="text" name="dui" id="dui" value="{{ $user->dui }}" minlength="9" maxlength="10" placeholder="00000000-0">
                             @error('dui')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror

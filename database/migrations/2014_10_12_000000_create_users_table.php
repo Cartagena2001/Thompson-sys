@@ -38,6 +38,7 @@ return new class extends Migration
             $table->foreign('rol_id')->references('id')->on('rol')->nullable();
 
             $table->string('estado', 10)->nullable(); // activo, inactivo
+            $table->string('cat_mod')->nullable(); // 0,1
             $table->string('clasificacion', 22)->nullable();
             $table->boolean('boletin')->nullable(); // 0,1
             $table->dateTime('fecha_registro')->nullable();

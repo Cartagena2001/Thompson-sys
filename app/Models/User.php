@@ -38,6 +38,7 @@ class User extends Authenticatable
         'nrc',
         'rol_id',
         'estado',
+        'cat_mod',
         'clasificacion',
         'boletin',
         'fecha_registro',

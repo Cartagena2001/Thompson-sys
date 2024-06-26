@@ -10,7 +10,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.js"></script>
 
-    {-- Titulo --}}
+    {{-- Titulo --}}
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
         <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png);"></div>
         <div class="card-body position-relative mt-4">
@@ -196,6 +196,34 @@
 
             </div>
 
+            <hr/>
+
+            <div class="row mt-4 mb-2">
+
+                <h4 class="text-center mb-4">Activar modo catálogo individual: </h4>
+
+                <div class="flex-center">
+       
+                    <div class="mb-4">
+                        <div class="text-center">
+                            <input type="radio" name="catMod" value="1" @if($cliente->cat_mod == 1) checked @endif > <span style="color: red; font-weight: bold;">Activar modo catálogo</span>
+                            <br/> 
+                            <br/> 
+                            <input type="radio" name="catMod" value="0" @if($cliente->cat_mod == 0) checked @endif > <span style="color: #000; font-weight: bold;">Desactivar modo catálogo</span>
+                            </label> 
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="alert alert-success mb-2 text-center" role="alert" id="successMsg5" style="display: none; width:100%; max-width: 400px; margin: 0 auto;" >
+                   Modo catálogo activado/desactivado con éxito! 
+                </div>
+
+                <span class="text-danger" id="ErrorMsg5"></span>
+
+            </div>
+
         </div>
     </div>
 
@@ -250,7 +278,28 @@
                     $('#ErrorMsg2').text(response.responseJSON.errors.cliente);
                 },
             })
-        }        
+        }
+
+        $('input[type=radio][name=catMod]').change(function() {
+
+            var catMod = this.value;
+
+            $.ajax({
+                url: "{{ route('clientes.actModCat', $cliente->id) }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&catMod=" + catMod,
+
+                success: function(response){
+                    $('#successMsg5').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg5').text(response.responseJSON.errors.catMod);
+                },
+            })
+
+        });        
       </script>
 
 @endsection

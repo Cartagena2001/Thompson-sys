@@ -440,5 +440,21 @@ Class UsersController extends Controller
         return redirect()->route('users.index')->with('success', 'Contraseña actualizada correctamente');
     }
 
+    public function actModCat(Request $request,  $id)
+    {
+        
+        $user = User::find($id);
+
+        request()->validate([
+            'catMod'   => 'required|numeric',
+        ]);
+
+        $user->cat_mod = $request->catMod;
+
+        $user->update();
+
+        return response()->json($user->cat_mod);
+    }
+
 
 }
