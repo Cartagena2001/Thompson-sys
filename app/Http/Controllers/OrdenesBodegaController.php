@@ -21,8 +21,8 @@ class OrdenesBodegaController extends Controller
     public function index()
     {
         //$ordenes = Orden::Paginate(1000000000);
-        //$ordenes = Orden::where('estado', 'Preparada')->orWhere('estado', 'Espera')->paginate(1000000000);
-        $ordenes = Orden::whereIn('estado', ['Proceso', 'Preparada', 'Espera', 'Pagada'])->paginate(1000000000);
+        //$ordenes = Orden::where('estado', 'Preparada')->orWhere('estado', 'Pagar')->paginate(1000000000);
+        $ordenes = Orden::whereIn('estado', ['Proceso', 'Preparada', 'Pagar', 'Pagada'])->paginate(1000000000);
         $users = User::all();
 
         return view('ordenes.index-bodega' , compact('ordenes' , 'users'));
@@ -48,45 +48,6 @@ class OrdenesBodegaController extends Controller
     }
 
 
-    public function upload(Request $request, $id){
-
-        //validar los datos
-        $request->validate([
-
-            'corr' => 'string|min:1|max:24',
-            'notas' => 'string|max:250',
-            'ubicacion' => 'string|max:19'
-
-        ]);
-
-        $orden = Orden::find($id);
-
-        //almacenar datos
-        if ($request->hasFile('factura_href')) {
-            $file = $request->file('factura_href');
-            $file->move(public_path() . '/assets/img/cifs/', $file->getClientOriginalName());
-            $orden->factura_href = '/assets/img/cifs/' . $file->getClientOriginalName();
-        }
-
-        $orden->corr = $request->get('corr');
-        $orden->notas = $request->get('notas');
-        $orden->ubicacion = $request->get('ubicacion');
-        
-        $orden->update();
-
-        //buscar el detalle de la orden
-        $detalle = OrdenDetalle::where('orden_id' , $id)->get();
-
-        //$orden->save();
-        
-        //ahora buscar el producto de cada detalle
-        foreach($detalle as $item){
-            $item->producto = $item->Producto;
-        }
-
-        return view('ordenes.show' , compact('orden', 'detalle'));
-    }
-
     public function uploadBod(Request $request, $id){
 
         //validar los datos
@@ -95,16 +56,36 @@ class OrdenesBodegaController extends Controller
             'notas_bodega' => 'string|max:250',
             'bulto' => 'string|max:9',
             'paleta' => 'string|max:9',
+            'hoja_salida_href' => 'image|mimes:jpeg,png,gif,jpg|max:5000'
 
         ]);
 
         $orden = Orden::find($id);
+        
+        //buscar el detalle de la orden
+        $detalle = OrdenDetalle::where('orden_id' , $id)->get();
 
         //almacenar datos
+        //subir hoja de salida
         if ($request->hasFile('hoja_salida_href')) {
-            $file = $request->file('hoja_salida_href');
-            $file->move(public_path() . '/assets/img/hojas_sal/', $file->getClientOriginalName());
-            $orden->hoja_salida_href = '/assets/img/hojas_sal/' . $file->getClientOriginalName();
+            
+            if ($request->file('hoja_salida_href')->isValid()){
+
+                $file = $request->file('hoja_salida_href');
+
+                $nombreHojaSal =  $orden->id.'_hoja-sal_'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();
+
+                //$path = $file->storeAs('/public/assets/', $nombreHojaSal);
+
+                $path = $file->storeAs('/private/hojas_sal/', $nombreHojaSal);
+
+                $orden->hoja_salida_href = $nombreHojaSal;  
+
+            } else {
+
+                return view('ordenes.show-bodega' , compact('orden', 'detalle'))->with('toast', 'Ha ocurrido un error al cargar la hoja de salida.');
+            }
+
         }
 
         $orden->notas_bodega = $request->get('notas_bodega');
@@ -113,10 +94,6 @@ class OrdenesBodegaController extends Controller
         
         $orden->update();
 
-        //buscar el detalle de la orden
-        $detalle = OrdenDetalle::where('orden_id' , $id)->get();
-
-        //$orden->save();
         
         //ahora buscar el producto de cada detalle
         foreach($detalle as $item){

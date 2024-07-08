@@ -140,7 +140,7 @@ class RegisterController extends Controller
             'rol_id' => 2, //cliente/aspirante
             'estatus' => 'aspirante', 
             'clasificacion' => 'precioOP',
-            'imagen_perfil_src' => '/assets/img/perfil-user/custom-img-user.png',
+            'imagen_perfil_src' => 'custom-img-user.png',
             'marcas' => '',
             'form_status' => 'none',
             'fecha_registro' => \Carbon\Carbon::now()->toDateTimeString(),

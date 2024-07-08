@@ -37,7 +37,10 @@
                     <div class="mt-3 col-auto text-center col-6 mx-auto">
                         <label for="imagen_perfil_src">Imagen de perfil/Logo empresa (200x200px | .png, .jpg, .jpeg) </label>
                         <br/>
-                        <img class="rounded mt-2" src="/file/serve/{{ $usuario->imagen_perfil_src }}" alt="per" width="200">
+                        <img class="rounded mt-2" src="{{ url('storage/assets/img/perfil-user/'.$usuario->imagen_perfil_src) }}" alt="per" width="200">
+
+                        {{-- <img class="rounded mt-2" src="/file/serve/{{ $usuario->imagen_perfil_src }}" alt="per" width="200"> --}}
+
                         <br/>
                         <br/>
                         <input class="form-control" type="file" name="imagen_perfil_src" id="image_perfil_src" value="{{ $usuario->imagen_perfil_src }}">  

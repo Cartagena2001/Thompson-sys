@@ -167,19 +167,25 @@
                     <div class="mt-3 col-auto text-center col-4 mx-auto">
                         <label for="factura_href">Factura/Crédito Fiscal: </label>
                         <br/>
-                        <a href="{{ $orden->factura_href }}" title="Ver Factura" target="_blank"><img class="rounded mt-2" src="{{ $orden->factura_href }}" alt="factura-img" width="400"></a>
+                        <a href="/file/serve/cifs/{{ $orden->factura_href }}" title="Ver Factura" target="_blank">
+                            <img class="rounded mt-2" src="/file/serve/cifs/{{ $orden->factura_href }}" alt="factura-img" width="400">
+                        </a>
                     </div>
 
                     <div class="mt-3 col-auto text-center col-4 mx-auto">
                         <label for="comp-pago">Comprobante de Pago: </label>
                         <br/>
-                        <a href="{{ $orden->comprobante_pago_href }}" title="Ver Comprobante" target="_blank"><img class="rounded mt-2" src="{{ $orden->comprobante_pago_href }}" alt="factura-img" width="400"></a>
+                        <a href="/file/serve/comp_pago/{{ $orden->comprobante_pago_href }}" title="Ver Comprobante de Pago" target="_blank">
+                            <img class="rounded mt-2" src="/file/serve/comp_pago/{{ $orden->comprobante_pago_href }}" alt="comp-pago-img" width="400">
+                            </a>
                     </div>
 
                        <div class="mt-3 col-auto text-center col-4 mx-auto">
                         <label for="hoja_salida_href">Hoja de Salida: </label>
                         <br/>
-                        <a href="{{ $orden->hoja_salida_href }}" title="Ver Hoja de Salida" target="_blank"><img class="rounded mt-2" src="{{ $orden->hoja_salida_href }}" alt="hoja-salida-img" width="400"></a>
+                        <a href="/file/serve/hojas_sal/{{ $orden->hoja_salida_href }}" title="Ver Hoja de Salida" target="_blank">
+                        <img class="rounded mt-2" src="/file/serve/hojas_sal/{{ $orden->hoja_salida_href }}" alt="hoja-salida-img" width="400">
+                        </a>
                     </div>
                     
                 </div>

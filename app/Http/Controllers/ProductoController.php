@@ -660,7 +660,11 @@ class ProductoController extends Controller
         
         $orden =  Orden::find($ordenDet->orden_id);
 
+        $productoSel =  Producto::find($productoID);
+
         $cantidadDespachada = 0;
+
+        $cantUndOrd = $ordenDet->cantidad*$productoSel->unidad_por_caja;
 
         //return response()->json("cantidad_despachada: ".$ordenDet->cantidad_despachada);
 
@@ -671,9 +675,9 @@ class ProductoController extends Controller
             $ordenDet->cantidad_despachada = $cantidadDespachada;
             $ordenDet->update();
 
-        } elseif ( $request->cantidad_despachada > $ordenDet->cantidad) {
+        } elseif ( $request->cantidad_despachada > $cantUndOrd) {
             
-            $cantidadDespachada = $ordenDet->cantidad;
+            $cantidadDespachada = $cantUndOrd;
             $ordenDet->cantidad_despachada = $cantidadDespachada;
             $ordenDet->update();
 
@@ -686,6 +690,7 @@ class ProductoController extends Controller
 
         $totalN = 0;
 
+        /*
         //actualizar el total de la orden
         foreach ($prodOrdd as $producto) {
             
@@ -696,6 +701,7 @@ class ProductoController extends Controller
             }
             
         }
+        */
 
         //$orden->total = $totalN;
         //$orden->update(); 
@@ -717,10 +723,19 @@ class ProductoController extends Controller
 
         $ordenDet = OrdenDetalle::find($ordenDID);
 
-        //almacenar datos
-        $ordenDet->n_bulto = $request->n_bulto;
 
-        $ordenDet->update();
+        //validar el # de bulto
+        if ( $request->n_bulto < 0 ) {
+
+            $ordenDet->n_bulto = 0; //Ha de ser al menos 1 bulto o 0 en caso no se despache nada   
+            $ordenDet->update();
+
+        } else {
+
+            $ordenDet->n_bulto = $request->n_bulto;
+            $ordenDet->update();
+
+        }
 
         return response()->json($ordenDet->n_bulto);
     }

@@ -88,14 +88,14 @@
                 <div class="bg-holder bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
                 <!--/.bg-holder-->
                 <div class="card-body position-relative">
-                    <h6># Órdenes en Espera</h6>
+                    <h6># Órdenes por Pagar</h6>
                     <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-info" data-countup='{"endValue":23.434,"decimalPlaces":2,"suffix":"k"}'>
-                        {{-- contar las órdenes en espera --}}
+                        {{-- contar las órdenes por Pagar --}}
                         <?php
-                        $ordenesEspera = DB::table('orden')
-                            ->where('estado', 'Espera')
+                        $ordenesPagar = DB::table('orden')
+                            ->where('estado', 'Pagar')
                             ->get();
-                        echo count($ordenesEspera);
+                        echo count($ordenesPagar);
                         ?> 
                     </div>
                 </div>
@@ -164,7 +164,7 @@
                         <option value="Pendiente">Pendientes</option>
                         <option value="Proceso">En Proceso</option>
                         <option value="Preparada">Preparadas</option>
-                        <option value="Espera">En Espera</option>
+                        <option value="Pagar">Por Pagar</option>
                         <option value="Pagada">Pagadas</option>
                         <option value="Finalizada">Finalizadas</option>
                    {{-- <option value="Cancelada">Canceladas</option> --}}
@@ -201,14 +201,20 @@
                             <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>
                             <td>{{ $orden->user->nombre_empresa }}</td>
 
-                            @if ($orden->estado == 'Pendiente')
-                                <td class="text-warning">{{ $orden->estado }}</td>
-                            @elseif($orden->estado == 'Proceso')
-                                <td class="text-success">{{ $orden->estado }}</td>
-                            @elseif($orden->estado == 'Finalizada')
-                                <td class="text-success">{{ $orden->estado }}</td>
+                            @if ( $orden->estado == 'Pendiente')
+                                <td><span style="color: #ff5722; text-transform: uppercase;">PENDIENTE ⏳</span></td>
+                            @elseif ( $orden->estado == 'Proceso')
+                               <td><span style="color: #22ff52; text-transform: uppercase;">EN PROCESO 🔧</span></td>
+                            @elseif ( $orden->estado == 'Preparada')
+                                <td><span style="color: #4caf50; text-transform: uppercase;">PREPARADA ✅</span></td>
+                            @elseif ( $orden->estado == 'Pagar')
+                                <td><span style="color: #f30e0e; text-transform: uppercase;">POR PAGAR 💰</span></td>
+                            @elseif ( $orden->estado == 'Pagada')
+                                <td><span style="color: #0e54f3; text-transform: uppercase;">PAGADA (DESPACHO AUTORIZADO) 🤝</span></td>
+                            @elseif ( $orden->estado == 'Finalizada')
+                                <td><span style="color: #6f6f6f; text-transform: uppercase;">FINALIZADA 📈</span></td>
                             @else
-                                <td class="text-danger">{{ $orden->estado }}</td>
+                                <td><span style="color: #000; text-transform: uppercase;">CANCELADA ❌</span></td>
                             @endif
 
                             <td>{{ \Carbon\Carbon::parse($orden->fecha_envio)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>

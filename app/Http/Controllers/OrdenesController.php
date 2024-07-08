@@ -54,17 +54,37 @@ class OrdenesController extends Controller
 
             'corr' => 'string|min:1|max:24',
             'notas' => 'string|max:250',
-            'ubicacion' => 'string|max:19'
-
+            'ubicacion' => 'string|max:19',
+            'factura_href' => 'image|mimes:jpeg,png,gif,jpg|max:5000'
         ]);
 
         $orden = Orden::find($id);
 
+        //buscar el detalle de la orden
+        $detalle = OrdenDetalle::where('orden_id' , $id)->get();
+
         //almacenar datos
+        //subir factura
         if ($request->hasFile('factura_href')) {
-            $file = $request->file('factura_href');
-            $file->move(public_path() . '/assets/img/cifs/', $file->getClientOriginalName());
-            $orden->factura_href = '/assets/img/cifs/' . $file->getClientOriginalName();
+            
+            if ($request->file('factura_href')->isValid()){
+
+                $file = $request->file('factura_href');
+
+                $nombreFact =   $orden->id.'-'.$request->get('corr').'_CF-CCF_'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();
+
+                //$path = $file->storeAs('/public/assets/', $nombreFact);
+
+                $path = $file->storeAs('/private/cifs/', $nombreFact);
+
+                $orden->factura_href = $nombreFact;  
+
+            } else {
+
+                //return redirect()->route('perfil.index')->with('success', 'Ha ocurrido un error al cargar la factura');
+                return view('ordenes.show-oficina' , compact('orden', 'detalle'))->with('toast', 'Ha ocurrido un error al cargar la factura.');
+            }
+
         }
 
         $orden->corr = $request->get('corr');
@@ -72,39 +92,60 @@ class OrdenesController extends Controller
         $orden->ubicacion = $request->get('ubicacion');
         
         $orden->update();
-
-        //buscar el detalle de la orden
-        $detalle = OrdenDetalle::where('orden_id' , $id)->get();
-
-        //$orden->save();
         
         //ahora buscar el producto de cada detalle
         foreach($detalle as $item){
             $item->producto = $item->Producto;
         }
 
-        return view('ordenes.show-oficina' , compact('orden', 'detalle'))->with('toast', 'Información de órden actualizada.');
+        return view('ordenes.show-oficina' , compact('orden', 'detalle'))->with('toast', 'Información de orden actualizada.');
     }
 
 
     public function uploadComp(Request $request, $id){
 
+        //validar los datos
+        $request->validate([
+
+            'tipo_pago' => 'string|min:4|max:90',
+            'periodicidad' => 'string|min:4|max:90',
+            'comprobante_pago_href' => 'image|mimes:jpeg,png,gif,jpg|max:5000'
+        ]);
+
         $orden = Orden::find($id);
 
-        //almacenar datos
-        if ($request->hasFile('comprobante_pago_href')) {
-            $file = $request->file('comprobante_pago_href');
-            $file->move(public_path() . '/assets/img/comp_pago/', $file->getClientOriginalName());
-            $orden->comprobante_pago_href = '/assets/img/comp_pago/' . $file->getClientOriginalName();
-        }
-
-        $orden->update();
+        $orden->tipo_pago = $request->get('tipo_pago');
+        $orden->periodicidad = $request->get('periodicidad');
 
         //buscar el detalle de la orden
         $detalle = OrdenDetalle::where('orden_id' , $id)->get();
 
-        //$orden->save();
-        
+        //almacenar datos
+        //subir comprobante de pago
+        if ($request->hasFile('comprobante_pago_href')) {
+            
+            if ($request->file('comprobante_pago_href')->isValid()){
+
+                $file = $request->file('comprobante_pago_href');
+
+                $nombreCompP =  $orden->id.'_comp-pago_'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();
+
+                //$path = $file->storeAs('/public/assets/', $nombreCompP);
+
+                $path = $file->storeAs('/private/comp_pago/', $nombreCompP);
+
+                $orden->comprobante_pago_href = $nombreCompP;  
+
+            } else {
+
+                //return redirect()->route('perfil.index')->with('success', 'Ha ocurrido un error al cargar la imagen de perfil');
+                return view('ordenes.show-oficina' , compact('orden', 'detalle'))->with('toast', 'Ha ocurrido un error al cargar el comprobante de pago.');
+            }
+
+        }
+
+        $orden->update();
+
         //ahora buscar el producto de cada detalle
         foreach($detalle as $item){
             $item->producto = $item->Producto;
@@ -113,6 +154,62 @@ class OrdenesController extends Controller
         return view('ordenes.show-oficina' , compact('orden', 'detalle'));
     }
 
+
+    public function uploadH(Request $request, $id){
+
+        //validar los datos
+        $request->validate([
+
+            'notas_bodega' => 'string|max:250',
+            'bulto' => 'string|max:9',
+            'paleta' => 'string|max:9',
+            'hoja_salida_href' => 'image|mimes:jpeg,png,gif,jpg|max:5000'
+
+        ]);
+
+        $orden = Orden::find($id);
+        
+        //buscar el detalle de la orden
+        $detalle = OrdenDetalle::where('orden_id' , $id)->get();
+
+        //almacenar datos
+        //subir hoja de salida
+        if ($request->hasFile('hoja_salida_href')) {
+            
+            if ($request->file('hoja_salida_href')->isValid()){
+
+                $file = $request->file('hoja_salida_href');
+
+                $nombreHojaSal =  $orden->id.'_hoja-sal_'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();
+
+                //$path = $file->storeAs('/public/assets/', $nombreHojaSal);
+
+                $path = $file->storeAs('/private/hojas_sal/', $nombreHojaSal);
+
+                $orden->hoja_salida_href = $nombreHojaSal;  
+
+            } else {
+
+                return view('ordenes.show-oficina' , compact('orden', 'detalle'))->with('toast', 'Ha ocurrido un error al cargar la hoja de salida.');
+            }
+
+        }
+
+        $orden->notas_bodega = $request->get('notas_bodega');
+        $orden->bulto = $request->get('bulto');
+        $orden->paleta = $request->get('paleta');
+        
+        $orden->update();
+
+        
+        //ahora buscar el producto de cada detalle
+        foreach($detalle as $item){
+            $item->producto = $item->Producto;
+        }
+
+        return view('ordenes.show-oficina' , compact('orden', 'detalle'));
+    }
+    
 
     //crear una funcion para actualizar el estado de la orden a en proceso (solo oficina)
     public function enProceso($id){
@@ -134,7 +231,7 @@ class OrdenesController extends Controller
                         <br/>
                         <p><b>Sr./Sra.</b>: ".$orden->user->name." </p>
                         <br/>
-                        <p>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PENDIENTE</b> A <span style='font-weight:bold; color:#21d781;'>EN PROCESO</span>.</p>
+                        <p>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PENDIENTE</b> A <span style='font-weight:bold; color:#21d781;'>EN PROCESO</span>, recibirás actualizaciones del estado de tu orden hasta finalizar el proceso.</p>
                         <br/>
                         <br/>
                         <p>Cualquier duda o consulta sobre tu orden de compra puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
@@ -270,7 +367,7 @@ class OrdenesController extends Controller
         $replyToEmailClient = "oficina@rtelsalvador.com";
         $replyToNameClient = "Accumetric El Salvador - Oficina";
 
-        $estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
+        //$estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
         //dd($estado1);
 
 
@@ -368,12 +465,12 @@ class OrdenesController extends Controller
     }
 
 
-    //crear una funcion para actualizar el estado de la orden a en espera
-    public function enEspera($id){
+    //crear una funcion para actualizar el estado de la orden a Pagar (solicitar pago)
+    public function aPagar($id){
         
         $orden = Orden::find($id);
         $ordenDetalle = OrdenDetalle::where('orden_id', $id)->get();
-        $orden->estado = 'Espera';
+        $orden->estado = 'Pagar';
         $orden->update();
 
         //Envio de notificación por correo al cliente
@@ -388,7 +485,7 @@ class OrdenesController extends Controller
                         <br/>
                         <p><b>Sr./Sra.</b>: ".$orden->user->name." </p>
                         <br/>
-                        <p>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PREPARADA</b> A <span style='font-weight:bold; color:#ff9800;'>EN ESPERA</span>.</p>
+                        <p style='text-align:justify;'>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b> EN PROCESO</b> A <span style='font-weight:bold; color:#ff9800;'>ESPERANDO PAGO</span>, en este momento ya puedes realizar el pago correspondiente de tu orden, no olvides notificar a oficina una vez hayas completado la transacción, así podrá adjuntarse oportunamente tu comprobante de pago y se realizarán las gestiones para habilitar el despacho de tu pedido.</p>
                         <br/>
                         <br/>
                         <p>Cualquier duda o consulta sobre tu orden de compra puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
@@ -404,7 +501,7 @@ class OrdenesController extends Controller
         //Envio de notificación por correo a oficina
         $emailRecipientOff = "oficina@rtelsalvador.com";
         
-        $emailSubjectOff = 'Actualización de estado de orden de compra #: '.$orden->id.' a En Proceso';
+        $emailSubjectOff = 'Actualización de estado de orden de compra #: '.$orden->id.' a Esperando Pago';
         $emailBodyOff = " 
                         <div style='display:flex;justify-content:center;' >
                             <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
@@ -413,7 +510,7 @@ class OrdenesController extends Controller
                         <br/>
                         <br/>
 
-                        <p>LA ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PREPARADA</b> A <span style='font-weight:bold; color:#ff9800;'>EN ESPERA</span>.</p>
+                        <p>LA ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PREPARADA</b> A <span style='font-weight:bold; color:#ff9800;'>ESPERANDO PAGO</span>.</p>
                         <br/>
                         <p><b>DATOS</b>:</p>
                         <p><b>Cliente</b>: ".$orden->user->name." <br/>
@@ -490,8 +587,8 @@ class OrdenesController extends Controller
         $estado2 = $this->notificarOficina($emailRecipientOff ,$emailSubjectOff ,$emailBodyOff ,$replyToEmailOff ,$replyToNameOff);
         //dd($estado2);
 
-        //return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a En Espera');
-        return redirect()->route('oficina.index')->with('success', 'Se actualizó el estado de la orden a En Espera');
+        //return redirect('/dashboard/ordenes/oficina')->with('toast_success', 'Se actualizó el estado de la órden a Esperando Pago');
+        return redirect()->route('oficina.index')->with('success', 'Se actualizó el estado de la orden a Esperando Pago');
     }
 
 
@@ -515,7 +612,7 @@ class OrdenesController extends Controller
                         <br/>
                         <p><b>Sr./Sra.</b>: ".$orden->user->name." </p>
                         <br/>
-                        <p>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>EN ESPERA</b> A <span style='font-weight:bold; color:#1f41ff;'>PAGADA</span>.</p>
+                        <p>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>EN ESPERA DE PAGO</b> A <span style='font-weight:bold; color:#1f41ff;'>PAGADA (con orden de despacho)</span>. Muchas gracias por realizar tu pago, tu pedido ya posee orden de despacho, puedes pasar a retirar a bodega/oficina.</p>
                         <br/>
                         <br/>
                         <p>Cualquier duda o consulta sobre tu orden de compra puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
@@ -531,7 +628,7 @@ class OrdenesController extends Controller
         //Envio de notificación por correo a oficina
         $emailRecipientOff = "oficina@rtelsalvador.com";
         
-        $emailSubjectOff = 'Actualización de estado de orden de compra #: '.$orden->id.' a En Proceso';
+        $emailSubjectOff = 'Actualización de estado de orden de compra #: '.$orden->id.' a Pagada (Orden de despacho)';
         $emailBodyOff = " 
                         <div style='display:flex;justify-content:center;' >
                             <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
@@ -540,7 +637,7 @@ class OrdenesController extends Controller
                         <br/>
                         <br/>
 
-                        <p>LA ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>EN ESPERA</b> A <span style='font-weight:bold; color:#1f41ff;'>PAGADA</span>.</p>
+                        <p>LA ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>EN ESPERA DE PAGO</b> A <span style='font-weight:bold; color:#1f41ff;'>PAGADA (Con orden de despacho)</span>.</p>
                         <br/>
                         <p><b>DATOS</b>:</p>
                         <p><b>Cliente</b>: ".$orden->user->name." <br/>

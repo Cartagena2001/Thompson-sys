@@ -134,11 +134,13 @@ Class UsersController extends Controller
                 
                 $file = $request->file('imagen_perfil_src');
 
-                $imgPerfil = $request->get('dui').'_img-perfil-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                $nombreIMGP = $request->get('name').'-'.$request->get('dui').'_img-perfil_'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
                 
-                $path = $file->storeAs('/private/perfil-user/', $imgPerfil);
+                $path = $file->storeAs('/public/assets/img/perfil-user/', $nombreIMGP);
 
-                $user->imagen_perfil_src = $imgPerfil;  
+                //$path = $file->storeAs('/private/perfil-user/', $nombreIMGP);
+
+                $user->imagen_perfil_src = $nombreIMGP;  
 
             } else {
 
@@ -328,11 +330,13 @@ Class UsersController extends Controller
                 
                 $file = $request->file('imagen_perfil_src');
 
-                $imgPerfil = $request->get('dui').'_img-perfil-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                $nombreIMGP = $request->get('name').'-'.$request->get('dui').'_img-perfil_'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
                 
-                $path = $file->storeAs('/private/perfil-user/', $imgPerfil);
+                $path = $file->storeAs('/public/assets/img/perfil-user/', $nombreIMGP);
 
-                $user->imagen_perfil_src = $imgPerfil;  
+                //$path = $file->storeAs('/private/perfil-user/', $nombreIMGP);
+
+                $user->imagen_perfil_src = $nombreIMGP;  
 
             } else {
 

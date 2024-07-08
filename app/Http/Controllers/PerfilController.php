@@ -101,31 +101,23 @@ class PerfilController extends Controller
 
         }
 
-
-        //almacenar datos
-        if ($request->hasFile('imagen_perfil_src')) {
-            $file = $request->file('imagen_perfil_src');
-            $file->move(public_path() . '/assets/img/perfil-user/', $file->getClientOriginalName());
-            $user->imagen_perfil_src = '/assets/img/perfil-user/' . $file->getClientOriginalName();
-        }
-
         //almacenar datos
         //subir imagen de perfil
-        if ($request->hasFile('hoja_seguridad')) {
+        if ($request->hasFile('imagen_perfil_src')) {
             
-            if ($request->file('hoja_seguridad')->isValid()){
+            if ($request->file('imagen_perfil_src')->isValid()){
 
-                $file = $request->file('hoja_seguridad');
+                $file = $request->file('imagen_perfil_src');
 
-                $nombreHS = $productoOEM.'-hoja-de-seguridad-'.'.'.$file->extension();
+                $nombreIMGP = $user->name.'-'.$user->dui.'_img-perfil_'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();
 
-                $path = $file->storeAs('/public/assets/pdf/productos/', $nombreHS);
+                $path = $file->storeAs('/public/assets/img/perfil-user/', $nombreIMGP);
 
-                $reg->hoja_seguridad = $nombreHS;  
+                $user->imagen_perfil_src = $nombreIMGP;  
 
             } else {
 
-                return redirect()->route('productos.create')->with('success', 'Ha ocurrido un error al cargar la hoja de seguridad');
+                return redirect()->route('perfil.index')->with('success', 'Ha ocurrido un error al cargar la imagen de perfil');
             }
 
         }
@@ -235,24 +227,25 @@ class PerfilController extends Controller
             $user->nombre_empresa = $request->get('nombre_empresa');
         }
 
-
-
         //almacenar datos
+        //subir imagen de perfil
         if ($request->hasFile('imagen_perfil_src')) {
             
             if ($request->file('imagen_perfil_src')->isValid()){
-                
+
                 $file = $request->file('imagen_perfil_src');
 
-                $imgPerfil = $request->get('dui').'_img-perfil-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
-                
-                $path = $file->storeAs('/private/perfil-user/', $imgPerfil);
+                $nombreIMGP =  $user->name.'-'.$request->get('dui').'_img-perfil_'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();
 
-                $user->imagen_perfil_src = $imgPerfil;  
+                $path = $file->storeAs('/public/assets/img/perfil-user/', $nombreIMGP);
+
+                //$path = $file->storeAs('/private/perfil-user/', $nombreIMGP);
+
+                $user->imagen_perfil_src = $nombreIMGP;  
 
             } else {
 
-                return redirect()->route('info.enviada')->with('toast_success', 'Ha ocurrido un error al cargar la imagen de perfil');
+                return redirect()->route('perfil.index')->with('success', 'Ha ocurrido un error al cargar la imagen de perfil');
             }
 
         }

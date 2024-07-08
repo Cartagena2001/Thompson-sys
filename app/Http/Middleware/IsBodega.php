@@ -17,7 +17,7 @@ class IsBodega
     public function handle(Request $request, Closure $next): Response
     {
         
-        if (Auth::user() && Auth::user()->rol_id == 3) {
+        if (Auth::user() && Auth::user()->rol_id == 3 || Auth::user() && Auth::user()->rol_id == 0 || Auth::user() && Auth::user()->rol_id == 1) {
              return $next($request);
         }
 

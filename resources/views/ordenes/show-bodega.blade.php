@@ -58,7 +58,22 @@
                         <span class="rt-color-2"># Factura:</span> <span class="">{{ $orden->corr }}</span><br>
                         <span class="rt-color-2">Fecha/Hora:</span> <span class="">{{ \Carbon\Carbon::parse($orden->created_at)->format('d/m/Y, h:m:s a') }}</span><br>
                         <span class="rt-color-2">Notas:</span> <span>{{ $orden->notas }}</span><br>
-                        <span class="rt-color-2">Estado:</span> <span class="text-warning">{{ $orden->estado }} @if ($orden->estado == 'Pagada') <span>(DESPACHO AUTORIZADO)</span> @endif</span>
+                        <span class="rt-color-2">Estado:</span> 
+                            @if ( $orden->estado == 'Pendiente')
+                                <span style="color: #ff5722; text-transform: uppercase;">PENDIENTE ⏳</span>
+                            @elseif ( $orden->estado == 'Proceso')
+                                <span style="color: #22ff52; text-transform: uppercase;">EN PROCESO 🔧</span>
+                            @elseif ( $orden->estado == 'Preparada')
+                                <span style="color: #4caf50; text-transform: uppercase;">PREPARADA ✅</span>
+                            @elseif ( $orden->estado == 'Pagar')
+                                <span style="color: #f30e0e; text-transform: uppercase;">POR PAGAR 💰</span>
+                            @elseif ( $orden->estado == 'Pagada')
+                                <span style="color: #0e54f3; text-transform: uppercase;">PAGADA (DESPACHO AUTORIZADO) 🤝</span>
+                            @elseif ( $orden->estado == 'Finalizada')
+                                <span style="color: #6f6f6f; text-transform: uppercase;">FINALIZADA 📈</span>
+                            @else
+                                <span style="color: #000; text-transform: uppercase;">CANCELADA ❌</span>
+                            @endif
                     </div>
                     
                 </div>
@@ -70,21 +85,25 @@
                         <thead>
                             <tr>
 
-                                <th class="text-start">OEM</th>
-                                <th class="text-start">Producto</th>
-                                <th class="text-center">Ubicación (Bodega)</th>
-                                <th class="text-center">Ubicación (Oficina)</th>
-                                <th class="text-center">Cantidad (Solicitada)</th>
+                                <th class="text-start">OEM <br/> &nbsp;</th>
+                                <th class="text-start">Producto <br/> &nbsp;</th>
+                                <th class="text-center">Ubicación - Bodega <br/> &nbsp;</th>
+                                <th class="text-center">Ubicación - Oficina <br/> &nbsp;</th>
+                                <th class="text-center">Cantidad Solicitada <br/> (unds)</th>
 
-                                @if ( $orden->estado == 'Proceso' || $orden->estado == 'Preparada' || $orden->estado == 'Espera' )
-                                    <th class="text-center">Cantidad (Despachada)</th>
-                                    <th class="text-center"># Bultos</th>
+                                @if ( $orden->estado == 'Proceso' || $orden->estado == 'Preparada' || $orden->estado == 'Pagar' || $orden->estado == 'Pagada' )
+                                    <th class="text-center">
+                                        <div class="alert alert-success" role="alert" id="successMsg3" style="display: none" >Cantidad actualizada.<br/></div>
+                                        Cantidad Despachada <br/> (unds)</th>
+                                    <th class="text-center">
+                                        <div class="alert alert-success" role="alert" id="successMsg4" style="display: none" ># bultos actualizado.<br/></div>
+                                        # Bultos <br/> &nbsp;</th>
                                 @endif
 
-                                <th class="text-center">Precio (caja)</th>
+                                <th class="text-center">Precio <br/> (caja)</th>
                                 
                                 @if ( Auth::user()->rol_id != 3 )
-                                <th class="text-center">Subtotal Parcial</th>
+                                <th class="text-center">Subtotal Parcial <br/> &nbsp;</th>
                                 @endif
 
                             </tr>
@@ -109,17 +128,21 @@
                                         {{ $detalles->cantidad * $detalles->producto->unidad_por_caja }}
                                     </td>
                                     
-                                    @if ( $orden->estado == 'Proceso' || $orden->estado == 'Preparada' || $orden->estado == 'Espera' )
+                                    @if ( $orden->estado == 'Proceso' || $orden->estado == 'Preparada' || $orden->estado == 'Pagar' )
                                         <td>
                                             <input id="cantd_{{ $detalles->producto->id }}" name="cantd_{{ $detalles->id }}" class="form-control text-center" type="text" value="{{ $detalles->cantidad_despachada }}" placeholder="0" onchange="updateCantD(this.id, this.name)" style="max-width: 80px; margin: 0 auto;" />
-                                            <br> 
-                                            <div class="alert alert-success" role="alert" id="successMsg3" style="display: none" >Cantidad despachada actualizada con éxito.</div>
                                         </td>
 
                                         <td>
                                             <input id="nbulto_{{ $detalles->producto->id }}" name="nbulto_{{ $detalles->id }}" class="form-control text-center" type="text" value="{{ $detalles->n_bulto }}" placeholder="0" onchange="updateNb(this.id, this.name)" style="max-width: 80px; margin: 0 auto" />
-                                            <br> 
-                                            <div class="alert alert-success" role="alert" id="successMsg4" style="display: none" >Cantidad de bultos actualizada con éxito.</div>
+                                        </td>
+                                    @elseif ( $orden->estado == 'Pagada' )
+                                        <td class="text-center">
+                                            {{ $detalles->cantidad_despachada }}
+                                        </td>
+
+                                        <td class="text-center">
+                                            {{ $detalles->n_bulto }}
                                         </td>
                                     @endif
 
@@ -191,9 +214,7 @@
             </div>
 
 
-            @if ( Auth::user()->rol_id == 3 )
-
-            <form method="POST" action="{{ route('ordenehoj.uploadB', $orden->id) }}" role="form" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('ordenehojB.uploadB', $orden->id) }}" role="form" enctype="multipart/form-data">
                 {{ method_field('PUT') }}
                 @csrf
 
@@ -201,7 +222,9 @@
                     <div class="mt-3 col-auto text-center col-4 mx-auto">
                         <label for="hoja_salida_href">Adjuntar Hoja de Salida: </label>
                         <br/>
-                        <a href="{{ $orden->hoja_salida_href }}" title="Ver Hoja de Salida" target="_blank"><img class="rounded mt-2" src="{{ $orden->hoja_salida_href }}" alt="hoja-salida-img" width="400"></a>
+                        <a href="/file/serve/hojas_sal/{{ $orden->hoja_salida_href }}" title="Ver Hoja de Salida" target="_blank">
+                        <img class="rounded mt-2" src="/file/serve/hojas_sal/{{ $orden->hoja_salida_href }}" alt="hoja-salida-img" width="400">
+                        </a>
                         <br/>
                         <br/>
                         <input class="form-control" type="file" name="hoja_salida_href" id="hoja_salida_href" value="{{ $orden->hoja_salida_href }}">  
@@ -215,19 +238,37 @@
                 <div class="row mb-2">  
 
                     <div class="col-6">
-                        <label for="bulto"># bulto: </label>
-                        <input class="form-control" type="text" name="bulto" id="bulto" value="{{ $orden->bulto }}" maxlength="9" placeholder="-">
-                        @error('bulto')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                        @enderror
+                        <label for="bulto"># total bultos: </label>
+
+                        @if ( $orden->estado == 'Pagada' )
+
+                            <input class="form-control" type="text" name="bulto" id="bulto" value="{{ $orden->bulto }}" disabled>
+
+                        @else
+
+                            <input class="form-control" type="text" name="bulto" id="bulto" value="{{ $orden->bulto }}" maxlength="9" placeholder="-">
+                            @error('bulto')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
+
+                        @endif
                     </div>
 
                     <div class="col-6">
-                        <label for="paleta"># paleta: </label>
-                        <input class="form-control" type="text" name="paleta" id="paleta" value="{{ $orden->paleta }}" maxlength="9" placeholder="-">
-                        @error('paleta')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                        @enderror
+                        <label for="paleta"># paletas: </label>
+
+                        @if ( $orden->estado == 'Pagada' )
+
+                            <input class="form-control" type="text" name="paleta" id="paleta" value="{{ $orden->paleta }}" disabled>
+
+                        @else
+
+                            <input class="form-control" type="text" name="paleta" id="paleta" value="{{ $orden->paleta }}" maxlength="9" placeholder="-">
+                            @error('paleta')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
+
+                        @endif
                     </div>
 
                 </div>
@@ -250,8 +291,6 @@
 
             </form>
 
-            @endif
-
 
 
             <div class="row mb-4">
@@ -271,7 +310,7 @@
                                 </form>
                             @elseif($orden->estado == 'Preparada')
                                 <h2 class="text-center">A LA ESPERA DE INDICACIONES DESDE OFICINA</h2>
-                            @elseif($orden->estado == 'Espera')
+                            @elseif($orden->estado == 'Pagar')
                                 <h2 class="text-center">A LA ESPERA DE INDICACIONES DESDE OFICINA</h2>
                             @elseif($orden->estado == 'Pagada')
                                 <form action="{{ route('ordenes.finalizadaB', $orden->id) }}" method="POST">
@@ -358,7 +397,7 @@
 
                 success: function(response){
                     $('#successMsg3').show();
-                    console.log(response);
+                    //console.log(response);
                 },
                 error: function(response) {
                     $('#ErrorMsg1').text(response.responseJSON.errors.CantD);
@@ -381,7 +420,7 @@
 
                 success: function(response){
                     $('#successMsg4').show();
-                    console.log(response);
+                    //console.log(response);
                 },
                 error: function(response) {
                     $('#ErrorMsg1').text(response.responseJSON.errors.nBulto);

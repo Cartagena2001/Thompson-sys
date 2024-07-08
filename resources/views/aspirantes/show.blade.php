@@ -32,7 +32,7 @@
         <div class="card-body">
 
             <div class="mt-3 mb-4">
-                <img class="rounded mt-2 mb-2" style="display: block; margin: 0 auto;" src="{{ $aspirante->imagen_perfil_src }}" alt="per" width="200">
+                <img class="rounded mt-2 mb-2" style="display: block; margin: 0 auto;" src="{{ url('storage/assets/img/perfil-user/'.$aspirante->imagen_perfil_src) }}" alt="per" width="200">
                 <h4 class="text-center">Nombre del usuario: <br/> <span style="color: #ff161f">{{ $aspirante->name }}</span> </h4>
                 <br/>
                 <p class="text-center" style="font-size: 18px;">

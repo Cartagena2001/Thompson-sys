@@ -33,6 +33,9 @@ return new class extends Migration
             $table->string('hoja_salida_href', 200); //hoja de salida
             $table->string('comprobante_pago_href', 250); //comprobante de pago
 
+            $table->string('tipo_pago', 100); //tipo de pago
+            $table->string('periodicidad', 100); //periodicidad de pago
+
             comprobante_pago_href
             $table->timestamps();
         });

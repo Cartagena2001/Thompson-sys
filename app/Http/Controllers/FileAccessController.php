@@ -33,7 +33,7 @@ class FileAccessController extends Controller
     }
 
     // In FileAccessController.php
-    public function serve(Request $request)
+    public function serveCif(Request $request)
     {
         if (Auth::check()) { 
 
@@ -45,7 +45,7 @@ class FileAccessController extends Controller
                 // Here we don't use the Storage facade that assumes the storage/app folder
                 // So filename should be a relative path inside storage to your file like 'app/userfiles/report1253.pdf'
                 
-                $filepath = Storage::path( '/private/'.$request->data );
+                $filepath = Storage::path( '/private/cifs/'.$request->data );
                 
                 return response()->file($filepath);
 
@@ -67,13 +67,111 @@ class FileAccessController extends Controller
                 }
                 */
 
+            } elseif( $usr->rol_id === 2 ) {
+
+                $filepath = Storage::path( '/private/cifs/'.$request->data );
                 
-                            
+                return response()->file($filepath);
+
+            } else{
+                return abort('404');
+            }
+        } else {
+            return abort('404');
+        }
+
+    }
+
+
+    public function serveCp(Request $request)
+    {
+        if (Auth::check()) { 
+
+            $usr = auth()->User();
+
+            //if(Auth::user() && Auth::id() === $file->user->id) {
+
+            if($usr->rol_id === 0 || $usr->rol_id === 1) {
+                // Here we don't use the Storage facade that assumes the storage/app folder
+                // So filename should be a relative path inside storage to your file like 'app/userfiles/report1253.pdf'
                 
+                $filepath = Storage::path( '/private/comp_pago/'.$request->data );
+                
+                return response()->file($filepath);
+
+
+                /*
+                try {
+
+                    $filepath = Storage::path( '/private/'.$request->data );
+
+                    return response()->file($filepath);
+
+                } catch (Exception $e) {
+
+                    Log::debug($e->getMessage());
+
+                    //echo 'Message: ' .$e->getMessage();
+
+                    return false;
+                }
+                */
 
             } elseif( $usr->rol_id === 2 ) {
 
+                $filepath = Storage::path( '/private/comp_pago/'.$request->data );
+                
+                return response()->file($filepath);
 
+            } else{
+                return abort('404');
+            }
+        } else {
+            return abort('404');
+        }
+
+    }
+
+
+    public function serveHs(Request $request)
+    {
+        if (Auth::check()) { 
+
+            $usr = auth()->User();
+
+            //if(Auth::user() && Auth::id() === $file->user->id) {
+
+            if($usr->rol_id === 0 || $usr->rol_id === 1 || $usr->rol_id === 3) {
+                // Here we don't use the Storage facade that assumes the storage/app folder
+                // So filename should be a relative path inside storage to your file like 'app/userfiles/report1253.pdf'
+                
+                $filepath = Storage::path( '/private/hojas_sal/'.$request->data );
+                
+                return response()->file($filepath);
+
+
+                /*
+                try {
+
+                    $filepath = Storage::path( '/private/'.$request->data );
+
+                    return response()->file($filepath);
+
+                } catch (Exception $e) {
+
+                    Log::debug($e->getMessage());
+
+                    //echo 'Message: ' .$e->getMessage();
+
+                    return false;
+                }
+                */
+
+            } elseif( $usr->rol_id === 2 ) {
+
+                $filepath = Storage::path( '/private/hojas_sal/'.$request->data );
+                
+                return response()->file($filepath);
 
             } else{
                 return abort('404');

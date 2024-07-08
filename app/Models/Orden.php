@@ -26,7 +26,9 @@ class Orden extends Model
       'paleta', 
       'factura_href',
       'hoja_salida_href',
-      'comprobante_pago_href'
+      'comprobante_pago_href',
+      'tipo_pago',
+      'periodicidad'
   ];
 
   public function User(){  return $this->belongsTo('App\Models\User', 'user_id'); }

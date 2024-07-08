@@ -97,8 +97,7 @@ Route::group(['middleware' => ['auth','admin']], function () {
     Route::post('producto.updateUbiBO', [App\Http\Controllers\ProductoController::class, 'updateUbiBO'])->name('producto.updateUbiBO');
     Route::post('producto.updateUbiOF', [App\Http\Controllers\ProductoController::class, 'updateUbiOF'])->name('producto.updateUbiOF');
 
-    Route::post('producto.updateCantD', [App\Http\Controllers\ProductoController::class, 'updateCantD'])->name('producto.updateCantD');
-    Route::post('producto.updateNb', [App\Http\Controllers\ProductoController::class, 'updateNb'])->name('producto.updateNb');
+
 
 
     //Rutas gestionar Contactos
@@ -123,12 +122,12 @@ Route::group(['middleware' => ['auth','admin']], function () {
     Route::resource('/dashboard/ordenes/oficina', App\Http\Controllers\OrdenesController::class);
     Route::put('/dashboard/ordenes/oficina/enProceso/{id}', [App\Http\Controllers\OrdenesController::class, 'enProceso'])->name('ordenes.enProceso');
     Route::put('/dashboard/ordenes/oficina/preparada/{id}', [App\Http\Controllers\OrdenesController::class, 'preparada'])->name('ordenes.preparada');
-    Route::put('/dashboard/ordenes/oficina/enEspera/{id}', [App\Http\Controllers\OrdenesController::class, 'enEspera'])->name('ordenes.espera');
+    Route::put('/dashboard/ordenes/oficina/aPagar/{id}', [App\Http\Controllers\OrdenesController::class, 'aPagar'])->name('ordenes.pagar');
     Route::put('/dashboard/ordenes/oficina/pagada/{id}', [App\Http\Controllers\OrdenesController::class, 'pagada'])->name('ordenes.pagada');
     Route::put('/dashboard/ordenes/oficina/finalizada/{id}', [App\Http\Controllers\OrdenesController::class, 'finalizada'])->name('ordenes.finalizada');
     Route::put('/dashboard/ordenes/oficina/cancelada/{id}', [App\Http\Controllers\OrdenesController::class, 'cancelada'])->name('ordenes.cancelada');
     Route::put('/dashboard/ordenes/oficina/uploadCif/{id}', [App\Http\Controllers\OrdenesController::class, 'upload'])->name('ordenecif.upload');
-    Route::put('/dashboard/ordenes/oficina/uploadHoj/{id}', [App\Http\Controllers\OrdenesController::class, 'uploadBod'])->name('ordenehoj.upload');
+    Route::put('/dashboard/ordenes/oficina/uploadHoj/{id}', [App\Http\Controllers\OrdenesController::class, 'uploadH'])->name('ordenehoj.upload');
     Route::put('/dashboard/ordenes/oficina/uploadCompP/{id}', [App\Http\Controllers\OrdenesController::class, 'uploadComp'])->name('compPago.upload');
 
     //Rutas para gestionar clientes
@@ -152,6 +151,12 @@ Route::group(['middleware' => ['auth','admin']], function () {
 
     Route::post('/dashboard/aspirantes/{id}', [App\Http\Controllers\AspirantesController::class, 'updateMarcas'])->name('aspirante.updmarcas');
     Route::post('/dashboard/aspirantes/mod/{id}', [App\Http\Controllers\AspirantesController::class, 'actModCat'])->name('aspirante.actModCat');
+
+
+
+    //Ruta para acceder archivos privados (descargar)
+    //Route::get('/file/download/{file}', [App\Http\Controllers\FileAccessController::class, 'download']);
+  
 
 });
 
@@ -199,7 +204,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/orden', [App\Http\Controllers\OrdenController::class, 'store'])->name('orden.store')->middleware('auth');
 
     //Validaciones previas del carrito de compras antes de finalizar la orden
-    Route::post('/carrito/validar', [App\Http\Controllers\CarritoController::class, 'validar'])->name('carrito.validar')->middleware('auth'); 
+    Route::post('/carrito/validar', [App\Http\Controllers\CarritoController::class, 'validar'])->name('carrito.validar')->middleware('auth');
+
+    //Ruta para acceder archivos privados (ver)
+    Route::get('/file/serve/cifs/{data}', [App\Http\Controllers\FileAccessController::class, 'serveCif']);
+    Route::get('/file/serve/comp_pago/{data}', [App\Http\Controllers\FileAccessController::class, 'serveCp']);
+    Route::get('/file/serve/hojas_sal/{data}', [App\Http\Controllers\FileAccessController::class, 'serveHs']); 
 
 });
 
@@ -221,7 +231,11 @@ Route::group(['middleware' => ['auth', 'bodega']], function () {
     Route::resource('/dashboard/ordenes/bodega', App\Http\Controllers\OrdenesBodegaController::class);
     Route::put('/dashboard/ordenes/bodega/preparada/{id}', [App\Http\Controllers\OrdenesBodegaController::class, 'preparada'])->name('ordenes.preparadaB');
     Route::put('/dashboard/ordenes/bodega/finalizada/{id}', [App\Http\Controllers\OrdenesBodegaController::class, 'finalizada'])->name('ordenes.finalizadaB');
-    Route::put('/dashboard/ordenes/bodega/uploadHoj/{id}', [App\Http\Controllers\OrdenesBodegaController::class, 'uploadBod'])->name('ordenehoj.uploadB');
+    Route::put('/dashboard/ordenes/bodega/uploadHoj/{id}', [App\Http\Controllers\OrdenesBodegaController::class, 'uploadBod'])->name('ordenehojB.uploadB');
+
+    //Actualizar cant despachada y # de bultos
+    Route::post('producto.updateCantD', [App\Http\Controllers\ProductoController::class, 'updateCantD'])->name('producto.updateCantD');
+    Route::post('producto.updateNb', [App\Http\Controllers\ProductoController::class, 'updateNb'])->name('producto.updateNb');
 
 });
 
@@ -231,8 +245,3 @@ Route::post('/', [App\Http\Controllers\ContactoController::class, 'store'])->nam
 
 
 
-//Ruta para acceder archivos privados (descargar)
-//Route::get('/file/download/{file}', [App\Http\Controllers\FileAccessController::class, 'download']);
-
-//Ruta para acceder archivos privados (ver)
-Route::get('/file/serve/{data}', [App\Http\Controllers\FileAccessController::class, 'serve']);

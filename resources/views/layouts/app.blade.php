@@ -82,7 +82,7 @@
               @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 || Auth::user()->rol_id == 3 )
                    <img src="{{ URL('assets/img/accumetric-slv-logo-mod.png') }}" alt="rt-logo" style="width: 100%; max-width: 190px; height: auto;" />
               @else 
-                   <img src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; max-width: 52px; height: auto;" /> &nbsp;&nbsp; <span style="color: #fff; font-size: 18px;">{{ Auth::user()->name }}</span>
+                   <img src="{{ url('storage/assets/img/perfil-user/'.Auth::user()->imagen_perfil_src) }}" alt="client-logo" style="width: 100%; max-width: 52px; height: auto;" /> &nbsp;&nbsp; <span style="color: #fff; font-size: 18px;">{{ Auth::user()->name }}</span>
               @endif
             </div>
           </a>
@@ -367,7 +367,7 @@
               
               <a class="nav-link px-2" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-xl">
-                  <img class="rounded-circle" src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; height: auto;" />
+                  <img class="rounded-circle" src="{{ url('storage/assets/img/perfil-user/'.Auth::user()->imagen_perfil_src) }}" alt="client-logo" style="width: 100%; height: auto;" />
                 </div>
               </a>
 
@@ -375,7 +375,7 @@
                 
                 <div class="bg-white dark__bg-1000 rounded-2 py-2">
                   <a class="dropdown-item fw-bold text-warning" href="{{ url('/perfil/configuracion') }}">
-                    <img class="rounded-circle" src="{{ Auth::user()->imagen_perfil_src }}" alt="client-logo" style="width: 100%; height: auto;" />
+                    <img class="rounded-circle" src="{{ url('storage/assets/img/perfil-user/'.Auth::user()->imagen_perfil_src) }}" alt="client-logo" style="width: 100%; height: auto;" />
                   </a>
 
                   <div class="dropdown-divider"></div>
