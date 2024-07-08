@@ -105,7 +105,6 @@ class TiendaController extends Controller
                                      ->where('estado_producto_id', 1)
                                      ->whereNot('existencia', 0)
                                      ->where('imagen_1_src', '!=', null)
-                                     ->where('estado', "Activo")
                                      ->paginate(1000000000);
             } else {
                 $productos = Producto::where('marca_id', $marca_id)
@@ -136,7 +135,6 @@ class TiendaController extends Controller
                                  ->where('estado_producto_id', 1)
                                  ->whereNot('existencia', 0)
                                  ->where('imagen_1_src', '!=', null)
-                                 ->where('estado', "Activo")
                                  ->paginate(1000000000);
             
             $marca = Marca::find($marca_id);
