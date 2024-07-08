@@ -18,8 +18,8 @@
         <div class="card-body position-relative mt-4">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="text-center">📥 Resumen Órden de Compra # {{ $orden->id }} 📥</h1>
-                    <p class="mt-4 mb-4 text-center">Aquí podrás encontrar el detalle de tu órden de compra y su estado de procesamiento.</p>
+                    <h1 class="text-center">📥 Resumen Orden de Compra # {{ $orden->id }} 📥</h1>
+                    <p class="mt-4 mb-4 text-center">Aquí podrás encontrar el detalle de tu orden de compra y su estado de procesamiento.</p>
                 </div>
                 <div class="text-center mb-4">
                     <a class="btn btn-sm btn-primary" href="{{ url('/perfil/ordenes') }}"><span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block"> Volver Atrás</span></a>
@@ -31,7 +31,7 @@
     {{-- Cards de informacion --}}
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
 
-        <button id="imprimir_btn" class="btn btn-sm btn-primary" type="button"><i class="fas fa-print"></i> Imprimir órden</button>
+        <button id="imprimir_btn" class="btn btn-sm btn-primary" type="button"><i class="fas fa-print"></i> Imprimir orden</button>
 
         <div class="card-body">
 

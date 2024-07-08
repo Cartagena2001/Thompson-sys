@@ -16,7 +16,7 @@ class IsSuperAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user() &&  Auth::user()->rol_id == 0) {
+        if (Auth::user() && Auth::user()->rol_id == 0) {
              return $next($request);
         }
 

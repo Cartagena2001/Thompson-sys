@@ -373,7 +373,7 @@ class OrdenController extends Controller
             $mail->Port = config('phpmailerconf.port'); //env('MAIL_PORT');                          // port - 587/465
             $mail->SMTPKeepAlive = true;
             $mail->CharSet = 'UTF-8';
-            $mail->Encoding = 'base64'
+            $mail->Encoding = 'base64';
 
             $mail->setFrom('notificaciones@rtelsalvador.com', 'Accumetric El Salvador');
             $mail->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/

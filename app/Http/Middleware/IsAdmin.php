@@ -16,12 +16,10 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        
-        if (Auth::user() &&  Auth::user()->rol_id == 1) {
+        if (Auth::user() && Auth::user()->rol_id == 0 || Auth::user() && Auth::user()->rol_id == 1) {
              return $next($request);
         }
 
         return redirect()->route('home')->with('error','La ruta que has solicitado no existe.');
-
     }
 }
