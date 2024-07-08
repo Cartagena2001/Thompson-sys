@@ -109,6 +109,27 @@ class PerfilController extends Controller
             $user->imagen_perfil_src = '/assets/img/perfil-user/' . $file->getClientOriginalName();
         }
 
+        //almacenar datos
+        //subir imagen de perfil
+        if ($request->hasFile('hoja_seguridad')) {
+            
+            if ($request->file('hoja_seguridad')->isValid()){
+
+                $file = $request->file('hoja_seguridad');
+
+                $nombreHS = $productoOEM.'-hoja-de-seguridad-'.'.'.$file->extension();
+
+                $path = $file->storeAs('/public/assets/pdf/productos/', $nombreHS);
+
+                $reg->hoja_seguridad = $nombreHS;  
+
+            } else {
+
+                return redirect()->route('productos.create')->with('success', 'Ha ocurrido un error al cargar la hoja de seguridad');
+            }
+
+        }
+
         //$user->email = $request->get('email');
         $user->whatsapp = $request->get('whatsapp');
         $user->website = $request->get('website');

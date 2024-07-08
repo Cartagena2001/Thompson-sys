@@ -17,7 +17,13 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="text-center">📄 Manuales del sistema 📄</h1>
-                <p class="mt-4 mb-4 text-center"> En esta sección se encuentran los manuales de usuario y administrador del sistema.</p>
+
+                @if (Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1)
+                    <p class="mt-4 mb-4 text-center"> En esta sección se encuentran los manuales de usuario y administrador del sistema.</p>
+                @else
+                    <p class="mt-4 mb-4 text-center"> En esta sección encontrarás el manual de usuario del sistema.</p>
+                @endif
+
             </div>
         </div>
     </div>
@@ -27,7 +33,7 @@
 <div class="card mb-3" style="border: ridge 1px #ff1620;">
     <div class="card-header">
         <h1>Manual del cliente</h1>
-        <span>En este manual se explica el funcionamiento del sistema para los clientes.</span>
+        <span>En este manual se explica el funcionamiento del sistema para el uso de los clientes.</span>
     </div>
     <hr />
     <div class="card-body">

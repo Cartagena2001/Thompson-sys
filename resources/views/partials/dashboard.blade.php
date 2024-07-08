@@ -124,7 +124,7 @@
                         <td>
                             <div class="d-flex align-items-center position-relative">
                                 <!-- Aquí puedes ajustar la ruta de la imagen según tus necesidades -->
-                                <img class="rounded-1 border border-200" src="{{ $producto['imagen_1_src'] }}" width="60" alt="" />
+                                <img class="rounded-1 border border-200" src="{{ url('storage/assets/img/products/'.$producto['imagen_1_src']) }}" width="60" alt="" />
                                 <div class="flex-1 ms-3">
                                     <h6 class="mb-1 fw-semi-bold"><a class="text-dark stretched-link">{{ $producto['nombre'] }}</a></h6>
                                 </div>
