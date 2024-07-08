@@ -71,7 +71,7 @@ Route::group(['middleware' => ['superadmin']], function () {
 
 
 //Rutas Super Admin, Admin
-Route::group(['middleware' => ['superadmin', 'admin']], function () {
+Route::group(['middleware' => ['superadmin']], function () {
 
     //Estadisticas
     Route::get('/dashboard/estadisticas', [App\Http\Controllers\EstadisticasController::class, 'index'])->name('estadisticas.index');
