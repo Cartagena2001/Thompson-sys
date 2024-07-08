@@ -40,18 +40,96 @@ Route::get('/terminos-y-condiciones', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Rutas Super Admin
+Route::group(['middleware' => ['superadmin']], function () {
+
+    //Config CMS
+    Route::get('/configuracion/cms', [App\Http\Controllers\CMSController::class, 'index'])->name('cms.index');
+    Route::patch('/configuracion/cms', [App\Http\Controllers\CMSController::class, 'update'])->name('cms.update');
+
+    //Config Usuarios
+    Route::get('/configuracion/users', [App\Http\Controllers\UsersController::class, 'index'])->name('users.index');
+    Route::get('/configuracion/users/create', [App\Http\Controllers\UsersController::class, 'create'])->name('users.create');
+    Route::patch('/configuracion/users/create', [App\Http\Controllers\UsersController::class, 'store'])->name('users.store');
+    Route::get('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'edit'])->name('users.edit');
+    Route::put('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'update'])->name('users.update');
+    Route::post('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'passwordUpdate'])->name('user.password.update');
+
+    //Test para enviar correos
+    Route::get('/configuracion/email-test',[PHPMailerController::class, 'index'])->name('send.php.mailer');
+    Route::post('/configuracion/send',[PHPMailerController::class, 'sendEmail'])->name('send.php.mailer.submit')->middleware('verified');
+
+    //Pop-up
+
+    //Bitácora
+    Route::get('/configuracion/bitacora', [App\Http\Controllers\BitacoraController::class, 'index'])->name('bitacora');
+    Route::get('/configuracion/bitacora/evento/{id}', [App\Http\Controllers\BitacoraController::class, 'show'])->name('bitacora.evento.detalle');
+
+
+});
+
+
+//Rutas Super Admin, Admin
+Route::group(['middleware' => ['superadmin', 'admin']], function () {
+
+    //Estadisticas
+    Route::get('/dashboard/estadisticas', [App\Http\Controllers\EstadisticasController::class, 'index'])->name('estadisticas.index');
+
+    //api
+    Route::get('/api/getWeeklySales', [App\Http\Controllers\HomeController::class, 'getWeeklySales'])->name('api.getWeeklySales');
+    Route::get('/api/getSalesByDay', [App\Http\Controllers\HomeController::class, 'getSalesByDay'])->name('api.getSalesByDay');
+    Route::get('/api/getYearlySalesChart', [App\Http\Controllers\HomeController::class, 'getYearlySalesChart'])->name('api.getYearlySalesChart');
+    Route::get('/api/getMonthlySalesChart', [App\Http\Controllers\EstadisticasController::class, 'getMonthlySalesChart'])->name('api.getMonthlySalesChart');
+    Route::get('/api/getOrderStatusCount', [App\Http\Controllers\EstadisticasController::class, 'getOrderStatusCount'])->name('api.getOrderStatusCount');
+    Route::get('/api/getNewCustomersChart', [App\Http\Controllers\EstadisticasController::class, 'getNewCustomersChart'])->name('api.getNewCustomersChart');
+    Route::get('/api/getLowStockProductsChart', [App\Http\Controllers\EstadisticasController::class, 'getLowStockProductsChart'])->name('api.getLowStockProductsChart');
+    Route::get('/api/getTopStockProductsChart', [App\Http\Controllers\EstadisticasController::class, 'getTopStockProductsChart'])->name('api.getTopStockProductsChart');
+
+});
+
+
+//Rutas SuperAdmin, Admin, Bodega y Cliente
+Route::group(['middleware' => ['auth', 'superadmin', 'admin', 'bodega', 'client']], function () {
+
+    //Rutas para el perfil
+    Route::get('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'index'])->name('perfil.index');
+    Route::post('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'passwordUpdate'])->name('perfil.password.update');
+    Route::patch('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'update'])->name('perfil.update'); 
+
+});
+
+
+//Rutas Clientes
+Route::group(['middleware' => ['auth', 'client']], function () {
+
+    //Home para cliente
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+});
+
+
+//Rutas Bodega
+Route::group(['middleware' => ['auth', 'bodega']], function () {
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+//Ruta cargar info aspirante a cliente
 Route::patch('/home', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscripc.load')->middleware('auth');
 
-//api
-Route::get('/api/getWeeklySales', [App\Http\Controllers\HomeController::class, 'getWeeklySales'])->name('api.getWeeklySales');
-Route::get('/api/getSalesByDay', [App\Http\Controllers\HomeController::class, 'getSalesByDay'])->name('api.getSalesByDay');
-Route::get('/api/getYearlySalesChart', [App\Http\Controllers\HomeController::class, 'getYearlySalesChart'])->name('api.getYearlySalesChart');
-Route::get('/api/getMonthlySalesChart', [App\Http\Controllers\EstadisticasController::class, 'getMonthlySalesChart'])->name('api.getMonthlySalesChart');
-Route::get('/api/getOrderStatusCount', [App\Http\Controllers\EstadisticasController::class, 'getOrderStatusCount'])->name('api.getOrderStatusCount');
-Route::get('/api/getNewCustomersChart', [App\Http\Controllers\EstadisticasController::class, 'getNewCustomersChart'])->name('api.getNewCustomersChart');
-Route::get('/api/getLowStockProductsChart', [App\Http\Controllers\EstadisticasController::class, 'getLowStockProductsChart'])->name('api.getLowStockProductsChart');
-Route::get('/api/getTopStockProductsChart', [App\Http\Controllers\EstadisticasController::class, 'getTopStockProductsChart'])->name('api.getTopStockProductsChart');
+
+
 
 
 //Rutas para el dashboard
@@ -164,10 +242,7 @@ Route::post('/orden', [App\Http\Controllers\OrdenController::class, 'store'])->n
 Route::post('/carrito/validar', [App\Http\Controllers\CarritoController::class, 'validar'])->name('carrito.validar')->middleware('auth');
 
 
-//Rutas para el perfil
-Route::get('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'index'])->name('perfil.index')->middleware('auth');
-Route::post('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'passwordUpdate'])->name('perfil.password.update')->middleware('auth');
-Route::patch('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'update'])->name('perfil.update')->middleware('auth');
+
 
 
 //Ordenes
@@ -183,31 +258,15 @@ Route::get('/dashboard/reportes/marcas', [App\Http\Controllers\ReportesControlle
 Route::get('/dashboard/reportes/categorias', [App\Http\Controllers\ReportesController::class, 'categorias'])->name('reportes.categorias')->middleware('auth');
 Route::get('/dashboard/reportes/ordenes', [App\Http\Controllers\ReportesController::class, 'ordenes'])->name('reportes.ordenes')->middleware('auth');
 
-//Rutas para las estadisticas
-Route::get('/dashboard/estadisticas', [App\Http\Controllers\EstadisticasController::class, 'index'])->name('estadisticas.index')->middleware('auth');
+
+
+
+
+
 
 
 //Ruta para los manuales
 Route::get('/dashboard/manuales', [App\Http\Controllers\ManualesController::class, 'index'])->name('manuales.index')->middleware('auth');
-
-
-//Config CMS
-Route::get('/configuracion/cms', [App\Http\Controllers\CMSController::class, 'index'])->name('cms.index')->middleware('auth');
-Route::patch('/configuracion/cms', [App\Http\Controllers\CMSController::class, 'update'])->name('cms.update')->middleware('auth');
-
-//Bitácora
-Route::get('/configuracion/bitacora', [App\Http\Controllers\BitacoraController::class, 'index'])->name('bitacora')->middleware('auth');
-Route::get('/configuracion/bitacora/evento/{id}', [App\Http\Controllers\BitacoraController::class, 'show'])->name('bitacora.evento.detalle')->middleware('auth');
-
-//Config Usuarios (SuperAdmin)
-Route::get('/configuracion/users', [App\Http\Controllers\UsersController::class, 'index'])->name('users.index')->middleware('auth');
-Route::get('/configuracion/users/create', [App\Http\Controllers\UsersController::class, 'create'])->name('users.create')->middleware('auth');
-Route::patch('/configuracion/users/create', [App\Http\Controllers\UsersController::class, 'store'])->name('users.store')->middleware('auth');
-Route::get('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'edit'])->name('users.edit')->middleware('auth');
-
-Route::put('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'update'])->name('users.update')->middleware('auth');
-
-Route::post('/configuracion/users/edit/{id}', [App\Http\Controllers\UsersController::class, 'passwordUpdate'])->name('user.password.update')->middleware('auth');
 
 
 
@@ -219,6 +278,3 @@ Route::get('/file/serve/{data}', [App\Http\Controllers\FileAccessController::cla
 
 
 
-//Test para enviar correos
-Route::get('/configuracion/email-test',[PHPMailerController::class, 'index'])->name('send.php.mailer')->middleware('auth');
-Route::post('/configuracion/send',[PHPMailerController::class, 'sendEmail'])->name('send.php.mailer.submit')->middleware('verified');
