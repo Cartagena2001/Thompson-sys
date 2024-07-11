@@ -100,12 +100,6 @@
                                         # Bultos <br/> &nbsp;</th>
                                 @endif
 
-                                <th class="text-center">Precio <br/> (caja)</th>
-                                
-                                @if ( Auth::user()->rol_id != 3 )
-                                <th class="text-center">Subtotal Parcial <br/> &nbsp;</th>
-                                @endif
-
                             </tr>
                         </thead>
                         <tbody>
@@ -146,67 +140,9 @@
                                         </td>
                                     @endif
 
-                                    
-                                    <td class="text-center">{{ number_format(($detalles->precio), 2, '.', ','); }} $</td>
-                                    @if ( Auth::user()->rol_id != 3 )
-                                        <td class="text-center">{{ number_format(($detalles->cantidad * $detalles->precio), 2, '.', ','); }} $</td>
-                                    @endif 
                                 </tr>
                             @endforeach
 
-                            @php
-                                $subtotal = 0;
-                                $iva = 0.13;
-                                $total = 0;
-
-                                foreach ($detalle as $detalles) {
-                                    $subtotal += $detalles->cantidad * $detalles->precio;
-                                }
-
-                                $total = $subtotal + ($subtotal * $iva);
-                            @endphp
-                            
-                            @if ( Auth::user()->rol_id != 3 )
-                                <tr class="pt-5" style="border-top: solid 4px #979797;">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    @if ( Auth::user()->rol_id == 0 && $orden->estado != 'Pendiente' || Auth::user()->rol_id == 1 && $orden->estado != 'Pendiente' )
-                                    <td></td>
-                                    <td></td>
-                                    @endif
-                                    <td class="text-start" style="font-weight: 600;">Subtotal:</td> 
-                                    <td class="text-end">{{ number_format($subtotal, 2, '.', ',');  }} $</td> 
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td> 
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    @if ( Auth::user()->rol_id == 0 && $orden->estado != 'Pendiente' || Auth::user()->rol_id == 1 && $orden->estado != 'Pendiente' )
-                                    <td></td>
-                                    <td></td>
-                                    @endif
-                                    <td class="text-start" style="font-weight: 600;">IVA (13%):</td> 
-                                    <td class="text-end">{{ number_format(($subtotal * $iva), 2, '.', ',');  }} $</td> 
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    @if ( Auth::user()->rol_id == 0 && $orden->estado != 'Pendiente' || Auth::user()->rol_id == 1 && $orden->estado != 'Pendiente' )
-                                    <td></td>
-                                    <td></td>
-                                    @endif
-                                    <td class="text-start" style="font-weight: 600;">Total:</td> 
-                                    <td class="text-end">{{ number_format($total, 2, '.', ',');  }} $</td>
-                                </tr>
-                            @endif
                         </tbody>
                     </table>
                 </div>

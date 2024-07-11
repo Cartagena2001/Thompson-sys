@@ -37,7 +37,7 @@
     </div>
     <hr />
     <div class="card-body">
-        <iframe src="{{ asset('assets/pdf/MANUAL_DE_USUARIO_ACCUMETRIC.pdf') }}" width="100%" height="600px"></iframe>
+        <iframe src="{{ url('storage/assets/pdf/MANUAL_DE_USUARIO_ACCUMETRIC.pdf') }}" width="100%" height="600px"></iframe>
     </div>
 </div>
 
@@ -49,7 +49,7 @@
     </div>
     <hr />
     <div class="card-body">
-        <iframe src="{{ asset('assets/pdf/MANUAL_DE_USUARIO_ACCUMETRIC_ADMIN.pdf') }}" width="100%" height="600px"></iframe>
+        <iframe src="/file/serve/pdf/MANUAL_DE_USUARIO_ACCUMETRIC_ADMIN.pdf" width="100%" height="600px"></iframe>
     </div>
 </div>
 @endif

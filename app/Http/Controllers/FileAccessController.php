@@ -183,4 +183,49 @@ class FileAccessController extends Controller
     }
 
 
+    public function servePDF(Request $request)
+    {
+        if (Auth::check()) { 
+
+            $usr = auth()->User();
+
+            //if(Auth::user() && Auth::id() === $file->user->id) {
+
+            if($usr->rol_id === 0 || $usr->rol_id === 1) {
+                // Here we don't use the Storage facade that assumes the storage/app folder
+                // So filename should be a relative path inside storage to your file like 'app/userfiles/report1253.pdf'
+                
+                $filepath = Storage::path( '/private/pdf/'.$request->data );
+                
+                return response()->file($filepath);
+
+
+                /*
+                try {
+
+                    $filepath = Storage::path( '/private/'.$request->data );
+
+                    return response()->file($filepath);
+
+                } catch (Exception $e) {
+
+                    Log::debug($e->getMessage());
+
+                    //echo 'Message: ' .$e->getMessage();
+
+                    return false;
+                }
+                */
+
+            } else{
+                return abort('404');
+            }
+        } else {
+            return abort('404');
+        }
+
+    }
+
+
+
 }

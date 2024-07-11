@@ -450,9 +450,9 @@
                 @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 ) 
                     <h3 class="fs--1">Existencia: 
                     @if ( $producto->existencia > 5)
-                        <span class="text-success"><b>{{ $producto->existencia }}</b></span></h3>
+                        <span class="text-success"><b>{{ $producto->existencia }}</b></span> caja/s</h3>
                     @else
-                        <span class="text-danger"><b>{{ $producto->existencia }}</b></span></h3>
+                        <span class="text-danger"><b>{{ $producto->existencia }}</b></span> caja/s</h3>
                     @endif 
                 @else 
                     @if ( $producto->existencia > 0)

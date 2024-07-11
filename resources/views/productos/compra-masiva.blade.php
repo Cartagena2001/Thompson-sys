@@ -83,7 +83,7 @@
                     <thead>
                         <tr>
                             <th class="text-start p-1">Marca</th>
-                            <th class="text-center p-1">Cantidad 📦</th>
+                            <th class="text-center p-1">Cantidad de 📦</th>
                             <th class="text-center p-1">Subtotal Parcial</th>   
                         </tr>
                     </thead>
@@ -202,8 +202,8 @@
                         <th scope="col">Nombre</th>
                         <th class="text-center" scope="col">Marca</th>
                         <th class="text-center" scope="col">Categoría</th>
-                        <th class="text-center" style="width: 100px;" scope="col">Precio 📦</th>
-                        <th class="text-center" style="width: 100px;" scope="col"># unidades en caja</th>
+                        <th class="text-center" style="width: 100px;" scope="col">Precio por 📦</th>
+                        <th class="text-center" style="width: 100px;" scope="col"># unidades en 📦</th>
                         <th class="text-center" style="width: 100px;" scope="col">Agregar <br/> 📦 a 🛒</th>
                     </tr>
                 </thead>
@@ -221,7 +221,9 @@
                                     data-bs-placement="top" title="Ver producto">{{ $producto->nombre }}</a></td>
                             <td class="text-center">{{ $producto->marca->nombre }}</td>
                             <td class="text-center">{{ $producto->categoria->nombre }}</td>
-                            <td class="text-center">${{ $producto->precio_1 * $producto->unidad_por_caja  }}</td>
+                            <td class="text-center">$ {{  number_format( $producto->precio_1 * $producto->unidad_por_caja , 2, '.', ',') }}</td>
+
+
                             <td class="text-center">{{ $producto->unidad_por_caja }}</td>
 
                             <td style="display: block; margin: 0 auto;">

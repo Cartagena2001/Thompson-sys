@@ -153,6 +153,8 @@ Route::group(['middleware' => ['auth','admin']], function () {
     Route::post('/dashboard/aspirantes/mod/{id}', [App\Http\Controllers\AspirantesController::class, 'actModCat'])->name('aspirante.actModCat');
 
 
+    //Ruta para acceder archivos privados (ver)
+    Route::get('/file/serve/pdf/{data}', [App\Http\Controllers\FileAccessController::class, 'servePDF']);
 
     //Ruta para acceder archivos privados (descargar)
     //Route::get('/file/download/{file}', [App\Http\Controllers\FileAccessController::class, 'download']);

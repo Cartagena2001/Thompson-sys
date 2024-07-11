@@ -101,7 +101,7 @@
                     <thead>
                         <tr>
                             <th class="text-start p-1">Marca</th>
-                            <th class="text-center p-1">Cantidad 📦</th>
+                            <th class="text-center p-1">Cantidad de 📦</th>
                             <th class="text-center p-1">Subtotal Parcial</th>   
                         </tr>
                     </thead>
@@ -186,7 +186,7 @@
                     <thead>
                         <tr>
                             <th class="text-start p-1">Marca</th>
-                            <th class="text-center p-1">Cantidad 📦</th>
+                            <th class="text-center p-1">Cantidad de 📦</th>
                             <th class="text-center p-1">Subtotal Parcial</th>   
                         </tr>
                     </thead>
@@ -490,7 +490,7 @@
                                 <br/>
                                 <span class="rt-color-2 font-weight-bold" style="font-size: 14px;">OEM: </span><span style="font-size: 14px;">{{ $producto->OEM }}</span>
                                 <br/>
-                                <span class="rt-color-2 font-weight-bold" style="font-size: 14px;">Unidades / 📦: </span><span style="font-size: 14px;">{{ $producto->unidad_por_caja }}</span>
+                                <span class="rt-color-2 font-weight-bold" style="font-size: 14px;">Unidades por 📦: </span><span style="font-size: 14px;">{{ $producto->unidad_por_caja }}</span>
 
                                 <div class="row">
 
@@ -501,7 +501,7 @@
                                     </div>
 
                                     <div class="col-5">
-                                        <p class="text-center"># 📦</p>
+                                        <p class="text-center"># de 📦</p>
                                     </div>
 
                                 @elseif ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
@@ -511,7 +511,7 @@
                                     </div>
 
                                     <div class="col-5">
-                                        <p class="text-center"># 📦</p>
+                                        <p class="text-center"># de 📦</p>
                                     </div>
 
                                 @else
@@ -535,23 +535,23 @@
 
                                             @if ($producto->precio_oferta != null)
 
-                                                $ {{ $producto->precio_oferta }}
+                                                $ {{ $producto->precio_oferta }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                             @elseif (Auth::user()->clasificacion == "taller")
 
-                                                $ {{ $producto->precio_taller }}
+                                                $ {{ $producto->precio_taller }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                             @elseif (Auth::user()->clasificacion == "distribuidor")
 
-                                                $ {{ $producto->precio_distribuidor }}
+                                                $ {{ $producto->precio_distribuidor }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                             @elseif (Auth::user()->clasificacion == "precioCosto")
 
-                                                $ {{ $producto->precio_1 }}
+                                                $ {{ $producto->precio_1 }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                             @elseif (Auth::user()->clasificacion == "precioOp")
 
-                                                $ {{ $producto->precio_2 }}
+                                                $ {{ $producto->precio_2 }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                             @endif
 
@@ -562,19 +562,19 @@
                                                
                                                 @if (Auth::user()->clasificacion == "taller")
 
-                                                    $ {{ $producto->precio_taller }}
+                                                    $ {{ $producto->precio_taller }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                                 @elseif (Auth::user()->clasificacion == "distribuidor")
 
-                                                    $ {{ $producto->precio_distribuidor }}
+                                                    $ {{ $producto->precio_distribuidor }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                                 @elseif (Auth::user()->clasificacion == "precioCosto")
 
-                                                    $ {{ $producto->precio_1 }}
+                                                    $ {{ $producto->precio_1 }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                                 @elseif (Auth::user()->clasificacion == "precioOp")
 
-                                                    $ {{ $producto->precio_2 }}
+                                                    $ {{ $producto->precio_2 }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                                 @endif
 
@@ -603,23 +603,23 @@
 
                                             @if ($producto->precio_oferta != null)
 
-                                                $ {{ $producto->precio_oferta }}
+                                                $ {{ $producto->precio_oferta }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                             @elseif (Auth::user()->clasificacion == "taller")
 
-                                                $ {{ $producto->precio_taller }}
+                                                $ {{ $producto->precio_taller }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                             @elseif (Auth::user()->clasificacion == "distribuidor")
 
-                                                $ {{ $producto->precio_distribuidor }}
+                                                $ {{ $producto->precio_distribuidor }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                             @elseif (Auth::user()->clasificacion == "precioCosto")
 
-                                                $ {{ $producto->precio_1 }}
+                                                $ {{ $producto->precio_1 }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                             @elseif (Auth::user()->clasificacion == "precioOp")
 
-                                                $ {{ $producto->precio_2 }}
+                                                $ {{ $producto->precio_2 }} <p class="fs--1 mt-2 mb-2 text-500"> x und</p>
 
                                             @endif
 
@@ -630,19 +630,19 @@
                                                
                                                 @if (Auth::user()->clasificacion == "taller")
 
-                                                    $ {{ $producto->precio_taller }}
+                                                    $ {{ $producto->precio_taller }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                                 @elseif (Auth::user()->clasificacion == "distribuidor")
 
-                                                    $ {{ $producto->precio_distribuidor }}
+                                                    $ {{ $producto->precio_distribuidor }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                                 @elseif (Auth::user()->clasificacion == "precioCosto")
 
-                                                    $ {{ $producto->precio_1 }}
+                                                    $ {{ $producto->precio_1 }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                                 @elseif (Auth::user()->clasificacion == "precioOp")
 
-                                                    $ {{ $producto->precio_2 }}
+                                                    $ {{ $producto->precio_2 }} <p class="fs--1 mt-2 mb-2 text-500">&nbsp; x und</p>
 
                                                 @endif
 
@@ -673,9 +673,9 @@
                                     @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 ) 
                                         Existencia: 
                                         @if ( $producto->existencia > 5)
-                                            <span class="text-success"><b>{{ $producto->existencia }}</b></span>
+                                            <span class="text-success"><b>{{ $producto->existencia }}</b></span> caja/s
                                         @else
-                                            <span class="text-danger"><b>{{ $producto->existencia }}</b></span>
+                                            <span class="text-danger"><b>{{ $producto->existencia }}</b></span> caja/s
                                         @endif 
                                     @else 
                                         @if ( $producto->existencia > 0)
@@ -707,7 +707,7 @@
 
                             <div class="col-6 col-md-6 px-1">
 
-                                <p id="subtSing{{ $producto->id }}" class="me-0 mb-0 text-center"><span style="font-size: 14px;">Subtotal:</span> <br/> <span style="font-weight: bold; font-size: 20px;">{{ isset($cart[$producto->id]['cantidad']) ? number_format(($cart[$producto->id]['precio_f'] * $cart[$producto->id]['cantidad'] * $cart[$producto->id]['unidad_caja']), 2, '.', ',') : number_format(0, 2, '.', ',') }} $</span></p> 
+                                <p id="subtSing{{ $producto->id }}" class="me-0 mb-0 text-center"><span style="font-size: 14px;">Subtotal x 📦:</span> <br/> <span style="font-weight: bold; font-size: 20px;">{{ isset($cart[$producto->id]['cantidad']) ? number_format(($cart[$producto->id]['precio_f'] * $cart[$producto->id]['cantidad'] * $cart[$producto->id]['unidad_caja']), 2, '.', ',') : number_format(0, 2, '.', ',') }} $</span></p> 
 
                             </div>
 

@@ -258,7 +258,7 @@
                                 <br/>
                                 <span class="rt-color-2 font-weight-bold" style="font-size: 14px;">OEM: </span><span style="font-size: 14px;">{{ $producto->OEM }}</span>
                                 <br/>
-                                <span class="rt-color-2 font-weight-bold" style="font-size: 14px;">Unidades / 📦: </span><span style="font-size: 14px;">{{ $producto->unidad_por_caja }}</span>
+                                <span class="rt-color-2 font-weight-bold" style="font-size: 14px;">Unidades por 📦: </span><span style="font-size: 14px;">{{ $producto->unidad_por_caja }}</span>
 
                                 <div class="row">
 
