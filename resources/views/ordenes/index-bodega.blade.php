@@ -189,7 +189,6 @@
                             <th scope="col">Estado</th>
                             <th scope="col">Fecha Envío</th>
                             <th scope="col">Fecha Despacho</th>
-                            <th scope="col">Total</th>
                             <th class="text-end" scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -219,7 +218,6 @@
 
                             <td>{{ \Carbon\Carbon::parse($orden->fecha_envio)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>
                             <td>{{ \Carbon\Carbon::parse($orden->fecha_entrega)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>
-                            <td>${{ $orden->total }}</td>
                             <td class="text-end">
                                 <a href="{{ route('bodega.show', $orden->id) }}">
                                     <button class="btn p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Ir a"><span class="text-500 fas fa-eye"></span> Ver Órden</button>
