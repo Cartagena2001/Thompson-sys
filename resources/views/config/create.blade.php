@@ -156,7 +156,7 @@
 
                         <div class="col-6">
                             <label for="whatsapp">Celular/Núm. WhatsApp: </label>
-                            <input class="form-control" type="text" name="whatsapp" id="whatsapp" value="{{ old('whatsapp', request()->input('whatsapp'))}}" minlength="8" maxlength="9" placeholder="0000-0000">
+                            <input class="form-control" type="text" name="whatsapp" id="whatsapp" value="{{ old('whatsapp', request()->input('whatsapp'))}}" placeholder="+503 0000-0000" minlength="8" maxlength="19">
                             @error('whatsapp')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror
@@ -306,7 +306,7 @@
 
                         <div class="col-6">
                             <label for="telefono">Teléfono: </label>
-                            <input class="form-control" type="text" name="telefono" id="telefono" value="{{ old('telefono', request()->input('telefono'))}}" minlength="8" maxlength="9" placeholder="0000-0000">
+                            <input class="form-control" type="text" name="telefono" id="telefono" value="{{ old('telefono', request()->input('telefono'))}}" placeholder="+503 0000-0000" minlength="8" maxlength="19">
                             @error('telefono')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror

@@ -125,10 +125,10 @@ class ContactoController extends Controller
     {
         //validar campos
         $request->validate([
-            'nomC' => 'required',
-            'emailC' => 'required',
-            'nomEC' => 'required',
-            'numWC' => 'required',
+            'nomC' => 'required|string|min:6|max:20',
+            'emailC' => 'required|email|max:40',
+            'nomEC' => 'required|string|min:6|max:30',
+            'numWC' => 'required|string|min:8|max:19',
             'g-recaptcha-response' => 'recaptcha',
         ]);
 

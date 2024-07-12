@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('contacto', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre', 35);
-            $table->string('correo', 30);
+            $table->string('correo', 50);
             $table->string('nombre_empresa', 35)->nullable();
             $table->string('numero_whatsapp', 50)->nullable();
             $table->string('mensaje', 350);

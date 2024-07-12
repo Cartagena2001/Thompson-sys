@@ -74,13 +74,13 @@ Class UsersController extends Controller
                 'name' => 'required|max:100',
                 'email' => 'required|email|max:250|unique:users',
                 'dui' => 'unique:users,dui|min:9|max:10',
-                'whatsapp' => 'required|min:8|max:9',
+                'whatsapp' => 'required|min:8|max:19',
                 'notas' => 'string|max:280',
                 'direccion' => 'required|string|max:75',
                 'municipio' => 'required|string|max:25',
                 'departamento' => 'required|string|max:15',
                 'website' => 'string|max:34',
-                'telefono' => 'string|min:8|max:9',
+                'telefono' => 'string|min:8|max:19',
                 'marcas' => 'required',
                 'password' => 'required|confirmed|min:6'   
             ]);
@@ -104,7 +104,7 @@ Class UsersController extends Controller
                 'name' => 'required|max:100',
                 'email' => 'required|email|max:250|unique:users',
                 'dui' => 'unique:users,dui|min:9|max:10',
-                'whatsapp' => 'required|min:8|max:9',
+                'whatsapp' => 'required|min:8|max:19',
                 'notas' => 'string|max:280',
                 'nrc' => 'unique:users,nrc|min:8|max:10',
                 'nit' => 'unique:users,nit|min:17|max:17',
@@ -115,7 +115,7 @@ Class UsersController extends Controller
                 'giro' => 'required|string|max:180',
                 'nombre_empresa' => 'required|string|max:34',
                 'website' => 'string|max:34',
-                'telefono' => 'string|min:8|max:9',
+                'telefono' => 'string|min:8|max:19',
                 'marcas' => 'required',
                 'password' => 'required|confirmed|min:6'    
             ]);
@@ -270,13 +270,13 @@ Class UsersController extends Controller
                 'name' => 'required|max:100',
                 'email' => 'required|email|max:100|unique:users',
                 'dui' => 'required|unique:users,dui,'.$user->id.'|min:9|max:10',
-                'whatsapp' => 'required|min:8|max:9',
+                'whatsapp' => 'required|min:8|max:19',
                 'notas' => 'string|max:280',
                 'direccion' => 'required|string|max:75',
                 'municipio' => 'required|string|max:25',
                 'departamento' => 'required|string|max:15',
                 'website' => 'string|max:34',
-                'telefono' => 'string|min:8|max:9',
+                'telefono' => 'string|min:8|max:19',
                 'negTipo' => 'required|string|min:7|max:8' 
                 //'marcas' => 'required',   
             ]);
@@ -300,7 +300,7 @@ Class UsersController extends Controller
                 'name' => 'required|max:100',
                 'email' => 'required|email|max:100|unique:users',
                 'dui' => 'required|unique:users,dui,'.$user->id.'|min:9|max:10',
-                'whatsapp' => 'required|min:8|max:9',
+                'whatsapp' => 'required|min:8|max:19',
                 'notas' => 'string|max:280',
                 'nrc' => 'required|unique:users,nrc,'.$user->id.'|min:8|max:10',
                 'nit' => 'required|unique:users,nit,'.$user->id.'|min:17|max:17',
@@ -311,7 +311,7 @@ Class UsersController extends Controller
                 'giro' => 'required|string|max:180',
                 'nombre_empresa' => 'required|string|max:34',
                 'website' => 'string|max:34',
-                'telefono' => 'string|min:8|max:9',
+                'telefono' => 'string|min:8|max:19',
                 'negTipo' => 'required|string|min:7|max:8'  
                 //'marcas' => 'required',    
             ]);

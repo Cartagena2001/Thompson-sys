@@ -53,7 +53,7 @@ class PerfilController extends Controller
             $request->validate([
                 //'name' => 'required|max:100',
                 //'dui' => 'required|unique:users,dui,'.$user->id.'|min:10|max:10',
-                'whatsapp' => 'required|min:8|max:9',
+                'whatsapp' => 'required|min:8|max:19',
                 //'nrc' => 'required|unique:users,nrc,'.$user->id.'|min:8|max:10',
                 //'nit' => 'required|unique:users,nit,'.$user->id.'|min:17|max:17',
                 //'razon_social' => 'required|max:34',
@@ -63,7 +63,7 @@ class PerfilController extends Controller
                 //'giro' => 'required|max:180',
                 //'nombre_empresa' => 'required|max:34',
                 'website' => 'required|max:34',
-                'telefono' => 'required|string|min:8|max:9'
+                'telefono' => 'required|string|min:8|max:19'
             ]);
 
         } elseif ( $user->rol_id == 0 || $user->rol_id == 1 ) {
@@ -74,7 +74,7 @@ class PerfilController extends Controller
                 'dui' => 'required|unique:users,dui,'.$user->id.'|min:9|max:10',
                 //'email' => 'required|email|unique:users,email,'.$user->email.'|max:100',
                 //'email' => 'required|email|max:100|unique:users',
-                'whatsapp' => 'required|min:8|max:9',
+                'whatsapp' => 'required|min:8|max:19',
                 'nrc' => 'required|unique:users,nrc,'.$user->id.'|min:8|max:10',
                 'nit' => 'required|unique:users,nit,'.$user->id.'|min:17|max:17',
                 'razon_social' => 'required|max:34',
@@ -84,7 +84,7 @@ class PerfilController extends Controller
                 'giro' => 'required|max:180',
                 'nombre_empresa' => 'required|max:34',
                 'website' => 'required|max:34',
-                'telefono' => 'required|string|min:8|max:9'
+                'telefono' => 'required|string|min:8|max:19'
             ]);
 
             $user->name = $request->get('name');
@@ -186,12 +186,12 @@ class PerfilController extends Controller
             //validar los datos
             $request->validate([
                 'dui' => 'required|unique:users,dui,'.$user->id.'|min:9|max:10',
-                'whatsapp' => 'required|min:8|max:9',
+                'whatsapp' => 'required|min:8|max:19',
                 'direccion' => 'required|string|max:75',
                 'municipio' => 'required|string|max:25',
                 'departamento' => 'required|string|max:15',
                 'website' => 'string|max:34',
-                'telefono' => 'string|min:8|max:9',
+                'telefono' => 'string|min:8|max:19',
                 'g-recaptcha-response' => 'recaptcha'    
             ]);
 
@@ -206,7 +206,7 @@ class PerfilController extends Controller
             //validar los datos
             $request->validate([
                 'dui' => 'required|unique:users,dui,'.$user->id.'|min:9|max:10',
-                'whatsapp' => 'required|min:8|max:9',
+                'whatsapp' => 'required|min:8|max:19',
                 'nrc' => 'required|unique:users,nrc,'.$user->id.'|min:8|max:10',
                 'nit' => 'required|unique:users,nit,'.$user->id.'|min:17|max:17',
                 'razon_social' => 'required|string|max:34',
@@ -216,7 +216,7 @@ class PerfilController extends Controller
                 'giro' => 'required|string|max:180',
                 'nombre_empresa' => 'required|string|max:34',
                 'website' => 'string|max:34',
-                'telefono' => 'string|min:8|max:9',
+                'telefono' => 'string|min:8|max:19',
                 'g-recaptcha-response' => 'recaptcha'     
             ]);
 
