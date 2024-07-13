@@ -62,8 +62,8 @@ class PerfilController extends Controller
                 //'departamento' => 'required|max:15',
                 //'giro' => 'required|max:180',
                 //'nombre_empresa' => 'required|max:34',
-                'website' => 'required|max:34',
-                'telefono' => 'required|string|min:8|max:19'
+                'website' => 'nullable|max:34',
+                'telefono' => 'nullable|string|min:8|max:19'
             ]);
 
         } elseif ( $user->rol_id == 0 || $user->rol_id == 1 ) {
@@ -83,8 +83,8 @@ class PerfilController extends Controller
                 'departamento' => 'required|max:15',
                 'giro' => 'required|max:180',
                 'nombre_empresa' => 'required|max:34',
-                'website' => 'required|max:34',
-                'telefono' => 'required|string|min:8|max:19'
+                'website' => 'nullable|max:34',
+                'telefono' => 'nullable|string|min:8|max:19'
             ]);
 
             $user->name = $request->get('name');
@@ -190,8 +190,8 @@ class PerfilController extends Controller
                 'direccion' => 'required|string|max:75',
                 'municipio' => 'required|string|max:25',
                 'departamento' => 'required|string|max:15',
-                'website' => 'string|max:34',
-                'telefono' => 'string|min:8|max:19',
+                'website' => 'nullable|string|max:34',
+                'telefono' => 'nullable|string|min:8|max:19',
                 'g-recaptcha-response' => 'recaptcha'    
             ]);
 
@@ -215,8 +215,8 @@ class PerfilController extends Controller
                 'departamento' => 'required|string|max:15',
                 'giro' => 'required|string|max:180',
                 'nombre_empresa' => 'required|string|max:34',
-                'website' => 'string|max:34',
-                'telefono' => 'string|min:8|max:19',
+                'website' => 'nullable|string|max:34',
+                'telefono' => 'nullable|string|min:8|max:19',
                 'g-recaptcha-response' => 'recaptcha'     
             ]);
 

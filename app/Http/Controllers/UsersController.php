@@ -65,7 +65,7 @@ Class UsersController extends Controller
             //persona natural no inscrita en CNR
             //validar los datos
             $request->validate([
-                'cliente_id_interno' => 'string|max:10',
+                'cliente_id_interno' => 'nullable|string|max:10',
                 'rol' => 'required|numeric',
                 'estado' => 'required|string|min:6|max:8',
                 'clasificacion' => 'required|string|max:20', 
@@ -75,12 +75,12 @@ Class UsersController extends Controller
                 'email' => 'required|email|max:250|unique:users',
                 'dui' => 'unique:users,dui|min:9|max:10',
                 'whatsapp' => 'required|min:8|max:19',
-                'notas' => 'string|max:280',
+                'notas' => 'nullable|string|max:280',
                 'direccion' => 'required|string|max:75',
                 'municipio' => 'required|string|max:25',
                 'departamento' => 'required|string|max:15',
-                'website' => 'string|max:34',
-                'telefono' => 'string|min:8|max:19',
+                'website' => 'nullable|string|max:34',
+                'telefono' => 'nullable|string|min:8|max:19',
                 'marcas' => 'required',
                 'password' => 'required|confirmed|min:6'   
             ]);
@@ -95,7 +95,7 @@ Class UsersController extends Controller
             //negocio/empresa inscrita en CNR
             //validar los datos
             $request->validate([
-                'cliente_id_interno' => 'string|max:10',
+                'cliente_id_interno' => 'nullable|string|max:10',
                 'rol' => 'required|numeric',
                 'estado' => 'required|string|min:6|max:8',
                 'clasificacion' => 'required|string|max:20', 
@@ -105,7 +105,7 @@ Class UsersController extends Controller
                 'email' => 'required|email|max:250|unique:users',
                 'dui' => 'unique:users,dui|min:9|max:10',
                 'whatsapp' => 'required|min:8|max:19',
-                'notas' => 'string|max:280',
+                'notas' => 'nullable|string|max:280',
                 'nrc' => 'unique:users,nrc|min:8|max:10',
                 'nit' => 'unique:users,nit|min:17|max:17',
                 'razon_social' => 'required|string|max:34',
@@ -114,8 +114,8 @@ Class UsersController extends Controller
                 'departamento' => 'required|string|max:15',
                 'giro' => 'required|string|max:180',
                 'nombre_empresa' => 'required|string|max:34',
-                'website' => 'string|max:34',
-                'telefono' => 'string|min:8|max:19',
+                'website' => 'nullable|string|max:34',
+                'telefono' => 'nullable|string|min:8|max:19',
                 'marcas' => 'required',
                 'password' => 'required|confirmed|min:6'    
             ]);
@@ -261,7 +261,7 @@ Class UsersController extends Controller
             //persona natural no inscrita en CNR
             //validar los datos
             $request->validate([
-                'cliente_id_interno' => 'string|max:10',
+                'cliente_id_interno' => 'nullable|string|max:10',
                 'rol' => 'required|numeric',
                 'estado' => 'required|string|min:6|max:8',
                 'clasificacion' => 'required|string|max:20', 
@@ -271,12 +271,12 @@ Class UsersController extends Controller
                 'email' => 'required|email|max:100|unique:users,email,'.$user->id,
                 'dui' => 'required|unique:users,dui,'.$user->id.'|min:9|max:10',
                 'whatsapp' => 'required|min:8|max:19',
-                'notas' => 'string|max:280',
+                'notas' => 'nullable|string|max:280',
                 'direccion' => 'required|string|max:75',
                 'municipio' => 'required|string|max:25',
                 'departamento' => 'required|string|max:15',
-                'website' => 'string|max:34',
-                'telefono' => 'string|min:8|max:19',
+                'website' => 'nullable|string|max:34',
+                'telefono' => 'nullable|string|min:8|max:19',
                 'negTipo' => 'required|string|min:7|max:8' 
                 //'marcas' => 'required',   
             ]);
@@ -291,7 +291,7 @@ Class UsersController extends Controller
             //negocio/empresa inscrita en CNR
             //validar los datos
             $request->validate([
-                'cliente_id_interno' => 'string|max:10',
+                'cliente_id_interno' => 'nullable|string|max:10',
                 'rol' => 'required|numeric',
                 'estado' => 'required|string|min:6|max:8',
                 'clasificacion' => 'required|string|max:20', 
@@ -301,7 +301,7 @@ Class UsersController extends Controller
                 'email' => 'required|email|max:100|unique:users,email,'.$user->id,
                 'dui' => 'required|unique:users,dui,'.$user->id.'|min:9|max:10',
                 'whatsapp' => 'required|min:8|max:19',
-                'notas' => 'string|max:280',
+                'notas' => 'nullable|string|max:280',
                 'nrc' => 'required|unique:users,nrc,'.$user->id.'|min:8|max:10',
                 'nit' => 'required|unique:users,nit,'.$user->id.'|min:17|max:17',
                 'razon_social' => 'required|string|max:34',
@@ -310,8 +310,8 @@ Class UsersController extends Controller
                 'departamento' => 'required|string|max:15',
                 'giro' => 'required|string|max:180',
                 'nombre_empresa' => 'required|string|max:34',
-                'website' => 'string|max:34',
-                'telefono' => 'string|min:8|max:19',
+                'website' => 'nullable|string|max:34',
+                'telefono' => 'nullable|string|min:8|max:19',
                 'negTipo' => 'required|string|min:7|max:8'  
                 //'marcas' => 'required',    
             ]);

@@ -122,7 +122,7 @@
                    
                <form action="" method="get">
 
-                    <label for="marca">Ordenar por marca:</label>
+                    <label for="marca">Ordenar / marca:</label>
                     <select style="height: 36px; border-radius: 5px;" id="marca-filter" name="marca" class="form-select form-select-sm" aria-label="Bulk actions" onchange="filterBrand(this.id)" >
 
                         <option value="0"  @if ($marcaActual == 0) selected @endif >Todas</option>
@@ -135,7 +135,7 @@
 
                     <br/>
 
-                    <label for="categoria">Ordenar por categoría:</label>
+                    <label for="categoria">Ordenar / categoría:</label>
                     <select style="height: 36px; border-radius: 5px;" id="categoria-filter" name="categoria" class="form-select form-select-sm" aria-label="Bulk actions" onchange="filterCat(this.id)" >
 
                         <option value="0" @if ($categoriaActual == 0) selected @endif >Todas</option>
@@ -158,7 +158,7 @@
 
                 <form action="" method="get">
 
-                    <label for="busq">Búsqueda - OEM: </label>
+                    <label for="busq">Búsqueda / OEM: </label>
                     <div style="display: flex;">    
                         <input class="form-control" type="text" name="busq" id="busq" value="{{ old('busq', request()->input('busq')) }}" maxlength="45" placeholder="Buscar por OEM..." style="vertical-align: middle;"><button id="btn-filter-oem" class="btn btn-sm btn-primary" type="submit" style="vertical-align: middle;"><i class="fas fa-search"></i></button>
                     </div>                           
@@ -224,7 +224,7 @@
                         }  
                 ?>
 
-                <div class="mb-4 col-6 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                <div class="mb-4 col-6 col-sm-4 col-md-4 col-lg-4 col-xl-3 px-2">
 
                     <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
                         <div class="overflow-hidden">
@@ -258,7 +258,7 @@
                                 <br/>
                                 <span class="rt-color-2 font-weight-bold" style="font-size: 14px;">OEM: </span><span style="font-size: 14px;">{{ $producto->OEM }}</span>
                                 <br/>
-                                <span class="rt-color-2 font-weight-bold" style="font-size: 14px;">Unidades por 📦: </span><span style="font-size: 14px;">{{ $producto->unidad_por_caja }}</span>
+                                <span class="rt-color-2 font-weight-bold" style="font-size: 14px;"><span class="disp-sm-none">Unidades</span><span class="d-sm-none">Unds</span> por 📦: </span><span style="font-size: 14px;">{{ $producto->unidad_por_caja }}</span>
 
                                 <div class="row">
 
@@ -268,7 +268,15 @@
 
                                 </div>
 
-                                <p class="fs--1 mb-2">Estado: <strong class="text-success">{{ $producto->estadoProducto->estado }}</strong></p>
+                                <p id="estExt" class="fs--1 mb-2">
+                                    Estado: 
+
+                                    @if ( $producto->estadoProducto->estado == 'Activo' )
+                                        <span class="text-success"><b> ✅</b></span> 
+                                    @else 
+                                        <span class="text-danger"><b> ⛔</b></span>
+                                    @endif
+                                </p>
 
                             </div>
 
