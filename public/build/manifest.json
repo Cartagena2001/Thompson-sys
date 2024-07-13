@@ -62,7 +62,7 @@
     "src": "resources/css/theme.css"
   },
   "resources/css/user.css": {
-    "file": "assets/user-fe9cff70.css",
+    "file": "assets/user-261fa838.css",
     "isEntry": true,
     "src": "resources/css/user.css"
   },
@@ -70,7 +70,7 @@
     "dynamicImports": [
       "_lightbox-af7ec53a.js"
     ],
-    "file": "assets/app-7b2583da.js",
+    "file": "assets/app-00419133.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },

@@ -454,3 +454,33 @@ li a.nav-link span {
     border-color: #607d8b;
 }
 
+
+@media (max-width: 576px) { 
+    .disp-sm-none {
+        display: none!important
+    }
+}
+
+@media (max-width: 768px) {
+    .disp-md-none {
+        display: none!important
+    }
+}
+
+@media (max-width: 992px) { 
+    .disp-lg-none {
+        display: none!important
+    }
+}
+
+@media (max-width: 1200px) { 
+    .disp-xl-none {
+        display: none!important
+    }
+}
+
+@media (max-width: 1540px) { 
+    .disp-xxl-none {
+        display: none!important
+    }
+}
