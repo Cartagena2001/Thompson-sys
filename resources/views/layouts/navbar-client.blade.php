@@ -44,7 +44,7 @@
                       <div class="dropdown flex-center">
                           <a href="" class="d-flex align-items-center text-decoration-none dropdown-toggle"
                               id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" style="border: ridge 1px #ff1620; border-radius: 20px; padding: 1px 1px;">
-                              <img src={{ Auth::user()->imagen_perfil_src }} alt="img-perfil" width="30" height="30" class="rounded-circle" />
+                              <img src="{{ URL('assets/img/accumetric-slv-logo-mod.png') }}" alt="img-perfil" width="30" height="30" class="rounded-circle" />
                               <span class="d-none d-sm-inline mx-1" style="font-size: 12px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
                           </a>
                           <ul class="dropdown-menu dropdown-menu-dark text-small shadow py-1">
