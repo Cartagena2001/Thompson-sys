@@ -33,7 +33,10 @@
     <!-- LOADING FONTS AND ICONS -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400%7CFira+Sans:500&display=swap" rel="stylesheet" property="stylesheet" media="all" type="text/css" >
 
-    
+    <!-- intl-tel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.6.1/build/css/intlTelInput.css">
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.6.1/build/js/intlTelInput.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="{{ URL('assets/revs6/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css') }}"> 
     <link rel="stylesheet" type="text/css" href="{{ URL('assets/revs6/fonts/font-awesome/css/font-awesome.css') }}"> 
     
@@ -217,10 +220,7 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="{{url('assets/vendors/list.js/list.min.js')}}"></script>  
     <script src="{{url('assets/js/theme.js')}}"></script>
-    
+
   </body>
 
 </html>
-
-
-

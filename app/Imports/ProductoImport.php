@@ -39,8 +39,7 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
     public function model(array $row)
     {
         return new Producto([
-            'slug' => $this->generateSlug($row['nombre']),
-            'sku' => '-',
+  
             'OEM' => $row['oem'],
             'lote' => $row['lote'],
             'nombre' => $row['nombre'],
@@ -55,19 +54,17 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'existencia' => $row['existencia'],
             'existencia_limite' => $row['existencia_limite'],
             'garantia' => $row['garantia'],
-            'ubicacion_bodega' => $row['ubicacion_bodega'],
-            'ubicacion_oficina' => $row['ubicacion_oficina'],
             'unidad_por_caja' => $row['unidad_por_caja'],
+            'mod_venta' => $row['modalidadVenta'],
             'volumen' => $row['volumen'],
             'unidad_volumen' => $row['und_vol'],
             'peso' => $row['peso'],
             'unidad_peso' => $row['und_peso'],
             'precio_distribuidor' => $row['precio_distribuidor'],
             'precio_taller' => $row['precio_taller'],
-            'precio_1' => $row['precio_a'],
-            'precio_2' => $row['precio_b'],
-            'precio_3' => $row['precio_c'],
-            'precio_oferta' => $row['precio_d'],
+            'precio_1' => $row['precio_costo'],
+            'precio_2' => $row['precio_op'],
+            'precio_oferta' => $row['precio_oferta'],
             'hoja_seguridad' => $row['hoja_de_seguridad'],
             'ficha_tecnica_href' => $row['ficha_tecnica'],
             'imagen_1_src' => $row['imagen1'],
@@ -78,9 +75,14 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'imagen_6_src' => $row['imagen6'],
             
             //campos que no estan en el excel
+            //'estado_producto_id' => 1,
+            'slug' => $this->generateSlug($row['nombre']),
+            'sku' => '-',
+            'ubicacion_bodega' => '-',
+            'ubicacion_oficina' => '-',
+            'precio_3' => 0.00,
             'fecha_ingreso' => \Carbon\Carbon::now(),
             'etiqueta_destacado' => 0,
-            'precio_1' => $row['precio_distribuidor'],
             'existencia' => $row['unidad_por_caja'],
         ]);
     }

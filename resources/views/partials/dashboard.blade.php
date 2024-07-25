@@ -1,3 +1,5 @@
+  
+  @section('title', 'Inicio')
 
   {{-- CLIENTE --}}
 

@@ -48,7 +48,7 @@ class MarcaController extends Controller
             'nombre' => 'required',
             'descripcion' => 'required',
             'estado' => 'required',
-            'logo_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
+            'logo_src' => 'image|mimes:jpeg,png,jpg|size:2048|dimensions:min_width=200,min_height=200,max_width=350,max_height=350',
         ]);
 
         //almacenar datos
@@ -121,7 +121,7 @@ class MarcaController extends Controller
             'nombre' => 'required',
             'descripcion' => 'required',
             'estado' => 'required',
-            'logo_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
+            'logo_src' => 'image|mimes:jpeg,png,jpg|size:2048|dimensions:min_width=200,min_height=200,max_width=350,max_height=350',
         ]);
 
         //almacenar datos

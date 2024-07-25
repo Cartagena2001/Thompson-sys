@@ -10,6 +10,17 @@
 
     <title>{{ config('Dashboard Thompson', 'Dashboard') }} - @yield('title')</title>
 
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{url('assets/img/favicons/apple-touch-icon.png')}}"> 
+    <link rel="icon" type="image/png" sizes="32x32" href="{{url('assets/img/favicons/favicon-32x32.png')}}"> 
+    <link rel="icon" type="image/png" sizes="16x16" href="{{url('assets/img/favicons/favicon-16x16.png')}}"> 
+    <link rel="shortcut icon" type="image/x-icon" href="{{url('assets/img/favicons/favicon.ico')}}">         
+    <link rel="manifest" href="{{url('assets/img/favicons/manifest.json')}}">                                
+    <meta name="msapplication-TileImage" content="{{url('assets/img/favicons/mstile-150x150.png')}}">        
+    <meta name="theme-color" content="#ffffff">
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
@@ -380,9 +391,9 @@
 
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" style="pointer-events: none;"><i class="fas fa-circle" style="font-size: 10px; color: green;"></i> En Línea</a>
-                  <a class="dropdown-item" style="pointer-events: none;"><span class=" d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
+                  <a class="dropdown-item" style="pointer-events: none;"><span class="d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">{{ Auth::user()->name }}</span>
                         @if ( Auth::user()->nombre_empresa != null)
-                            <span class=" d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">({{ Auth::user()->nombre_empresa }})</span>
+                            <span class="d-sm-inline mx-1" style="font-size: 10px; text-transform: uppercase; font-weight: 800;">({{ Auth::user()->nombre_empresa }})</span>
                         @endif</a>
                   <div class="dropdown-divider"></div>
 

@@ -531,7 +531,7 @@
 
                                     <div class="col-7 ps-3 pe-1">
                                 
-                                        <h5 style="font-size: 1rem;" class="fs-md-1 text-dark d-flex align-items-center mb-2">
+                                        <h5 style="font-size: 0.85rem;" class="fs-md-1 text-dark d-flex align-items-center mb-2">
 
                                             @if ($producto->precio_oferta != null)
 
@@ -564,19 +564,19 @@
                                                
                                                 @if (Auth::user()->clasificacion == "taller")
 
-                                                    $ {{ $producto->precio_taller }} 
+                                                    {{ $producto->precio_taller }} 
 
                                                 @elseif (Auth::user()->clasificacion == "distribuidor")
 
-                                                    $ {{ $producto->precio_distribuidor }} 
+                                                    {{ $producto->precio_distribuidor }} 
 
                                                 @elseif (Auth::user()->clasificacion == "precioCosto")
 
-                                                    $ {{ $producto->precio_1 }} 
+                                                    {{ $producto->precio_1 }} 
 
                                                 @elseif (Auth::user()->clasificacion == "precioOp")
 
-                                                    $ {{ $producto->precio_2 }}
+                                                    {{ $producto->precio_2 }}
 
                                                 @endif
 
@@ -600,8 +600,35 @@
                                 @elseif ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
 
                                     <div class="col-7 ps-3 pe-1">
+
+                                        {{-- Precio antes de descuento --}}
+                                        <del class="ms-2 fs--2 text-500">
+                                        <?php if ($producto->precio_oferta != null) { ?>
+                                        
+                                           
+                                            @if (Auth::user()->clasificacion == "taller")
+
+                                                {{ $producto->precio_taller }} 
+
+                                            @elseif (Auth::user()->clasificacion == "distribuidor")
+
+                                                {{ $producto->precio_distribuidor }}
+
+                                            @elseif (Auth::user()->clasificacion == "precioCosto")
+
+                                                {{ $producto->precio_1 }}
+
+                                            @elseif (Auth::user()->clasificacion == "precioOp")
+
+                                                {{ $producto->precio_2 }}
+
+                                            @endif
+
+                                         <?php } ?>
+                                        
+                                        </del>
                                 
-                                        <h5 style="font-size: 1rem;" class="fs-md-1 text-dark d-flex align-items-center mb-2">
+                                        <h5 class="fs-sm-1 fs-md-3 text-dark d-flex align-items-center mb-2">
 
                                             @if ($producto->precio_oferta != null)
 
@@ -626,33 +653,7 @@
                                             @endif
 
                                             <p class="fs--2 mt-2 mb-2 text-500">&nbsp; und</p>
-
-                                            {{-- Precio antes de descuento --}}
-                                            <del class="ms-2 fs--1 text-500">
-                                            <?php if ($producto->precio_oferta != null) { ?>
-                                            
-                                               
-                                                @if (Auth::user()->clasificacion == "taller")
-
-                                                    $ {{ $producto->precio_taller }} 
-
-                                                @elseif (Auth::user()->clasificacion == "distribuidor")
-
-                                                    $ {{ $producto->precio_distribuidor }}
-
-                                                @elseif (Auth::user()->clasificacion == "precioCosto")
-
-                                                    $ {{ $producto->precio_1 }}
-
-                                                @elseif (Auth::user()->clasificacion == "precioOp")
-
-                                                    $ {{ $producto->precio_2 }}
-
-                                                @endif
-
-                                             <?php } ?>
-                                            
-                                            </del>  
+  
                                         </h5>
                                     </div>
 

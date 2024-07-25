@@ -27,9 +27,12 @@
             {{ Form::select('estado', ['Activo' => 'Activo', 'Inactivo' => 'Inactivo'], $marca->estado, ['class' => 'form-control', 'placeholder' => 'Selecione un estado', 'Estado', 'required']) }}
         </div>
         <div class="mb-3">
-            {{ Form::label('logo_src', 'Logo de la marca (300x300px | .jpg, .jpeg, .png):', ['class' => 'form-label']) }}
+            {{ Form::label('logo_src', 'Logo de la marca (idealmente 300x300px | .jpg, .jpeg, .png):', ['class' => 'form-label']) }}
 
-            <img class="rounded mt-2 mb-2" src="{{ url('storage/assets/img/logos/'.$marca->logo_src) }}" alt="logo-marca" width="200" style="display: block;margin: 0 auto; border: solid 1px #000;" />
+            @if ( $marca->logo_src != '')
+                <img class="rounded mt-2 mb-2" src="{{ url('storage/assets/img/logos/'.$marca->logo_src) }}" alt="logo-marca" width="200" style="display: block;margin: 0 auto; border: solid 1px #000;" />
+            @endif
+
             {{ Form::file('logo_src', ['class' => 'form-control', 'placeholder' => '']) }}
         </div>
     </div>
