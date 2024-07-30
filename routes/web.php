@@ -171,6 +171,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Ruta cargar info aspirante a cliente
     //Route::patch('/home', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscripc.load');
+    Route::post('/home', [App\Http\Controllers\PerfilController::class, 'loadInfo']);
 
     //Rutas para el perfil
     Route::get('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'index'])->name('perfil.index');
