@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '3120b0878f953f189ce72a2c4a69fcde66c5b4c6',
+        'reference' => 'b1ad7ba230acfc5e67fe539a5b75af73d9f20490',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -201,15 +201,6 @@
             'install_path' => __DIR__ . '/../hamcrest/hamcrest-php',
             'aliases' => array(),
             'dev_requirement' => true,
-        ),
-        'igorescobar/jquery-mask-plugin' => array(
-            'pretty_version' => 'v1.14.1',
-            'version' => '1.14.1.0',
-            'reference' => '678a7df1f0bb275ce53f365b91af99d86850978d',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../igorescobar/jquery-mask-plugin',
-            'aliases' => array(),
-            'dev_requirement' => false,
         ),
         'illuminate/auth' => array(
             'dev_requirement' => false,
@@ -436,7 +427,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '3120b0878f953f189ce72a2c4a69fcde66c5b4c6',
+            'reference' => 'b1ad7ba230acfc5e67fe539a5b75af73d9f20490',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
