@@ -24,10 +24,12 @@ return new class extends Migration
             $table->string('nombre_empresa', 35)->nullable();
             $table->string('razon_social', 35)->nullable();
             $table->string('giro', 200)->nullable();
-            $table->string('municipio', 22)->nullable();
+            $table->string('mun_cod', 10)->nullable();
+            $table->string('municipio', 8*-22)->nullable();
+            $table->string('depto_cod', 10)->nullable();
             $table->string('departamento', 15)->nullable();
-            $table->string('telefono', 20)->nullable();
-            $table->string('whatsapp', 20)->nullable();
+            $table->string('telefono', 30)->nullable();
+            $table->string('whatsapp', 30)->nullable();
             $table->string('website', 35)->nullable();
             $table->string('nit', 18)->nullable()->unique();
             $table->string('dui', 10)->nullable()->unique();

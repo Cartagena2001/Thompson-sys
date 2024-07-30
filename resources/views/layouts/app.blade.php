@@ -29,6 +29,14 @@
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <!-- Scripts -->
+
+    <!-- intl-tel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.6.1/build/css/intlTelInput.css">
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.6.1/build/js/intlTelInput.min.js"></script>
+
+    <!-- jquery-mask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    
     <!-- DataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
     <link rel="stylesheet" type="text/css"
@@ -52,6 +60,9 @@
     <link rel="stylesheet" href="{{ url('assets/css/glide.core.min.css') }}">
     <!-- Optional Theme Stylesheet -->
     <link rel="stylesheet" href="{{ url('assets/css/glide.theme.min.css') }}">
+
+    <!-- jquery-mask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
     <!--
     <link href="{{url('assets/vendors/swiper/swiper-bundle.min.css')}}" rel="stylesheet">

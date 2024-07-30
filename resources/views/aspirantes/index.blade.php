@@ -118,7 +118,7 @@
                             <th scope="col">Nombre del cliente</th>
                             <th scope="col">Correo Electrónico</th>
                             <th scope="col">Empresa</th>
-                            <th scope="col" class="text-center">Municipio</th>
+                            <th scope="col" class="text-center">Municipio/Distrito</th>
                             <th scope="col" class="text-center">Departamento</th>
                             <th scope="col" class="text-center">NIT</th>
                             <th scope="col" class="text-center">Estado</th>

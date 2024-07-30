@@ -170,7 +170,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     //Ruta cargar info aspirante a cliente
-    Route::patch('/home', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscripc.load');
+    //Route::patch('/home', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscripc.load');
 
     //Rutas para el perfil
     Route::get('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'index'])->name('perfil.index');
@@ -183,6 +183,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Rutas para aspirantes (formulario)
     Route::get('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'indexInfoSent'])->name('info.enviada');
+    
     Route::post('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscrip.load');
 
     //Rutas para tienda y catalogo

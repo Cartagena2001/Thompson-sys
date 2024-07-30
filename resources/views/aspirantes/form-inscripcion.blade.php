@@ -87,7 +87,7 @@
                     <hr/>
 
                     <form method="POST" action="{{-- route('forminscrip.load') --}}" role="form" enctype="multipart/form-data">
-                        {{ method_field('PATCH') }}
+                        {{ method_field('POST') }}
                         @csrf
 
                         <div class="mt-3 col-auto text-center col-6 mx-auto">
@@ -129,7 +129,7 @@
 
                             <div class="col-6">
                                 <label for="whatsapp">Celular/Núm. WhatsApp: </label><br/>
-                                <input class="form-control" type="tel" name="whatsapp" id="whatsapp" data-intl-tel-input-id="0" autocomplete="off" value="{{ $user->whatsapp }}" placeholder="0000-0000" minlength="8" maxlength="19" required>
+                                <input class="form-control" type="tel" name="whatsapp" id="whatsapp" data-intl-tel-input-id="0" autocomplete="off" value="{{ $user->whatsapp }}" placeholder="0000-0000" minlength="8" maxlength="21">
                                 @error('whatsapp')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
@@ -278,7 +278,7 @@
 
                             <div class="col-6">
                                 <label for="website">WebSite: </label>
-                                <input class="form-control" type="text" name="website" id="website" value="{{ $user->website }}" placeholder="-" maxlength="34" required>
+                                <input class="form-control" type="text" name="website" id="website" value="{{ $user->website }}" placeholder="-" maxlength="34">
                                 @error('website')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
@@ -286,7 +286,7 @@
 
                             <div class="col-6">
                                 <label for="telefono">Teléfono: </label>
-                                <input class="form-control" type="tel" name="telefono" id="telefono" data-intl-tel-input-id="1" autocomplete="off" value="{{ $user->telefono }}" placeholder="0000-0000" minlength="8" maxlength="19" required>
+                                <input class="form-control" type="tel" name="telefono" id="telefono" data-intl-tel-input-id="1" autocomplete="off" value="{{ $user->telefono }}" placeholder="0000-0000" minlength="8" maxlength="21">
                                 @error('telefono')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
@@ -1032,21 +1032,16 @@
             zm: "Zambia",
             zw: "Zimbabue",
           },
-          utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.6.1/build/js/utils.js"
-  });
-
-/*
-    window.intlTelInput(input1, {
+          utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.6.1/build/js/utils.js",
 
         hiddenInput: function(telInputName) {
-        return {
-          phone: "whatsapp_full",
-          country: "country_code1"
-        };
-      }
+            return {
+              phone: "whatsapp_full",
+              country: "country_code1"
+            };
+        }
+  });
 
-    });
-*/
 
 
   window.intlTelInput(input2, {
@@ -1319,8 +1314,24 @@
             zm: "Zambia",
             zw: "Zimbabue",
           },
-          utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.6.1/build/js/utils.js"
+          utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.6.1/build/js/utils.js",
+        
+        hiddenInput: function(telInputName) {
+            return {
+              phone: "tel_full",
+              country: "country_code2"
+            };
+        }
   });
+
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+      $('#nit').mask('0000-000000-000-0');
+      $('#dui').mask('00000000-0');
+    });  
 
 </script>
 

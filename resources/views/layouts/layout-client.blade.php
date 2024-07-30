@@ -37,6 +37,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.6.1/build/css/intlTelInput.css">
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.6.1/build/js/intlTelInput.min.js"></script>
 
+    <!-- jquery-mask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="{{ URL('assets/revs6/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css') }}"> 
     <link rel="stylesheet" type="text/css" href="{{ URL('assets/revs6/fonts/font-awesome/css/font-awesome.css') }}"> 
     
