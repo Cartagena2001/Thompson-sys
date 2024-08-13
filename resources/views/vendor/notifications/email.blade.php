@@ -4,17 +4,20 @@
 # {{ $greeting }}
 @else
 @if ($level === 'error')
-# @lang('Whoops!')
+# @lang('Upss!')
 @else
-# @lang('Hello!')
+# @lang('Hola!')
 @endif
 @endif
 
-{{-- Intro Lines --}}
+{{-- Intro Lines
 @foreach ($introLines as $line)
 {{ $line }}
 
 @endforeach
+--}}
+
+<span>Recibirá este correo electrónico porque recibimos una solicitud de restablecimiento de contraseña para su cuenta.</span>
 
 {{-- Action Button --}}
 @isset($actionText)
@@ -25,29 +28,34 @@
     };
 ?>
 <x-mail::button :url="$actionUrl" :color="$color">
-{{ $actionText }}
+{{-- $actionText --}}
+<span>Reestablecer Contraseña</span>
 </x-mail::button>
 @endisset
 
-{{-- Outro Lines --}}
+{{-- Outro Lines 
 @foreach ($outroLines as $line)
 {{ $line }}
-
 @endforeach
+--}}
+
+<span>Este enlace de reestablecimiento de contraseña expirará en 60 minutos.
+<br/>
+Si no solicitó un restablecimiento de contraseña, no se requiere ninguna acción adicional.</span>
 
 {{-- Salutation --}}
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-@lang('Regards'),<br>
-{{ config('app.name') }}
+@lang('Atentamente'),<br>
+<span>Servicio de soporte técnico</span>
 @endif
 
 {{-- Subcopy --}}
 @isset($actionText)
 <x-slot:subcopy>
 @lang(
-    "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\n".
+    "Si tienes algún problema haciendo clic en el botón \":actionText\" puedes copiar y pegar el enlace siguiente\n".
     'into your web browser:',
     [
         'actionText' => $actionText,
