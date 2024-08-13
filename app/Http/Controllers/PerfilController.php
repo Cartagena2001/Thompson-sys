@@ -2118,7 +2118,7 @@ class PerfilController extends Controller
         try {
 
             // Email server settings
-            $mail->SMTPDebug = 1;
+            //$mail->SMTPDebug = 1; // 1 | 2 | 3 | 4
             $mail->isSMTP();
 
             $mail->Host = config('phpmailerconf.host'); //env('MAIL_HOST');
@@ -2162,15 +2162,20 @@ class PerfilController extends Controller
             */  
             $intentos=1; 
             
-            while ((!$exito) && ($intentos < 5)) {
-                sleep(5);
-                /*echo $mail->ErrorInfo;*/
-                $exito = $mail->Send();
-                $intentos=$intentos+1;  
+            if ($exito != true) {
+
+                while (($exito != true) && ($intentos < 5)) {
+                    sleep(5);
+                    /*echo $mail->ErrorInfo;*/
+                    $exito = $mail->Send();
+                    $intentos=$intentos+1;  
+                }
             }
 
             $mail->getSMTPInstance()->reset();
+            $mail->clearAllRecipients();
             $mail->clearAddresses();
+            $mail->clearReplyTos();
             $mail->smtpClose();
 
             return $exito;

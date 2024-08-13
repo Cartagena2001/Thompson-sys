@@ -38,29 +38,19 @@ class HomeController extends Controller
 
         $marcasAuto = $user->marcas;
         $marcasAutorizadas = str_split($marcasAuto);
-
-
-
-        $marcaTemco = 1;
-        $marcaCTI = 2;
-        $marcaEcom = 3;
-            
-        $categoriasT = Categoria::whereIn('id', function($query) use ($marcaTemco){
-            $query->select('categoria_id')->from('marca_cat')->whereIn('marca_id', [$marcaTemco]);
-        })->get();
-
-        $categoriasC = Categoria::whereIn('id', function($query) use ($marcaCTI){
-            $query->select('categoria_id')->from('marca_cat')->whereIn('marca_id', [$marcaCTI]);
-        })->get();
-
-        $categoriasE = Categoria::whereIn('id', function($query) use ($marcaEcom){
-            $query->select('categoria_id')->from('marca_cat')->whereIn('marca_id', [$marcaEcom]);
-        })->get();
-
-
-
-
         $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
+
+        //$categoriasAuto = [];
+
+        foreach ($marcas as $brandA) {
+
+            $marcaID = $brandA->id;
+
+            $categoriasAuto[$marcaID] = Categoria::whereIn('id', function($query) use ( $marcaID){
+                $query->select('categoria_id')->from('marca_cat')->whereIn('marca_id', [$marcaID]); 
+            })->get();
+
+        }
 
         $cmsVars = CMS::get()->toArray();
 
@@ -97,7 +87,7 @@ class HomeController extends Controller
         } else {
             //estatus = aprobado
             //dd($topProductos);
-            return view('home',  compact('marcas', 'cat_mod', 'mant_mod', 'topProductos', 'categoriasT', 'categoriasC', 'categoriasE'));
+            return view('home',  compact('marcas', 'cat_mod', 'mant_mod', 'topProductos', 'categoriasAuto'));
         }
     }
 

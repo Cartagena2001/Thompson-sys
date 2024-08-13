@@ -296,7 +296,7 @@ class AspirantesController extends Controller
         try {
 
             // Email server settings
-            $mail->SMTPDebug = 1;
+            //$mail->SMTPDebug = 1; // 1 | 2 | 3 | 4
             $mail->isSMTP();
 
             $mail->Host = config('phpmailerconf.host'); //env('MAIL_HOST');
@@ -309,7 +309,7 @@ class AspirantesController extends Controller
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
 
-            $mail->setFrom('notificaciones@rtelsalvador.com', 'Representaciones Thompson');
+            $mail->setFrom('notificaciones@rtelsalvador.com', 'Accumetric El Salvador');
             $mail->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
             //$mail->addCC($request->emailCc);
             //$mail->addBCC($request->emailBcc);
@@ -340,15 +340,20 @@ class AspirantesController extends Controller
             */  
             $intentos=1; 
             
-            while ((!$exito) && ($intentos < 5)) {
-                sleep(5);
-                /*echo $mail->ErrorInfo;*/
-                $exito = $mail->Send();
-                $intentos=$intentos+1;  
+            if ($exito != true) {
+
+                while (($exito != true) && ($intentos < 5)) {
+                    sleep(5);
+                    /*echo $mail->ErrorInfo;*/
+                    $exito = $mail->Send();
+                    $intentos=$intentos+1;  
+                }
             }
 
             $mail->getSMTPInstance()->reset();
+            $mail->clearAllRecipients();
             $mail->clearAddresses();
+            $mail->clearReplyTos();
             $mail->smtpClose();
 
             return $exito;
