@@ -1074,35 +1074,32 @@ class OrdenesController extends Controller
 
             // $mail->AltBody = plain text version of email body;
 
-            /* Se envia el mensaje, si no ha habido problemas la variable $estatus tendrá el valor true */
-            $estatus = $mail->Send();
+            /* Se envia el mensaje, si no ha habido problemas la variable $exito tendrá el valor true */
+            $exito = $mail->Send();
             /* 
             Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
             enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
             funcion sleep
             */  
-            
-            /*
             $intentos=1; 
             
-            if ($estatus != true) {
+            if ($exito != true) {
 
-                while (($estatus != true) && ($intentos < 5)) {
+                while (($exito != true) && ($intentos < 5)) {
                     sleep(5);
-                    //echo $mail->ErrorInfo;
-                    $estatus = $mail->Send();
-                    $intentos = $intentos+1;  
+                    /*echo $mail->ErrorInfo;*/
+                    $exito = $mail->Send();
+                    $intentos=$intentos+1;  
                 }
             }
-            */
 
-            //$mail->getSMTPInstance()->reset();
+            $mail->getSMTPInstance()->reset();
             $mail->clearAllRecipients();
             $mail->clearAddresses();
             $mail->clearReplyTos();
-            //$mail->smtpClose();
+            $mail->smtpClose();
 
-            return $estatus;
+            return $exito;
         
         } catch (Exception $e) {
              return $mail->ErrorInfo;
@@ -1156,35 +1153,32 @@ class OrdenesController extends Controller
 
             // $mail2->AltBody = plain text version of email body;
 
-            /* Se envia el mensaje, si no ha habido problemas la variable $estatus tendrá el valor true */
-            $estatus = $mail->Send();
+            /* Se envia el mensaje, si no ha habido problemas la variable $exito tendrá el valor true */
+            $exito = $mail->Send();
             /* 
             Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
             enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
             funcion sleep
             */  
-
-            /*
             $intentos=1; 
             
-            if ($estatus != true) {
+            if ($exito != true) {
 
-                while (($estatus != true) && ($intentos < 5)) {
+                while (($exito != true) && ($intentos < 5)) {
                     sleep(5);
-                    //echo $mail->ErrorInfo;
-                    $estatus = $mail->Send();
-                    $intentos = $intentos+1;  
+                    /*echo $mail->ErrorInfo;*/
+                    $exito = $mail->Send();
+                    $intentos=$intentos+1;  
                 }
             }
-            */
 
-            //$mail->getSMTPInstance()->reset();
+            $mail->getSMTPInstance()->reset();
             $mail->clearAllRecipients();
             $mail->clearAddresses();
             $mail->clearReplyTos();
-            //$mail->smtpClose();
+            $mail->smtpClose();
 
-            return $estatus;
+            return $exito;
         
         } catch (Exception $e) {
               return $mail->ErrorInfo;
