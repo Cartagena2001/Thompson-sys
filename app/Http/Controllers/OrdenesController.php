@@ -1069,7 +1069,7 @@ class OrdenesController extends Controller
 
             $mail->isHTML(true);                // Set email content format to HTML
 
-            $mail->Subject = $emailSubject.' '.rand();
+            $mail->Subject = $emailSubject; //.' '.rand();
             $mail->Body    = $emailBody;
 
             // $mail->AltBody = plain text version of email body;
@@ -1151,7 +1151,7 @@ class OrdenesController extends Controller
 
             $mail->isHTML(true);                // Set email content format to HTML
 
-            $mail->Subject = $emailSubject.' '.rand();
+            $mail->Subject = $emailSubject; //.' '.rand();
             $mail->Body    = $emailBody;
 
             // $mail2->AltBody = plain text version of email body;

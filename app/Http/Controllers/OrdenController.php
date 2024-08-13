@@ -326,7 +326,8 @@ class OrdenController extends Controller
             //Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
             //enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
             //funcion sleep
-              
+            
+            /*  
             $intentos=1; 
             
             if ($exito != true) {
@@ -338,10 +339,13 @@ class OrdenController extends Controller
                     $intentos=$intentos+1;  
                 }
             }
+            */
 
-            $mail->getSMTPInstance()->reset();
+            //$mail->getSMTPInstance()->reset();
+            $mail->clearAllRecipients();
             $mail->clearAddresses();
-            $mail->smtpClose();
+            $mail->clearReplyTos();
+            //$mail->smtpClose();
 
             return $exito;
         
@@ -403,22 +407,27 @@ class OrdenController extends Controller
             Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho para intentar 
             enviar el mensaje, cada intento se hara 5 segundos despues del anterior, para ello se usa la 
             funcion sleep
-            */  
+            */
+
+            /*  
             $intentos=1; 
             
             if ($exito != true) {
 
                 while (($exito != true) && ($intentos < 5)) {
                     sleep(5);
-                    /*echo $mail->ErrorInfo;*/
+                    //echo $mail->ErrorInfo;
                     $exito = $mail->Send();
                     $intentos=$intentos+1;  
                 }
             }
+            */
 
-            $mail->getSMTPInstance()->reset();
+            //$mail->getSMTPInstance()->reset();
+            $mail->clearAllRecipients();
             $mail->clearAddresses();
-            $mail->smtpClose();
+            $mail->clearReplyTos();
+            //$mail->smtpClose();
 
             return $exito;
         
