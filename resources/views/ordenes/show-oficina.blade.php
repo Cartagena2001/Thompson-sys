@@ -52,7 +52,7 @@
 
     {{-- Titulo --}}
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
-        <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png);"></div>
+        <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url({{url('assets/img/icons/spot-illustrations/corner-4.png')}});"></div>
         <div class="card-body position-relative mt-4">
             <div class="row">
                 <div class="col-lg-12">

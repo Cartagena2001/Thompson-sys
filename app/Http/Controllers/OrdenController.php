@@ -340,7 +340,9 @@ class OrdenController extends Controller
             }
 
             $mail->getSMTPInstance()->reset();
+            $mail->clearAllRecipients();
             $mail->clearAddresses();
+            $mail->clearReplyTos();
             $mail->smtpClose();
 
             return $exito;
@@ -417,7 +419,9 @@ class OrdenController extends Controller
             }
 
             $mail->getSMTPInstance()->reset();
+            $mail->clearAllRecipients();
             $mail->clearAddresses();
+            $mail->clearReplyTos();
             $mail->smtpClose();
 
             return $exito;
