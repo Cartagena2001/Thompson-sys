@@ -2,7 +2,7 @@
     {{-- Header --}}
     <x-slot:header>
         <x-mail::header :url="config('app.url')">
-            {{ config('app.name') }}
+            <img src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' alt='rt-logo' style='width: 100%; max-width: 190px; height: auto;' />
         </x-mail::header>
     </x-slot:header>
 
