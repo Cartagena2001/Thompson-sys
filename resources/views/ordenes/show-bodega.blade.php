@@ -50,13 +50,13 @@
                         <span class="rt-color-2">Nombre/Razón ó denominación social:</span> <span class="">{{ $orden->user->razon_social }}</span><br> 
                         <span class="rt-color-2">Nombre Comercial:</span> <span class="">{{ $orden->user->nombre_empresa }}</span><br> 
                         <span class="rt-color-2">Dirección:</span> <span class="">{{ $orden->user->direccion }}, {{ $orden->user->departamento }}, {{ $orden->user->municipio }} </span><br> 
-                        <span class="rt-color-2">Teléfono:</span> <span class="">+503 {{ $orden->user->telefono }}</span> 
+                        <span class="rt-color-2">Teléfono:</span> <span class="">{{ $orden->user->telefono }}</span> 
                     </div>
                 
                     <div class="col-6 mt-3">
                         <span class="rt-color-2">Orden ID: #</span> <span class="">{{ $orden->id }}</span><br>
                         <span class="rt-color-2"># Factura:</span> <span class="">{{ $orden->corr }}</span><br>
-                        <span class="rt-color-2">Fecha/Hora:</span> <span class="">{{ \Carbon\Carbon::parse($orden->created_at)->format('d/m/Y, h:m:s a') }}</span><br>
+                        <span class="rt-color-2">Fecha/Hora:</span> <span class="">{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</span><br>
                         <span class="rt-color-2">Notas:</span> <span>{{ $orden->notas }}</span><br>
                         <span class="rt-color-2">Estado:</span> 
                             @if ( $orden->estado == 'Pendiente')

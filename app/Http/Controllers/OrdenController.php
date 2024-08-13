@@ -81,7 +81,8 @@ class OrdenController extends Controller
         $ordenAux = Orden::find($orden->id);
         $detalleAUx = ordenDetalle::where('orden_id', $orden->id)->get();
 
-        $ordenFechaH = \Carbon\Carbon::parse($ordenAux->created_at)->format('d/m/Y, h:m:s a');
+        //$ordenFechaH = \Carbon\Carbon::parse($ordenAux->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a');
+        $ordenFechaH = \Carbon\Carbon::parse($ordenAux->fecha_registro)->isoFormat('DD/MM/Y, h:mm:ss a');
 
         $subtotal = 0;
         $iva = 0.13;
@@ -115,7 +116,7 @@ class OrdenController extends Controller
                         <p><b>Cliente</b>: ".$ordenAux->user->name." <br/>
                            <b>Empresa</b>: ".$ordenAux->user->nombre_empresa." <br/>
                            <b>Correo electrónico</b>: ".$ordenAux->user->email." <br/>
-                           <b>WhatsApp</b>: ".$ordenAux->user->numero_whatsapp." <br/>
+                           <b>WhatsApp</b>: ".$ordenAux->user->whatsapp." <br/>
                            <b>Teléfono</b>: ".$ordenAux->user->telefono." <br/>
                            <b>Dirección</b>: ".$ordenAux->user->direccion.", ".$ordenAux->user->municipio.", ".$ordenAux->user->departamento."<br/>  
                            <b>Fecha/Hora de orden</b>: ".$ordenFechaH." <br/>
@@ -201,7 +202,7 @@ class OrdenController extends Controller
                            <b>NRC</b>: ".($ordenAux->user->nrc != null ? $ordenAux->user->nrc : '-')." | <b>NIT</b>: ".($ordenAux->user->nit != null ? $ordenAux->user->nit : '-')." | <b>DUI</b>: ".($ordenAux->user->dui != null ? $ordenAux->user->dui : '-')." <br/>
                            <b>Empresa</b>: ".$ordenAux->user->nombre_empresa." <br/>
                            <b>Correo electrónico</b>: ".$ordenAux->user->email." <br/>
-                           <b>WhatsApp</b>: ".$ordenAux->user->numero_whatsapp." <br/>
+                           <b>WhatsApp</b>: ".$ordenAux->user->whatsapp." <br/>
                            <b>Teléfono</b>: ".$ordenAux->user->telefono." <br/>
                            <b>Dirección</b>: ".$ordenAux->user->direccion.", ".$ordenAux->user->municipio.", ".$ordenAux->user->departamento."<br/>  
                            <b>Fecha/Hora de orden</b>: ".$ordenFechaH." <br/>
