@@ -25,9 +25,9 @@ return new class extends Migration
             $table->string('razon_social', 35)->nullable();
             $table->string('giro', 200)->nullable();
             $table->string('mun_cod', 10)->nullable();
-            $table->string('municipio', 8*-22)->nullable();
+            $table->string('municipio', 70)->nullable();
             $table->string('depto_cod', 10)->nullable();
-            $table->string('departamento', 15)->nullable();
+            $table->string('departamento', 30)->nullable();
             $table->string('telefono', 30)->nullable();
             $table->string('whatsapp', 30)->nullable();
             $table->string('website', 35)->nullable();

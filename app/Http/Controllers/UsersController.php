@@ -82,6 +82,7 @@ Class UsersController extends Controller
                 'website' => 'nullable|string|max:34',
                 'telefono' => 'nullable|string|min:8|max:19',
                 'marcas' => 'required',
+                'imagen_perfil_src' => 'nullable|image|mimes:png,jpg,jpeg|max:2048|dimensions:min_width=150,min_height=150,max_width=250,max_height=250',
                 'password' => 'required|confirmed|min:6'   
             ]);
 
@@ -117,6 +118,7 @@ Class UsersController extends Controller
                 'website' => 'nullable|string|max:34',
                 'telefono' => 'nullable|string|min:8|max:19',
                 'marcas' => 'required',
+                'imagen_perfil_src' => 'nullable|image|mimes:png,jpg,jpeg|max:2048|dimensions:min_width=150,min_height=150,max_width=250,max_height=250',
                 'password' => 'required|confirmed|min:6'    
             ]);
 

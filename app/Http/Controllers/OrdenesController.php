@@ -55,7 +55,8 @@ class OrdenesController extends Controller
             'corr' => 'string|min:1|max:24',
             'notas' => 'string|max:250',
             'ubicacion' => 'string|max:19',
-            'factura_href' => 'image|mimes:jpeg,png,gif,jpg|max:5000'
+            'factura_href' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=400,min_height=400,max_width=1200,max_height=1200'
+
         ]);
 
         $orden = Orden::find($id);
@@ -109,7 +110,7 @@ class OrdenesController extends Controller
 
             'tipo_pago' => 'string|min:4|max:90',
             'periodicidad' => 'string|min:4|max:90',
-            'comprobante_pago_href' => 'image|mimes:jpeg,png,gif,jpg|max:5000'
+            'comprobante_pago_href' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=400,min_height=400,max_width=1200,max_height=1200'
         ]);
 
         $orden = Orden::find($id);
@@ -163,7 +164,7 @@ class OrdenesController extends Controller
             'notas_bodega' => 'string|max:250',
             'bulto' => 'string|max:9',
             'paleta' => 'string|max:9',
-            'hoja_salida_href' => 'image|mimes:jpeg,png,gif,jpg|max:5000'
+            'hoja_salida_href' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=400,min_height=400,max_width=1200,max_height=1200',
 
         ]);
 
@@ -211,13 +212,17 @@ class OrdenesController extends Controller
     }
     
 
-    //crear una funcion para actualizar el estado de la orden a en proceso (solo oficina)
+    //crear una funcion para actualizar el estado de la orden a en proceso
     public function enProceso($id){
 
         $orden = Orden::find($id); 
         $ordenDetalle = OrdenDetalle::where('orden_id', $id)->get(); 
         $orden->estado = 'Proceso';
         $orden->update();
+
+        $subtotal = 0;
+        $iva = 0.13;
+        $total = 0;
 
         //Envio de notificación por correo al cliente
         $emailRecipientClient = $orden->user->email;
@@ -234,14 +239,71 @@ class OrdenesController extends Controller
                         <p>SU ORDEN DE COMPRA: <b># ".$orden->id."</b> HA CAMBIADO DE ESTADO: DE <b>PENDIENTE</b> A <span style='font-weight:bold; color:#21d781;'>EN PROCESO</span>, recibirás actualizaciones del estado de tu orden hasta finalizar el proceso.</p>
                         <br/>
                         <br/>
-                        <p>Cualquier duda o consulta sobre tu orden de compra puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
-                        ";
+                        <p><b>RESUMEN PEDIDO</b>:</p>
+                        <br/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style='text-align: left;'>Producto</th>
+                                    <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Precio (caja)</th>
+                                    <th style='text-align: center;'>Subtotal Parcial</th>
+                                </tr>
+                            </thead>
+                            <tbody>";
+
+            foreach ($ordenDetalle as $detalles) {
+
+                $subtotal += $detalles->cantidad * $detalles->precio;
+
+             $emailBodyClient.= "<tr style='padding-bottom: 20px;'>
+                                    <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                 </tr>";
+            }
+
+            $total = $subtotal + ($subtotal * $iva); 
+
+       $emailBodyClient .= "<tr style='padding-top: 20px; border-top: solid 4px #979797;'>
+                                <td></td>
+                                <td></td> 
+                                <td style='text-align: left; font-weight: 600;'>Subtotal:</td> 
+                                <td style='text-align: right;'>".number_format($subtotal, 2, '.', ',')." $</td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td> 
+                                <td style='text-align: left; font-weight: 600;'>IVA (13%):</td> 
+                                <td style='text-align: right;'>".number_format(($subtotal * $iva), 2, '.', ',')." $</td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td style='text-align: left; font-weight: 600;'>Total:</td> 
+                                <td style='text-align: right;'>".number_format($total, 2, '.', ',')." $</td> 
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br/>
+
+                    <p>Cualquier duda o consulta sobre tu orden de compra puedes escribir al correo electrónico <b>oficina@rtelsalvador.com</b> o simplemente respondiendo a este correo.</p>
+
+                    <br/>
+                    
+                    <p>...</p>
+                    ";
                         
         $replyToEmailClient = "oficina@rtelsalvador.com";
         $replyToNameClient = "Accumetric El Salvador - Oficina";
 
         $estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
         //dd($estado1);
+
+        $subtotal = 0;
+        $total = 0;
 
 
         //Envio de notificación por correo a oficina
@@ -283,10 +345,6 @@ class OrdenesController extends Controller
                             </thead>
                             <tbody>";
   
-            $subtotal = 0;
-            $iva = 0.13;
-            $total = 0;
-
             foreach ($ordenDetalle as $detalles) {
 
                 $subtotal += $detalles->cantidad * $detalles->precio;

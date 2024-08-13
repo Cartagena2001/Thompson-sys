@@ -84,14 +84,14 @@ class ProductoController extends Controller
             //'peso' => 'numeric',
             'precio_distribuidor' => 'required|numeric',
             //'precio_taller' => 'required|numeric',
-            'hoja_seguridad' => 'mimetypes:application/pdf|max:15000',
-            'ficha_tecnica_href' => 'mimetypes:application/pdf|max:15000',
-            'imagen_1_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
-            'imagen_2_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
-            'imagen_3_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
-            'imagen_4_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
-            'imagen_5_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
-            'imagen_6_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
+            'hoja_seguridad' => 'nullable|mimetypes:application/pdf|max:10240',
+            'ficha_tecnica_href' => 'nullable|mimetypes:application/pdf|max:10240',
+            'imagen_1_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_2_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_3_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_4_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_5_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_6_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200'
         ]);
 
         //almacenar datos
@@ -387,14 +387,14 @@ class ProductoController extends Controller
             //'peso' => 'numeric',
             'precio_distribuidor' => 'required|numeric',
             //'precio_taller' => 'required|numeric',
-            'hoja_seguridad' => 'mimetypes:application/pdf|max:15000',
-            'ficha_tecnica_href' => 'mimetypes:application/pdf|max:15000',
-            'imagen_1_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
-            'imagen_2_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
-            'imagen_3_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
-            'imagen_4_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
-            'imagen_5_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
-            'imagen_6_src' => 'image|mimes:jpeg,png,gif,jpg|max:5000',
+            'hoja_seguridad' => 'nullable|mimetypes:application/pdf|max:10240',
+            'ficha_tecnica_href' => 'nullable|mimetypes:application/pdf|max:10240',
+            'imagen_1_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_2_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_3_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_4_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_5_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_6_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200'
         ]);
 
         //almacenar datos
