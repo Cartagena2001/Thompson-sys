@@ -220,9 +220,19 @@ class OrdenesController extends Controller
         $orden->estado = 'Proceso';
         $orden->update();
 
+        $ordenFechaH = \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('DD/MM/Y, h:mm:ss a');
+
         $subtotal = 0;
         $iva = 0.13;
         $total = 0;
+
+        foreach ($ordenDetalle as $detalles) {
+
+            $subtotal += $detalles->cantidad * $detalles->precio;
+
+        }
+
+        $total = $subtotal + ($subtotal * $iva);
 
         //Envio de notificación por correo al cliente
         $emailRecipientClient = $orden->user->email;
@@ -254,8 +264,6 @@ class OrdenesController extends Controller
 
             foreach ($ordenDetalle as $detalles) {
 
-                $subtotal += $detalles->cantidad * $detalles->precio;
-
              $emailBodyClient.= "<tr style='padding-bottom: 20px;'>
                                     <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
                                     <td style='text-align: center;'>".$detalles->cantidad."</td>
@@ -263,8 +271,6 @@ class OrdenesController extends Controller
                                     <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
                                  </tr>";
             }
-
-            $total = $subtotal + ($subtotal * $iva); 
 
        $emailBodyClient .= "<tr style='padding-top: 20px; border-top: solid 4px #979797;'>
                                 <td></td>
@@ -302,10 +308,6 @@ class OrdenesController extends Controller
         $estado1 = $this->notificarCliente($emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
         //dd($estado1);
 
-        $subtotal = 0;
-        $total = 0;
-
-
         //Envio de notificación por correo a oficina
         $emailRecipientOff = "oficina@rtelsalvador.com";
         
@@ -325,10 +327,10 @@ class OrdenesController extends Controller
                            <b>NRC</b>: ".($orden->user->nrc != null ? $orden->user->nrc : '-')." | <b>NIT</b>: ".($orden->user->nit != null ? $orden->user->nit : '-')." | <b>DUI</b>: ".($orden->user->dui != null ? $orden->user->dui : '-')." <br/>
                            <b>Empresa</b>: ".$orden->user->nombre_empresa." <br/>
                            <b>Correo electrónico</b>: ".$orden->user->email." <br/>
-                           <b>WhatsApp</b>: ".$orden->user->numero_whatsapp." <br/>
+                           <b>WhatsApp</b>: ".$orden->user->whatsapp." <br/>
                            <b>Teléfono</b>: ".$orden->user->telefono." <br/>
                            <b>Dirección</b>: ".$orden->user->direccion.", ".$orden->user->municipio.", ".$orden->user->departamento."<br/>  
-                           <b>Fecha/Hora</b>: ".\Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a')." <br/>
+                           <b>Fecha/Hora de orden</b>: ".$ordenFechaH." <br/>
                            <b>Estado: </b>".$orden->estado."
                         </p>
                         
@@ -347,8 +349,6 @@ class OrdenesController extends Controller
   
             foreach ($ordenDetalle as $detalles) {
 
-                $subtotal += $detalles->cantidad * $detalles->precio;
-
                 $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
                                     <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
                                     <td style='text-align: center;'>".$detalles->cantidad."</td>
@@ -356,8 +356,6 @@ class OrdenesController extends Controller
                                     <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
                                  </tr>";
             }
-
-            $total = $subtotal + ($subtotal * $iva); 
 
         $emailBodyOff .= "<tr style='padding-top: 20px; border-top: solid 4px #979797;'>
                                 <td></td>
@@ -1041,7 +1039,7 @@ class OrdenesController extends Controller
         try {
 
             // Email server settings
-            $mail->SMTPDebug = 1;
+            //$mail->SMTPDebug = 1; // 1 | 2 | 3 | 4
             $mail->isSMTP();
 
             $mail->Host = config('phpmailerconf.host'); //env('MAIL_HOST');
@@ -1123,7 +1121,7 @@ class OrdenesController extends Controller
         try {
 
             // Email server settings
-            $mail->SMTPDebug = 1;
+            //$mail->SMTPDebug = 1; // 1 | 2 | 3 | 4
             $mail->isSMTP();
 
             $mail->Host = config('phpmailerconf.host'); //env('MAIL_HOST');

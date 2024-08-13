@@ -180,7 +180,6 @@ class OrdenController extends Controller
         $estado1 = $this->notificarCliente($emailRecipientClient, $emailSubjectClient, $emailBodyClient, $replyToEmailClient, $replyToNameClient);
         //dd($estado1);
 
-
         //Envio de notificación por correo a Oficina
         $emailRecipientOff = "oficina@rtelsalvador.com";
         $emailSubjectOff = 'Nueva orden de compra # '.$orden->id;
@@ -286,7 +285,7 @@ class OrdenController extends Controller
         try {
 
             // Email server settings
-            $mail->SMTPDebug = 1;
+            //$mail->SMTPDebug = 1; // 1 | 2 | 3 | 4
             $mail->isSMTP();
 
             $mail->Host = config('phpmailerconf.host'); //env('MAIL_HOST');
@@ -363,7 +362,7 @@ class OrdenController extends Controller
         try {
 
             // Email server settings
-            $mail->SMTPDebug = 1;
+            //$mail->SMTPDebug = 1; // 1 | 2 | 3 | 4
             $mail->isSMTP();
 
             $mail->Host = config('phpmailerconf.host'); //env('MAIL_HOST');
