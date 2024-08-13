@@ -79,10 +79,10 @@ class RegisterController extends Controller
         
         //Envio de notificación por correo al cliente
         $emailRecipientClient = $data['email'];
-        $emailSubjectClient = 'Registro de Usuario - RTElSalvador';
+        $emailSubjectClient = 'Registro de Usuario - Accumetric El Salvador';
         $emailBodyClient = " 
                         <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
                         </div>
 
                         <br/>
@@ -108,10 +108,10 @@ class RegisterController extends Controller
         //Envio de notificación por correo a oficina
         $emailRecipientOff = "oficina@rtelsalvador.com";
         
-        $emailSubjectOff = 'Registro de nuevo Usuario - RTElSalvador';
+        $emailSubjectOff = 'Registro de nuevo Usuario - Accumetric El Salvador';
         $emailBodyOff = " 
                         <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
                         </div>
 
                         <br/>
