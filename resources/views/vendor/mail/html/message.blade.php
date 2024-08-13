@@ -21,7 +21,7 @@
 {{-- Footer --}}
 <x-slot:footer>
 <x-mail::footer>
-© {{ date('Y') }} {!! <span>Accumetric El Salvador</span> !!}. @lang('Todos los derechos reservados.')
+© {{ date('Y') }} <span>Accumetric El Salvador</span>. @lang('Todos los derechos reservados.')
 </x-mail::footer>
 </x-slot:footer>
 </x-mail::layout>
