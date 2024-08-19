@@ -357,6 +357,9 @@ class ProductoController extends Controller
         $marcas = Marca::pluck('nombre', 'id');
         $estadoProductos = EstadoProducto::pluck('estado', 'id');
 
+        //$marcasAsoc = $categoria->marca()->withPivot('marca_id')->get()->pluck('id')->toArray();
+        //dd($marcasAsoc);
+
         return view('productos.edit', compact('producto', 'categorias', 'marcas', 'estadoProductos'));
     }
 

@@ -45,7 +45,7 @@
                     @csrf
 
                     <div class="mt-3 col-auto text-center col-6 mx-auto">
-                        <label for="imagen_perfil_src">Imagen de perfil/Logo empresa (200x200px | .png, .jpg, .jpeg): </label>
+                        <label for="imagen_perfil_src">Imagen de perfil/Logo empresa (idealmente 200x200px | .png, .jpg, .jpeg): </label>
                         <br/>
                         <img class="rounded mt-2" src="{{ url('storage/assets/img/perfil-user/'.$user->imagen_perfil_src) }}" alt="per" width="200">
                         <br/>

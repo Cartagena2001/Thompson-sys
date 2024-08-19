@@ -13,6 +13,8 @@
     <p class="mt-4 text-center rt-color-1">📝 Información de la Marca:</p>
     <hr/>
 
+    <p class="text-center">Marca ID: <b>{{ $marca->id }}</b></p>
+
     <div class="col-lg-6">
         <div class="mb-3">
             {{ Form::label('nombre', 'Ingrese el nombre: *', ['class' => 'form-label']) }}

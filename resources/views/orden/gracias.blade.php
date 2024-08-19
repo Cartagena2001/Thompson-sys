@@ -10,7 +10,7 @@
     <div class="card-body position-relative mt-4">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="text-center">🤝 Tu órden ha sido recibida 🤝</h1>
+                <h1 class="text-center">🤝 Tu orden ha sido recibida 🤝</h1>
                 <div class="col-auto flex-center mb-3">
                     <image src="{{url('assets/img/imgs/truck-cargo.gif')}}" alt="sent-img" class="img-fluid" style="width: 400px;" />
                 </div>

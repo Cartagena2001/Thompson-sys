@@ -10,6 +10,46 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.js"></script>
 
+    <style type="text/css">
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        table {
+            display: flex;
+            flex-flow: column;
+            width: 100%;
+            height: 600px;
+            
+        }
+
+        thead {
+            padding-right: 13px;
+            flex: 0 0 auto;
+        }
+
+        tfoot {
+            padding-right: 13px;
+            flex: 0 0 auto;
+        }
+
+        tbody {
+            flex: 1 1 auto;
+            display: block;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        tr {
+            width: 100%;
+            display: table;
+            table-layout: fixed;
+        }        
+
+    </style>
+
     {{-- Titulo --}}
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
         <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png);"></div>
@@ -122,19 +162,21 @@
                                         {{ $detalles->cantidad * $detalles->producto->unidad_por_caja }}
                                     </td>
                                     
-                                    @if ( $orden->estado == 'Proceso' || $orden->estado == 'Preparada' || $orden->estado == 'Pagar' )
+                                    @if ( $orden->estado == 'Proceso' )
                                         <td>
                                             <input id="cantd_{{ $detalles->producto->id }}" name="cantd_{{ $detalles->id }}" class="form-control text-center" type="text" value="{{ $detalles->cantidad_despachada }}" placeholder="0" onchange="updateCantD(this.id, this.name)" style="max-width: 80px; margin: 0 auto;" />
                                         </td>
+                                    @elseif ( $orden->estado == 'Preparada' || $orden->estado == 'Pagar' || $orden->estado == 'Pagada' )
+                                        <td class="text-center">
+                                            {{ $detalles->cantidad_despachada }}
+                                        </td>
+                                    @endif
 
+                                    @if ( $orden->estado == 'Proceso' || $orden->estado == 'Preparada' || $orden->estado == 'Pagar' )
                                         <td>
                                             <input id="nbulto_{{ $detalles->producto->id }}" name="nbulto_{{ $detalles->id }}" class="form-control text-center" type="text" value="{{ $detalles->n_bulto }}" placeholder="0" onchange="updateNb(this.id, this.name)" style="max-width: 80px; margin: 0 auto" />
                                         </td>
                                     @elseif ( $orden->estado == 'Pagada' )
-                                        <td class="text-center">
-                                            {{ $detalles->cantidad_despachada }}
-                                        </td>
-
                                         <td class="text-center">
                                             {{ $detalles->n_bulto }}
                                         </td>
@@ -165,6 +207,7 @@
                         <br/>
                         <input class="form-control" type="file" name="hoja_salida_href" id="hoja_salida_href" value="{{ $orden->hoja_salida_href }}">  
                         <br/>
+                        
                         @error('hoja_salida_href')
                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                         @enderror
@@ -176,35 +219,29 @@
                     <div class="col-6">
                         <label for="bulto"># total bultos: </label>
 
-                        @if ( $orden->estado == 'Pagada' )
-
+                        @if ($orden->estado == 'Pagada')
                             <input class="form-control" type="text" name="bulto" id="bulto" value="{{ $orden->bulto }}" disabled>
-
                         @else
-
                             <input class="form-control" type="text" name="bulto" id="bulto" value="{{ $orden->bulto }}" maxlength="9" placeholder="-">
-                            @error('bulto')
-                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                            @enderror
-
                         @endif
+
+                        @error('bulto')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="col-6">
                         <label for="paleta"># paletas: </label>
 
-                        @if ( $orden->estado == 'Pagada' )
-
+                        @if ($orden->estado == 'Pagada')
                             <input class="form-control" type="text" name="paleta" id="paleta" value="{{ $orden->paleta }}" disabled>
-
                         @else
-
                             <input class="form-control" type="text" name="paleta" id="paleta" value="{{ $orden->paleta }}" maxlength="9" placeholder="-">
-                            @error('paleta')
-                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                            @enderror
-
                         @endif
+
+                        @error('paleta')
+                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
                     </div>
 
                 </div>
@@ -214,6 +251,7 @@
                     <div class="col-12">
                         <label for="notas_bodega">Notas (Bodega): </label>
                         <textarea class="form-control" type="text" name="notas_bodega" id="notas_bodega" rows="4" cols="50" maxlength="250" placeholder="-">{{ $orden->notas_bodega }}</textarea>
+                        
                         @error('notas_bodega')
                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                         @enderror

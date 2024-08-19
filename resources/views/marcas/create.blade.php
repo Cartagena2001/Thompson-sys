@@ -29,7 +29,9 @@
         {{-- formuarlio --}}
         <div class="card-body pt-0">
             <form method="POST" action="{{ route('marcas.store') }}" role="form" enctype="multipart/form-data">
+                {{ method_field('PATCH') }}
                 @csrf
+                
                 @include('marcas.form')
             </form>
         </div>

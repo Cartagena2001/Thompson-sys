@@ -44,8 +44,9 @@ class OrdenController extends Controller
         $orden->notas_bodega = '-'; //notas bodega
         $orden->bulto = '-'; //total bultos
         $orden->paleta = '-'; //total paletas
-        $orden->fecha_envio = \Carbon\Carbon::now()->addDays(1)->toDateTimeString();
-        $orden->fecha_entrega = \Carbon\Carbon::now()->addDays(4)->toDateTimeString();
+        //$orden->fecha_envio = \Carbon\Carbon::now()->addDays(1)->toDateTimeString();
+        $orden->fecha_envio = null;
+        $orden->fecha_entrega = null;
         $orden->total = 0;
 
         $orden->save();
@@ -58,6 +59,7 @@ class OrdenController extends Controller
             $ordenDetalle->orden_id = $orden->id;
             $ordenDetalle->producto_id = $producto['producto_id'];
             $ordenDetalle->cantidad = $producto['cantidad']; //cantidad de cajas de X producto ordenada
+            $ordenDetalle->cantidad_solicitada = $producto['cantidad'] * $producto['unidad_caja']; //cantidad solicitada
             $ordenDetalle->precio = $producto['precio_f'] * $producto['unidad_caja']; //guardar precio por caja
             $ordenDetalle->descuento = 0; //registro de algùn descuento aplicado
 

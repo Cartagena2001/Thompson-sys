@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Categoria;
+use App\Models\Marca;
 
 class CategoriaController extends Controller
 {
@@ -29,7 +30,11 @@ class CategoriaController extends Controller
     public function create()
     {
         $categoria = new Categoria();
-        return view('categorias.create' , compact('categoria'));
+        $marcas = Marca::all();
+
+        $marcasAsoc = [];
+
+        return view('categorias.create', compact('categoria', 'marcas', 'marcasAsoc'));
     }
 
     /**
@@ -44,12 +49,25 @@ class CategoriaController extends Controller
         $request->validate([
             'nombre' => 'required',
             'estado' => 'required',
+            'marcasCategoria' => 'required'
         ]);
+
         //almacenar datos
         $categoria = new Categoria();
-        $categoria->nombre = $request->nombre;
-        $categoria->estado = $request->estado;
+
+        $categoria->nombre = $request->get('nombre');
+        $categoria->estado = $request->get('estado');
+        $marcasID = array_unique($request->get('marcasCategoria'));
+        
+        //dd($request->get('marcasCategoria'));
+        //dd($marcasID);
+
         $categoria->save();
+        
+        foreach($marcasID as $ids) {
+            $categoria->marca()->attach($ids);
+        }
+  
         //redireccionar
         return redirect()->route('categorias.index')->with('success', 'Categoria creada con exito');
     }
@@ -74,7 +92,11 @@ class CategoriaController extends Controller
     public function edit($id)
     {
         $categoria = Categoria::find($id);
-        return view('categorias.edit', compact('categoria'));
+        $marcas = Marca::all();
+
+        $marcasAsoc = $categoria->marca()->withPivot('marca_id')->get()->pluck('id')->toArray();
+
+        return view('categorias.edit', compact('categoria', 'marcas', 'marcasAsoc'));
     }
 
     /**
@@ -90,11 +112,37 @@ class CategoriaController extends Controller
         $request->validate([
             'nombre' => 'required',
             'estado' => 'required',
+            'marcasCategoria' => 'required'
         ]);
+
         //almacenar datos
         $categoria->nombre = $request->get('nombre');
         $categoria->estado = $request->get('estado');
+        
+        $marcasID = array_unique($request->get('marcasCategoria'));
+
+        $marcasAsocAct = $categoria->marca()->withPivot('marca_id')->get()->pluck('id')->toArray();
+
         $categoria->update();
+
+        //obtiene las marcas en la BD que se deseleccionaron al editar, es decir las que hay que borrar
+        $marcasDel = array_diff($marcasAsocAct, $marcasID);
+
+        foreach($marcasDel as $ids) {
+            //desasocia la/s marca/s con la categoria 
+            $categoria->marca()->detach($ids);
+        }
+
+    
+        //obtiene las marcas que se seleccionaron al editar y no están en la BD, es decir las que hay que agregar
+        $marcasUpd = array_diff($marcasID, $marcasAsocAct);
+
+        foreach($marcasUpd as $ids) {
+            //Asocia la/s marca/s con la categoria 
+            $categoria->marca()->attach($ids);
+             //$categoria->marca()->updateExistingPivot($ids, ['created_at' => now()]);
+        }
+        
         //redireccionar
         return redirect()->route('categorias.index')->with('success', 'Categoria actualizada con exito');
     }

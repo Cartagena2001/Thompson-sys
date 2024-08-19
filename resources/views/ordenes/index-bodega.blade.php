@@ -180,15 +180,15 @@
 
         <div class="card-body">
             <div class="table-responsive scrollbar">
-                <table id="table_productos" class="table display" data-order='[[ 1, "desc" ]]'>
+                <table id="table_ordenes" class="table display" data-order='[[ 1, "desc" ]]'>
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Fecha/Hora de Registro</th>
                             <th scope="col">Cliente</th>
                             <th scope="col">Estado</th>
-                            <th scope="col">Fecha Envío</th>
-                            <th scope="col">Fecha Despacho</th>
+                            <th scope="col">Días en proceso</th>
+                            <th scope="col">Fecha Entrega</th>
                             <th class="text-end" scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -197,7 +197,9 @@
 
                         <tr>
                             <td>{{ $orden->id }}</td>
+                            
                             <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>
+                            
                             <td>{{ $orden->user->nombre_empresa }}</td>
 
                             @if ( $orden->estado == 'Pendiente')
@@ -216,11 +218,23 @@
                                 <td><span style="color: #000; text-transform: uppercase;">CANCELADA ❌</span></td>
                             @endif
 
-                            <td>{{ \Carbon\Carbon::parse($orden->fecha_envio)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>
-                            <td>{{ \Carbon\Carbon::parse($orden->fecha_entrega)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>
+                            <td>@if ($orden->fecha_entrega != null)
+                                    {{ \Carbon\Carbon::parse($orden->fecha_registro)->diffInDays($orden->fecha_entrega) }}
+                                @else
+                                    {{ \Carbon\Carbon::parse($orden->fecha_registro)->diffInDays() }}
+                                @endif
+                            </td>
+                            
+                            <td>@if ($orden->fecha_entrega != null)  
+                                    {{ \Carbon\Carbon::parse($orden->fecha_entrega)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            
                             <td class="text-end">
                                 <a href="{{ route('bodega.show', $orden->id) }}">
-                                    <button class="btn p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Ir a"><span class="text-500 fas fa-eye"></span> Ver Órden</button>
+                                    <button class="btn p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Ir a"><span class="text-500 fas fa-eye"></span> Ver Orden</button>
                                 </a>
                             </td>
                         </tr>
@@ -236,9 +250,15 @@
     <script>
 
         $(document).ready(function() {
-            var table = $('#table_productos').DataTable({
+
+            setTimeout(function(){
+               window.location.reload();
+            }, 35000);
+
+
+            var table = $('#table_ordenes').DataTable({
                 language: {
-                    url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                    url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json/"
                 }
             });
 

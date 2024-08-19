@@ -67,6 +67,7 @@
             <thead>
                 <tr>
                     <th class="text-center">ID</th>
+                    <th class="text-center">OEM</th>
                     <th>Producto</th>
                     <th class="text-center"># Cajas 📦</th>
                     <th class="text-center">Precio 📦</th>
@@ -78,6 +79,7 @@
                 @foreach (session('cart', []) as $item)
                     <tr>
                         <td class="text-center">{{ $item['producto_id'] }}</td>
+                        <td class="text-center">{{ $item['producto_oem'] }}</td>
                         <td>{{ $item['nombre'] }}</td>
                         <td class="text-center">{{ $item['cantidad'] }}</td>
                         <td class="text-center">{{ number_format(($item['precio_f'] * $item['unidad_caja']), 2, '.', ','); }} $</td> 
@@ -143,7 +145,7 @@
                         <label for="cliente_id_compra">Asignar compra:</label>
                         <select class="form-control" id="cliente_id_compra" name="cliente_id_compra">
                             @foreach($usuarios as $usuario)
-                              <option value="{{$usuario->id}}">{{$usuario->id}} - {{$usuario->nombre_empresa}}</option>
+                              <option value="{{$usuario->id}}">{{$usuario->id}} - {{$usuario->name}} - {{$usuario->nombre_empresa}}</option>
                             @endforeach
                         </select>
                     </div>

@@ -94,10 +94,11 @@ class OrdenesController extends Controller
         
         $orden->update();
         
-        //ahora buscar el producto de cada detalle
+        /*ahora buscar el producto de cada detalle
         foreach($detalle as $item){
             $item->producto = $item->Producto;
         }
+        */
 
         return view('ordenes.show-oficina' , compact('orden', 'detalle'))->with('toast', 'Información de orden actualizada.');
     }
@@ -400,20 +401,21 @@ class OrdenesController extends Controller
         $orden = Orden::find($id);
         $ordenDetalle = OrdenDetalle::where('orden_id', $id)->get();
         $orden->estado = 'Preparada';
-        $orden->update();
-
+        
         $ordenFechaH = \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('DD/MM/Y, h:mm:ss a');
 
         $subtotal = 0;
         $iva = 0.13;
         $total = 0;
+        
+        foreach ($ordenDetalle as $deta) {
 
-        foreach ($ordenDetalle as $detalles) {
-
-            $subtotal += $detalles->cantidad * $detalles->precio;
-
+            $subtotal += (($deta->cantidad * $deta->precio)/$deta->cantidad_solicitada)*$deta->cantidad_despachada;
         }
 
+        $orden->total = $subtotal;
+
+        $orden->update();
         $total = $subtotal + ($subtotal * $iva);
 
         /*
@@ -475,6 +477,8 @@ class OrdenesController extends Controller
                                 <tr>
                                     <th style='text-align: left;'>Producto</th>
                                     <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Cantidad Solicitada (unds)</th>
+                                    <th style='text-align: center;'>Cantidad a Despachar (unds)</th>
                                     <th style='text-align: center;'>Precio (caja)</th>
                                     <th style='text-align: center;'>Subtotal Parcial</th>
                                 </tr>
@@ -486,8 +490,10 @@ class OrdenesController extends Controller
                 $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
                                     <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
                                     <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_solicitada."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_despachada."</td>
                                     <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
-                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format( ((($detalles->cantidad * $detalles->precio)/$detalles->cantidad_solicitada)*$detalles->cantidad_despachada), 2, '.', ',')." $</td>
                                  </tr>";
             }
 
@@ -534,7 +540,6 @@ class OrdenesController extends Controller
         $orden = Orden::find($id);
         $ordenDetalle = OrdenDetalle::where('orden_id', $id)->get();
         $orden->estado = 'Pagar';
-        $orden->update();
 
         $ordenFechaH = \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('DD/MM/Y, h:mm:ss a');
 
@@ -542,11 +547,14 @@ class OrdenesController extends Controller
         $iva = 0.13;
         $total = 0;
 
-        foreach ($ordenDetalle as $detalles) {
+        foreach ($ordenDetalle as $deta) {
 
-            $subtotal += $detalles->cantidad * $detalles->precio;
-
+            $subtotal += (($deta->cantidad * $deta->precio)/$deta->cantidad_solicitada)*$deta->cantidad_despachada;
         }
+
+        $orden->total = $subtotal;
+
+        $orden->update();
 
         $total = $subtotal + ($subtotal * $iva);
 
@@ -572,6 +580,8 @@ class OrdenesController extends Controller
                                 <tr>
                                     <th style='text-align: left;'>Producto</th>
                                     <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Cantidad Solicitada (unds)</th>
+                                    <th style='text-align: center;'>Cantidad a Despachar (unds)</th>
                                     <th style='text-align: center;'>Precio (caja)</th>
                                     <th style='text-align: center;'>Subtotal Parcial</th>
                                 </tr>
@@ -583,8 +593,10 @@ class OrdenesController extends Controller
              $emailBodyClient.= "<tr style='padding-bottom: 20px;'>
                                     <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
                                     <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_solicitada."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_despachada."</td>
                                     <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
-                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format( ((($detalles->cantidad * $detalles->precio)/$detalles->cantidad_solicitada)*$detalles->cantidad_despachada), 2, '.', ',')." $</td>
                                  </tr>";
             }
 
@@ -658,6 +670,8 @@ class OrdenesController extends Controller
                                 <tr>
                                     <th style='text-align: left;'>Producto</th>
                                     <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Cantidad Solicitada (unds)</th>
+                                    <th style='text-align: center;'>Cantidad a Despachar (unds)</th>
                                     <th style='text-align: center;'>Precio (caja)</th>
                                     <th style='text-align: center;'>Subtotal Parcial</th>
                                 </tr>
@@ -669,8 +683,10 @@ class OrdenesController extends Controller
                 $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
                                     <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
                                     <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_solicitada."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_despachada."</td>
                                     <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
-                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format( ((($detalles->cantidad * $detalles->precio)/$detalles->cantidad_solicitada)*$detalles->cantidad_despachada), 2, '.', ',')." $</td>
                                  </tr>";
             }
 
@@ -717,7 +733,6 @@ class OrdenesController extends Controller
         $orden = Orden::find($id);
         $ordenDetalle = OrdenDetalle::where('orden_id', $id)->get();
         $orden->estado = 'Pagada';
-        $orden->update();
 
         $ordenFechaH = \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('DD/MM/Y, h:mm:ss a');
 
@@ -725,11 +740,14 @@ class OrdenesController extends Controller
         $iva = 0.13;
         $total = 0;
 
-        foreach ($ordenDetalle as $detalles) {
+        foreach ($ordenDetalle as $deta) {
 
-            $subtotal += $detalles->cantidad * $detalles->precio;
-
+            $subtotal += (($deta->cantidad * $deta->precio)/$deta->cantidad_solicitada)*$deta->cantidad_despachada;
         }
+
+        $orden->total = $subtotal;
+
+        $orden->update();
 
         $total = $subtotal + ($subtotal * $iva);
 
@@ -755,6 +773,8 @@ class OrdenesController extends Controller
                                 <tr>
                                     <th style='text-align: left;'>Producto</th>
                                     <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Cantidad Solicitada (unds)</th>
+                                    <th style='text-align: center;'>Cantidad a Despachar (unds)</th>
                                     <th style='text-align: center;'>Precio (caja)</th>
                                     <th style='text-align: center;'>Subtotal Parcial</th>
                                 </tr>
@@ -766,8 +786,10 @@ class OrdenesController extends Controller
              $emailBodyClient.= "<tr style='padding-bottom: 20px;'>
                                     <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
                                     <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_solicitada."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_despachada."</td>
                                     <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
-                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format( ((($detalles->cantidad * $detalles->precio)/$detalles->cantidad_solicitada)*$detalles->cantidad_despachada), 2, '.', ',')." $</td>
                                  </tr>";
             }
 
@@ -841,6 +863,8 @@ class OrdenesController extends Controller
                                 <tr>
                                     <th style='text-align: left;'>Producto</th>
                                     <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Cantidad Solicitada (unds)</th>
+                                    <th style='text-align: center;'>Cantidad a Despachar (unds)</th>
                                     <th style='text-align: center;'>Precio (caja)</th>
                                     <th style='text-align: center;'>Subtotal Parcial</th>
                                 </tr>
@@ -852,8 +876,10 @@ class OrdenesController extends Controller
                 $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
                                     <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
                                     <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_solicitada."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_despachada."</td>
                                     <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
-                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format( ((($detalles->cantidad * $detalles->precio)/$detalles->cantidad_solicitada)*$detalles->cantidad_despachada), 2, '.', ',')." $</td>
                                  </tr>";
             }
 
@@ -900,18 +926,21 @@ class OrdenesController extends Controller
         $orden = Orden::find($id);
         $ordenDetalle = OrdenDetalle::where('orden_id', $id)->get();
         $orden->estado = 'Finalizada';
-        $orden->update();
 
         $ordenFechaH = \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('DD/MM/Y, h:mm:ss a');
+
+        //$orden->fecha_entrega = \Carbon\Carbon::now()->isoFormat('DD/MM/Y, h:mm:ss a');
+        $orden->fecha_entrega = \Carbon\Carbon::now();
+
+        $orden->update();
 
         $subtotal = 0;
         $iva = 0.13;
         $total = 0;
 
-        foreach ($ordenDetalle as $detalles) {
+        foreach ($ordenDetalle as $deta) {
 
-            $subtotal += $detalles->cantidad * $detalles->precio;
-
+            $subtotal += (($deta->cantidad * $deta->precio)/$deta->cantidad_solicitada)*$deta->cantidad_despachada;
         }
 
         $total = $subtotal + ($subtotal * $iva);
@@ -938,6 +967,8 @@ class OrdenesController extends Controller
                                 <tr>
                                     <th style='text-align: left;'>Producto</th>
                                     <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Cantidad Solicitada (unds)</th>
+                                    <th style='text-align: center;'>Cantidad a Despachar (unds)</th>
                                     <th style='text-align: center;'>Precio (caja)</th>
                                     <th style='text-align: center;'>Subtotal Parcial</th>
                                 </tr>
@@ -949,8 +980,10 @@ class OrdenesController extends Controller
              $emailBodyClient.= "<tr style='padding-bottom: 20px;'>
                                     <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
                                     <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_solicitada."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_despachada."</td>
                                     <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
-                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format( ((($detalles->cantidad * $detalles->precio)/$detalles->cantidad_solicitada)*$detalles->cantidad_despachada), 2, '.', ',')." $</td>
                                  </tr>";
             }
 
@@ -1024,6 +1057,8 @@ class OrdenesController extends Controller
                                 <tr>
                                     <th style='text-align: left;'>Producto</th>
                                     <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Cantidad Solicitada (unds)</th>
+                                    <th style='text-align: center;'>Cantidad a Despachar (unds)</th>
                                     <th style='text-align: center;'>Precio (caja)</th>
                                     <th style='text-align: center;'>Subtotal Parcial</th>
                                 </tr>
@@ -1035,8 +1070,10 @@ class OrdenesController extends Controller
                 $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
                                     <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
                                     <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_solicitada."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_despachada."</td>
                                     <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
-                                    <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
+                                    <td style='text-align: center;'>".number_format( ((($detalles->cantidad * $detalles->precio)/$detalles->cantidad_solicitada)*$detalles->cantidad_despachada), 2, '.', ',')." $</td>
                                  </tr>";
             }
 
@@ -1083,6 +1120,9 @@ class OrdenesController extends Controller
         $orden = Orden::find($id);
         $ordenDetalle = OrdenDetalle::where('orden_id', $id)->get();
         $orden->estado = 'Cancelada';
+        //$orden->fecha_cancelacion = \Carbon\Carbon::now()->isoFormat('DD/MM/Y, h:mm:ss a');
+        $orden->fecha_cancelacion = \Carbon\Carbon::now();
+
         $orden->update();
 
         $ordenFechaH = \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('DD/MM/Y, h:mm:ss a');
@@ -1127,6 +1167,7 @@ class OrdenesController extends Controller
                                 <tr>
                                     <th style='text-align: left;'>Producto</th>
                                     <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Cantidad Solicitada (unds)</th>
                                     <th style='text-align: center;'>Precio (caja)</th>
                                     <th style='text-align: center;'>Subtotal Parcial</th>
                                 </tr>
@@ -1138,6 +1179,7 @@ class OrdenesController extends Controller
              $emailBodyClient.= "<tr style='padding-bottom: 20px;'>
                                     <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
                                     <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_solicitada."</td>
                                     <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
                                     <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
                                  </tr>";
@@ -1213,6 +1255,7 @@ class OrdenesController extends Controller
                                 <tr>
                                     <th style='text-align: left;'>Producto</th>
                                     <th style='text-align: center;'>Cantidad (caja)</th>
+                                    <th style='text-align: center;'>Cantidad Solicitada (unds)</th>
                                     <th style='text-align: center;'>Precio (caja)</th>
                                     <th style='text-align: center;'>Subtotal Parcial</th>
                                 </tr>
@@ -1224,6 +1267,7 @@ class OrdenesController extends Controller
                 $emailBodyOff.= "<tr style='padding-bottom: 20px;'>
                                     <td style='text-align: left;'>".$detalles->producto->nombre ."</td>
                                     <td style='text-align: center;'>".$detalles->cantidad."</td>
+                                    <td style='text-align: center;'>".$detalles->cantidad_solicitada."</td>
                                     <td style='text-align: center;'>".number_format(($detalles->precio), 2, '.', ',')." $</td>
                                     <td style='text-align: center;'>".number_format(($detalles->cantidad * $detalles->precio), 2, '.', ',')." $</td>
                                  </tr>";

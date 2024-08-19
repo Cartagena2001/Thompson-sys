@@ -94,7 +94,7 @@
                     </div>
                 
                     <div class="col-6 mt-3">
-                        <span class="rt-color-2">Orden ID: #</span> <span class="">{{ $orden->id }}</span><br>
+                        <span class="rt-color-2">Orden ID: #</span> <span class="">{{ $orden->id }}</span> | <span class="rt-color-2">Fecha de Entrega: </span> <span class="">{{ $orden->fecha_entrega = \Carbon\Carbon::now()->isoFormat('DD/MM/Y, h:mm:ss a') }}</span><br>
                         <span class="rt-color-2"># Factura:</span> <span class="">{{ $orden->corr }}</span><br>
                         <span class="rt-color-2">Fecha/Hora:</span> <span class="">{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</span><br>
                         <span class="rt-color-2">Notas:</span> <span>{{ $orden->notas }}</span><br>
@@ -197,7 +197,17 @@
                                     
                                     @if ( Auth::user()->rol_id != 3 )
                                         <td id="subtotalp" class="text-center">
-                                            {{ number_format(($detalles->cantidad * $detalles->precio), 2, '.', ','); }} $
+                                            
+                                            @if ( $orden->estado == 'Preparada' || $orden->estado == 'Pagar' || $orden->estado == 'Pagada' || $orden->estado == 'Finalizada' )
+                                                
+                                                {{ number_format( ((($detalles->cantidad * $detalles->precio)/$detalles->cantidad_solicitada)*$detalles->cantidad_despachada), 2, '.', ','); }} $
+                                                
+                                            @else
+                                            
+                                                {{ number_format(($detalles->cantidad * $detalles->precio), 2, '.', ','); }} $
+                                            
+                                            @endif
+
                                         </td>
                                     @endif
 
@@ -213,8 +223,20 @@
                                 $iva = 0.13;
                                 $total = 0;
 
-                                foreach ($detalle as $detalles) {
-                                    $subtotal += $detalles->cantidad * $detalles->precio;
+                                if ( $orden->estado == 'Preparada' || $orden->estado == 'Pagar' || $orden->estado == 'Pagada' || $orden->estado == 'Finalizada' )
+                                { 
+                                    foreach ($detalle as $detalles) {
+                                        
+                                        $subtotal += (($detalles->cantidad * $detalles->precio)/$detalles->cantidad_solicitada)*$detalles->cantidad_despachada;
+                                    }
+
+                                }else { 
+
+                                    foreach ($detalle as $detalles) {
+
+                                        $subtotal += $detalles->cantidad * $detalles->precio;
+                                        
+                                    }
                                 }
 
                                 $total = $subtotal + ($subtotal * $iva);

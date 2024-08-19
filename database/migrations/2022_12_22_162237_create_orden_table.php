@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('estado', 10);
             $table->dateTime('fecha_envio');
             $table->dateTime('fecha_entrega');
+            $table->dateTime('fecha_cancelacion');
             $table->double('total', 7, 2);
             $table->string('notas', 255);
             $table->string('notas_bodega', 255);
