@@ -50,7 +50,7 @@
         
         <div>
             {{ Form::label('estado_producto_id', 'Estado del producto: *', ['class' => 'form-label']) }}
-            {{ Form::select('estado_producto_id', $estadoProductos, $producto->estado_producto_id, ['class' => 'form-select mb-3', 'aria-label' => 'Default select example', 'placeholder' => 'Selecione el estado']) }}
+            {{ Form::select('estado_producto_id', $estadoProductos, $producto->estado_producto_id, ['class' => 'form-select mb-3', 'aria-label' => 'Default select example', 'placeholder' => 'Seleccione el estado']) }}
         </div>
         
         <div class="mb-3">
@@ -78,7 +78,7 @@
         </div>
 
         <div class="mb-3">
-            {{ Form::label('marca_id', 'Selecione la marca: *', ['class' => 'form-label']) }}
+            {{ Form::label('marca_id', 'Seleccione la marca: *', ['class' => 'form-label']) }}
             {{ Form::select('marca_id', $marcas, $producto->marca_id, ['class' => 'form-select', 'aria-label' => 'Default select example', 'required', 'placeholder' => 'Selecciona una Marca']) }}
         </div>
 
@@ -88,7 +88,7 @@
         </div>
 
         <div class="mb-3">
-            {{ Form::label('categoria', 'Selecione la categoría: *', ['class' => 'form-label']) }}
+            {{ Form::label('categoria', 'Seleccione la categoría: *', ['class' => 'form-label']) }}
             {{ Form::select('categoria_id', $categorias, $producto->categoria_id, ['class' => 'form-select', 'aria-label' => 'Default select example', 'required', 'placeholder' => 'Seleccione la categoría']) }}
         </div>
 
@@ -289,63 +289,33 @@
     <button class="btn btn-primary me-1 mb-1" type="submit">Confirmar Producto 💾</button>
 </div>
 
-
-    <?php
-        $marcaCat = DB::table('marca_cat')
-        ->select('marca_id', 'categoria_id')
-        //->distinct()
-        ->get();
-
-        $rowCant = count($marcaCat);
-
-        $marcasYCats = array();
-
-        foreach($marcaCat as $reg){
-
-            $marcasYCats[$reg->marca_id][$reg->categoria_id] = [];
-        }
-                
-        //dd($marcasYCats);
-        //echo $marcasYCats[1];
-        //dd($marcasYCats[1]);
-        //echo $rowCant;
-    ?>
-
 <script type="text/javascript">
 
-    var arrayMarcasCat = {!! json_encode($marcasYCats) !!};
+    $(document).ready(function(){
 
-    /*
-    $("[name='marca_id']").on('change', function (e) {
-        
-        var arrayMarcasCatSelelected = arrayMarcasCat[Number(e.target.value)];
+        $("[name='marca_id']").change(function(){
 
-        if (arrayMarcasCatSelelected) {
+            var marcaSeleccionada = $("[name='marca_id']").val();
 
-            console.log(arrayMarcasCatSelelected);
+            $("[name='categoria_id']").find("option").remove().end();
 
-            var rt = Object.keys(arrayMarcasCatSelelected).map((key) => [key, arrayMarcasCatSelelected[key]]);
+            $("[name='categoria_id']").append('<option>Seleccione una categoría</option>');
 
-            console.log(rt);
+            axios.post('/submenucatmarca', {
+               marcaSeleccionada: marcaSeleccionada
+             }).then((r)=>{
+              
+              var submenu = r.data.submenu;
 
-            const numbers = [65, 44, 12, 4];
+              for(var i=0; i<submenu.length; i++){  
+                $("[name='categoria_id']").append('<option value="'+submenu[i].id+'"">'+submenu[i].nombre+'</option>');
+              }
+             
+             });
 
-            function hideOptions(id) {
-                //$("[name='categoria_id']").find("option[value="+id+"]").hide();
+        });
 
-                return id > 5;
-            }
-
-            console.log(rt.filter(hideOptions));
-
-            //$("[name='categoria_id']").find("option").hide();
-
-            //var nada = "<option value='0'>Selecciona un municipio/distrito</option>";
-
-            //$("#municipio").find("option").remove().end().append(nada);
-        }
     });
-    */
 
 </script>
 

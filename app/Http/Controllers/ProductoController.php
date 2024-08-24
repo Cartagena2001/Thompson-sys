@@ -359,7 +359,7 @@ class ProductoController extends Controller
 
         //$marcasAsoc = $categoria->marca()->withPivot('marca_id')->get()->pluck('id')->toArray();
         //dd($marcasAsoc);
-
+        
         return view('productos.edit', compact('producto', 'categorias', 'marcas', 'estadoProductos'));
     }
 

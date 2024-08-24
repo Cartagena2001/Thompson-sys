@@ -158,7 +158,12 @@ Route::group(['middleware' => ['auth','admin']], function () {
 
     //Ruta para acceder archivos privados (descargar)
     //Route::get('/file/download/{file}', [App\Http\Controllers\FileAccessController::class, 'download']);
-  
+    
+
+    //Ruta para consultar submenu categorias de productos
+    Route::post('/submenucatmarca', [App\Http\Controllers\SubmenuController::class, 'getsubmenus']);
+
+    Route::get('/dashboard/aspirantes', )->name('aspirantes.index');
 
 });
 
