@@ -140,7 +140,7 @@ Route::group(['middleware' => ['auth','admin']], function () {
     Route::put('/dashboard/clientes/precioop/{id}', [App\Http\Controllers\ClientesController::class, 'precioOP'])->name('clientes.pop');
 
     //Rutas para gestionar aspirantes
-    Route::get('/dashboard/aspirantes', [App\Http\Controllers\AspirantesController::class, 'index'])->name('aspirantes.index');
+    Route::get('/dashboard/aspirantes', [App\Http\Controllers\AspirantesController::class, 'index'])->name('aspirantes.index');    
     Route::get('/dashboard/aspirantes/{id}', [App\Http\Controllers\AspirantesController::class, 'show'])->name('aspirantes.show');
     Route::put('/dashboard/aspirantes/aprobado/{id}', [App\Http\Controllers\AspirantesController::class, 'aprobado'])->name('aspirantes.aprobado');
     Route::put('/dashboard/aspirantes/rechazado/{id}', [App\Http\Controllers\AspirantesController::class, 'rechazado'])->name('aspirantes.rechazado');
@@ -160,11 +160,13 @@ Route::group(['middleware' => ['auth','admin']], function () {
     //Route::get('/file/download/{file}', [App\Http\Controllers\FileAccessController::class, 'download']);
     
 
-    //Ruta para consultar submenu categorias de productos
+    //Ruta para consultar submenu categorias de productos (formulario crear/editar producto)
     Route::post('/submenucatmarca', [App\Http\Controllers\SubmenuController::class, 'getsubmenus']);
 
-    Route::get('/dashboard/aspirantes', )->name('aspirantes.index');
-
+    //Vista de prueba
+    //Route::get('/test', [App\Http\Controllers\TestController::class, 'index'])->name('test.index');
+    //Route::post('/testsend', [App\Http\Controllers\TestController::class, 'getsubmenussel'])->name('test.send');
+    
 });
 
 
@@ -183,48 +185,50 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'passwordUpdate'])->name('perfil.password.update');
     Route::patch('/perfil/configuracion', [App\Http\Controllers\PerfilController::class, 'update'])->name('perfil.update');
 
-    //Ruta para los manuales
-    Route::get('/dashboard/manuales', [App\Http\Controllers\ManualesController::class, 'index'])->name('manuales.index');
+    //Ruta para los manuales - la validación ya es interna
+    Route::get('/dashboard/manuales', [App\Http\Controllers\ManualesController::class, 'index'])->name('manuales.index')->middleware('asprech');
 
 
-    //Rutas para aspirantes (formulario)
+    //Rutas para aspirantes (formulario) - no necesita más validación
     Route::get('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'indexInfoSent'])->name('info.enviada');
-    
     Route::post('/formulario-inscripcion', [App\Http\Controllers\PerfilController::class, 'loadInfo'])->name('forminscrip.load');
 
     //Rutas para tienda y catalogo
-    Route::get('/dashboard/catalogo', [App\Http\Controllers\TiendaController::class, 'indexCat'])->name('catalogo.index');
-    Route::get('/dashboard/catalogo/{id}/{slug}', [App\Http\Controllers\TiendaController::class, 'showProd'])->name('catalogo.show');
+    Route::get('/dashboard/catalogo', [App\Http\Controllers\TiendaController::class, 'indexCat'])->name('catalogo.index')->middleware('asprech');
+    Route::get('/dashboard/catalogo/{id}/{slug}', [App\Http\Controllers\TiendaController::class, 'showProd'])->name('catalogo.show')->middleware('asprech');
 
-    Route::get('/dashboard/tienda', [App\Http\Controllers\TiendaController::class, 'index'])->name('tienda.index');
-    Route::get('/dashboard/tienda/{id}/{slug}', [App\Http\Controllers\TiendaController::class, 'show'])->name('tienda.show');
+    Route::get('/dashboard/tienda', [App\Http\Controllers\TiendaController::class, 'index'])->name('tienda.index')->middleware('asprech');
+    Route::get('/dashboard/tienda/{id}/{slug}', [App\Http\Controllers\TiendaController::class, 'show'])->name('tienda.show')->middleware('asprech');
 
-    Route::get('/dashboard/compra-masiva', [App\Http\Controllers\TiendaController::class, 'showCat'])->name('compra.masiva.index');
+    Route::get('/dashboard/compra-masiva', [App\Http\Controllers\TiendaController::class, 'showCat'])->name('compra.masiva.index')->middleware('asprech');
 
     //Rutas para interacion con el carrito
-    Route::get('/carrito', [App\Http\Controllers\CarritoController::class, 'index'])->name('carrito.index');
-    Route::post('/carrito/add', [App\Http\Controllers\CarritoController::class, 'add'])->name('carrito.add');
-    Route::put('/carrito/update/{id}', [App\Http\Controllers\CarritoController::class, 'update'])->name('carrito.update');
-    Route::delete('/carrito/delete/{id}', [App\Http\Controllers\CarritoController::class, 'delete'])->name('carrito.delete');
-    Route::post('/carrito/clear', [App\Http\Controllers\CarritoController::class, 'clear'])->name('carrito.clear');
+    Route::get('/carrito', [App\Http\Controllers\CarritoController::class, 'index'])->name('carrito.index')->middleware('asprech');
+    Route::post('/carrito/add', [App\Http\Controllers\CarritoController::class, 'add'])->name('carrito.add')->middleware('asprech');
+    Route::put('/carrito/update/{id}', [App\Http\Controllers\CarritoController::class, 'update'])->name('carrito.update')->middleware('asprech');
+    Route::delete('/carrito/delete/{id}', [App\Http\Controllers\CarritoController::class, 'delete'])->name('carrito.delete')->middleware('asprech');
+    Route::post('/carrito/clear', [App\Http\Controllers\CarritoController::class, 'clear'])->name('carrito.clear')->middleware('asprech');
 
     //Rutas para solicitar orden y consultarla antes de pago (proceso de compra en tienda)
-    Route::get('/orden', [App\Http\Controllers\OrdenController::class, 'index'])->name('orden.index')->middleware('auth');
-    Route::post('/orden', [App\Http\Controllers\OrdenController::class, 'store'])->name('orden.store')->middleware('auth');
+    Route::get('/orden', [App\Http\Controllers\OrdenController::class, 'index'])->name('orden.index')->middleware('asprech');
+    Route::post('/orden', [App\Http\Controllers\OrdenController::class, 'store'])->name('orden.store')->middleware('asprech');
 
     //Validaciones previas del carrito de compras antes de finalizar la orden
-    Route::post('/carrito/validar', [App\Http\Controllers\CarritoController::class, 'validar'])->name('carrito.validar')->middleware('auth');
+    Route::post('/carrito/validar', [App\Http\Controllers\CarritoController::class, 'validar'])->name('carrito.validar')->middleware('asprech');
 
-    //Ruta para acceder archivos privados (ver)
+    //Ruta para acceder archivos privados (ver - validados internamente)
     Route::get('/file/serve/cifs/{data}', [App\Http\Controllers\FileAccessController::class, 'serveCif']);
     Route::get('/file/serve/comp_pago/{data}', [App\Http\Controllers\FileAccessController::class, 'serveCp']);
-    Route::get('/file/serve/hojas_sal/{data}', [App\Http\Controllers\FileAccessController::class, 'serveHs']); 
+    Route::get('/file/serve/hojas_sal/{data}', [App\Http\Controllers\FileAccessController::class, 'serveHs']);
+
+    //Ruta para consultar submenu categorias de productos (compra masiva)
+    //Route::post('/submenucatmarcasel', [App\Http\Controllers\SubmenuController::class, 'getsubmenussel']); 
 
 });
 
 
 //Rutas Clientes
-Route::group(['middleware' => ['auth', 'client']], function () {
+Route::group(['middleware' => ['auth', 'client', 'asprech']], function () {
 
     //Ordenes del Cliente
     Route::get('/perfil/ordenes', [App\Http\Controllers\PerfilController::class, 'ordenes'])->name('perfil.ordenes');

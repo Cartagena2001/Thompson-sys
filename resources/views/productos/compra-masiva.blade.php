@@ -16,6 +16,14 @@
     foreach ($carrito as $item) {
         $cantidad += $item['cantidad'];
     }
+
+    //array of brands available
+    $brandIDs = array();
+
+    foreach ($marcas as $marca) {
+        $brandIDs[] = $marca->id;
+    }
+
 ?>
 
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
@@ -158,34 +166,14 @@
                 <label>Filtrar por categoría:
                     <select id="catfilter" class="" onchange="filtertable()">
                             <option value="todas">Todas</option>
-                        @foreach ($categorias as $categoria)      
+   
+                        @foreach ($categorias as $categoria)
                             <option value="{{ $categoria->nombre }}">{{ $categoria->nombre}}</option> 
                         @endforeach
+
                     </select>
                 </label>
             </div>
-
-{{--
-            <div class="col-4 text-end">
-                <a href="{{ url('/carrito') }}" title="Ver Carrito">
-                    <h6 class="btn btn-sm btn-primary">
-                        <i class="fa-solid fa-cart-shopping" style="font-size: 28px;"></i>
-                        <?php
-                            $carrito = session('cart', []);
-
-                            $cart = session()->get('cart', []);
-
-                            $cantidad = 0;
-
-                            foreach ($carrito as $item) {
-                                $cantidad += $item['cantidad'];
-                            }
-                        ?>
-                        <sup class="cantnoti">{{ $cantidad }}</span>
-                    </h6>
-                </a>
-            </div>
---}}
 
         </div>
     </div>
@@ -256,7 +244,7 @@
 
         $('#table_productos').DataTable({
             language: {
-                url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                url: "/assets/js/Spanish.json"
             },
             
         });
@@ -265,7 +253,7 @@
             function (settings, data, dataIndex) { //'data' contiene los datos de la fila
                 
                 //En la columna 3 estamos mostrando la marca del producto
-                let productoMarca = data[2] || 0;
+                let productoMarca = data[3] || 0;
                 let productoCat = data[4] || 0;
 
                 if (!filterByBrand(productoMarca)) {
@@ -336,29 +324,6 @@
         
     }
 
-    /*
-    window.onscroll = function() {myFunction()};
-
-    var header = document.getElementById("summary");
-    var brandsl = document.getElementById("brand-list");
-    var sumdet = document.getElementById("summ-detail");
-    var sticky = header.offsetTop;
-
-    function myFunction() {
-      if (window.pageYOffset > sticky) {
-        header.classList.add("sticky-pos");
-        brandsl.classList.add("no-show");
-        sumdet.classList.remove("col-lg-4");
-        sumdet.classList.add("col-lg-12");
-      } else {
-        header.classList.remove("sticky-pos");
-        brandsl.classList.remove("no-show");
-        sumdet.classList.remove("col-lg-12");
-        sumdet.classList.add("col-lg-4");
-      }
-    }
-    */
-
     function filterBrand(filterid) {
 
         var brand = $('#'+filterid).find(":selected").val();
@@ -411,25 +376,25 @@
 </script>
 
 <script>
-// Get the button
-let mybutton = document.getElementById("toTopBtn");
+    // Get the button
+    let mybutton = document.getElementById("toTopBtn");
 
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
 
-function scrollFunction() {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    mybutton.style.display = "block";
-  } else {
-    mybutton.style.display = "none";
-  }
-}
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
 
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
-}
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
 </script>
 
 @endsection

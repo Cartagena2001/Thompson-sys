@@ -69,9 +69,9 @@
                             if ( $marcaActual == 0 ) {
                                 echo "Marcas";
                             } else {
-                                
+
                                 foreach ($marcas as $marca) {
-                                    
+
                                     if ( $marca->id == $marcaActual ) {
                                         echo $marca->nombre;
                                     }
@@ -80,10 +80,11 @@
                         ?>
                     
                     </a> / 
-                    
+                   
                     <a aria-haspopup="true" aria-expanded="false" href=""> 
 
                         <?php 
+
                             if ( $categoriaActual == 0 ) {
                                 echo "categorías";
                             } else {
@@ -94,7 +95,8 @@
                                         echo $categoria->nombre;
                                     }
                                 }
-                            }  
+                            }
+
                         ?>
 
                         </a>
@@ -127,9 +129,9 @@
 
                         <option value="0"  @if ($marcaActual == 0) selected @endif >Todas</option>
 
-                        @foreach ($marcas as $marca)
-                            <option value="{{ $marca->id }}" @if ($marca->id == $marcaActual) selected @endif >{{ $marca->nombre }}</option>
-                        @endforeach
+                    @foreach ($marcas as $marca)
+                        <option value="{{ $marca->id }}" @if ($marca->id == $marcaActual) selected @endif >{{ $marca->nombre }}</option>
+                    @endforeach
 
                     </select>
 
@@ -139,10 +141,11 @@
                     <select style="height: 36px; border-radius: 5px;" id="categoria-filter" name="categoria" class="form-select form-select-sm" aria-label="Bulk actions" onchange="filterCat(this.id)" >
 
                         <option value="0" @if ($categoriaActual == 0) selected @endif >Todas</option>
-                        
-                        @foreach ($categorias as $cat)
-                            <option value="{{ $cat->id }}" @if ($cat->id == $categoriaActual) selected @endif >{{ $cat->nombre }}</option>
-                        @endforeach
+
+                    @foreach ($categorias as $cat)
+                        <option value="{{ $cat->id }}" @if ($cat->id == $categoriaActual) selected @endif >{{ $cat->nombre }}</option>
+                    @endforeach
+
 
                     </select>
 

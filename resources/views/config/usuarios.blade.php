@@ -219,7 +219,7 @@
         $(document).ready(function() {
             var table = $('#table_usuarios').DataTable({
                 language: {
-                    url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                    url: "/assets/js/Spanish.json"
                 }
             });
 

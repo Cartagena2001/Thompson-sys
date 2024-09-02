@@ -143,7 +143,7 @@
                             <div>
                             @foreach ($marcas as $marca)
                                 <label for="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}">
-                                    <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}" type="checkbox" value="{{ $marca->id }}" name="marks[]" onclick="updateMarca (this.id)" @if ( str_contains( $cliente->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
+                                    <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}" type="checkbox" value="{{ $marca->id }}" name="marks[]" onclick="updateMarca (this.id)" @if ( str_contains( $cliente->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }} @if ($marca->estado == 'Inactivo') <span style="color: red;">(inactiva)</span> @endif
                                 </label>
                                 <br/>
                             @endforeach

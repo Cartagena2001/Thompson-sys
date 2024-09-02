@@ -36,6 +36,22 @@ class PerfilController extends Controller
         $cat_mod = $cmsVars[12]['parametro']; //modo catalogo
         $mant_mod = $cmsVars[13]['parametro']; //modo mantenimiento
 
+        
+        //verificar si ha iniciado sesión y es un usuario cliente
+        if ($user && $user->rol_id == 2) {
+            
+            //si si es un cliente verifica que este no sea aspirante ni sea un rechazado
+            if ($user->estatus == 'aspirante' || $user->estatus == 'rechazado') {
+                
+                return redirect()->route('home');
+            
+            } else {
+                //si es un usuario cliente y está aprobado
+               return view('perfil.configuracion.index', compact('user', 'cat_mod', 'mant_mod'));
+            }
+
+        }
+
         return view('perfil.configuracion.index', compact('user', 'cat_mod', 'mant_mod'));
     }
 
@@ -59,9 +75,9 @@ class PerfilController extends Controller
                 //'nrc' => 'required|unique:users,nrc,'.$user->id.'|min:8|max:10',
                 //'nit' => 'required|unique:users,nit,'.$user->id.'|min:17|max:17',
                 //'razon_social' => 'required|max:34',
-                //'direccion' => 'required|max:75',
-                //'departamento' => 'required|in:ahu,cab,cha,cus,lib,mor,paz,ana,mig,ssl,svi,son,uni,usu',
-                //'municipio' => 'required|not_in:0',
+                'direccion' => 'required|max:75',
+                'departamento' => 'required|max:9|in:ahu,cab,cha,cus,lib,mor,paz,ana,mig,ssl,svi,son,uni,usu',
+                'municipio' => 'required|max:9|not_in:0',
                 //'giro' => 'required|max:180',
                 //'nombre_empresa' => 'required|max:34',
                 'website' => 'nullable|string|max:34',
@@ -103,7 +119,33 @@ class PerfilController extends Controller
             $user->nrc = $request->get('nrc');
             $user->nit = $request->get('nit');
             $user->razon_social = $request->get('razon_social');
-            $user->direccion = $request->get('direccion');
+            $user->giro = $request->get('giro');
+            $user->nombre_empresa = $request->get('nombre_empresa');
+
+        }
+
+        //almacenar datos
+        //subir imagen de perfil
+        if ($request->hasFile('imagen_perfil_src')) {
+            
+            if ($request->file('imagen_perfil_src')->isValid()){
+
+                $file = $request->file('imagen_perfil_src');
+
+                $nombreIMGP = $user->name.'-'.$user->dui.'_img-perfil_'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();
+
+                $path = $file->storeAs('/public/assets/img/perfil-user/', $nombreIMGP);
+
+                $user->imagen_perfil_src = $nombreIMGP;  
+
+            } else {
+
+                return redirect()->route('perfil.index')->with('success', 'Ha ocurrido un error al cargar la imagen de perfil');
+            }
+
+        }
+
+        $user->direccion = $request->get('direccion');
             
             $user->depto_cod = $request->get('departamento');
             $depto = $request->get('departamento');
@@ -953,34 +995,8 @@ class PerfilController extends Controller
                 default:
                     $municipio = '-';
                     break;
-            }
-            $user->municipio = $municipio;
-          
-            $user->giro = $request->get('giro');
-            $user->nombre_empresa = $request->get('nombre_empresa');
-
         }
-
-        //almacenar datos
-        //subir imagen de perfil
-        if ($request->hasFile('imagen_perfil_src')) {
-            
-            if ($request->file('imagen_perfil_src')->isValid()){
-
-                $file = $request->file('imagen_perfil_src');
-
-                $nombreIMGP = $user->name.'-'.$user->dui.'_img-perfil_'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();
-
-                $path = $file->storeAs('/public/assets/img/perfil-user/', $nombreIMGP);
-
-                $user->imagen_perfil_src = $nombreIMGP;  
-
-            } else {
-
-                return redirect()->route('perfil.index')->with('success', 'Ha ocurrido un error al cargar la imagen de perfil');
-            }
-
-        }
+        $user->municipio = $municipio;
 
         //$user->email = $request->get('email');
         $user->whatsapp = $request->get('whatsapp_full');

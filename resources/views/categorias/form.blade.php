@@ -30,7 +30,7 @@
                         <div>
                         @foreach ($marcas as $marca)
                             <label for="{{ $marca->nombre }}-{{ $marca->id }}">
-                                <input id="{{ $marca->nombre }}-{{ $marca->id }}" type="checkbox" value="{{ $marca->id }}" name="marcasCategoria[]" @if ( in_array( $marca->id, $marcasAsoc ) ) checked @endif /> {{ $marca->id }} - {{ $marca->nombre }}
+                                <input id="{{ $marca->nombre }}-{{ $marca->id }}" type="checkbox" value="{{ $marca->id }}" name="marcasCategoria[]" @if ( in_array( $marca->id, $marcasAsoc ) ) checked @endif /> {{ $marca->id }} - {{ $marca->nombre }} @if ($marca->estado == 'Inactivo') <span style="color: red;">(inactiva)</span> @endif
                             </label>
                             <br/>
                         @endforeach

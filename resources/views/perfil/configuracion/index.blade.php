@@ -164,6 +164,7 @@
                         <div class="col-12">
                             <label for="direccion">Dirección: </label>
                             <input class="form-control" type="text" name="direccion" id="direccion" value="{{ $user->direccion }}" maxlength="75" placeholder="-">
+                            
                             @error('direccion')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror
@@ -206,6 +207,7 @@
                                 <option value='0'  @if ($user->mun_cod == '0') selected  @endif >Selecciona un municipio/distrito</option>
                                 <option value="{{ $user->mun_cod }}" selected>{{ $user->municipio }}</option>
                             </select>
+
                             @error('municipio')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror
@@ -266,7 +268,11 @@
 
                         <div class="col-12">
                             <label for="direccion">Dirección: </label>
-                            <input class="form-control" type="text" id="direccion" value="{{ $user->direccion }}" readonly>
+                            <input class="form-control" type="text" id="direccion" name="direccion" value="{{ $user->direccion }}" required>
+
+                            @error('direccion')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                     </div>
@@ -275,7 +281,7 @@
 
                         <div class="col-6">
                             <label for="departamento">Departamento: </label>
-                            <select class="form-select" id="departamento" name="departamento" required>
+                            <select class="form-select" id="departamento" name="departamento" >
                                 <option value="0">Selecione un departamento</option>
                                 
                                 <option value="ahu" @if ($user->depto_cod == 'ahu') selected  @endif >Ahuachapán</option>
@@ -292,7 +298,6 @@
                                 <option value="son" @if ($user->depto_cod == 'son') selected  @endif >Sonsonate</option>
                                 <option value="uni" @if ($user->depto_cod == 'uni') selected  @endif >La Unión</option>
                                 <option value="usu" @if ($user->depto_cod == 'usu') selected  @endif >Usulután</option>
-
                             </select>
 
                             @error('departamento')
@@ -302,10 +307,11 @@
 
                         <div class="col-6">
                             <label for="municipio">Municipio/Distrito: </label>
-                            <select class="form-select" id="municipio" name="municipio" required>
+                            <select class="form-select" id="municipio" name="municipio" >
                                 <option value='0'  @if ($user->mun_cod == '0') selected  @endif >Selecciona un municipio/distrito</option>
                                 <option value="{{ $user->mun_cod }}" selected>{{ $user->municipio }}</option>
                             </select>
+
                             @error('municipio')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror
@@ -317,7 +323,7 @@
 
                         <div class="col-12">
                             <label for="giro">Giro ó actividad económica: </label>
-                            <textarea class="form-control" type="text" id="giro" rows="4" cols="50">{{ $user->giro }}</textarea>
+                            <textarea class="form-control" type="text" id="giro" rows="4" cols="50" readonly>{{ $user->giro }}</textarea>
                         </div>
 
                     </div>
@@ -338,6 +344,7 @@
                         <div class="col-6">
                             <label for="website">WebSite: </label>
                             <input class="form-control" type="text" name="website" id="website" value="{{ $user->website }}" maxlength="34" placeholder="-">
+                            
                             @error('website')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror
@@ -346,6 +353,7 @@
                         <div class="col-6">
                             <label for="telefono">Teléfono: </label>
                             <input class="form-control" type="tel" name="telefono" id="telefono" data-intl-tel-input-id="1" autocomplete="off" value="{{ $user->telefono }}" placeholder="0000-0000" minlength="8" maxlength="21">
+                            
                             @error('telefono')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                             @enderror

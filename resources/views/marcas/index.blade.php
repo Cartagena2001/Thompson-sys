@@ -98,7 +98,7 @@
                             <tr>
                                 <td>{{ $marca->id }}</td>
                                 <td>{{ $marca->nombre }}</td>
-                                <td>{{ $marca->estado }}</td>
+                                <td>@if($marca->estado == 'Activo') <span style="color: green;">{{ $marca->estado }} @else <span style="color: red;"> {{ $marca->estado }}</span> @endif</td>
                                 <td><img width="100" class="w-20" src="{{ url('storage/assets/img/logos/'.$marca->logo_src) }}" alt="{{ $marca->nombre }}"></td>
                                 <td class="text-center">
                                     <form action="{{ route('marcas.destroy', $marca->id) }}" method="POST">
@@ -124,7 +124,7 @@
         $(document).ready(function() {
             $('#table_marcas').DataTable({
                 language: {
-                url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                url: "/assets/js/Spanish.json"
             }
             });
         });

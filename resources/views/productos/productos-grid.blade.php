@@ -35,12 +35,7 @@
 
 </div>   
 
-    <?php
-    $productosDisponibles = DB::table('producto')
-        ->where('estado_producto_id', 1)
-        ->whereNot('existencia', 0)
-        ->get();
-    ?>
+<?php $productosTotales = DB::table('producto')->get(); ?>
 
 {{-- Marcas --}}
 <div class="card mb-3" 
@@ -106,12 +101,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                   
+                    {{-- 
                     @foreach ($detallesSUM as $marcaDetalle)
                         <tr>
                             <td class="text-start p-1">{{ $marcaDetalle['nombre'] }}</td>
                             <td class="text-center p-1">{{ $marcaDetalle['cantidad'] }}</td>
                             <td class="text-center p-1">{{ number_format($marcaDetalle['monto'], 2, '.', ',') }} $</td>
+                        </tr>  
+                    @endforeach
+                    --}}
+
+                    @foreach ($cart as $registro)
+                        <tr>
+                            <td class="text-start p-1">{{ $registro['marca'] }}</td>
+                            <td class="text-center p-1">{{ $registro['cantidad'] }}</td>
+                            <td class="text-center p-1">{{ number_format( ($registro['cantidad']*$registro['precio_f']*$registro['unidad_caja']) , 2, '.', ',') }} $</td>
                         </tr>  
                     @endforeach
 
@@ -333,7 +337,7 @@
 
             <div class="col-6 col-md-6">
 
-                <p class="text-end px-2 mb-2" style="font-size: 12px; text-transform: uppercase;"><span style="font-weight: 600;">Productos con imagen:&nbsp;</span>&nbsp;<span style="color: green;">{{ $productos->count() }}</span>&nbsp;<b>/</b>&nbsp; {{ count($productosDisponibles) }} </p>
+                <p class="text-end px-2 mb-2" style="font-size: 12px; text-transform: uppercase;"><span style="font-weight: 600;">Productos con imagen:&nbsp;</span>&nbsp;<span style="color: green;">{{ $productosDisponibles->count() }}</span>&nbsp;<b>/</b>&nbsp; {{ count($productosTotales) }} </p>
 
             </div>
 
@@ -849,31 +853,6 @@
         $('#'+marca_id+'-qty').text(canttupd);
         
     }
-
-    /*
-    window.onscroll = function() {myFunction()};
-
-    var header = document.getElementById("summary");
-    var brandsl = document.getElementById("brand-list");
-    var sumdet = document.getElementById("summ-detail");
-    var sticky = header.offsetTop;
-
-    function myFunction() {
-      if (window.pageYOffset > sticky) {
-        header.classList.add("sticky-pos");
-        brandsl.classList.add("no-show");
-        sumdet.classList.remove("col-lg-4");
-        sumdet.classList.add("col-lg-12");
-        $("#table_detalle").css("color", "white");
-      } else {
-        header.classList.remove("sticky-pos");
-        brandsl.classList.remove("no-show");
-        sumdet.classList.remove("col-lg-12");
-        sumdet.classList.add("col-lg-4");
-        $("#table_detalle").css("color", "initial");
-      }
-    }
-    */
 
     function filterBrand(filterid) {
 

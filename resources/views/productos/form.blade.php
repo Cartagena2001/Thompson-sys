@@ -301,9 +301,13 @@
 
             $("[name='categoria_id']").append('<option>Seleccione una categoría</option>');
 
-            axios.post('/submenucatmarca', {
-               marcaSeleccionada: marcaSeleccionada
-             }).then((r)=>{
+            axios({
+                method: 'post',
+                url: '/submenucatmarca', 
+                data: {
+                    marcaSeleccionada: marcaSeleccionada
+                }
+            }).then((r)=>{
               
               var submenu = r.data.submenu;
 

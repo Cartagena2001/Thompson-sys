@@ -118,8 +118,8 @@
                             <th scope="col">Nombre del cliente</th>
                             <th scope="col">Correo Electrónico</th>
                             <th scope="col">Empresa</th>
-                            <th scope="col" class="text-center">Municipio/Distrito</th>
                             <th scope="col" class="text-center">Departamento</th>
+                            <th scope="col" class="text-center">Municipio/Distrito</th>
                             <th scope="col" class="text-center">NIT</th>
                             <th scope="col" class="text-center">Estado</th>
                             <th scope="col" class="text-center">Acciones</th>
@@ -132,8 +132,8 @@
                                 <td>{{ $aspirante->name }}</td>
                                 <td>{{ $aspirante->email }}</td>
                                 <td>{{ $aspirante->nombre_empresa }}</td>
-                                <td class="text-center">{{ $aspirante->municipio }}</td>
                                 <td class="text-center">{{ $aspirante->departamento }}</td>
+                                <td class="text-center">{{ $aspirante->municipio }}</td>
                                 <td class="text-center">{{ $aspirante->nit }}</td>
                                 <td @if( $aspirante->estatus == 'aprobado' ) 
                                         class="text-center text-success"
@@ -166,7 +166,7 @@
         $(document).ready(function() {
             var table = $('#table_aspirantes').DataTable({
                 language: {
-                    url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                    url: "/assets/js/Spanish.json"
                 }
             });
 

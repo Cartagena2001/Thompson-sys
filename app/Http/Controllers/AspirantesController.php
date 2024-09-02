@@ -26,6 +26,7 @@ class AspirantesController extends Controller
     {
         $aspirante = User::find($id);
         $marcas = Marca::all();
+        //$marcas = Marca::where('estado', '=', 'Activo')->get();
 
         $aspirante->visto = 'visto';
         $aspirante->update();

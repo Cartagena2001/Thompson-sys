@@ -97,7 +97,7 @@
                             <tr>
                                 <td>{{ $categoria->id }}</td>
                                 <td>{{ $categoria->nombre }}</td>
-                                <td>{{ $categoria->estado }}</td>
+                                <td>@if($categoria->estado == 'Activo') <span style="color: green;">{{ $categoria->estado }} @else <span style="color: red;"> {{ $categoria->estado }}</span> @endif </td>
                                 <td class="text-center">
                                     <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST">
                                         <a href="{{ route('categorias.edit', $categoria->id) }}">
@@ -123,7 +123,7 @@
         $(document).ready(function() {
             $('#table_categorias').DataTable({
                 language: {
-                url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                url: "/assets/js/Spanish.json"
             }
             });
         });

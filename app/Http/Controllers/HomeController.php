@@ -38,7 +38,7 @@ class HomeController extends Controller
 
         $marcasAuto = $user->marcas;
         $marcasAutorizadas = str_split($marcasAuto);
-        $marcas = Marca::whereIn('id', $marcasAutorizadas)->get();
+        $marcas = Marca::whereIn('id', $marcasAutorizadas)->where('estado', '=', 'Activo')->get();
 
         //$categoriasAuto = [];
 
@@ -48,7 +48,7 @@ class HomeController extends Controller
 
             $categoriasAuto[$marcaID] = Categoria::whereIn('id', function($query) use ( $marcaID){
                 $query->select('categoria_id')->from('marca_cat')->whereIn('marca_id', [$marcaID]); 
-            })->get();
+            })->where('estado', '=', 'Activo')->get();
 
         }
 

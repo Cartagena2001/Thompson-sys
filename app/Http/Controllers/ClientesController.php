@@ -30,6 +30,7 @@ Class ClientesController extends Controller
 
         $cliente = User::findOrFail($id);
         $marcas = Marca::all();
+        //$marcas = Marca::where('estado', '=', 'Activo')->get();
 
         return view('clientes.show', compact('cliente', 'marcas'));
     }
@@ -79,6 +80,7 @@ Class ClientesController extends Controller
 
         $clientes = User::where('estatus', 'aprobado')->paginate(1000000000);
         $marcas = Marca::all();
+        //$marcas = Marca::where('estado', '=', 'Activo')->get();
 
         return view('clientes.marcasAdm', compact('clientes', 'marcas'));
     }

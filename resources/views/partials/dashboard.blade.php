@@ -1,6 +1,26 @@
   
   @section('title', 'Inicio')
 
+  <?php
+    
+    $catalog_mode = 0;
+    $url = '';
+
+    if ( isset($cat_mod) ) { $catalog_mode = $cat_mod; }
+
+    if ( $catalog_mode == 0 ) {
+      
+      if ( Auth::user()->cat_mod == 0 ) {
+        $url = 'tienda';
+      } else {
+        $url = 'catalogo';
+      }
+    } else {
+      $url = 'catalogo';
+    }
+
+  ?>
+
   {{-- CLIENTE --}}
 
   @if ( Auth::user()->rol_id == 2 )
@@ -19,7 +39,8 @@
 
             <div class="row">
                 <div class="col-lg-3">
-                  <a style="margin: 0 auto;" href="{{ url( '/dashboard/tienda?marca='.$brand->id.'&categoria=0') }}">
+
+                  <a style="margin: 0 auto;" href="{{ url( '/dashboard/'.$url.'?marca='.$brand->id.'&categoria=0') }}">
                     <img src="{{ url('storage/assets/img/logos/'.$brand->logo_src) }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="max-width: 180px; width: 100%; margin: 0 auto; display: block;"/>
                   </a>
                 </div>
@@ -27,9 +48,9 @@
                 <div class="col-lg-9">
                   <p class="text-justify mt-2 me-2" style="color: #000;">{{ $brand->descripcion }}</p>
 
-                  <p style="color: #000;"><b>Categorías</b>:  
+                  <p style="color: #000;"><b>Categorías</b>:                          
                         @foreach ($categoriasAuto[$brand->id] as $cat)
-                           <a href="/dashboard/catalogo?marca={{ $brand->id }}&categoria={{ $cat->id }}">{{ $cat->nombre }}, </a>
+                           <a href="/dashboard/{{ $url }}?marca={{ $brand->id }}&categoria={{ $cat->id }}">{{ $cat->nombre }}, </a>
                         @endforeach
                   </p>
                   

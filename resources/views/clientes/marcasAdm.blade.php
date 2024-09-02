@@ -97,7 +97,7 @@
                                     <div>
                                 @foreach ($marcas as $marca)
                                     <label for="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}">
-                                        <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}" type="checkbox" name="marks[]" value="{{ $marca->id }}" onclick="updateMarca (this.id)" @if ( str_contains( $cliente->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
+                                        <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}" type="checkbox" name="marks[]" value="{{ $marca->id }}" onclick="updateMarca (this.id)" @if ( str_contains( $cliente->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }} @if ($marca->estado == 'Inactivo') <span style="color: red;">(inactiva)</span> @endif
 
                                     </label>
                                     <br/>
@@ -119,7 +119,7 @@
         $(document).ready(function() {
             var table = $('#table_clientes').DataTable({
                 language: {
-                    url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                    url: "/assets/js/Spanish.json"
                 }
             });
 

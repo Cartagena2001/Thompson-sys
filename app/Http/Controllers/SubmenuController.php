@@ -41,4 +41,49 @@ class SubmenuController extends Controller
     }
 
 
+    /**
+     * Display a listing of registers.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getsubmenussel(Request $request){
+
+        if ($request->marcaS == null) {
+
+            return Response([
+              'marcaS' => '',
+            ]);
+
+        } elseif ($request->marcaS == 'todas') {
+
+            //$marcaSe = Marca::where('nombre', '=', $request->marcaS)->first();
+            $marca = Marca::find([2, 5]);
+            //dd($marca);
+
+            $catasociadas = $marca->categoria()->withPivot('categoria_id')->get();//->pluck('id', 'nombre');//->toArray();
+            //dd($catasociadas);
+
+
+            return Response([
+              'marcaS' => $catasociadas,
+            ]);
+
+        } else { 
+
+
+            $marcaSe = Marca::where('nombre', '=', $request->marcaS)->first();
+            $marca = Marca::find($marcaSe->id);
+            //dd($marca);
+
+            $catasociadas = $marca->categoria()->withPivot('categoria_id')->get();//->pluck('id', 'nombre');//->toArray();
+            //dd($catasociadas);
+
+            return Response([
+              'marcaS' => $catasociadas,
+            ]);
+        }  
+   
+    }
+
+
 }

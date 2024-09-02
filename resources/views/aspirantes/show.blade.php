@@ -115,7 +115,7 @@
  
                     @foreach ($marcas as $marca)
                         <label for="marca-{{ $marca->nombre }}">
-                            <input id="marca-{{ $marca->nombre }}" type="checkbox" name="marks[]" value="{{ $marca->id }}" onclick="updateMarca (this.id)" @if ( str_contains( $aspirante->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
+                            <input id="marca-{{ $marca->nombre }}" type="checkbox" name="marks[]" value="{{ $marca->id }}" onclick="updateMarca (this.id)" @if ( str_contains( $aspirante->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }} @if ($marca->estado == 'Inactivo') <span style="color: red;">(inactiva)</span> @endif
 
                         </label>
                         <br/>

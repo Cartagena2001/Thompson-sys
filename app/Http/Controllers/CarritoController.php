@@ -84,7 +84,7 @@ class CarritoController extends Controller
                 $cantidad = $product->existencia;
                 $montopm = $precio * $cantidad * $product->unidad_por_caja;
 
-
+                // Llenado de var sesion que almacena el detalle
                 foreach ( $brandsAvail as $brandA ) {
 
                     if ( $product->marca->nombre == $brandA->nombre ) {

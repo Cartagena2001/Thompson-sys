@@ -31,6 +31,7 @@ class CategoriaController extends Controller
     {
         $categoria = new Categoria();
         $marcas = Marca::all();
+        //$marcas = Marca::where('estado', '=', 'Activo')->get();
 
         $marcasAsoc = [];
 
@@ -93,6 +94,7 @@ class CategoriaController extends Controller
     {
         $categoria = Categoria::find($id);
         $marcas = Marca::all();
+        //$marcas = Marca::where('estado', '=', 'Activo')->get();
 
         $marcasAsoc = $categoria->marca()->withPivot('marca_id')->get()->pluck('id')->toArray();
 
