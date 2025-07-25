@@ -9,6 +9,7 @@
         "biscolab/laravel-recaptcha": "^6.0",
         "davcpas1234/laravelpdfviewer": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
+        "igorescobar/jquery-mask-plugin": "^1.14",
         "jeroennoten/laravel-adminlte": "^3.8",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",

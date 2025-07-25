@@ -21,7 +21,8 @@ return new class extends Migration
             //relacionar con la tabla producto
             $table->integer('producto_id')->unsigned();
             $table->foreign('producto_id')->references('id')->on('producto');
-            $table->integer('cantidad')->unsigned();
+            $table->integer('cantidad')->unsigned(); 
+            $table->integer('cantidad_solicitada')->unsigned();
             $table->integer('cantidad_despachada')->unsigned()->nullable();
             $table->integer('n_bulto')->unsigned();
             $table->double('precio', 5, 2);

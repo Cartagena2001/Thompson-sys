@@ -189,7 +189,13 @@
                                 <td>{{ $usuario->name }}</td>
                                 <td>{{ $usuario->email }}</td>
                                 <td>{{ $usuario->nombre_empresa }}</td>
-                                <td>{{ $usuario->estado }}</td>
+                                <td>
+                                    @if ( $usuario->estado == 'activo')
+                                        <span style="color: green;">{{ $usuario->estado }}</span>
+                                    @elseif ( $usuario->estado == 'inactivo')
+                                        <span style="color: red;">{{ $usuario->estado }}</span>
+                                    @endif
+                                </td>
                                 <td>{{ \Carbon\Carbon::parse($usuario->fecha_registro)->isoFormat('D [de ]MMMM [de] YYYY, h:mm:ss a') }}</td>
                                 <td class="text-success">{{ $usuario->notas }}</td>
                                 <td class="text-center">
@@ -213,7 +219,7 @@
         $(document).ready(function() {
             var table = $('#table_usuarios').DataTable({
                 language: {
-                    url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                    url: "/assets/js/Spanish.json"
                 }
             });
 

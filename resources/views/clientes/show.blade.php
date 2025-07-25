@@ -10,7 +10,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/b-print-2.3.3/date-1.2.0/datatables.min.js"></script>
 
-    {-- Titulo --}}
+    {{-- Titulo --}}
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
         <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png);"></div>
         <div class="card-body position-relative mt-4">
@@ -33,7 +33,7 @@
         <div class="card-body">
 
             <div class="mt-3 mb-4">
-                <img class="rounded mt-2 mb-2" style="display: block; margin: 0 auto;" src="{{ $cliente->imagen_perfil_src }}" alt="per" width="200">
+                <img class="rounded mt-2 mb-2" style="display: block; margin: 0 auto;" src="{{ url('storage/assets/img/perfil-user/'.$cliente->imagen_perfil_src) }}" alt="per" width="200">
                 <h4 class="text-center">Cliente #{{ $cliente->id}}: <br/> <span style="color: #ff161f">{{ $cliente->name }}</span> </h4>
                 <h5 class="text-center">🔰 {{ $cliente->clasificacion }} 🔰</h5>
                 <br/>
@@ -143,7 +143,7 @@
                             <div>
                             @foreach ($marcas as $marca)
                                 <label for="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}">
-                                    <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}" type="checkbox" value="{{ $marca->id }}" name="marks[]" onclick="asignarMarca (this.id)" @if ( str_contains( $cliente->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
+                                    <input id="{{ $marca->nombre }}-{{ $marca->id }}_{{ $cliente->id }}" type="checkbox" value="{{ $marca->id }}" name="marks[]" onclick="updateMarca (this.id)" @if ( str_contains( $cliente->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }} @if ($marca->estado == 'Inactivo') <span style="color: red;">(inactiva)</span> @endif
                                 </label>
                                 <br/>
                             @endforeach
@@ -196,11 +196,40 @@
 
             </div>
 
+            <hr/>
+
+            <div class="row mt-4 mb-2">
+
+                <h4 class="text-center mb-4">Activar modo catálogo individual: </h4>
+
+                <div class="flex-center">
+       
+                    <div class="mb-4">
+                        <div class="text-center">
+                            <input type="radio" name="catMod" value="1" @if($cliente->cat_mod == 1) checked @endif > <span style="color: red; font-weight: bold;">Activar modo catálogo</span>
+                            <br/> 
+                            <br/> 
+                            <input type="radio" name="catMod" value="0" @if($cliente->cat_mod == 0) checked @endif > <span style="color: #000; font-weight: bold;">Desactivar modo catálogo</span>
+                            </label> 
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="alert alert-success mb-2 text-center" role="alert" id="successMsg5" style="display: none; width:100%; max-width: 400px; margin: 0 auto;" >
+                   Modo catálogo activado/desactivado con éxito! 
+                </div>
+
+                <span class="text-danger" id="ErrorMsg5"></span>
+
+            </div>
+
         </div>
     </div>
 
     <script type="text/javascript">
 
+/*
         function asignarMarca(check_id) {
 
             var marca = $('#'+check_id).val();
@@ -226,7 +255,51 @@
             });
             
         }
+*/
 
+
+        function updateMarca(check_id){
+            var estadoUpdate = $('#'+check_id).prop('checked');
+            var clienteid = check_id;
+            // console.log("estado: "+estado);
+
+            $.ajax({
+                url: "{{ route('clientes.marcaUpdate') }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&marcaUpdate=" + $('#'+check_id).val() + "&cliente=" + check_id + "&estadoUpdate=" + estadoUpdate,
+
+                success: function(response){
+                    $('#successMsg').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg1').text(response.responseJSON.errors.marcaUpdate);
+                    $('#ErrorMsg2').text(response.responseJSON.errors.cliente);
+                },
+            })
+        }
+
+        $('input[type=radio][name=catMod]').change(function() {
+
+            var catMod = this.value;
+
+            $.ajax({
+                url: "{{ route('clientes.actModCat', $cliente->id) }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&catMod=" + catMod,
+
+                success: function(response){
+                    $('#successMsg5').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg5').text(response.responseJSON.errors.catMod);
+                },
+            })
+
+        });        
       </script>
 
 @endsection

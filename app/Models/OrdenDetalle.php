@@ -14,7 +14,8 @@ class OrdenDetalle extends Model
     protected $fillable = [
         'orden_id', 
         'producto_id', 
-        'cantidad', 
+        'cantidad',
+        'cantidad_solicitada',  
         'cantidad_despachada', 
         'n_bulto',
         'precio',

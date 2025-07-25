@@ -4,14 +4,54 @@
 
 @section('title', 'Carrito de compras')
 
+<style type="text/css">
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    table {
+        display: flex;
+        flex-flow: column;
+        width: 100%;
+        height: 600px;
+        
+    }
+
+    thead {
+        padding-right: 13px;
+        flex: 0 0 auto;
+    }
+
+    tfoot {
+        padding-right: 13px;
+        flex: 0 0 auto;
+    }
+
+    tbody {
+        flex: 1 1 auto;
+        display: block;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    tr {
+        width: 100%;
+        display: table;
+        table-layout: fixed;
+    }        
+
+</style>
+
 {{-- Titulo --}}
 <div class="card mb-3">
     <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png); border: ridge 1px #ff1620;"></div>
     <div class="card-body position-relative mt-4">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="text-center">📑 Detalle de Órden de Compra 📑</h1>
-                <p class="mt-4 mb-4 text-center">Aquí podrás ver el detalle de tu órden de compra y el monto total a pagar antes del despacho.
+                <h1 class="text-center">📑 Detalle de orden de compra 📑</h1>
+                <p class="mt-4 mb-4 text-center">Aquí podrás ver el detalle de tu orden de compra y el monto total a pagar antes del despacho.
                 </p>
             </div>
         </div>
@@ -27,6 +67,7 @@
             <thead>
                 <tr>
                     <th class="text-center">ID</th>
+                    <th class="text-center">OEM</th>
                     <th>Producto</th>
                     <th class="text-center"># Cajas 📦</th>
                     <th class="text-center">Precio 📦</th>
@@ -38,6 +79,7 @@
                 @foreach (session('cart', []) as $item)
                     <tr>
                         <td class="text-center">{{ $item['producto_id'] }}</td>
+                        <td class="text-center">{{ $item['producto_oem'] }}</td>
                         <td>{{ $item['nombre'] }}</td>
                         <td class="text-center">{{ $item['cantidad'] }}</td>
                         <td class="text-center">{{ number_format(($item['precio_f'] * $item['unidad_caja']), 2, '.', ','); }} $</td> 
@@ -45,6 +87,9 @@
                         <td class="text-center">{{ number_format(($item['precio_f'] * $item['cantidad'] * $item['unidad_caja']), 2, '.', ','); }} $</td> 
                     </tr>
                 @endforeach
+            </tbody>
+
+            <tfoot>
                 @php
                     $subtotal = 0;
                     $iva = 0.13;
@@ -81,7 +126,7 @@
                         <td class="text-start" style="font-weight: 600;">Total:</td> 
                         <td class="text-end">{{ number_format($total, 2, '.', ',');  }} $</td> 
                     </tr>
-            </tbody>
+            </tfoot>
         </table>
 
     </div>
@@ -100,7 +145,7 @@
                         <label for="cliente_id_compra">Asignar compra:</label>
                         <select class="form-control" id="cliente_id_compra" name="cliente_id_compra">
                             @foreach($usuarios as $usuario)
-                              <option value="{{$usuario->id}}">{{$usuario->id}} - {{$usuario->nombre_empresa}}</option>
+                              <option value="{{$usuario->id}}">{{$usuario->id}} - {{$usuario->name}} - {{$usuario->nombre_empresa}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -122,7 +167,7 @@
                         @csrf
                         <input type="hidden" name="total" value="{{ $total }}">
                         <button type="submit" class="btn btn-sm btn-primary">
-                            <i class="fas fa-check"></i> Finalizar Órden
+                            <i class="fas fa-check"></i> Finalizar Orden
                         </button>
                     </form>
                 </div>

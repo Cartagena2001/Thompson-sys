@@ -11,6 +11,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
+use Config;
+
 class AspirantesController extends Controller
 {
     public function index()
@@ -24,6 +26,7 @@ class AspirantesController extends Controller
     {
         $aspirante = User::find($id);
         $marcas = Marca::all();
+        //$marcas = Marca::where('estado', '=', 'Activo')->get();
 
         $aspirante->visto = 'visto';
         $aspirante->update();
@@ -45,10 +48,10 @@ class AspirantesController extends Controller
         
         //Envio de notificación por correo al aspirante ahora cliente
         $emailRecipientClient = $aspirante->email;
-        $emailSubjectClient = 'Bienvenido'.$aspirante->name.' - Tienda RTElSalvador';
+        $emailSubjectClient = 'Bienvenido'.$aspirante->name.' - Tienda Accumetric El Salvador';
         $emailBodyClient = " 
                         <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
                         </div>
 
                         <br/>
@@ -67,7 +70,7 @@ class AspirantesController extends Controller
                         ";
                         
         $replyToEmailClient = "oficina@rtelsalvador.com";
-        $replyToNameClient = "Representaciones Thompson";
+        $replyToNameClient = "Accumetric El Salvador";
 
         $estado1 = $this->sendMail($mailToClient, $emailRecipientClient ,$emailSubjectClient ,$emailBodyClient ,$replyToEmailClient ,$replyToNameClient);
 
@@ -92,10 +95,10 @@ class AspirantesController extends Controller
             } 
         } 
 
-        $emailSubjectOff = 'Confirmación de aprobación de aspirante a cliente - RTElSalvador';
+        $emailSubjectOff = 'Confirmación de aprobación de aspirante a cliente - Tienda Accumetric El Salvador';
         $emailBodyOff = " 
                         <div style='display:flex;justify-content:center;' >
-                            <img alt='rt-Logo' src='https://rtelsalvador.com/assets/img/rtthompson-logo.png' style='width:100%; max-width:250px;'>
+                            <img alt='acc-Logo' src='https://rtelsalvador.com/assets/img/accumetric-slv-logo-mod.png' style='width:100%; max-width:250px;'>
                         </div>
 
                         <br/>
@@ -163,17 +166,17 @@ class AspirantesController extends Controller
     }
 
 
-    public function updateMarcas(Request $request, $id)
+    public function updateMarcasssssss(Request $request, $id)
     {
 
 /*
         $request->validate([
             'marca' => 'required|string',
-            'clienteid' => 'required|numeric',
+            'cliente' => 'required|numeric',
         ]);
 */
 
-        $clienteID = $request->cliente; //0,1,2,3
+        $clienteID = $request->cliente; //1 2 o 3...
         //$clienteID = trim(strstr( $request->cliente, "_" ), "_");
         //$clienteUptM = User::find($clienteID);
 
@@ -181,17 +184,23 @@ class AspirantesController extends Controller
 
         $marcasUDT = "";
 
-        $marcasInput = $request->marca; 
-        $marcasBD = $clienteUptM->marcas;
+        $marcasInput = strval($request->marca); 
+        $marcasBD = strval($clienteUptM->marcas);
 
-        if ( str_contains($marcasBD, $marcasInput) ) {
+        //return response()->json('id marca check: '.$marcasInput.' ids marcas en bd: '.$marcasBD);
 
-            $marcasUDT = str_replace($marcasInput, '', $marcasBD);
+        //return response()->json(str_contains($marcasBD, $marcasInput)); 
+        //$flag = str_contains($marcasBD, $marcasInput);
+
+        if ( strpos($marcasBD, $marcasInput) == true ) {
+
+            $marcasUDT = str_replace($marcasInput, '', $marcasBD);  
 
             $clienteUptM->marcas = $marcasUDT;
             $clienteUptM->update();
 
-           return response()->json($clienteUptM->marcas);
+           //return response()->json($clienteUptM->marcas);
+           return response()->json('found: '.str_replace($marcasInput, '', $marcasBD));
 
         } else {
 
@@ -199,11 +208,40 @@ class AspirantesController extends Controller
 
             $clienteUptM->update();
 
-            return response()->json($clienteUptM->marcas);
+            //return response()->json($clienteUptM->marcas);
+            return response()->json('not found: '.$marcasBD.$marcasInput);
         }
 
     }
 
+    public function updateMarcas(Request $request, $id){
+        //se obtiene el id del cliente y las marcas del cliente
+        //$clienteID = trim(strstr( $request->cliente, "_" ), "_");
+        $clienteID = $id;
+        $clienteUptM = User::find($clienteID);
+        $marcasCliente = $clienteUptM->marcas;
+        //var_dump($marcasCliente);
+
+
+        //obtener el estado de la marca si es true o false
+        $marcaUpdate = $request->marcaUpdate;
+        $estadoUpdate = $request->estadoUpdate;
+        //var_dump($marcaUpdate . " " . $estadoUpdate);
+
+        //si el estado es true se agrega la marca al cliente si es false se elimina
+        if ($estadoUpdate == 'true') {
+            $clienteUptM->marcas = $marcasCliente.$marcaUpdate;
+            //verificar que no alla nigun valor repetido en el campo marcas del cliente y si lo hay eliminarlo
+            $clienteUptM->marcas = implode('', array_unique(str_split($clienteUptM->marcas)));
+            $clienteUptM->update();
+            return response()->json($clienteUptM->marcas);
+        } else {
+            $clienteUptM->marcas = str_replace($marcaUpdate, '', $marcasCliente);
+            $clienteUptM->marcas = implode('', array_unique(str_split($clienteUptM->marcas)));
+            $clienteUptM->update();
+            return response()->json($clienteUptM->marcas);
+        }
+    }
 
     //actualizar lista de precios a taller
     public function taller($id){
@@ -259,19 +297,20 @@ class AspirantesController extends Controller
         try {
 
             // Email server settings
-            $mail->SMTPDebug = 2;
+            //$mail->SMTPDebug = 1; // 1 | 2 | 3 | 4
             $mail->isSMTP();
-            $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
+
+            $mail->Host = config('phpmailerconf.host'); //env('MAIL_HOST');
             $mail->SMTPAuth = true;
-            $mail->Username = env('SMTP_USERNAME', "");   //  sender username
-            $mail->Password = env('SMTP_PASS', "");       // sender password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
-            $mail->Port = env('SMTP_PORT', "");                          // port - 587/465
+            $mail->Username = config('phpmailerconf.username'); //env('MAIL_USERNAME');
+            $mail->Password = config('phpmailerconf.password'); //env('MAIL_PASSWORD');
+            $mail->SMTPSecure = config('phpmailerconf.encryption'); //env('MAIL_ENCRYPTION');
+            $mail->Port = config('phpmailerconf.port'); //env('MAIL_PORT');                          // port - 587/465
             $mail->SMTPKeepAlive = true;
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
 
-            $mail->setFrom('notificaciones@rtelsalvador.com', 'Representaciones Thompson');
+            $mail->setFrom('notificaciones@rtelsalvador.com', 'Accumetric El Salvador');
             $mail->addAddress($emailRecipient); /* NOTA: mandar a llamar email según config en la BD*/
             //$mail->addCC($request->emailCc);
             //$mail->addBCC($request->emailBcc);
@@ -302,15 +341,20 @@ class AspirantesController extends Controller
             */  
             $intentos=1; 
             
-            while ((!$exito) && ($intentos < 5)) {
-                sleep(5);
-                /*echo $mail->ErrorInfo;*/
-                $exito = $mail->Send();
-                $intentos=$intentos+1;  
+            if ($exito != true) {
+
+                while (($exito != true) && ($intentos < 5)) {
+                    sleep(5);
+                    /*echo $mail->ErrorInfo;*/
+                    $exito = $mail->Send();
+                    $intentos=$intentos+1;  
+                }
             }
 
             $mail->getSMTPInstance()->reset();
+            $mail->clearAllRecipients();
             $mail->clearAddresses();
+            $mail->clearReplyTos();
             $mail->smtpClose();
 
             return $exito;
@@ -319,6 +363,22 @@ class AspirantesController extends Controller
              return redirect()->route('inicio')->with('error','Ha ocurrido algún error al enviar.');
         } 
 
+    }
+
+    public function actModCat(Request $request,  $id)
+    {
+        
+        $user = User::find($id);
+
+        request()->validate([
+            'catMod'   => 'required|numeric',
+        ]);
+
+        $user->cat_mod = $request->catMod;
+
+        $user->update();
+
+        return response()->json($user->cat_mod);
     }
 
 

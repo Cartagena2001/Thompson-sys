@@ -18,8 +18,8 @@
         <div class="card-body position-relative mt-4">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="text-center">📥 Resumen Órden de Compra # {{ $orden->id }} 📥</h1>
-                    <p class="mt-4 mb-4 text-center">Aquí podrás encontrar el detalle de tu órden de compra y su estado de procesamiento.</p>
+                    <h1 class="text-center">📥 Resumen Orden de Compra # {{ $orden->id }} 📥</h1>
+                    <p class="mt-4 mb-4 text-center">Aquí podrás encontrar el detalle de tu orden de compra y su estado de procesamiento.</p>
                 </div>
                 <div class="text-center mb-4">
                     <a class="btn btn-sm btn-primary" href="{{ url('/perfil/ordenes') }}"><span class="fas fa-long-arrow-alt-left me-sm-2"></span><span class="d-none d-sm-inline-block"> Volver Atrás</span></a>
@@ -31,7 +31,7 @@
     {{-- Cards de informacion --}}
     <div class="card mb-3" style="border: ridge 1px #ff1620;">
 
-        <button id="imprimir_btn" class="btn btn-sm btn-primary" type="button"><i class="fas fa-print"></i> Imprimir órden</button>
+        <button id="imprimir_btn" class="btn btn-sm btn-primary" type="button"><i class="fas fa-print"></i> Imprimir orden</button>
 
         <div class="card-body">
 
@@ -167,19 +167,25 @@
                     <div class="mt-3 col-auto text-center col-4 mx-auto">
                         <label for="factura_href">Factura/Crédito Fiscal: </label>
                         <br/>
-                        <a href="{{ $orden->factura_href }}" title="Ver Factura" target="_blank"><img class="rounded mt-2" src="{{ $orden->factura_href }}" alt="factura-img" width="400"></a>
+                        <a href="/file/serve/cifs/{{ $orden->factura_href }}" title="Ver Factura" target="_blank">
+                            <img class="rounded mt-2" src="/file/serve/cifs/{{ $orden->factura_href }}" alt="factura-img" width="400">
+                        </a>
                     </div>
 
                     <div class="mt-3 col-auto text-center col-4 mx-auto">
                         <label for="comp-pago">Comprobante de Pago: </label>
                         <br/>
-                        <a href="{{ $orden->comprobante_pago_href }}" title="Ver Comprobante" target="_blank"><img class="rounded mt-2" src="{{ $orden->comprobante_pago_href }}" alt="factura-img" width="400"></a>
+                        <a href="/file/serve/comp_pago/{{ $orden->comprobante_pago_href }}" title="Ver Comprobante de Pago" target="_blank">
+                            <img class="rounded mt-2" src="/file/serve/comp_pago/{{ $orden->comprobante_pago_href }}" alt="comp-pago-img" width="400">
+                            </a>
                     </div>
 
                        <div class="mt-3 col-auto text-center col-4 mx-auto">
                         <label for="hoja_salida_href">Hoja de Salida: </label>
                         <br/>
-                        <a href="{{ $orden->hoja_salida_href }}" title="Ver Hoja de Salida" target="_blank"><img class="rounded mt-2" src="{{ $orden->hoja_salida_href }}" alt="hoja-salida-img" width="400"></a>
+                        <a href="/file/serve/hojas_sal/{{ $orden->hoja_salida_href }}" title="Ver Hoja de Salida" target="_blank">
+                        <img class="rounded mt-2" src="/file/serve/hojas_sal/{{ $orden->hoja_salida_href }}" alt="hoja-salida-img" width="400">
+                        </a>
                     </div>
                     
                 </div>

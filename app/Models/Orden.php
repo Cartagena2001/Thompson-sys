@@ -15,7 +15,8 @@ class Orden extends Model
       'user_id', 
       'estado', 
       'fecha_envio', 
-      'fecha_entrega', 
+      'fecha_entrega',
+      'fecha_cancelacion', 
       'total', 
       'notas', 
       'notas_bodega', 
@@ -26,7 +27,9 @@ class Orden extends Model
       'paleta', 
       'factura_href',
       'hoja_salida_href',
-      'comprobante_pago_href'
+      'comprobante_pago_href',
+      'tipo_pago',
+      'periodicidad'
   ];
 
   public function User(){  return $this->belongsTo('App\Models\User', 'user_id'); }

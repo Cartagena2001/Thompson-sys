@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="text-center">🕵 Bitácora del Sistema 🕵</h1>
-                    <p class="mt-4 mb-4 text-center">En esta sección podrás encontrar el listado de eventos en los cuales ha participado un usuario administrador del sistema ò usuario de bodega.</p>
+                    <p class="mt-4 mb-4 text-center">En esta sección podrás encontrar el listado de eventos en los cuales ha participado un usuario administrador del sistema o usuario de bodega.</p>
                 </div>
             </div>
         </div>
@@ -33,7 +33,9 @@
                     <label for="filtro_usr">Filtrar por usuario:
                     <select class="form-select" id="filtro_usr">
                         <option value="">Todos los usuarios</option>
-            
+                        @foreach ($users as $user)
+                            <option value="{{ $user->name }}">{{ $user->name }}</option>
+                        @endforeach
                     </select>
                     </label>
                     <button style="height: 38px; position: relative; bottom: 2px;" class="btn btn-primary" id="limpiar_filtro">Limpiar Filtro</button>
@@ -49,9 +51,9 @@
                 <table id="table_eventos" class="table display">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
                             <th scope="col">Usuario</th>
                             <th scope="col">Evento</th>
+                            <th scope="col">Descripcion</th>
                             <th scope="col">Fecha/Hora</th>
                             {{-- <th class="text-end" scope="col">Acciones</th> --}}
                         </tr>
@@ -60,10 +62,10 @@
 
                         @foreach ($bitacora as $registro)
                             <tr>
-                                <td>{{ $registro->id }}</td>
-                                <td>{{ $registro->users->name }}</td>
-                                <td>{{ $registro->users->name }}</td>
-                                <td>{{ \Carbon\Carbon::parse($orden->fecha_registro)->isoFormat('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                <td>{{ $registro->user->name }}</td>
+                                <td>{{ $registro->accion }}</td>
+                                <td>{{ $registro->descripcion }}</td>
+                                <td>{{ \Carbon\Carbon::parse($registro->hora_fecha)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}</td>
 
                                 {{-- 
                                 <td class="text-end">
@@ -87,14 +89,15 @@
         $(document).ready(function() {
             var table = $('#table_eventos').DataTable({
                 language: {
-                    url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                    url: "/assets/js/Spanish.json"
                 }
             });
 
-            var filtroColumna = table.column(2);
+            var filtroColumna = table.column(0);
 
             $('#filtro_usr').on('change', function() {
                 var filtro = $(this).val();
+                console.log(filtro);
 
                 if (filtro === '') {
                     filtroColumna.search('').draw();

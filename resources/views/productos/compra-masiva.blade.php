@@ -3,6 +3,8 @@
 @section('content')
 @section('title', 'Catálogo para compra masiva')
 
+<button onclick="topFunction()" id="toTopBtn" title="Ir a arriba"><i style="" class="fa-solid fas fa-arrow-up"></i></button>
+
 <?php
     $carrito = session('cart', []);
     $cart = session()->get('cart', []);
@@ -14,6 +16,14 @@
     foreach ($carrito as $item) {
         $cantidad += $item['cantidad'];
     }
+
+    //array of brands available
+    $brandIDs = array();
+
+    foreach ($marcas as $marca) {
+        $brandIDs[] = $marca->id;
+    }
+
 ?>
 
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
@@ -56,7 +66,7 @@
                     @foreach ($marcas as $brand)
                         
                         <li class="glide__slide text-center">
-                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 180px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+                            <img src="{{ url('storage/assets/img/logos/'.$brand->logo_src) }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 180px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
                         </li>
 
                     @endforeach
@@ -81,7 +91,7 @@
                     <thead>
                         <tr>
                             <th class="text-start p-1">Marca</th>
-                            <th class="text-center p-1">Cantidad 📦</th>
+                            <th class="text-center p-1">Cantidad de 📦</th>
                             <th class="text-center p-1">Subtotal Parcial</th>   
                         </tr>
                     </thead>
@@ -156,34 +166,14 @@
                 <label>Filtrar por categoría:
                     <select id="catfilter" class="" onchange="filtertable()">
                             <option value="todas">Todas</option>
-                        @foreach ($categorias as $categoria)      
+   
+                        @foreach ($categorias as $categoria)
                             <option value="{{ $categoria->nombre }}">{{ $categoria->nombre}}</option> 
                         @endforeach
+
                     </select>
                 </label>
             </div>
-
-{{--
-            <div class="col-4 text-end">
-                <a href="{{ url('/carrito') }}" title="Ver Carrito">
-                    <h6 class="btn btn-sm btn-primary">
-                        <i class="fa-solid fa-cart-shopping" style="font-size: 28px;"></i>
-                        <?php
-                            $carrito = session('cart', []);
-
-                            $cart = session()->get('cart', []);
-
-                            $cantidad = 0;
-
-                            foreach ($carrito as $item) {
-                                $cantidad += $item['cantidad'];
-                            }
-                        ?>
-                        <sup class="cantnoti">{{ $cantidad }}</span>
-                    </h6>
-                </a>
-            </div>
---}}
 
         </div>
     </div>
@@ -196,12 +186,12 @@
                 <thead>
                     <tr>
                         <th class="text-center" scope="col">ID</th>
+                        <th class="text-start ms-1" scope="col">OEM</th>
                         <th scope="col">Nombre</th>
                         <th class="text-center" scope="col">Marca</th>
-                        <th class="text-center" scope="col">OEM</th>
                         <th class="text-center" scope="col">Categoría</th>
-                        <th class="text-center" style="width: 100px;" scope="col">Precio 📦</th>
-                        <th class="text-center" style="width: 100px;" scope="col"># unidades en caja</th>
+                        <th class="text-center" style="width: 100px;" scope="col">Precio por 📦</th>
+                        <th class="text-center" style="width: 100px;" scope="col"># unidades en 📦</th>
                         <th class="text-center" style="width: 100px;" scope="col">Agregar <br/> 📦 a 🛒</th>
                     </tr>
                 </thead>
@@ -213,13 +203,15 @@
                     @foreach ($productos as $producto)
                         <tr>
                             <td class="text-center">{{ $producto->id }}</td>
+                            <td class="text-start ms-1">{{ $producto->OEM }}</td>
                             <td><a tabindex="-1" style="color: #5e6e82;" class=""
                                     href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Ver producto">{{ $producto->nombre }}</a></td>
                             <td class="text-center">{{ $producto->marca->nombre }}</td>
-                            <td class="text-center">{{ $producto->OEM }}</td>
                             <td class="text-center">{{ $producto->categoria->nombre }}</td>
-                            <td class="text-center">${{ $producto->precio_1 * $producto->unidad_por_caja  }}</td>
+                            <td class="text-center">$ {{  number_format( $producto->precio_1 * $producto->unidad_por_caja , 2, '.', ',') }}</td>
+
+
                             <td class="text-center">{{ $producto->unidad_por_caja }}</td>
 
                             <td style="display: block; margin: 0 auto;">
@@ -227,7 +219,7 @@
                                     {{-- <input type="hidden" name="producto_id" value="{{ $producto->id }}"> --}}
                                     <div class="input-group-append flex-center">
 
-                                        <input class="btn btn-outline-secondary text-center" style="width: 100px;" type="number" name="cantidad" value="{{ isset($cart[$producto->id]['cantidad']) ? $cart[$producto->id]['cantidad'] : 0 }}" id="{{ $producto->id }}" min="1" max="{{ $producto->existencia }}" placeholder="0" onchange="agregarCarrito(this.id)">
+                                        <input class="btn btn-outline-secondary text-center" style="width: 100px;" type="number" name="cantidad" value="{{ isset($cart[$producto->id]['cantidad']) ? $cart[$producto->id]['cantidad'] : '' }}" id="{{ $producto->id }}" min="1" max="{{ $producto->existencia }}" placeholder="0" onchange="agregarCarrito(this.id)">
 
                                         <br/>
                                         <span class="text-danger" id="ErrorMsg1"></span>
@@ -252,7 +244,7 @@
 
         $('#table_productos').DataTable({
             language: {
-                url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                url: "/assets/js/Spanish.json"
             },
             
         });
@@ -261,7 +253,7 @@
             function (settings, data, dataIndex) { //'data' contiene los datos de la fila
                 
                 //En la columna 3 estamos mostrando la marca del producto
-                let productoMarca = data[2] || 0;
+                let productoMarca = data[3] || 0;
                 let productoCat = data[4] || 0;
 
                 if (!filterByBrand(productoMarca)) {
@@ -332,28 +324,6 @@
         
     }
 
-
-    window.onscroll = function() {myFunction()};
-
-    var header = document.getElementById("summary");
-    var brandsl = document.getElementById("brand-list");
-    var sumdet = document.getElementById("summ-detail");
-    var sticky = header.offsetTop;
-
-    function myFunction() {
-      if (window.pageYOffset > sticky) {
-        header.classList.add("sticky-pos");
-        brandsl.classList.add("no-show");
-        sumdet.classList.remove("col-lg-4");
-        sumdet.classList.add("col-lg-12");
-      } else {
-        header.classList.remove("sticky-pos");
-        brandsl.classList.remove("no-show");
-        sumdet.classList.remove("col-lg-12");
-        sumdet.classList.add("col-lg-4");
-      }
-    }
-
     function filterBrand(filterid) {
 
         var brand = $('#'+filterid).find(":selected").val();
@@ -403,6 +373,28 @@
     };
 
     new Glide(".glide", config).mount();
+</script>
+
+<script>
+    // Get the button
+    let mybutton = document.getElementById("toTopBtn");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
 </script>
 
 @endsection

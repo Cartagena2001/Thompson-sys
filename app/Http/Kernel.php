@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \RealRashid\SweetAlert\ToSweetAlert::class,
+            //\App\Http\Middleware\LogActions::class,
         ],
 
         'api' => [
@@ -64,5 +65,10 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'superadmin' => \App\Http\Middleware\IsSuperAdmin::class,
+        'admin' => \App\Http\Middleware\IsAdmin::class,
+        'client' => \App\Http\Middleware\IsClient::class,
+        'bodega' => \App\Http\Middleware\IsBodega::class,
+        'asprech' => \App\Http\Middleware\IsAspirante::class,
     ];
 }

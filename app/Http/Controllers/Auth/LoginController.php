@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\Bitacora;
 use App\Models\Evento;
@@ -34,6 +36,13 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
+
+    public function authenticate(Request $request)
+    {
+        $credentials = $request->validate([
+            'g-recaptcha-response' => 'recaptcha'
+        ]);
+    }
 
     /**
      * Create a new controller instance.

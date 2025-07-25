@@ -11,10 +11,12 @@ class BitacoraController extends Controller
 {
     public function index()
     {
-        $bitacora = Bitacora::Paginate(1000000000);
+        $bitacora = Bitacora::orderBy('id', 'desc')->get();
         $eventos = Evento::all();
-        $users = User::all();
-
+        //traer los usuarios de tipo administrador osea 1 
+        $users = User::where('rol_id', 1)->get();
+        
+        //dd($bitacora);
         return view('bitacora.index' , compact('bitacora', 'eventos', 'users'));
     }
 

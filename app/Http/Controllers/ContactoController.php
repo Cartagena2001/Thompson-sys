@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use App\Models\Contacto;
 use RealRashid\SweetAlert\Facades\Alert;
 
+use Config;
+
 
 class ContactoController extends Controller
 {
@@ -49,14 +51,15 @@ class ContactoController extends Controller
         try {
 
             // Email server settings
-            $mail->SMTPDebug = 2;
+            $mail->SMTPDebug = 1;
             $mail->isSMTP();
-            $mail->Host = env('SMTP_HOST', "");             //  smtp host p3plmcpnl492651.prod.phx3.secureserver.ne
+
+            $mail->Host = config('phpmailerconf.host'); //env('MAIL_HOST');
             $mail->SMTPAuth = true;
-            $mail->Username = env('SMTP_USERNAME', "");   //  sender username
-            $mail->Password = env('SMTP_PASS', "");       // sender password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                  // encryption - ssl/tls
-            $mail->Port = env('SMTP_PORT', "");                          // port - 587/465
+            $mail->Username = config('phpmailerconf.username'); //env('MAIL_USERNAME');
+            $mail->Password = config('phpmailerconf.password'); //env('MAIL_PASSWORD');
+            $mail->SMTPSecure = config('phpmailerconf.encryption'); //env('MAIL_ENCRYPTION');
+            $mail->Port = config('phpmailerconf.port'); //env('MAIL_PORT');                          // port - 587/465
             $mail->SMTPKeepAlive = true;
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
@@ -122,10 +125,10 @@ class ContactoController extends Controller
     {
         //validar campos
         $request->validate([
-            'nomC' => 'required',
-            'emailC' => 'required',
-            'nomEC' => 'required',
-            'numWC' => 'required',
+            'nomC' => 'required|string|min:6|max:20',
+            'emailC' => 'required|email|max:40',
+            'nomEC' => 'required|string|min:6|max:30',
+            'numWC' => 'required|string|min:8|max:19',
             'g-recaptcha-response' => 'recaptcha',
         ]);
 

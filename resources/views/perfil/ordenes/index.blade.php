@@ -44,8 +44,8 @@
                         </div>
                         <hr/>
                         <div class="col-auto align-self-center">
-                            <strong>Fecha de órden:</strong> {{ \Carbon\Carbon::parse($orden->created_at)->isoFormat('MMMM Do YYYY, h:mm:ss a')  }} <br>
-                            <strong>Estado de órden:</strong><span class="">{{ $orden->estado }} </span><br>
+                            <strong>Fecha de orden:</strong> {{ \Carbon\Carbon::parse($orden->created_at)->isoFormat('MMMM Do YYYY, h:mm:ss a')  }} <br>
+                            <strong>Estado de orden:</strong> <span class="">{{ $orden->estado }} </span><br>
                             <strong>Total:</strong> ${{ $orden->total }} <br>
                         </div>
                     </div>

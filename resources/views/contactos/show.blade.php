@@ -44,7 +44,7 @@
                         <span class="font-weight-bold" style="color:#000;">Correo Electrónico:</span> <br>
                         <span class="font-weight-bold" style="color:#000;">Nombre de la Empresa:</span> <br>
                         <span class="font-weight-bold" style="color:#000;">WhatsApp:</span> <br>
-                        <span class="font-weight-bold" style="color:#000;">Mensaje:</span> <br>
+                        <span class="font-weight-bold" style="color:#000;">Mensaje:</span> <br><br><br>
                         <span class="font-weight-bold" style="color:#000;">Suscrito a Boletín:</span> <br>
                         <span class="font-weight-bold" style="color:#000;">Fecha/Hora: </span>
                     </p>
@@ -55,14 +55,14 @@
                         <a href="mailto:{{ $contacto->correo }}" title="contactar" target="_blank">{{ $contacto->correo }}</a><br>
                         {{ $contacto->nombre_empresa }} <br>
                         {{ $contacto->numero_whatsapp }} <br>
-                        {{ $contacto->mensaje }} <br>
+                        {{ $contacto->mensaje }} <br><br>
                         
                         @if( $contacto->boletin == 1 ) 
                             si
                         @else
                             no
                         @endif <br>
-                        {{ $contacto->fecha_hora_form }}
+                        {{ \Carbon\Carbon::parse($contacto->fecha_hora_form)->isoFormat('D [de] MMMM [de] YYYY, h:mm:ss a') }}
                     </p>
                 </div>
 

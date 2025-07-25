@@ -84,7 +84,7 @@ class CarritoController extends Controller
                 $cantidad = $product->existencia;
                 $montopm = $precio * $cantidad * $product->unidad_por_caja;
 
-
+                // Llenado de var sesion que almacena el detalle
                 foreach ( $brandsAvail as $brandA ) {
 
                     if ( $product->marca->nombre == $brandA->nombre ) {
@@ -110,6 +110,7 @@ class CarritoController extends Controller
                 } else {
                     $cart[$product->id] = [
                         'producto_id' => $product->id,
+                        'producto_oem' => $product->OEM,
                         'nombre' => $product->nombre,
                         'marca_id' => $product->marca->id,
                         'marca' => $product->marca->nombre,
@@ -140,6 +141,7 @@ class CarritoController extends Controller
             } else {
                 $cart[$product->id] = [
                     'producto_id' => $product->id,
+                    'producto_oem' => $product->OEM,
                     'nombre' => $product->nombre,
                     'marca_id' => $product->marca->id,
                     'marca' => $product->marca->nombre,
@@ -197,6 +199,7 @@ class CarritoController extends Controller
             session()->put('cart', $cart);
 
             return redirect()->route('carrito.index')->with('toast_success', 'La cantidad requerida de ' . $product->nombre . 'no puede suplirse.');
+
         } else {
 
             //validar que clasificacion tiene el cliente para poner un precio u otro
@@ -229,6 +232,7 @@ class CarritoController extends Controller
 
                 $cart[$product->id] = [
                     'producto_id' => $product->id,
+                    'producto_oem' => $product->OEM,
                     'nombre' => $product->nombre,
                     'marca_id' => $product->marca->id,
                     'marca' => $product->marca->nombre,
@@ -289,8 +293,12 @@ class CarritoController extends Controller
         ]);
 */
         if (count($cart) == 0) {
+
             return redirect()->route('carrito.index')->with('info', 'No hay productos en el carrito de compras');
+        
         } else {
+
+            $totalOrder = 0;
 
             //validar cantidades de producto requeridas respecto de la existencia
             foreach ($cart as $producto) {
@@ -299,6 +307,8 @@ class CarritoController extends Controller
                 $cantidad = $producto['cantidad']; //cantidad de cajas de X producto ordenada
                 $precio = $producto['precio_f'] * $producto['unidad_caja']; //precio por caja
                 $descuento = 0; //registro de algùn descuento aplicado
+
+                $totalOrder += $producto['precio_f'] * $producto['cantidad'] * $producto['unidad_caja'];
 
                 //Verifica si cantidad seleccionada puede cubrirse con existencia
                 $productostock = Producto::find($producto['producto_id']);
@@ -309,9 +319,15 @@ class CarritoController extends Controller
                     $cart[$producto_id]['cantidad'] = $existencia;
                     session()->put('cart', $cart);
 
-                    return redirect()->route('carrito.index')->with('info', 'No hay existencias suficientes para cubrir tu órden de: '.'<br/><br/>'.$producto['nombre']);
-                } 
+                    return redirect()->route('carrito.index')->with('info', 'No hay existencias suficientes para cubrir tu orden de: '.'<br/><br/>'.$producto['nombre']);
+                }
 
+            }
+
+            //Compra mínima de 100$ -> a futuro parametrizable
+            if ( $totalOrder < 100 ) {
+
+                return redirect()->route('carrito.index')->with('info', 'La compra mínima es de 100.00 US$, porfavor agrega algunos productos más.');
             }
 
             return view('orden.index', compact('usuarios'));

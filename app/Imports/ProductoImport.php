@@ -39,16 +39,15 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
     public function model(array $row)
     {
         return new Producto([
-            'slug' => $this->generateSlug($row['nombre']),
-            'sku' => '-',
+  
             'OEM' => $row['oem'],
             'lote' => $row['lote'],
             'nombre' => $row['nombre'],
             'descripcion' => $row['descripcion'],
             'caracteristicas' => $row['caracteristicas'],
-            'marca_id' => $this->marca[$row['marca']],
+            'marca_id' => $row['marca'],
             'origen' => $row['origen'],
-            'categoria_id' => $this->categoria[$row['categoria']],
+            'categoria_id' => $row['categoria'],
             'ref_1' => $row['ref1'],
             'ref_2' => $row['ref2'],
             'ref_3' => $row['ref3'],
@@ -58,16 +57,16 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'ubicacion_bodega' => $row['ubicacion_bodega'],
             'ubicacion_oficina' => $row['ubicacion_oficina'],
             'unidad_por_caja' => $row['unidad_por_caja'],
+            'mod_venta' => $row['modalidad_venta'],
             'volumen' => $row['volumen'],
             'unidad_volumen' => $row['und_vol'],
             'peso' => $row['peso'],
             'unidad_peso' => $row['und_peso'],
             'precio_distribuidor' => $row['precio_distribuidor'],
             'precio_taller' => $row['precio_taller'],
-            'precio_1' => $row['precio_a'],
-            'precio_2' => $row['precio_b'],
-            'precio_3' => $row['precio_c'],
-            'precio_oferta' => $row['precio_d'],
+            'precio_1' => $row['precio_costo'],
+            'precio_2' => $row['precio_op'],
+            'precio_oferta' => $row['precio_oferta'],
             'hoja_seguridad' => $row['hoja_de_seguridad'],
             'ficha_tecnica_href' => $row['ficha_tecnica'],
             'imagen_1_src' => $row['imagen1'],
@@ -78,10 +77,12 @@ class ProductoImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'imagen_6_src' => $row['imagen6'],
             
             //campos que no estan en el excel
+            //'estado_producto_id' => 1,
+            'slug' => $this->generateSlug($row['nombre']),
+            'sku' => '-',
+            'precio_3' => 0.00,
             'fecha_ingreso' => \Carbon\Carbon::now(),
-            'etiqueta_destacado' => 0,
-            'precio_1' => $row['precio_distribuidor'],
-            'existencia' => $row['unidad_por_caja'],
+            'etiqueta_destacado' => 0
         ]);
     }
 

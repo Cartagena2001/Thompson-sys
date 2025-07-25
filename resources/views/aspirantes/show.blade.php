@@ -32,7 +32,7 @@
         <div class="card-body">
 
             <div class="mt-3 mb-4">
-                <img class="rounded mt-2 mb-2" style="display: block; margin: 0 auto;" src="{{ $aspirante->imagen_perfil_src }}" alt="per" width="200">
+                <img class="rounded mt-2 mb-2" style="display: block; margin: 0 auto;" src="{{ url('storage/assets/img/perfil-user/'.$aspirante->imagen_perfil_src) }}" alt="per" width="200">
                 <h4 class="text-center">Nombre del usuario: <br/> <span style="color: #ff161f">{{ $aspirante->name }}</span> </h4>
                 <br/>
                 <p class="text-center" style="font-size: 18px;">
@@ -115,7 +115,7 @@
  
                     @foreach ($marcas as $marca)
                         <label for="marca-{{ $marca->nombre }}">
-                            <input id="marca-{{ $marca->nombre }}" type="checkbox" name="marks[]" value="{{ $marca->id }}" onclick="asignarMarca (this.id)" @if ( str_contains( $aspirante->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }}
+                            <input id="marca-{{ $marca->nombre }}" type="checkbox" name="marks[]" value="{{ $marca->id }}" onclick="updateMarca (this.id)" @if ( str_contains( $aspirante->marcas, $marca->id ) ) checked @endif /> {{ $marca->nombre }} @if ($marca->estado == 'Inactivo') <span style="color: red;">(inactiva)</span> @endif
 
                         </label>
                         <br/>
@@ -172,6 +172,34 @@
 
             <hr/>
 
+            <div class="row mt-4 mb-2">
+
+                <h4 class="text-center mb-4">Activar modo catálogo individual: </h4>
+
+                <div class="flex-center">
+       
+                    <div class="mb-4">
+                        <div class="text-center">
+                            <input type="radio" name="catMod" value="1" @if($aspirante->cat_mod == 1) checked @endif > <span style="color: red; font-weight: bold;">Activar modo catálogo</span>
+                            <br/> 
+                            <br/> 
+                            <input type="radio" name="catMod" value="0" @if($aspirante->cat_mod == 0) checked @endif > <span style="color: #000; font-weight: bold;">Desactivar modo catálogo</span>
+                            </label> 
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="alert alert-success mb-2 text-center" role="alert" id="successMsg5" style="display: none; width:100%; max-width: 400px; margin: 0 auto;" >
+                   Modo catálogo activado/desactivado con éxito! 
+                </div>
+
+                <span class="text-danger" id="ErrorMsg5"></span>
+
+            </div>        
+
+            <hr/>
+
             <div class="row my-3">
 
                 <h4 class="text-center mb-4">Actualizar Estado:</h4>
@@ -213,13 +241,13 @@
 
 
     <script type="text/javascript">
-
+/*
         function asignarMarca(check_id) {
 
             var marca = $('#'+check_id).val();
             var clienteid = $('#aspid').val();
 
-            //console.log("marca id: "+marca+" cliente id: "+clienteid);
+            console.log("marca id: "+marca+" cliente id: "+clienteid);
             
             $.ajax({
                 url: "{{ route('aspirante.updmarcas', $aspirante->id) }}",
@@ -238,7 +266,54 @@
             });
             
         }
-       
+*/
+
+        function updateMarca(check_id){
+            
+            var estadoUpdate = $('#'+check_id).prop('checked');
+            var clienteid = check_id;
+            // console.log("estado: "+estado);
+
+            $.ajax({
+                url: "{{ route('aspirante.updmarcas', $aspirante->id) }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&marcaUpdate=" + $('#'+check_id).val() + "&cliente=" + check_id + "&estadoUpdate=" + estadoUpdate,
+
+                success: function(response){
+                    $('#successMsg').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg1').text(response.responseJSON.errors.marcaUpdate);
+                    $('#ErrorMsg2').text(response.responseJSON.errors.cliente);
+                },
+            })
+        }
+
+        $('input[type=radio][name=catMod]').change(function() {
+
+            var catMod = this.value;
+
+            $.ajax({
+                url: "{{ route('aspirante.actModCat', $aspirante->id) }}",
+                type: "POST",
+                data:
+                    "_token=" + "{{ csrf_token() }}" + "&catMod=" + catMod,
+
+                success: function(response){
+                    $('#successMsg5').show();
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#ErrorMsg5').text(response.responseJSON.errors.catMod);
+                },
+            })
+
+        });   
+
       </script>
+
+
 
 @endsection

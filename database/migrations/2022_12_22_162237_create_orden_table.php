@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('estado', 10);
             $table->dateTime('fecha_envio');
             $table->dateTime('fecha_entrega');
+            $table->dateTime('fecha_cancelacion');
             $table->double('total', 7, 2);
             $table->string('notas', 255);
             $table->string('notas_bodega', 255);
@@ -32,6 +33,9 @@ return new class extends Migration
             $table->string('factura_href', 200); //factura
             $table->string('hoja_salida_href', 200); //hoja de salida
             $table->string('comprobante_pago_href', 250); //comprobante de pago
+
+            $table->string('tipo_pago', 100); //tipo de pago
+            $table->string('periodicidad', 100); //periodicidad de pago
 
             comprobante_pago_href
             $table->timestamps();

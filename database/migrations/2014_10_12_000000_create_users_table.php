@@ -24,10 +24,12 @@ return new class extends Migration
             $table->string('nombre_empresa', 35)->nullable();
             $table->string('razon_social', 35)->nullable();
             $table->string('giro', 200)->nullable();
-            $table->string('municipio', 22)->nullable();
-            $table->string('departamento', 15)->nullable();
-            $table->string('telefono', 20)->nullable();
-            $table->string('whatsapp', 20)->nullable();
+            $table->string('mun_cod', 10)->nullable();
+            $table->string('municipio', 70)->nullable();
+            $table->string('depto_cod', 10)->nullable();
+            $table->string('departamento', 30)->nullable();
+            $table->string('telefono', 30)->nullable();
+            $table->string('whatsapp', 30)->nullable();
             $table->string('website', 35)->nullable();
             $table->string('nit', 18)->nullable()->unique();
             $table->string('dui', 10)->nullable()->unique();
@@ -38,6 +40,7 @@ return new class extends Migration
             $table->foreign('rol_id')->references('id')->on('rol')->nullable();
 
             $table->string('estado', 10)->nullable(); // activo, inactivo
+            $table->string('cat_mod')->nullable(); // 0,1
             $table->string('clasificacion', 22)->nullable();
             $table->boolean('boletin')->nullable(); // 0,1
             $table->dateTime('fecha_registro')->nullable();

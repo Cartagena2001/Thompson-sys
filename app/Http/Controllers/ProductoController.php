@@ -9,6 +9,8 @@ use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Marca;
 use App\Models\EstadoProducto;
+use App\Models\Orden;
+use App\Models\OrdenDetalle;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Imports\ProductoImport;
@@ -82,12 +84,23 @@ class ProductoController extends Controller
             //'peso' => 'numeric',
             'precio_distribuidor' => 'required|numeric',
             //'precio_taller' => 'required|numeric',
+            'hoja_seguridad' => 'nullable|mimetypes:application/pdf|max:10240',
+            'ficha_tecnica_href' => 'nullable|mimetypes:application/pdf|max:10240',
+            'imagen_1_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_2_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_3_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_4_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_5_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_6_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200'
         ]);
 
         //almacenar datos
         $reg = new Producto();
 
+        // Quita espacios y los sustituye por "-" y luego quita caracteres especiales
         $reg->OEM = $request->get('OEM');
+        $productoOEM = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->get('OEM'))); 
+
         $reg->nombre = $request->get('nombre');
         $reg->setSlugAttribute($request->get('nombre'));
         $reg->lote = $request->get('lote');
@@ -142,47 +155,160 @@ class ProductoController extends Controller
         $reg->unidad_peso = $request->get('unidad_peso');
         
         //subir archivos pdf
+        //subir hoja de seguridad
         if ($request->hasFile('hoja_seguridad')) {
-            $file = $request->file('hoja_seguridad');
-            $file->move(public_path() . '/assets/pdf/productos/', $file->getClientOriginalName());
-            $reg->hoja_seguridad = '/assets/pdf/productos/' . $file->getClientOriginalName();
+            
+            if ($request->file('hoja_seguridad')->isValid()){
+
+                $file = $request->file('hoja_seguridad');
+
+                $nombreHS = $productoOEM.'-hoja-de-seguridad-'.'.'.$file->extension();
+
+                $path = $file->storeAs('/public/assets/pdf/productos/', $nombreHS);
+
+                $reg->hoja_seguridad = $nombreHS;  
+
+            } else {
+
+                return redirect()->route('productos.create')->with('success', 'Ha ocurrido un error al cargar la hoja de seguridad');
+            }
+
         }
+
+        //subir ficha tecnica
         if ($request->hasFile('ficha_tecnica_href')) {
-            $file = $request->file('ficha_tecnica_href');
-            $file->move(public_path() . '/assets/pdf/productos/', $file->getClientOriginalName());
-            $reg->ficha_tecnica_href = '/assets/pdf/productos/' . $file->getClientOriginalName();
+
+            if ($request->file('ficha_tecnica_href')->isValid()){
+
+                $file = $request->file('ficha_tecnica_href');
+
+                $nombreFT = $productoOEM.'-ficha-tecnica-'.'.'.$file->extension();
+
+                $path = $file->storeAs('/public/assets/pdf/productos/', $nombreFT);
+
+                $reg->ficha_tecnica_href = $nombreFT;  
+
+            } else {
+
+                return redirect()->route('productos.create')->with('success', 'Ha ocurrido un error al cargar la ficha técnica');
+            }
+
         }
         
         //subir archivos imagenes
+
         if ($request->hasFile('imagen_1_src')) {
-            $file = $request->file('imagen_1_src');
-            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $reg->imagen_1_src = '/assets/img/products/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_1_src')->isValid()){
+                
+                $file = $request->file('imagen_1_src');
+
+                $nombreIMG1 = $productoOEM.'-img-1-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/public/assets/img/products/', $nombreIMG1);
+
+                $reg->imagen_1_src = $nombreIMG1;  
+
+            } else {
+
+                return redirect()->route('productos.edit')->with('success', 'Ha ocurrido un error al cargar la img-1');
+            }
+
         }
+
         if ($request->hasFile('imagen_2_src')) {
-            $file = $request->file('imagen_2_src');
-            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $reg->imagen_2_src = '/assets/img/products/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_2_src')->isValid()){
+                
+                $file = $request->file('imagen_2_src');
+
+                $nombreIMG2 = $productoOEM.'-img-2-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/public/assets/img/products/', $nombreIMG2);
+
+                $reg->imagen_2_src = $nombreIMG2;  
+
+            } else {
+
+                return redirect()->route('productos.edit')->with('success', 'Ha ocurrido un error al cargar la img-2');
+            }
+
         }
+
         if ($request->hasFile('imagen_3_src')) {
-            $file = $request->file('imagen_3_src');
-            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $reg->imagen_3_src = '/assets/img/products/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_3_src')->isValid()){
+                
+                $file = $request->file('imagen_3_src');
+
+                $nombreIMG3 = $productoOEM.'-img-3-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/public/assets/img/products/', $nombreIMG3);
+
+                $reg->imagen_3_src = $nombreIMG3;  
+
+            } else {
+
+                return redirect()->route('productos.edit')->with('success', 'Ha ocurrido un error al cargar la img-3');
+            }
+
         }
+
         if ($request->hasFile('imagen_4_src')) {
-            $file = $request->file('imagen_4_src');
-            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $reg->imagen_4_src = '/assets/img/products/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_4_src')->isValid()){
+                
+                $file = $request->file('imagen_4_src');
+
+                $nombreIMG4 = $productoOEM.'-img-4-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/public/assets/img/products/', $nombreIMG4);
+
+                $reg->imagen_4_src = $nombreIMG4;  
+
+            } else {
+
+                return redirect()->route('productos.edit')->with('success', 'Ha ocurrido un error al cargar la img-4');
+            }
+
         }
+
         if ($request->hasFile('imagen_5_src')) {
-            $file = $request->file('imagen_5_src');
-            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $reg->imagen_5_src = '/assets/img/products/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_5_src')->isValid()){
+                
+                $file = $request->file('imagen_5_src');
+
+                $nombreIMG5 = $productoOEM.'-img-5-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/public/assets/img/products/', $nombreIMG5);
+
+                $reg->imagen_5_src = $nombreIMG5;  
+
+            } else {
+
+                return redirect()->route('productos.edit')->with('success', 'Ha ocurrido un error al cargar la img-5');
+            }
+
         }
+
         if ($request->hasFile('imagen_6_src')) {
-            $file = $request->file('imagen_6_src');
-            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $reg->imagen_6_src = '/assets/img/products/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_6_src')->isValid()){
+                
+                $file = $request->file('imagen_6_src');
+
+                $nombreIMG6 = $productoOEM.'-img-6-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/public/assets/img/products/', $nombreIMG6);
+
+                $reg->imagen_6_src = $nombreIMG6;  
+
+            } else {
+
+                return redirect()->route('productos.edit')->with('success', 'Ha ocurrido un error al cargar la img-6');
+            }
+
         }
 
         $reg->save();
@@ -231,6 +357,9 @@ class ProductoController extends Controller
         $marcas = Marca::pluck('nombre', 'id');
         $estadoProductos = EstadoProducto::pluck('estado', 'id');
 
+        //$marcasAsoc = $categoria->marca()->withPivot('marca_id')->get()->pluck('id')->toArray();
+        //dd($marcasAsoc);
+        
         return view('productos.edit', compact('producto', 'categorias', 'marcas', 'estadoProductos'));
     }
 
@@ -261,10 +390,22 @@ class ProductoController extends Controller
             //'peso' => 'numeric',
             'precio_distribuidor' => 'required|numeric',
             //'precio_taller' => 'required|numeric',
+            'hoja_seguridad' => 'nullable|mimetypes:application/pdf|max:10240',
+            'ficha_tecnica_href' => 'nullable|mimetypes:application/pdf|max:10240',
+            'imagen_1_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_2_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_3_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_4_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_5_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200',
+            'imagen_6_src' => 'nullable|image|mimes:png,jpg,jpeg|max:5120|dimensions:min_width=800,min_height=800,max_width=1200,max_height=1200'
         ]);
 
         //almacenar datos
+        
+        // Quita espacios y los sustituye por "-" y luego quita caracteres especiales
         $producto->OEM = $request->get('OEM');
+        $productoOEM = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->get('OEM')));
+
         $producto->lote = $request->get('lote');
         $producto->nombre = $request->get('nombre');
         $producto->marca_id = $request->get('marca_id');
@@ -297,54 +438,171 @@ class ProductoController extends Controller
         $producto->peso = $request->get('peso');
         $producto->unidad_peso = $request->get('unidad_peso');
 
+
         //subir archivos pdf
+        //subir hoja de seguridad
         if ($request->hasFile('hoja_seguridad')) {
-            $file = $request->file('hoja_seguridad');
-            $file->move(public_path() . '/assets/pdf/productos/', $file->getClientOriginalName());
-            $producto->hoja_seguridad = '/assets/pdf/productos/' . $file->getClientOriginalName();
-        }
-        if ($request->hasFile('ficha_tecnica_href')) {
-            $file = $request->file('ficha_tecnica_href');
-            $file->move(public_path() . '/assets/pdf/productos/', $file->getClientOriginalName());
-            $producto->ficha_tecnica_href = '/assets/pdf/productos/' . $file->getClientOriginalName();
+            
+            if ($request->file('hoja_seguridad')->isValid()){
+
+                $file = $request->file('hoja_seguridad');
+
+                $nombreHS = $productoOEM.'-hoja-de-seguridad-'.'.'.$file->extension();
+
+                $path = $file->storeAs('/public/assets/pdf/productos/', $nombreHS);
+
+                $producto->hoja_seguridad = $nombreHS;  
+
+            } else {
+
+                return redirect()->route('productos.edit')->with('success', 'Ha ocurrido un error al cargar la hoja de seguridad');
+            }
+
         }
 
+
+        //subir ficha tecnica
+        if ($request->hasFile('ficha_tecnica_href')) {
+
+            if ($request->file('ficha_tecnica_href')->isValid()){
+
+                $file = $request->file('ficha_tecnica_href');
+
+                $nombreFT = $productoOEM.'-ficha-tecnica-'.'.'.$file->extension();
+
+                $path = $file->storeAs('/public/assets/pdf/productos/', $nombreFT);
+
+                $producto->ficha_tecnica_href = $nombreFT;  
+
+            } else {
+
+                return redirect()->route('productos.edit')->with('success', 'Ha ocurrido un error al cargar la ficha técnica');
+            }
+
+        }
+
+
         //subir archivos imagenes
+
         if ($request->hasFile('imagen_1_src')) {
-            $file = $request->file('imagen_1_src');
-            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $producto->imagen_1_src = '/assets/img/products/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_1_src')->isValid()){
+                
+                $file = $request->file('imagen_1_src');
+
+                $nombreIMG1 = $productoOEM.'-img-1-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/public/assets/img/products/', $nombreIMG1);
+
+                $producto->imagen_1_src = $nombreIMG1;  
+
+            } else {
+
+                return redirect()->route('productos.edit')->with('success', 'Ha ocurrido un error al cargar la img-1');
+            }
+
         }
+
         if ($request->hasFile('imagen_2_src')) {
-            $file = $request->file('imagen_2_src');
-            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $producto->imagen_2_src = '/assets/img/products/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_2_src')->isValid()){
+                
+                $file = $request->file('imagen_2_src');
+
+                $nombreIMG2 = $productoOEM.'-img-2-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/public/assets/img/products/', $nombreIMG2);
+
+                $producto->imagen_2_src = $nombreIMG2;  
+
+            } else {
+
+                return redirect()->route('productos.edit')->with('success', 'Ha ocurrido un error al cargar la img-2');
+            }
+
         }
+
         if ($request->hasFile('imagen_3_src')) {
-            $file = $request->file('imagen_3_src');
-            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $producto->imagen_3_src = '/assets/img/products/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_3_src')->isValid()){
+                
+                $file = $request->file('imagen_3_src');
+
+                $nombreIMG3 = $productoOEM.'-img-3-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/public/assets/img/products/', $nombreIMG3);
+
+                $producto->imagen_3_src = $nombreIMG3;  
+
+            } else {
+
+                return redirect()->route('productos.edit')->with('success', 'Ha ocurrido un error al cargar la img-3');
+            }
+
         }
+
         if ($request->hasFile('imagen_4_src')) {
-            $file = $request->file('imagen_4_src');
-            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $producto->imagen_4_src = '/assets/img/products/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_4_src')->isValid()){
+                
+                $file = $request->file('imagen_4_src');
+
+                $nombreIMG4 = $productoOEM.'-img-4-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/public/assets/img/products/', $nombreIMG4);
+
+                $producto->imagen_4_src = $nombreIMG4;  
+
+            } else {
+
+                return redirect()->route('productos.edit')->with('success', 'Ha ocurrido un error al cargar la img-4');
+            }
+
         }
+
         if ($request->hasFile('imagen_5_src')) {
-            $file = $request->file('imagen_5_src');
-            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $producto->imagen_5_src = '/assets/img/products/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_5_src')->isValid()){
+                
+                $file = $request->file('imagen_5_src');
+
+                $nombreIMG5 = $productoOEM.'-img-5-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/public/assets/img/products/', $nombreIMG5);
+
+                $producto->imagen_5_src = $nombreIMG5;  
+
+            } else {
+
+                return redirect()->route('productos.edit')->with('success', 'Ha ocurrido un error al cargar la img-5');
+            }
+
         }
+
         if ($request->hasFile('imagen_6_src')) {
-            $file = $request->file('imagen_6_src');
-            $file->move(public_path() . '/assets/img/products/', $file->getClientOriginalName());
-            $producto->imagen_6_src = '/assets/img/products/' . $file->getClientOriginalName();
+            
+            if ($request->file('imagen_6_src')->isValid()){
+                
+                $file = $request->file('imagen_6_src');
+
+                $nombreIMG6 = $productoOEM.'-img-6-'.\Carbon\Carbon::today()->toDateString().'.'.$file->extension();   
+                
+                $path = $file->storeAs('/public/assets/img/products/', $nombreIMG6);
+
+                $producto->imagen_6_src = $nombreIMG6;  
+
+            } else {
+
+                return redirect()->route('productos.edit')->with('success', 'Ha ocurrido un error al cargar la img-6');
+            }
+
         }
-        
+
         $producto->update();
 
         return redirect()->route('productos.index')->with('success', 'Producto actualizado exitosamente');
     }
+
 
 
     public function updateUbiBO(Request $request)
@@ -383,6 +641,106 @@ class ProductoController extends Controller
         $producto->update();
 
         //return view('ordenes.show')->with('success');
+    }
+
+    public function updateCantD(Request $request)
+    {
+        request()->validate([
+            'cantidad_despachada'   => 'required|string',
+            'producto_id' => 'required|string',
+            'ordend_id' => 'required|string',
+        ]);
+
+        $productoID = trim(strstr( $request->producto_id, "_" ), "_");
+
+        $ordenDID = trim(strstr( $request->ordend_id, "_" ), "_");
+
+        //return response()->json("producto ID: ".$productoID." orden ID: ".$ordenDID);
+
+        $ordenDet = OrdenDetalle::find($ordenDID);
+
+        $prodOrdd = OrdenDetalle::where('orden_id', $ordenDet->orden_id)->get();
+        
+        $orden =  Orden::find($ordenDet->orden_id);
+
+        $productoSel =  Producto::find($productoID);
+
+        $cantidadDespachada = 0;
+
+        $cantUndOrd = $ordenDet->cantidad*$productoSel->unidad_por_caja;
+
+        //return response()->json("cantidad_despachada: ".$ordenDet->cantidad_despachada);
+
+        //validar la cantidad despachada
+        if ( $request->cantidad_despachada < 0 ) {
+
+            $cantidadDespachada = 0;
+            $ordenDet->cantidad_despachada = $cantidadDespachada;
+            $ordenDet->update();
+
+        } elseif ( $request->cantidad_despachada > $cantUndOrd) {
+            
+            $cantidadDespachada = $cantUndOrd;
+            $ordenDet->cantidad_despachada = $cantidadDespachada;
+            $ordenDet->update();
+
+        } else {
+
+            $ordenDet->cantidad_despachada = $request->cantidad_despachada;
+            $ordenDet->update();
+
+        }
+
+        $totalN = 0;
+
+        /*
+        //actualizar el total de la orden
+        foreach ($prodOrdd as $producto) {
+            
+            if ( is_null($producto->cantidad_despachada) ) {
+                $totalN = $totalN + ($producto->cantidad_despachada * $producto->precio);
+            } else {
+                $totalN = $totalN + ($producto->cantidad * $producto->precio);
+            }
+            
+        }
+        */
+
+        //$orden->total = $totalN;
+        //$orden->update(); 
+
+        return response()->json($ordenDet->cantidad_despachada);
+    }
+
+    public function updateNb(Request $request)
+    {
+        request()->validate([
+            'n_bulto'   => 'required|string',
+            'producto_id' => 'required|string',
+            'ordend_id' => 'required|string',
+        ]);
+
+        $productoID = trim(strstr( $request->producto_id, "_" ), "_");
+
+        $ordenDID = trim(strstr( $request->ordend_id, "_" ), "_");
+
+        $ordenDet = OrdenDetalle::find($ordenDID);
+
+
+        //validar el # de bulto
+        if ( $request->n_bulto < 0 ) {
+
+            $ordenDet->n_bulto = 0; //Ha de ser al menos 1 bulto o 0 en caso no se despache nada   
+            $ordenDet->update();
+
+        } else {
+
+            $ordenDet->n_bulto = $request->n_bulto;
+            $ordenDet->update();
+
+        }
+
+        return response()->json($ordenDet->n_bulto);
     }
 
     /**

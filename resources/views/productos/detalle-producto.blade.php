@@ -10,25 +10,25 @@
     //hacer un if para ver si el producto tiene imagen o no
     if ($producto->imagen_1_src != null) {
 
-        $imagen = "{$producto->imagen_1_src}";
+        $imagen = url('storage/assets/img/products/'.$producto->imagen_1_src);
 
     } elseif ($producto->marca->nombre == 'TEMCO') {
 
-        $imagen = '../../../assets/img/logos/temco-surplus-logo.png';
+        $imagen = url('storage/assets/img/logos/temco-surplus-logo.png');
     
     } elseif ($producto->marca->nombre == 'CTI') {
         
-        $imagen = '../../../assets/img/logos/cti.jpg';
+        $imagen = url('storage/assets/img/logos/cti.jpg');
     
     } elseif ($producto->marca->nombre == 'ECOM') { 
         
-        $imagen = '../../../assets/img/logos/ecom.jpg';
+        $imagen = url('storage/assets/img/logos/ecom.jpg');
     
     } else {
 
-        $imagen = '../../../assets/img/products/demo-product-img.jpg';
+        $imagen = url('storage/assets/img/logos/demo-product-img.jpg');
 
-    }  
+    } 
 
 ?>
 
@@ -125,14 +125,15 @@
 
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ $imagen }}" alt="{{ $producto->nombre }}-1">
+                                                <img class="img-fluid" src="{{ url($imagen) }}" alt="{{ $producto->nombre }}-1">
                                             </div>
                                         </div>
 
                                     @if ($producto->imagen_2_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ $producto->imagen_2_src }}" alt="{{ $producto->nombre }}-2">
+                                                <img style="user-select: none;" class="img-fluid" src="{{ asset('storage/assets/img/products/'.$producto->imagen_2_src) }}" alt="{{ $producto->nombre }}-2">
+
                                             </div>
                                         </div>
                                     @endif
@@ -140,7 +141,7 @@
                                     @if ($producto->imagen_3_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ $producto->imagen_3_src }}" alt="{{ $producto->nombre }}-3">
+                                                <img style="user-select: none;" class="img-fluid" src="{{ asset('storage/assets/img/products/'.$producto->imagen_3_src) }}" alt="{{ $producto->nombre }}-3">
                                             </div>
                                         </div>
                                     @endif
@@ -148,7 +149,7 @@
                                     @if ($producto->imagen_4_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ $producto->imagen_4_src }}" alt="{{ $producto->nombre }}-4">
+                                                <img style="user-select: none;" class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_4_src) }}" alt="{{ $producto->nombre }}-4">
                                             </div>
                                         </div>
                                     @endif
@@ -156,7 +157,7 @@
                                     @if ($producto->imagen_5_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ $producto->imagen_5_src }}" alt="{{ $producto->nombre }}-5">
+                                                <img style="user-select: none;" class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_5_src) }}" alt="{{ $producto->nombre }}-5">
                                             </div>
                                         </div>
                                     @endif
@@ -164,7 +165,7 @@
                                     @if ($producto->imagen_6_src != null)
                                         <div class="swiper-slide">
                                             <div class="swiper-zoom-container">
-                                                <img class="img-fluid" src="{{ $producto->imagen_6_src }}" alt="{{ $producto->nombre }}-6">
+                                                <img style="user-select: none;" class="img-fluid" src="{{ url('storage/assets/img/products/'.$producto->imagen_6_src) }}" alt="{{ $producto->nombre }}-6">
                                             </div>
                                         </div>
                                     @endif
@@ -178,24 +179,24 @@
                             </div>
 
                             @if ($producto->etiqueta_destacado == 1) 
-                                <image src="{{url('assets/img/imgs/destacado.svg')}}" alt="destacado-seal-img" class="producto-destacado" />
+                                <img src="{{url('assets/img/imgs/destacado.svg')}}" alt="destacado-seal-img" class="producto-destacado" />
                             @endif
 
                             @if ($producto->precio_oferta != null) 
-                                <image src="{{url('assets/img/imgs/oferta.svg')}}" alt="oferta-seal-img" class="producto-oferta" />
+                                <img src="{{url('assets/img/imgs/oferta.svg')}}" alt="oferta-seal-img" class="producto-oferta" />
                             @endif
 
                             <div thumbsSlider="" class="swiper mySwiper">
                                 <div class="swiper-wrapper">
 
                                     <div class="swiper-slide">
-                                        <img src="{{ $imagen }}" alt="" />
+                                        <img src="{{ url($imagen) }}" alt="" />
                                     </div>
 
                                 @if ($producto->imagen_2_src != null)
                                     
                                     <div class="swiper-slide">
-                                        <img src="{{ $producto->imagen_2_src }}" alt="" />
+                                        <img src="{{ url('storage/assets/img/products/'.$producto->imagen_2_src) }}" alt="" />
                                     </div>
 
                                 @endif
@@ -203,7 +204,7 @@
                                 @if ($producto->imagen_3_src != null)
 
                                     <div class="swiper-slide">
-                                        <img src="{{ $producto->imagen_3_src }}" alt="" />
+                                        <img src="{{ url('storage/assets/img/products/'.$producto->imagen_3_src) }}" alt="" />
                                     </div>
 
                                 @endif
@@ -211,7 +212,7 @@
                                 @if ($producto->imagen_4_src != null)
 
                                     <div class="swiper-slide">
-                                        <img src="{{ $producto->imagen_4_src }}" alt="" />
+                                        <img src="{{ url('storage/assets/img/products/'.$producto->imagen_4_src) }}" alt="" />
                                     </div>
 
                                 @endif
@@ -219,7 +220,7 @@
                                 @if ($producto->imagen_5_src != null)
 
                                     <div class="swiper-slide">
-                                        <img src="{{ $producto->imagen_5_src }}" alt="" />
+                                        <img src="{{ url('storage/assets/img/products/'.$producto->imagen_5_src) }}" alt="" />
                                     </div>
 
                                 @endif
@@ -227,7 +228,7 @@
                                 @if ($producto->imagen_6_src != null)
 
                                     <div class="swiper-slide">
-                                        <img src="{{ $producto->imagen_6_src }}" alt="" />
+                                        <img src="{{ url('storage/assets/img/products/'.$producto->imagen_6_src) }}" alt="" />
                                     </div>
 
                                 @endif
@@ -301,12 +302,12 @@
 
                 <div class="mt-3 mb-4 d-block">
                     @if( $producto->ficha_tecnica_href != null )
-                        <span class="rt-color-2 font-weight-bold">🧾️ Ficha Técnica: <a href="{{ $producto->ficha_tecnica_href }}" title="Leer" target="_blank">ver pdf</a></span>
+                        <span class="rt-color-2 font-weight-bold">🧾️ Ficha Técnica: <a href="{{ url('storage/assets/pdf/productos/'.$producto->ficha_tecnica_href) }}" title="Leer" target="_blank">ver pdf</a></span>
                         <br/> 
                     @endif
 
                     @if( $producto->hoja_seguridad != null )
-                        <span class="rt-color-2 font-weight-bold">📋 Hoja de Seguridad: <a href="{{ $producto->hoja_seguridad }}" title="Leer" target="_blank">ver pdf</a></span>
+                        <span class="rt-color-2 font-weight-bold">📋 Hoja de Seguridad: <a href="{{ url('storage/assets/pdf/productos/'.$producto->hoja_seguridad) }}" title="Leer" target="_blank">ver pdf</a></span>
                     @endif
                 </div>
 
@@ -319,22 +320,16 @@
 
                             @if ($producto->precio_oferta != null)                        
                                 $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
-
-                            @elseif (Auth::user()->clasificacion == 'Cobre')
+                            @elseif (Auth::user()->clasificacion == 'precioCosto')
                                 $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Plata')
+                            @elseif (Auth::user()->clasificacion == 'precioOp')
                                 $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Oro')
-                                $ {{ $producto->precio_2 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Platino')
-                                $ {{ $producto->precio_3 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Diamante')
-                                $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Taller')
+                            @elseif (Auth::user()->clasificacion == 'taller')
                                 $ {{ $producto->precio_taller * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                            @elseif (Auth::user()->clasificacion == 'distribuidor')
                                 $ {{ $producto->precio_distribuidor * $producto->unidad_por_caja }}
                             @endif
+
                             <span class="rt-color-2">c/caja</span>
 
                         @else
@@ -342,19 +337,13 @@
                             @if ($producto->precio_oferta != null)                        
                                 $ {{ $producto->precio_oferta }}
 
-                            @elseif (Auth::user()->clasificacion == 'Cobre')
+                            @elseif (Auth::user()->clasificacion == 'precioCosto')
                                 $ {{ $producto->precio_1 }}
-                            @elseif (Auth::user()->clasificacion == 'Plata')
+                            @elseif (Auth::user()->clasificacion == 'precioOp')
                                 $ {{ $producto->precio_1 }}
-                            @elseif (Auth::user()->clasificacion == 'Oro')
-                                $ {{ $producto->precio_2 }}
-                            @elseif (Auth::user()->clasificacion == 'Platino')
-                                $ {{ $producto->precio_3 }}
-                            @elseif (Auth::user()->clasificacion == 'Diamante')
-                                $ {{ $producto->precio_oferta }}
-                            @elseif (Auth::user()->clasificacion == 'Taller')
+                            @elseif (Auth::user()->clasificacion == 'taller')
                                 $ {{ $producto->precio_taller }}
-                            @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                            @elseif (Auth::user()->clasificacion == 'distribuidor')
                                 $ {{ $producto->precio_distribuidor }}
                             @endif
                             <span class="rt-color-2">c/producto</span>
@@ -373,19 +362,13 @@
                                 @if ($producto->precio_oferta != null)                        
                                     $ {{ $producto->precio_oferta }}
 
-                                @elseif (Auth::user()->clasificacion == 'Cobre')
+                                @elseif (Auth::user()->clasificacion == 'precioCosto')
                                     $ {{ $producto->precio_1}}
-                                @elseif (Auth::user()->clasificacion == 'Plata')
+                                @elseif (Auth::user()->clasificacion == 'precioOp')
                                     $ {{ $producto->precio_1 }}
-                                @elseif (Auth::user()->clasificacion == 'Oro')
-                                    $ {{ $producto->precio_2}}
-                                @elseif (Auth::user()->clasificacion == 'Platino')
-                                    $ {{ $producto->precio_3}}
-                                @elseif (Auth::user()->clasificacion == 'Diamante')
-                                    $ {{ $producto->precio_oferta}}
-                                @elseif (Auth::user()->clasificacion == 'Taller')
+                                @elseif (Auth::user()->clasificacion == 'taller')
                                     $ {{ $producto->precio_taller}}
-                                @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                                @elseif (Auth::user()->clasificacion == 'distribuidor')
                                     $ {{ $producto->precio_distribuidor}}
                                 @endif
                                 <span class="rt-color-2">c/producto</span>
@@ -403,19 +386,13 @@
                             @if ($producto->precio_oferta != null)                        
                                 $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
 
-                            @elseif (Auth::user()->clasificacion == 'Cobre')
+                            @elseif (Auth::user()->clasificacion == 'precioCosto')
                                 $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Plata')
+                            @elseif (Auth::user()->clasificacion == 'precioOp')
                                 $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Oro')
-                                $ {{ $producto->precio_2 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Platino')
-                                $ {{ $producto->precio_3 * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Diamante')
-                                $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Taller')
+                            @elseif (Auth::user()->clasificacion == 'taller')
                                 $ {{ $producto->precio_taller * $producto->unidad_por_caja }}
-                            @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                            @elseif (Auth::user()->clasificacion == 'distribuidor')
                                 $ {{ $producto->precio_distribuidor * $producto->unidad_por_caja }}
                             @endif
                             <span class="rt-color-2">c/caja</span>
@@ -433,19 +410,13 @@
                                     @if ($producto->precio_oferta != null)                        
                                         $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
 
-                                    @elseif (Auth::user()->clasificacion == 'Cobre')
+                                    @elseif (Auth::user()->clasificacion == 'precioCosto')
                                         $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
-                                    @elseif (Auth::user()->clasificacion == 'Plata')
+                                    @elseif (Auth::user()->clasificacion == 'precioOp')
                                         $ {{ $producto->precio_1 * $producto->unidad_por_caja }}
-                                    @elseif (Auth::user()->clasificacion == 'Oro')
-                                        $ {{ $producto->precio_2 * $producto->unidad_por_caja }}
-                                    @elseif (Auth::user()->clasificacion == 'Platino')
-                                        $ {{ $producto->precio_3 * $producto->unidad_por_caja }}
-                                    @elseif (Auth::user()->clasificacion == 'Diamante')
-                                        $ {{ $producto->precio_oferta * $producto->unidad_por_caja }}
-                                    @elseif (Auth::user()->clasificacion == 'Taller')
+                                    @elseif (Auth::user()->clasificacion == 'taller')
                                         $ {{ $producto->precio_taller * $producto->unidad_por_caja }}
-                                    @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                                    @elseif (Auth::user()->clasificacion == 'distribuidor')
                                         $ {{ $producto->precio_distribuidor * $producto->unidad_por_caja }}
                                     @endif
                                     <span class="rt-color-2">c/caja</span>
@@ -455,19 +426,13 @@
                                     @if ($producto->precio_oferta != null)                        
                                         $ {{ $producto->precio_oferta }}
 
-                                    @elseif (Auth::user()->clasificacion == 'Cobre')
+                                    @elseif (Auth::user()->clasificacion == 'precioCosto')
                                         $ {{ $producto->precio_1 }}
-                                    @elseif (Auth::user()->clasificacion == 'Plata')
+                                    @elseif (Auth::user()->clasificacion == 'precioOp')
                                         $ {{ $producto->precio_1 }}
-                                    @elseif (Auth::user()->clasificacion == 'Oro')
-                                        $ {{ $producto->precio_2 }}
-                                    @elseif (Auth::user()->clasificacion == 'Platino')
-                                        $ {{ $producto->precio_3 }}
-                                    @elseif (Auth::user()->clasificacion == 'Diamante')
-                                        $ {{ $producto->precio_oferta }}
-                                    @elseif (Auth::user()->clasificacion == 'Taller')
+                                    @elseif (Auth::user()->clasificacion == 'taller')
                                         $ {{ $producto->precio_taller }}
-                                    @elseif (Auth::user()->clasificacion == 'Distribuidor')
+                                    @elseif (Auth::user()->clasificacion == 'distribuidor')
                                         $ {{ $producto->precio_distribuidor }}
                                     @endif
                                     <span class="rt-color-2">c/producto</span>
@@ -482,12 +447,19 @@
 
                 @endif
 
-
-
-                @if ($producto->existencia == 0)
-                    <h3 class="fs--1"><span style="color: #F3151E">Producto Agotado</span></h3>
-                @else
-                    <h3 class="fs--1"><span style="color: #000">En Stock:</span> <span style="color: green;">Disponible</span></h3>
+                @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 ) 
+                    <h3 class="fs--1">Existencia: 
+                    @if ( $producto->existencia > 5)
+                        <span class="text-success"><b>{{ $producto->existencia }}</b></span> caja/s</h3>
+                    @else
+                        <span class="text-danger"><b>{{ $producto->existencia }}</b></span> caja/s</h3>
+                    @endif 
+                @else 
+                    @if ( $producto->existencia > 0)
+                        <h3 class="fs--1">Existencia: <span class="text-success"><b>Disponible</b></span></h3>
+                    @else
+                       <h3 class="fs--1">Existencia: <span class="text-danger"><b>Agotado</b></span></h3> 
+                    @endif
                 @endif
 
                 <span><b>• Unidades por caja:</b> {{ $producto->unidad_por_caja }}</span>
@@ -511,7 +483,7 @@
                                 <input type="hidden" name="producto_id" value="{{ $producto->id }}">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" type="button" id="btn-menos">-</button>
-                                    <input class="btn btn-outline-secondary" type="number" name="cantidad" value="1" id="cantidad" min="1" max="{{ $producto->unidad_por_caja }}" readonly>
+                                    <input class="btn btn-outline-secondary" type="number" name="cantidad" value="1" id="cantidad" min="1" max="{{ $producto->existencia }}" readonly>
                                     <button class="btn btn-outline-secondary" type="button" id="btn-mas">+</button>
                                 </div>
                             </div>
@@ -537,7 +509,7 @@
                                 <input type="hidden" name="producto_id" value="{{ $producto->id }}">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" type="button" id="btn-menos">-</button>
-                                    <input class="btn btn-outline-secondary" type="number" name="cantidad" value="1" id="cantidad" min="1" max="{{ $producto->unidad_por_caja }}" readonly>
+                                    <input class="btn btn-outline-secondary" type="number" name="cantidad" value="1" id="cantidad" min="1" max="{{ $producto->existencia }}" readonly>
                                     <button class="btn btn-outline-secondary" type="button" id="btn-mas">+</button>
                                 </div>
                             </div>

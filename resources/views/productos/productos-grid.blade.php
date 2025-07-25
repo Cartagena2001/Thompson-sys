@@ -4,6 +4,7 @@
 
 @section('title', 'Tienda')
 
+<button onclick="topFunction()" id="toTopBtn" title="Ir a arriba"><i style="" class="fa-solid fas fa-arrow-up"></i></button>
 
 <div style="display: none;">            
     <a style="float: right; z-index: 1000000; position: fixed; right: 50px; bottom: 200px;" href="{{ url('/carrito') }}">
@@ -34,12 +35,7 @@
 
 </div>   
 
-    <?php
-    $productosDisponibles = DB::table('producto')
-        ->where('estado_producto_id', 1)
-        ->whereNot('existencia', 0)
-        ->get();
-    ?>
+<?php $productosTotales = DB::table('producto')->get(); ?>
 
 {{-- Marcas --}}
 <div class="card mb-3" 
@@ -75,7 +71,7 @@
                     @foreach ($marcas as $brand)
                         
                         <li class="glide__slide text-center">
-                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+                            <img src="{{ url('storage/assets/img/logos/'.$brand->logo_src) }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
                         </li>
 
                     @endforeach
@@ -100,17 +96,26 @@
                     <thead>
                         <tr>
                             <th class="text-start p-1">Marca</th>
-                            <th class="text-center p-1">Cantidad 📦</th>
+                            <th class="text-center p-1">Cantidad de 📦</th>
                             <th class="text-center p-1">Subtotal Parcial</th>   
                         </tr>
                     </thead>
                     <tbody>
-                   
+                    {{-- 
                     @foreach ($detallesSUM as $marcaDetalle)
                         <tr>
                             <td class="text-start p-1">{{ $marcaDetalle['nombre'] }}</td>
                             <td class="text-center p-1">{{ $marcaDetalle['cantidad'] }}</td>
                             <td class="text-center p-1">{{ number_format($marcaDetalle['monto'], 2, '.', ',') }} $</td>
+                        </tr>  
+                    @endforeach
+                    --}}
+
+                    @foreach ($cart as $registro)
+                        <tr>
+                            <td class="text-start p-1">{{ $registro['marca'] }}</td>
+                            <td class="text-center p-1">{{ $registro['cantidad'] }}</td>
+                            <td class="text-center p-1">{{ number_format( ($registro['cantidad']*$registro['precio_f']*$registro['unidad_caja']) , 2, '.', ',') }} $</td>
                         </tr>  
                     @endforeach
 
@@ -160,7 +165,7 @@
                     @foreach ($marcas as $brand)
                         
                         <li class="glide__slide text-center">
-                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+                            <img src="{{ url('storage/assets/img/logos/'.$brand->logo_src) }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
                         </li>
 
                     @endforeach
@@ -185,7 +190,7 @@
                     <thead>
                         <tr>
                             <th class="text-start p-1">Marca</th>
-                            <th class="text-center p-1">Cantidad 📦</th>
+                            <th class="text-center p-1">Cantidad de 📦</th>
                             <th class="text-center p-1">Subtotal Parcial</th>   
                         </tr>
                     </thead>
@@ -245,7 +250,7 @@
                     @foreach ($marcas as $brand)
                         
                         <li class="glide__slide text-center">
-                            <img src="{{ $brand->logo_src }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
+                            <img src="{{ url('storage/assets/img/logos/'.$brand->logo_src) }}" alt="img-{{ $brand->nombre }}" class="img-fluid logo-hov" style="cursor: pointer; max-width: 120px; margin: 0 auto;" id="mfp-{{ $brand->id }}" onclick="filterBrandPic(this.id)" />
                         </li>
 
                     @endforeach
@@ -279,15 +284,64 @@
     @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
 
     {{-- CONTROL --}}
-    <div class="ps-3 pt-4 pb-2">
+    <div class="px-2 pt-3 pb0">
 
         <div class="row gx-2">
 
-            <div class="col-12 col-md-12">
+            <div class="col-6 col-md-6">
 
-                <p class="text-center" style="font-size: 12px; display: table; margin: 0 auto; border: 3px solid #ff0e19; padding: 10px 40px; border-radius: 30px;"><span style="font-weight: 600;">Productos con imagen:&nbsp;</span>&nbsp;<span style="color: green;">{{ $productos->count() }}</span>&nbsp;<b>/</b>&nbsp; {{ count($productosDisponibles) }} </p>
+                <h6 class="px-2 mb-2" style="text-transform: uppercase;">
+                    <a href="{{ url('/home') }}" role="button" aria-haspopup="true" aria-expanded="false">🏠 Inicio</a> /
+                    <a href="{{ url('/dashboard/tienda') }}" role="button" aria-haspopup="true" aria-expanded="false">Tienda</a> /
+                    
+                    <a aria-haspopup="true" aria-expanded="false" href=""> 
+
+                        <?php 
+                            if ( $marcaActual == 0 ) {
+                                echo "Marcas";
+                            } else {
+                                
+                                foreach ($marcas as $marca) {
+                                    
+                                    if ( $marca->id == $marcaActual ) {
+                                        echo $marca->nombre;
+                                    }
+                                }
+                            }  
+                        ?>
+                    
+                    </a> / 
+                    
+                    <a aria-haspopup="true" aria-expanded="false" href=""> 
+
+                        <?php 
+                            if ( $categoriaActual == 0 ) {
+                                echo "Categorias";
+                            } else {
+                                
+                                foreach ($categorias as $categoria) {
+                                    
+                                    if ( $categoria->id == $categoriaActual ) {
+                                        echo $categoria->nombre;
+                                    }
+                                }
+                            }  
+                        ?>
+
+                        </a>
+                </h6>
+        
+                        
 
             </div>
+
+            <div class="col-6 col-md-6">
+
+                <p class="text-end px-2 mb-2" style="font-size: 12px; text-transform: uppercase;"><span style="font-weight: 600;">Productos con imagen:&nbsp;</span>&nbsp;<span style="color: green;">{{ $productosDisponibles->count() }}</span>&nbsp;<b>/</b>&nbsp; {{ count($productosTotales) }} </p>
+
+            </div>
+
+            <hr/>
         
         </div>
     </div>
@@ -296,7 +350,7 @@
 
 
     {{-- Filtros --}}
-    <div class="ps-3 pt-4 pb-2">
+    <div class="px-4 pt-2 pb-4">
 
         <div class="row gx-2">
 
@@ -304,7 +358,7 @@
                    
                <form action="" method="get">
 
-                    <label for="marca">Ordenar por marca:</label>
+                    <label for="marca">Ordenar / marca:</label>
                     <select style="height: 36px; border-radius: 5px;" id="marca-filter" name="marca" class="form-select form-select-sm" aria-label="Bulk actions" onchange="filterBrand(this.id)" >
 
                         <option value="0"  @if ($marcaActual == 0) selected @endif >Todas</option>
@@ -317,32 +371,13 @@
 
                     <br/>
 
-                    <label for="categoria">Ordenar por categoría:</label>
+                    <label for="categoria">Ordenar / categoría:</label>
                     <select style="height: 36px; border-radius: 5px;" id="categoria-filter" name="categoria" class="form-select form-select-sm" aria-label="Bulk actions" onchange="filterCat(this.id)" >
 
                         <option value="0" @if ($categoriaActual == 0) selected @endif >Todas</option>
-
-                        @foreach ($categorias as $cat)
-
-                        @php
                         
-                        var_dump($cat->pivot);
-
-                        @endphp
-                            <option style="text-transform: lowercase;" 
-
-                                    value="@if( isset($cat->pivot) ){{ $cat->pivot->categoria_id }}@else{{ $cat->id }}@endif"
-
-
-                                    @if ( isset($cat->pivot) )
-                                        @if ( $cat->pivot->categoria_id == $categoriaActual ) 
-                                            selected
-                                        @endif 
-                                    @else
-                                        @if ( $cat->id == $categoriaActual ) 
-                                            selected
-                                        @endif
-                                    @endif >{{ $cat->nombre }}</option>
+                        @foreach ($categorias as $cat)
+                            <option value="{{ $cat->id }}" @if ($cat->id == $categoriaActual) selected @endif >{{ $cat->nombre }}</option>
                         @endforeach
 
                     </select>
@@ -359,9 +394,9 @@
 
                 <form action="" method="get">
 
-                    <label for="busq">Búsqueda - OEM: </label>
+                    <label for="busq">Búsqueda / OEM: </label>
                     <div style="display: flex;">    
-                        <input class="form-control" type="text" name="busq" id="busq" value="{{ old('busq', request()->input('busq')) }}" maxlength="20" placeholder="Buscar por OEM..." style="vertical-align: middle;"><button id="btn-filter-oem" class="btn btn-sm btn-primary" type="submit" style="vertical-align: middle;"><i class="fas fa-search"></i></button>
+                        <input class="form-control" type="text" name="busq" id="busq" value="{{ old('busq', request()->input('busq')) }}" maxlength="45" placeholder="Buscar por OEM..." style="vertical-align: middle;"><button id="btn-filter-oem" class="btn btn-sm btn-primary" type="submit" style="vertical-align: middle;"><i class="fas fa-search"></i></button>
                     </div>                           
                 </form>
 
@@ -371,7 +406,7 @@
 
                     <label for="busq">Búsqueda / Nombre: </label>
                     <div style="display: flex;">    
-                        <input class="form-control" type="text" name="busqN" id="busqN" value="{{ old('busqN', request()->input('busqN')) }}" maxlength="35" placeholder="Buscar por Nombre..." style="vertical-align: middle;"><button id="btn-filter-nom" class="btn btn-sm btn-primary" type="submit" style="vertical-align: middle;"><i class="fas fa-search"></i></button>
+                        <input class="form-control" type="text" name="busqN" id="busqN" value="{{ old('busqN', request()->input('busqN')) }}" maxlength="150" placeholder="Buscar por Nombre..." style="vertical-align: middle;"><button id="btn-filter-nom" class="btn btn-sm btn-primary" type="submit" style="vertical-align: middle;"><i class="fas fa-search"></i></button>
                     </div>                           
                 </form>
 
@@ -383,7 +418,7 @@
 
     <hr/>
 
-    <h6 class="card-body mb-0 py-1">Categoría: {{ $categoriaActual == 0 ? 'Todas' : $categoriaActualname->nombre }}</h6>
+    {{-- <h6 class="card-body mb-0 py-1">Categoría: {{ $categoriaActual == 0 ? 'Todas' : $categoriaActualname->nombre }}</h6> --}}
     <div>
         @if ($productos->count() == 0)
             <div class="card-body text-center">
@@ -392,7 +427,7 @@
         @endif
     </div>
 
-    <h6 class="card-body mb-0 py-1">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }} productos</h6>
+    <h6 class="card-body mb-0 py-1 text-center">Mostrando {{ $productos->count() }} de {{ count($productosDisponibles) }} productos</h6>
 
     <div id="catalogo-grid" class="card-body">
 
@@ -404,28 +439,28 @@
                         //hacer un if para ver si el producto tiene imagen o no
                         if ($producto->imagen_1_src != null) {
 
-                            $imagen = "{$producto->imagen_1_src}";
+                            $imagen = url('storage/assets/img/products/'.$producto->imagen_1_src);
 
                         } elseif ($producto->marca->nombre == 'TEMCO') {
 
-                            $imagen = '../../../assets/img/logos/temco-surplus-logo.png';
+                            $imagen = url('storage/assets/img/logos/temco-surplus-logo.png');
                         
                         } elseif ($producto->marca->nombre == 'CTI') {
                             
-                            $imagen = '../../../assets/img/logos/cti.jpg';
+                            $imagen = url('storage/assets/img/logos/cti.jpg');
                         
                         } elseif ($producto->marca->nombre == 'ECOM') { 
                             
-                            $imagen = '../../../assets/img/logos/ecom.jpg';
+                            $imagen = url('storage/assets/img/logos/ecom.jpg');
                         
                         } else {
 
-                            $imagen = '../../../assets/img/products/demo-product-img.jpg';
+                            $imagen = url('storage/assets/img/logos/demo-product-img.jpg');
 
                         }  
                 ?>
 
-                <div class="mb-4 col-6 col-sm-4 col-md-4 col-lg-4 col-xl-3">
+                <div class="mb-4 col-6 col-sm-4 col-md-4 col-lg-4 col-xl-3 px-2">
 
                     <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
                         <div class="overflow-hidden">
@@ -459,28 +494,28 @@
                                 <br/>
                                 <span class="rt-color-2 font-weight-bold" style="font-size: 14px;">OEM: </span><span style="font-size: 14px;">{{ $producto->OEM }}</span>
                                 <br/>
-                                <span class="rt-color-2 font-weight-bold" style="font-size: 14px;">Unidades / 📦: </span><span style="font-size: 14px;">{{ $producto->unidad_por_caja }}</span>
+                                <span class="rt-color-2 font-weight-bold" style="font-size: 14px;"><span class="disp-sm-none">Unidades</span><span class="d-sm-none">Unds</span> por 📦: </span><span style="font-size: 14px;">{{ $producto->unidad_por_caja }}</span>
 
                                 <div class="row">
 
                                 @if ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
 
-                                    <div class="col-7">
+                                    <div class="col-7 ps-3 pe-1">
                                         <p class="fs--1 mt-2 mb-2"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
                                     </div>
 
-                                    <div class="col-5">
-                                        <p class="text-center"># 📦</p>
+                                    <div class="col-5 ps-1 pe-3">
+                                        <p class="text-center mt-2"># <span class="disp-sm-none">de</span> 📦</p>
                                     </div>
 
                                 @elseif ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
 
-                                    <div class="col-7">
+                                    <div class="col-7 ps-3 pe-1">
                                         <p class="fs--1 mt-2 mb-2"><a class="text-500">{{ $producto->categoria->nombre }}</a></p>
                                     </div>
 
-                                    <div class="col-5">
-                                        <p class="text-center"># 📦</p>
+                                    <div class="col-5 ps-1 pe-3">
+                                        <p class="text-center mt-2"># <span class="disp-sm-none">de</span> 📦</p>
                                     </div>
 
                                 @else
@@ -498,13 +533,13 @@
 
                                 @if ( Auth::user()->rol_id == 2 && $cat_mod == 0 )
 
-                                    <div class="col-7">
+                                    <div class="col-7 ps-3 pe-1">
                                 
-                                        <h5 class="fs-md-1 text-dark d-flex align-items-center mb-2">
+                                        <h5 style="font-size: 0.85rem;" class="fs-md-1 text-dark d-flex align-items-center mb-2">
 
                                             @if ($producto->precio_oferta != null)
 
-                                                $ {{ $producto->precio_oferta }}
+                                                $ {{ $producto->precio_oferta }} 
 
                                             @elseif (Auth::user()->clasificacion == "taller")
 
@@ -512,17 +547,19 @@
 
                                             @elseif (Auth::user()->clasificacion == "distribuidor")
 
-                                                $ {{ $producto->precio_distribuidor }}
+                                                $ {{ $producto->precio_distribuidor }} 
 
                                             @elseif (Auth::user()->clasificacion == "precioCosto")
 
-                                                $ {{ $producto->precio_1 }}
+                                                $ {{ $producto->precio_1 }} 
 
                                             @elseif (Auth::user()->clasificacion == "precioOp")
 
                                                 $ {{ $producto->precio_2 }}
 
                                             @endif
+
+                                                <p class="fs--2 mt-2 mb-2 text-500">&nbsp; und</p>
 
                                             {{-- Precio antes de descuento --}}
                                             <del class="ms-2 fs--1 text-500">
@@ -531,19 +568,19 @@
                                                
                                                 @if (Auth::user()->clasificacion == "taller")
 
-                                                    $ {{ $producto->precio_taller }}
+                                                    {{ $producto->precio_taller }} 
 
                                                 @elseif (Auth::user()->clasificacion == "distribuidor")
 
-                                                    $ {{ $producto->precio_distribuidor }}
+                                                    {{ $producto->precio_distribuidor }} 
 
                                                 @elseif (Auth::user()->clasificacion == "precioCosto")
 
-                                                    $ {{ $producto->precio_1 }}
+                                                    {{ $producto->precio_1 }} 
 
                                                 @elseif (Auth::user()->clasificacion == "precioOp")
 
-                                                    $ {{ $producto->precio_2 }}
+                                                    {{ $producto->precio_2 }}
 
                                                 @endif
 
@@ -553,8 +590,8 @@
                                         </h5>
                                     </div>
 
-                                    <div class="col-5 text-center">
-                                        <input class="prod-grid-qty" type="number" id="{{ $producto->id }}" name="cantidad" value="{{ isset($cart[$producto->id]['cantidad']) ? $cart[$producto->id]['cantidad'] : 0 }}" min="1" max="{{ $producto->existencia }}" placeholder="0" onchange="agregarCarrito(this.id)"/>
+                                    <div class="col-5 text-center px-1">
+                                        <input class="prod-grid-qty" type="number" id="{{ $producto->id }}" name="cantidad" value="{{ isset($cart[$producto->id]['cantidad']) ? $cart[$producto->id]['cantidad'] : '' }}" min="1" max="{{ $producto->existencia }}" placeholder="0" onchange="agregarCarrito(this.id)"/>
                                         <br/>
                                         <span class="text-danger" id="ErrorMsg1"></span>
                                         <span class="text-danger" id="ErrorMsg2"></span>
@@ -566,17 +603,44 @@
 
                                 @elseif ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
 
-                                    <div class="col-7">
+                                    <div class="col-7 ps-3 pe-1">
+
+                                        {{-- Precio antes de descuento --}}
+                                        <del class="ms-2 fs--2 text-500">
+                                        <?php if ($producto->precio_oferta != null) { ?>
+                                        
+                                           
+                                            @if (Auth::user()->clasificacion == "taller")
+
+                                                {{ $producto->precio_taller }} 
+
+                                            @elseif (Auth::user()->clasificacion == "distribuidor")
+
+                                                {{ $producto->precio_distribuidor }}
+
+                                            @elseif (Auth::user()->clasificacion == "precioCosto")
+
+                                                {{ $producto->precio_1 }}
+
+                                            @elseif (Auth::user()->clasificacion == "precioOp")
+
+                                                {{ $producto->precio_2 }}
+
+                                            @endif
+
+                                         <?php } ?>
+                                        
+                                        </del>
                                 
-                                        <h5 class="fs-md-1 text-dark d-flex align-items-center mb-2">
+                                        <h5 class="fs-sm-1 fs-md-3 text-dark d-flex align-items-center mb-2">
 
                                             @if ($producto->precio_oferta != null)
 
-                                                $ {{ $producto->precio_oferta }}
+                                                $ {{ $producto->precio_oferta }} 
 
                                             @elseif (Auth::user()->clasificacion == "taller")
 
-                                                $ {{ $producto->precio_taller }}
+                                                $ {{ $producto->precio_taller }} 
 
                                             @elseif (Auth::user()->clasificacion == "distribuidor")
 
@@ -584,7 +648,7 @@
 
                                             @elseif (Auth::user()->clasificacion == "precioCosto")
 
-                                                $ {{ $producto->precio_1 }}
+                                                $ {{ $producto->precio_1 }} 
 
                                             @elseif (Auth::user()->clasificacion == "precioOp")
 
@@ -592,37 +656,13 @@
 
                                             @endif
 
-                                            {{-- Precio antes de descuento --}}
-                                            <del class="ms-2 fs--1 text-500">
-                                            <?php if ($producto->precio_oferta != null) { ?>
-                                            
-                                               
-                                                @if (Auth::user()->clasificacion == "taller")
-
-                                                    $ {{ $producto->precio_taller }}
-
-                                                @elseif (Auth::user()->clasificacion == "distribuidor")
-
-                                                    $ {{ $producto->precio_distribuidor }}
-
-                                                @elseif (Auth::user()->clasificacion == "precioCosto")
-
-                                                    $ {{ $producto->precio_1 }}
-
-                                                @elseif (Auth::user()->clasificacion == "precioOp")
-
-                                                    $ {{ $producto->precio_2 }}
-
-                                                @endif
-
-                                             <?php } ?>
-                                            
-                                            </del>  
+                                            <p class="fs--2 mt-2 mb-2 text-500">&nbsp; und</p>
+  
                                         </h5>
                                     </div>
 
-                                    <div class="col-5 text-center">
-                                        <input class="prod-grid-qty" type="number" id="{{ $producto->id }}" name="cantidad" value="{{ isset($cart[$producto->id]['cantidad']) ? $cart[$producto->id]['cantidad'] : 0 }}" min="1" max="{{ $producto->existencia }}" placeholder="0" onchange="agregarCarrito(this.id)"/>
+                                    <div class="col-5 text-center px-1">
+                                        <input class="prod-grid-qty" type="number" id="{{ $producto->id }}" name="cantidad" value="{{ isset($cart[$producto->id]['cantidad']) ? $cart[$producto->id]['cantidad'] : '' }}" min="1" max="{{ $producto->existencia }}" placeholder="0" onchange="agregarCarrito(this.id)"/>
                                         <br/>
                                         <span class="text-danger" id="ErrorMsg1"></span>
                                         <span class="text-danger" id="ErrorMsg2"></span>
@@ -638,19 +678,32 @@
 
                                 
 
-                                <p id="estExt" class="fs--1 mb-2">Estado: <span class="text-success"><b>{{ $producto->estadoProducto->estado }}</b></span> | 
+                                <p id="estExt" class="fs--1 mb-2">
+
+                                    @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 )
+
+                                        Estado: 
+
+                                        @if ( $producto->estadoProducto->estado == 'Activo' )
+                                            <span class="text-success"><b> ✅</b></span> 
+                                        @else 
+                                            <span class="text-danger"><b> ⛔</b></span>
+                                        @endif
+                                            |
+                                    @endif 
+
                                     @if ( Auth::user()->rol_id == 0 || Auth::user()->rol_id == 1 ) 
-                                        Existencia: 
+                                        Stock: 
                                         @if ( $producto->existencia > 5)
-                                            <span class="text-success"><b>{{ $producto->existencia }}</b></span>
+                                            <span class="text-success"><b>{{ $producto->existencia }}</b></span> <span class="disp-sm-none">caja/s</span>
                                         @else
-                                            <span class="text-danger"><b>{{ $producto->existencia }}</b></span>
+                                            <span class="text-danger"><b>{{ $producto->existencia }}</b></span> <span class="disp-sm-none">caja/s</span>
                                         @endif 
                                     @else 
                                         @if ( $producto->existencia > 0)
-                                            Existencia: <span class="text-success"><b>Disponible</b></span>
+                                            Stock: <span class="text-success"><b>✔️</b></span>
                                         @else
-                                            Existencia: <span class="text-danger"><b>Agotado</b></span> 
+                                            Stock: <span class="text-danger"><b>❌</b></span> 
                                         @endif
                                     @endif 
                                 </p>
@@ -669,14 +722,14 @@
 
                                 <a tabindex="-1" class="btn btn-x btn-primary me-0 px-2"
                                     href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" title="Ir a">Ver Más <i class="fas fa-search-plus"></i>
+                                    data-bs-placement="top" title="Ir a"><span class="disp-sm-none">Ver Más</span> <i class="fas fa-search-plus"></i>
                                 </a>
  
                             </div>
 
                             <div class="col-6 col-md-6 px-1">
 
-                                <p id="subtSing{{ $producto->id }}" class="me-0 mb-0 text-center"><span style="font-size: 14px;">Subtotal:</span> <br/> <span style="font-weight: bold; font-size: 20px;">{{ isset($cart[$producto->id]['cantidad']) ? number_format(($cart[$producto->id]['precio_f'] * $cart[$producto->id]['cantidad'] * $cart[$producto->id]['unidad_caja']), 2, '.', ',') : number_format(0, 2, '.', ',') }} $</span></p> 
+                                <p id="subtSing{{ $producto->id }}" class="me-0 mb-0 text-center"><span style="font-size: 14px;">Subtotal x 📦:</span> <br/> <span style="font-weight: bold; font-size: 20px;">{{ isset($cart[$producto->id]['cantidad']) ? number_format(($cart[$producto->id]['precio_f'] * $cart[$producto->id]['cantidad'] * $cart[$producto->id]['unidad_caja']), 2, '.', ',') : number_format(0, 2, '.', ',') }} $</span></p> 
 
                             </div>
 
@@ -686,7 +739,7 @@
 
                                 <a tabindex="-1" class="btn btn-x btn-primary me-0 px-2"
                                     href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" title="Ir a">Ver Más <i class="fas fa-search-plus"></i>
+                                    data-bs-placement="top" title="Ir a"><span class="disp-sm-none">Ver Más</span> <i class="fas fa-search-plus"></i>
                                 </a>
  
                             </div>
@@ -703,7 +756,7 @@
 
                                 <a tabindex="-1" class="btn btn-x btn-primary me-0 px-2"
                                     href="{{ route('tienda.show', [$producto->id, $producto->slug]) }}" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" title="Ir a">Ver Más <i class="fas fa-search-plus"></i>
+                                    data-bs-placement="top" title="Ir a"><span class="disp-sm-none">Ver Más</span> <i class="fas fa-search-plus"></i>
                                 </a>
  
                             </div>
@@ -780,7 +833,8 @@
                 //$("#hcart").load(location.href + " #hcart");
                 //$("#subtSing").load(location.href + " #subtSing");
                 $("#table_detalle").load(' #table_detalle');
-                $("#hcart").load(' #hcart'); 
+                //$("#hcart").load(' #hcart');
+                $("#hcart").load(location.href+" #hcart>*",""); 
                 $("#"+subtSing).load(' #'+subtSing); 
             },
             error: function(response) {
@@ -798,30 +852,6 @@
 
         $('#'+marca_id+'-qty').text(canttupd);
         
-    }
-
-
-    window.onscroll = function() {myFunction()};
-
-    var header = document.getElementById("summary");
-    var brandsl = document.getElementById("brand-list");
-    var sumdet = document.getElementById("summ-detail");
-    var sticky = header.offsetTop;
-
-    function myFunction() {
-      if (window.pageYOffset > sticky) {
-        header.classList.add("sticky-pos");
-        brandsl.classList.add("no-show");
-        sumdet.classList.remove("col-lg-4");
-        sumdet.classList.add("col-lg-12");
-        $("#table_detalle").css("color", "white");
-      } else {
-        header.classList.remove("sticky-pos");
-        brandsl.classList.remove("no-show");
-        sumdet.classList.remove("col-lg-12");
-        sumdet.classList.add("col-lg-4");
-        $("#table_detalle").css("color", "initial");
-      }
     }
 
     function filterBrand(filterid) {
@@ -878,6 +908,28 @@
     };
 
     new Glide(".glide", config).mount();
+</script>
+
+<script>
+// Get the button
+let mybutton = document.getElementById("toTopBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
 </script>
 
 @endsection
